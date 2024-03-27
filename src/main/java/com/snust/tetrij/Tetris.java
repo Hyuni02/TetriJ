@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -27,7 +28,7 @@ public class Tetris extends Application {
     public static int top = 0;
     private static boolean game = true;
     private static int linesNo = 0;
-    private static enum difficulty {EASY, NORMAL, HARD};
+    public static enum difficulty {EASY, NORMAL, HARD};
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -52,15 +53,33 @@ public class Tetris extends Application {
         stage.setTitle("TETRIS");
         stage.show();
 
+        scene.setOnKeyPressed(e->{
+            switch (e.getCode()) {
+                case DOWN -> System.out.println("down");
+                case RIGHT -> System.out.println("right");
+                case LEFT -> System.out.println("left");
+                case ESCAPE -> {
+                    System.out.println("esc");
+                    game = !game;
+                }
+            }
+        });
 
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
 
-    }
-
-    private void TetrisKeyProc(){
+            }
+        };
+        timer.schedule(task, 1000);
 
     }
 
     public static void main(String[] args) {
         launch();
     }
+
+    private void pass() {}
+
 }
