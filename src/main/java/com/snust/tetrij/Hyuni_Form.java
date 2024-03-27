@@ -3,8 +3,6 @@ package com.snust.tetrij;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import java.util.jar.Attributes;
-
 public class Hyuni_Form {
     Rectangle a;
     Rectangle b;
@@ -14,21 +12,21 @@ public class Hyuni_Form {
     private String name;
     public int form = 1;
 
-    public Hyuni_Form(Rectangle a, Rectangle b, Rectangle c, Rectangle d){
+    public Hyuni_Form(Rectangle a, Rectangle b, Rectangle c, Rectangle d) {
         this.a = a;
         this.b = b;
         this.c = c;
         this.d = d;
     }
 
-    public Hyuni_Form(Rectangle a, Rectangle b, Rectangle c, Rectangle d, String name){
+    public Hyuni_Form(Rectangle a, Rectangle b, Rectangle c, Rectangle d, String name) {
         this.a = a;
         this.b = b;
         this.c = c;
         this.d = d;
         this.name = name;
 
-        switch(name) {
+        switch (name) {
             case "j":
                 color = Color.SLATEGRAY;
                 break;
@@ -50,6 +48,7 @@ public class Hyuni_Form {
             case "i":
                 color = Color.SANDYBROWN;
                 break;
+
         }
         this.a.setFill(color);
         this.b.setFill(color);
@@ -57,18 +56,17 @@ public class Hyuni_Form {
         this.d.setFill(color);
     }
 
-    public String getName(){
+
+    public String getName() {
         return name;
     }
 
-    public void changeForm(){
-        if(form != 4){
+
+    public void changeForm() {
+        if (form != 4) {
             form++;
-        }
-        else{
+        } else {
             form = 1;
         }
     }
-
-
 }
