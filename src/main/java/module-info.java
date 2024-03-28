@@ -6,4 +6,5 @@ module com.snust.tetrij {
 
     opens com.snust.tetrij to javafx.fxml;
     exports com.snust.tetrij;
+
 }

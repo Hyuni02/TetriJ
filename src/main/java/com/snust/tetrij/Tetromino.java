@@ -2,14 +2,17 @@ package com.snust.tetrij;
 
 import javafx.scene.paint.Color;
 
-public class tetromino {
+
+public class Tetromino {
     private int mesh[][];
     public Color color;
     public char name;
     public int turned;
-    public tetromino() {
+    public int[] pos;
+    public Tetromino() {
         this.color = new Color(0,0,0,0);
         this.turned = 0;
+        this.pos = new int[] { (int)(Math.random()*100)%7, 0 };
         switch ((int)(Math.random()*100)%7) {
             case 1 -> {
                 name = 'i';

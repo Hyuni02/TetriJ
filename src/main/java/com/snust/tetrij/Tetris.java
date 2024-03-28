@@ -28,6 +28,7 @@ public class Tetris extends Application {
     public static int top = 0;
     private static boolean game = true;
     private static int linesNo = 0;
+
     public static enum difficulty {EASY, NORMAL, HARD};
 
     @Override
