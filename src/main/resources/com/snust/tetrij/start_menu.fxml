@@ -6,7 +6,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="322.0" prefWidth="423.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.MenuController">
+<AnchorPane prefHeight="322.0" prefWidth="423.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.SceneController">
    <children>
       <Button layoutX="174.0" layoutY="203.0" mnemonicParsing="false" onAction="#startTetris" prefHeight="42.0" prefWidth="209.0" text="Game Start" AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="174.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="203.0">
          <cursor>
@@ -16,7 +16,7 @@
          <image>
             <Image url="@TetriJ.bmp" />
          </image></ImageView>
-      <Button layoutX="174.0" layoutY="273.0" mnemonicParsing="false" onAction="#startSetting" text="Setting" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="174.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="273.0">
+      <Button layoutX="174.0" layoutY="273.0" mnemonicParsing="false" onAction="#switchToSetting" text="Setting" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="174.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="273.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
