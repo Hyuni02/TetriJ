@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.*;
-public class Tetris extends Application {
+public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
             Parent root = FXMLLoader.load(getClass().getResource("start_menu.fxml"));
@@ -14,8 +14,10 @@ public class Tetris extends Application {
             stage.setScene(scene);
             stage.show();
     }
-
+    protected void playTetriJ() {
+        System.out.println("게임 시작");
+    }
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 }

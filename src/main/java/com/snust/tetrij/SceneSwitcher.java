@@ -2,16 +2,14 @@ package com.snust.tetrij;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
-public class SceneController extends GameManager {
+public class SceneSwitcher extends GameManager {
     private Stage stage;
     private Scene scene;
     @FXML
@@ -19,22 +17,16 @@ public class SceneController extends GameManager {
         startGame();
     }
     @FXML
-    protected void startScoreboard() {
-        openScoreboard();
-    }
-    @FXML
-    public void switchToStartmenu(ActionEvent event) throws IOException {
-        AnchorPane root = new AnchorPane();
-        root.setPrefSize(423, 322);
+    public void switchToStartMenu(ActionEvent event) throws IOException {
+        Parent root = returnSceneRoot("start_menu.fxml");
         stage =(Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
     @FXML
-    public void switchToScoreboard(ActionEvent event) throws IOException {
-        AnchorPane root = new AnchorPane();
-        root.setPrefSize(423, 322);
+    public void switchToScoreBoard(ActionEvent event) throws IOException {
+        Parent root = returnSceneRoot("score_board.fxml");
         stage =(Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -42,8 +34,7 @@ public class SceneController extends GameManager {
     }
     @FXML
     public void switchToSetting(ActionEvent event) throws IOException {
-        AnchorPane root = new AnchorPane();
-        root.setPrefSize(423, 322);
+        Parent root = returnSceneRoot("setting.fxml");
         stage =(Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

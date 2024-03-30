@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.snust.tetrij.SceneController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.SceneSwitcher">
+   <children>
+      <Button layoutX="507.0" layoutY="341.0" mnemonicParsing="false" onAction="#switchToStartMenu" text="나가기" />
+      <TableView layoutX="186.0" layoutY="60.0" prefHeight="304.0" prefWidth="228.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="이름" />
+          <TableColumn prefWidth="75.0" text="점수" />
+            <TableColumn prefWidth="75.0" text="날짜" />
+        </columns>
+      </TableView>
+      <Text layoutX="24.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="스코어보드">
+         <font>
+            <Font name="Agency FB Bold" size="32.0" />
+         </font>
+      </Text>
+   </children>
 </AnchorPane>

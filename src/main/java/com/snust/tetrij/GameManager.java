@@ -1,23 +1,22 @@
 package com.snust.tetrij;
 
-public class GameManager extends Tetris {
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+
+import java.io.IOException;
+
+public class GameManager extends Main {
     protected int _resolutionX = 800;
     protected int _resolutionY = 600;
     protected int _score = 0;
-
     protected void startGame() {
-        // 게임 시작
-        System.out.println("게임 시작");
-        _score = 1000;
+        playTetriJ();
     }
 
-    protected void openSetting() {
-        // 환경설정 실행
-        System.out.println("환경 설정");
+    protected Parent returnSceneRoot(String fxml) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+        Parent root = loader.load();
+        return root;
     }
 
-    protected void openScoreboard() {
-        // 스코어보드 실행
-        System.out.println("스코어보드");
-    }
 }
