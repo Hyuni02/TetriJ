@@ -6,21 +6,26 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="322.0" prefWidth="423.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.SceneSwitcher">
+<AnchorPane prefHeight="322.0" prefWidth="423.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.StartMenuController">
    <children>
-      <Button layoutX="174.0" layoutY="203.0" mnemonicParsing="false" onAction="#startTetris" prefHeight="42.0" prefWidth="209.0" text="Game Start" AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="174.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="203.0">
+      <Button layoutX="174.0" layoutY="211.0" mnemonicParsing="false" onAction="#startTetris" prefHeight="42.0" prefWidth="209.0" text="Game Start" AnchorPane.bottomAnchor="172.0" AnchorPane.leftAnchor="174.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="211.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
       <ImageView fx:id="myImageView" cache="true" fitHeight="77.0" fitWidth="198.0" layoutX="179.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true" smooth="false" AnchorPane.bottomAnchor="242.42856979370117" AnchorPane.leftAnchor="179.0" AnchorPane.rightAnchor="178.0" AnchorPane.topAnchor="106.0">
          <image>
-            <Image url="@TetriJ.bmp" />
+            <Image url="@image/TetriJ.bmp" />
          </image></ImageView>
-      <Button layoutX="174.0" layoutY="273.0" mnemonicParsing="false" onAction="#switchToSetting" text="Setting" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="174.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="273.0">
+      <Button layoutX="174.0" layoutY="255.0" mnemonicParsing="false" onAction="#switchToSetting" text="Setting" AnchorPane.bottomAnchor="128.0" AnchorPane.leftAnchor="174.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="255.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button layoutX="174.0" layoutY="342.0" mnemonicParsing="false" onAction="#switchToScoreBoard" text="Score Board" AnchorPane.bottomAnchor="41.0" AnchorPane.leftAnchor="174.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="342.0">
+      <Button layoutX="174.0" layoutY="299.0" mnemonicParsing="false" onAction="#switchToScoreBoard" text="Score Board" AnchorPane.bottomAnchor="84.0" AnchorPane.leftAnchor="174.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="299.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button layoutX="173.0" layoutY="341.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="22.0" prefWidth="209.0" text="Exit" AnchorPane.bottomAnchor="42.0" AnchorPane.leftAnchor="173.0" AnchorPane.rightAnchor="173.0" AnchorPane.topAnchor="341.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

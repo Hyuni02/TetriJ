@@ -11,7 +11,15 @@
          <font>
             <Font name="Agency FB Bold" size="32.0" />
          </font></Text>
-      <ToggleButton layoutX="44.0" layoutY="133.0" mnemonicParsing="false" text="ToggleButton" />
+      <ToggleButton layoutX="57.0" layoutY="133.0" mnemonicParsing="false" text="ON/OFF" />
       <Text layoutX="64.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="색맹모드" />
+      <SplitMenuButton layoutX="152.0" layoutY="133.0" mnemonicParsing="false" text="SplitMenuButton">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Action 1" />
+          <MenuItem mnemonicParsing="false" text="Action 2" />
+        </items>
+      </SplitMenuButton>
+      <Text layoutX="194.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="해상도" />
+      <Button layoutX="501.0" layoutY="302.0" mnemonicParsing="false" onAction="#switchToStartMenu" text="저장" />
    </children>
 </AnchorPane>

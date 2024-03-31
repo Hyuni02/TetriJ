@@ -3,14 +3,16 @@ package com.snust.tetrij;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
+import javax.sound.sampled.*;
 import java.io.IOException;
 
 public class GameManager extends Main {
-    protected int _resolutionX = 800;
-    protected int _resolutionY = 600;
-    protected int _score = 0;
+    protected int resolutionX = 800;
+    protected int resolutionY = 600;
+    protected int score = 0;
+
     protected void startGame() {
-        playTetriJ();
+        playTetrij();
     }
 
     protected Parent returnSceneRoot(String fxml) throws IOException {
@@ -18,5 +20,4 @@ public class GameManager extends Main {
         Parent root = loader.load();
         return root;
     }
-
 }

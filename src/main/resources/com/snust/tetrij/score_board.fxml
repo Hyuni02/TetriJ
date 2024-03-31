@@ -4,20 +4,24 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.SceneSwitcher">
-   <children>
-      <Button layoutX="507.0" layoutY="341.0" mnemonicParsing="false" onAction="#switchToStartMenu" text="나가기" />
-      <TableView layoutX="186.0" layoutY="60.0" prefHeight="304.0" prefWidth="228.0">
-        <columns>
-          <TableColumn prefWidth="75.0" text="이름" />
-          <TableColumn prefWidth="75.0" text="점수" />
-            <TableColumn prefWidth="75.0" text="날짜" />
-        </columns>
-      </TableView>
-      <Text layoutX="24.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="스코어보드">
-         <font>
-            <Font name="Agency FB Bold" size="32.0" />
-         </font>
-      </Text>
-   </children>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.ScoreBoardController">
+    <children>
+        <Button layoutX="507.0" layoutY="341.0" mnemonicParsing="false" onAction="#switchToStartMenu" text="나가기" />
+        <Text layoutX="24.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="스코어보드">
+            <font>
+                <Font name="Agency FB Bold" size="32.0" />
+            </font>
+        </Text>
+        <Label fx:id="score1" layoutX="186.0" layoutY="60.0" />
+        <Label fx:id="score2" layoutX="186.0" layoutY="80.0" />
+        <Label fx:id="score3" layoutX="186.0" layoutY="100.0" />
+        <Label fx:id="score4" layoutX="186.0" layoutY="120.0" />
+        <Label fx:id="score5" layoutX="186.0" layoutY="140.0" />
+        <Label fx:id="score6" layoutX="186.0" layoutY="160.0" />
+        <Label fx:id="score7" layoutX="186.0" layoutY="180.0" />
+        <Label fx:id="score8" layoutX="186.0" layoutY="200.0" />
+        <Label fx:id="score9" layoutX="186.0" layoutY="220.0" />
+        <Label fx:id="score10" layoutX="186.0" layoutY="240.0" />
+        <Button layoutX="495.0" layoutY="296.0" mnemonicParsing="false" onAction="#switchToGameOver" text="Game Over" />
+    </children>
 </AnchorPane>
