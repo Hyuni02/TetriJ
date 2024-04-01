@@ -23,10 +23,11 @@ public class Tetris extends Application {
             stage.show();
             //stage.setResizable(false);
             //stage.setFullScreen(true);
-            //playSound("src/main/resources/com/snust/tetrij/sound/startMenuBGM.wav");
+            playSound("src/main/resources/com/snust/tetrij/sound/startMenuBGM.wav");
 
     }
     public static void playTetrij() {
+        // 여기다가 게임 로직 넣어주세여
         System.out.println("게임 시작");
     }
     protected void startGame() {
