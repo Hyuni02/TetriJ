@@ -1,25 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.SettingController">
-   <children>
-      <Button layoutX="495.0" layoutY="336.0" mnemonicParsing="false" onAction="#switchToStartMenu" text="나가기" AnchorPane.bottomAnchor="42.0" AnchorPane.leftAnchor="495.0" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="336.0" />
-      <Text layoutX="24.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="환경설정">
-         <font>
-            <Font name="Agency FB Bold" size="32.0" />
-         </font></Text>
-      <ToggleButton layoutX="57.0" layoutY="133.0" mnemonicParsing="false" text="ON/OFF" />
-      <Text layoutX="64.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="색맹모드" />
-      <SplitMenuButton layoutX="152.0" layoutY="133.0" mnemonicParsing="false" text="SplitMenuButton">
-        <items>
-          <MenuItem mnemonicParsing="false" text="Action 1" />
-          <MenuItem mnemonicParsing="false" text="Action 2" />
-        </items>
-      </SplitMenuButton>
-      <Text layoutX="194.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="해상도" />
-      <Button layoutX="501.0" layoutY="302.0" mnemonicParsing="false" onAction="#switchToStartMenu" text="저장" />
-   </children>
+    <!-- Tetris game screen size selection -->
+    <VBox layoutX="20.0" layoutY="20.0" spacing="10">
+        <Label text="테트리스 게임 화면 크기 설정" />
+        <ComboBox fx:id="sizeComboBox" promptText="게임 화면 크기 선택">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Small (300x400)" />
+                    <String fx:value="Medium (400x600)" />
+                    <String fx:value="Large (600x800)" />
+                </FXCollections>
+            </items>
+        </ComboBox>
+    </VBox>
+
+    <!-- Key mapping for game controls -->
+    <VBox layoutX="20.0" layoutY="70.0" spacing="10">
+        <Label text="게임 조작을 위한 키 설정" />
+        <!-- Add key mapping components here -->
+    </VBox>
+
+    <!-- Scoreboard record reset -->
+    <VBox layoutX="20.0" layoutY="120.0" spacing="10">
+        <Button text="스코어 보드 기록 초기화" />
+    </VBox>
+
+    <!-- Colorblind mode toggle -->
+    <VBox layoutX="20.0" layoutY="170.0" spacing="10">
+        <CheckBox text="색맹 모드" />
+    </VBox>
+
+    <!-- Restore default settings -->
+    <VBox layoutX="20.0" layoutY="220.0" spacing="10">
+        <Button text="기본 설정으로 되돌리기" />
+    </VBox>
+
+    <!-- Save settings -->
+    <VBox layoutX="20.0" layoutY="270.0" spacing="10">
+        <Button onAction="#switchToStartMenu" text="설정 저장" />
+    </VBox>
 </AnchorPane>

@@ -7,12 +7,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import com.snust.tetrij.GameManager;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,24 +74,21 @@ public class ScoreBoardController extends GameManager {
     private void loadScores() {
         String filePath = "src/main/resources/com/snust/tetrij/score.txt";
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            List<Score> scores = new ArrayList<>();
+            List<String[]> scores = new ArrayList<>();
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(" ");
 
                 if (parts.length == 3) { // 배열의 길이가 (이름, 점수, 날짜) 3개여야 함
-                    String name = parts[0];
-                    int score = Integer.parseInt(parts[1]);
-                    LocalDate date = LocalDate.parse(parts[2]);
-                    scores.add(new Score(name, score, date));
+                    scores.add(parts);
                 }
             }
-            scores.sort((s1, s2) -> Integer.compare(s2.getScore(), s1.getScore())); // 내림차순 정렬
+            scores.sort((s1, s2) -> Integer.compare(Integer.parseInt(s2[1]), Integer.parseInt(s1[1]))); // 내림차순 정렬
             List<Label> scoreLabels = List.of(score1, score2, score3, score4, score5, score6, score7, score8, score9, score10);
             for (int i = 0; i < Math.min(10, scores.size()); i++) { // 상위 10개 스코어만 사용
-                Score score = scores.get(i);
+                String[] scoreData = scores.get(i);
                 Label label = scoreLabels.get(i);
-                label.setText(score.getName() + ": " + score.getScore() + " (Date: " + score.getDate() + ")");
+                label.setText(scoreData[0] + ": " + scoreData[1] + " (Date: " + scoreData[2] + ")");
             }
         } catch (IOException e) {
             e.printStackTrace();

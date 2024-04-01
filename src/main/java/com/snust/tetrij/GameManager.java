@@ -2,17 +2,16 @@ package com.snust.tetrij;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-
-import javax.sound.sampled.*;
+import com.snust.tetrij.Tetris;
 import java.io.IOException;
 
-public class GameManager extends Main {
-    protected int resolutionX = 800;
-    protected int resolutionY = 600;
+public class GameManager {
+    public static int resolutionX = 800;
+    public static int resolutionY = 600;
     protected int score = 0;
 
     protected void startGame() {
-        playTetrij();
+        Tetris.playTetrij();
     }
 
     protected Parent returnSceneRoot(String fxml) throws IOException {
