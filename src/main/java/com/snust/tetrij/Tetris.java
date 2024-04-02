@@ -21,6 +21,7 @@ public class Tetris extends Application {
     public static final int SIZE = 20;
     public static final int XMAX = SIZE * 10;
     public static final int YMAX = SIZE * 20;
+    public static final int xmesh = XMAX/SIZE;
     public static final int [][] MESH = new int [XMAX/SIZE][YMAX/SIZE];
     private static Pane groupe = new Pane();
     private static Scene scene = new Scene(groupe, XMAX + 150, YMAX);

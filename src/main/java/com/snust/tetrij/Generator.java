@@ -1,15 +1,17 @@
 package com.snust.tetrij;
 
+import com.snust.tetrij.tetromino.Base;
+
 import java.util.ArrayList;
 
 public class Generator {
-    private static ArrayList<Tetromino> bag;
+    private static ArrayList<Base> bag;
     public Generator() {
 
     }
 
     public static char generate_tetromino() {
-        Tetromino t = new Tetromino();
+        Base t = new Base();
         bag.add(t);
         return t.name;
     }

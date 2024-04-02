@@ -1,15 +1,16 @@
-package com.snust.tetrij;
+package com.snust.tetrij.tetromino;
 
 import javafx.scene.paint.Color;
 
 
-public class Tetromino {
-    private int mesh[][];
+public class Base {
+    protected int mesh[][];
+    protected int pos_trans[][];
     public Color color;
     public char name;
     public int turned;
     public int[] pos;
-    public Tetromino() {
+    public Base() {
         this.color = new Color(0,0,0,0);
         this.turned = 0;
         this.pos = new int[] { (int)(Math.random()*100)%7, 0 };
@@ -87,24 +88,8 @@ public class Tetromino {
         }
     }
 
-    public void color_mesh() {
-        switch (name) {
-            case 'i':
-                break;
-            case 'o':
-                break;
-            case 'z':
-                break;
-            case 's':
-                break;
-            case 'j':
-                break;
-            case 'l':
-                break;
-            case 't':
-                break;
-        }
-    }
+
+    public void color_mesh() { }
 
     public void rotate_right() {
         mesh = new int[][] {
