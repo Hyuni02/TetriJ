@@ -28,7 +28,7 @@
 
     <!-- Scoreboard record reset -->
     <VBox layoutX="20.0" layoutY="120.0" spacing="10">
-        <Button text="스코어 보드 기록 초기화" />
+        <Button onAction="#deleteScores" text="스코어 보드 기록 초기화" />
     </VBox>
 
     <!-- Colorblind mode toggle -->

@@ -46,7 +46,7 @@ public class StartMenuController extends GameManager {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("게임 종료");
         alert.setHeaderText("게임을 종료하시겠습니까?");
-        alert.setContentText("게임을 종료하시려면 확인을 누르세요.");
+        alert.setContentText("게임을 종료하려면 확인을 누르세요.");
 
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         stage.setAlwaysOnTop(true);

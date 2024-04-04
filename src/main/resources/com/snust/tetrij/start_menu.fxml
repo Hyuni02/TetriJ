@@ -2,36 +2,45 @@
 
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.StartMenuController">
+<GridPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.StartMenuController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+   </rowConstraints>
    <children>
-      <Button layoutX="174.0" layoutY="211.0" mnemonicParsing="false" onAction="#startTetris" prefHeight="42.0" prefWidth="209.0" text="Game Start" AnchorPane.bottomAnchor="172.0" AnchorPane.leftAnchor="174.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="211.0">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></Button>
-      <ImageView fx:id="myImageView" cache="true" fitHeight="77.0" fitWidth="198.0" layoutX="202.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true" smooth="false" AnchorPane.bottomAnchor="238.42856979370117" AnchorPane.leftAnchor="202.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="110.0">
-         <image>
-            <Image url="@image/TetriJ.bmp" />
-         </image></ImageView>
-      <Button layoutX="174.0" layoutY="255.0" mnemonicParsing="false" onAction="#switchToSetting" text="Setting" AnchorPane.bottomAnchor="128.0" AnchorPane.leftAnchor="174.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="255.0">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></Button>
-      <Button layoutX="174.0" layoutY="299.0" mnemonicParsing="false" onAction="#switchToScoreBoard" text="Score Board" AnchorPane.bottomAnchor="84.0" AnchorPane.leftAnchor="174.0" AnchorPane.rightAnchor="172.0" AnchorPane.topAnchor="299.0">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button layoutX="173.0" layoutY="341.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="22.0" prefWidth="209.0" text="Exit" AnchorPane.bottomAnchor="42.0" AnchorPane.leftAnchor="173.0" AnchorPane.rightAnchor="173.0" AnchorPane.topAnchor="341.0">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
+      <VBox alignment="CENTER" prefHeight="400" prefWidth="600">
+         <children>
+            <ImageView fx:id="myImageView" cache="true" fitHeight="77.0" fitWidth="198.0" pickOnBounds="true" preserveRatio="true" smooth="false">
+               <image>
+                  <Image url="@image/TetriJ.bmp" />
+               </image>
+            </ImageView>
+            <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#startTetris" prefHeight="42.0" prefWidth="209.0" text="Game Start" textAlignment="CENTER">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#switchToSetting" prefHeight="42.0" prefWidth="209.0" text="Setting" textAlignment="CENTER">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#switchToScoreBoard" prefHeight="42.0" prefWidth="209.0" text="Score Board" textAlignment="CENTER">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#exitGame" prefHeight="42.0" prefWidth="209.0" text="Exit">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </VBox>
    </children>
-   <effect>
-      <Blend />
-   </effect>
-</AnchorPane>
+</GridPane>
