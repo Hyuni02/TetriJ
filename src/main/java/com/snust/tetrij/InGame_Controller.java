@@ -2,15 +2,15 @@ package com.snust.tetrij;
 
 import javafx.scene.shape.Rectangle;
 
-public class Hyuni_Controller {
+public class InGame_Controller {
     // Getting the numbers and the MESH from Hyuni_Tetris
-    public static final int MOVE = Hyuni_Tetris.MOVE;
-    public static final int SIZE = Hyuni_Tetris.SIZE;
-    public static int XMAX = Hyuni_Tetris.XMAX;
-    public static int YMAX = Hyuni_Tetris.YMAX;
-    public static int[][] MESH = Hyuni_Tetris.MESH;
+    public static final int MOVE = InGame.MOVE;
+    public static final int SIZE = InGame.SIZE;
+    public static int XMAX = InGame.XMAX;
+    public static int YMAX = InGame.YMAX;
+    public static int[][] MESH = InGame.MESH;
 
-    public static void MoveRight(Hyuni_Form form) {
+    public static void MoveRight(Form form) {
         if (form.a.getX() + MOVE <= XMAX - SIZE && form.b.getX() + MOVE <= XMAX - SIZE
                 && form.c.getX() + MOVE <= XMAX - SIZE && form.d.getX() + MOVE <= XMAX - SIZE) {
             int movea = MESH[((int) form.a.getX() / SIZE) + 1][((int) form.a.getY() / SIZE)];
@@ -26,7 +26,7 @@ public class Hyuni_Controller {
         }
     }
 
-    public static void MoveLeft(Hyuni_Form form) {
+    public static void MoveLeft(Form form) {
         if (form.a.getX() - MOVE >= 0 && form.b.getX() - MOVE >= 0 && form.c.getX() - MOVE >= 0
                 && form.d.getX() - MOVE >= 0) {
             int movea = MESH[((int) form.a.getX() / SIZE) - 1][((int) form.a.getY() / SIZE)];
@@ -42,7 +42,7 @@ public class Hyuni_Controller {
         }
     }
 
-    public static Hyuni_Form makeRect() {
+    public static Form makeRect() {
         int block = (int) (Math.random() * 100);
         String name;
         Rectangle a = new Rectangle(SIZE-1, SIZE-1), b = new Rectangle(SIZE-1, SIZE-1), c = new Rectangle(SIZE-1, SIZE-1),
@@ -103,6 +103,6 @@ public class Hyuni_Controller {
             d.setX(XMAX / 2 + SIZE);
             name = "i";
         }
-        return new Hyuni_Form(a, b, c, d, name);
+        return new Form(a, b, c, d, name);
     }
 }

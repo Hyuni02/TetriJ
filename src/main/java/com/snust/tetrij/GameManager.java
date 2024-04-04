@@ -10,7 +10,7 @@ public class GameManager {
     public static int resolutionY = 600;
     protected int score = 0;
 
-    protected void startGame() {
+    protected void startGame() throws Exception{
         Tetris.playTetrij();
     }
 

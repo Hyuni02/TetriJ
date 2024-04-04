@@ -3,7 +3,7 @@ package com.snust.tetrij;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class Hyuni_Form {
+public class Form {
     Rectangle a;
     Rectangle b;
     Rectangle c;
@@ -12,14 +12,14 @@ public class Hyuni_Form {
     private String name;
     public int form = 1;
 
-    public Hyuni_Form(Rectangle a, Rectangle b, Rectangle c, Rectangle d) {
+    public Form(Rectangle a, Rectangle b, Rectangle c, Rectangle d) {
         this.a = a;
         this.b = b;
         this.c = c;
         this.d = d;
     }
 
-    public Hyuni_Form(Rectangle a, Rectangle b, Rectangle c, Rectangle d, String name) {
+    public Form(Rectangle a, Rectangle b, Rectangle c, Rectangle d, String name) {
         this.a = a;
         this.b = b;
         this.c = c;

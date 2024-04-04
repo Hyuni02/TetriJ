@@ -15,23 +15,24 @@ import java.io.File;
 public class Tetris extends Application {
     private MediaPlayer mediaPlayer;
 
+    public static Stage curStage;
+
     @Override
     public void start(Stage stage) throws IOException {
-            Parent root = FXMLLoader.load(getClass().getResource("start_menu.fxml"));
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-            //stage.setResizable(false);
-            //stage.setFullScreen(true);
-            playSound("src/main/resources/com/snust/tetrij/sound/startMenuBGM.wav");
+        Parent root = FXMLLoader.load(getClass().getResource("start_menu.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        //stage.setResizable(false);
+        //stage.setFullScreen(true);
+        playSound("src/main/resources/com/snust/tetrij/sound/startMenuBGM.wav");
+        curStage = stage;
+    }
 
-    }
-    public static void playTetrij() {
+    public static void playTetrij() throws Exception {
         // 여기다가 게임 로직 넣어주세여
+        InGame.newGameScene(curStage);
         System.out.println("게임 시작");
-    }
-    protected void startGame() {
-        playTetrij();
     }
 
     private void playSound(String fileName) {

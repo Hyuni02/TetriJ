@@ -17,7 +17,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class Hyuni_Tetris extends Application {
+public class InGame extends Application {
     // The variables
     public static final int MOVE = 25;
     public static final int SIZE = 25;
@@ -25,12 +25,12 @@ public class Hyuni_Tetris extends Application {
     public static int YMAX = SIZE * 24;
     public static int[][] MESH = new int[XMAX / SIZE][YMAX / SIZE];
     private static Pane group = new Pane();
-    private static Hyuni_Form object;
+    private static Form object;
     private static Scene scene = new Scene(group, XMAX + 150, YMAX);
     public static int score = 0;
     private static int top = 0;
     private static boolean game = true;
-    private static Hyuni_Form nextObj = Hyuni_Controller.makeRect();
+    private static Form nextObj = InGame_Controller.makeRect();
     private static int linesNo = 0;
 
     public static void main(String[] args) {
@@ -39,6 +39,10 @@ public class Hyuni_Tetris extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        newGameScene(stage);
+    }
+
+    public static void newGameScene(Stage stage) throws Exception{
         for (int[] a : MESH) {
             Arrays.fill(a, 0);
         }
@@ -55,11 +59,11 @@ public class Hyuni_Tetris extends Application {
         level.setFill(Color.GREEN);
         group.getChildren().addAll(scoretext, line, level);
 
-        Hyuni_Form a = nextObj;
+        Form a = nextObj;
         group.getChildren().addAll(a.a, a.b, a.c, a.d);
         moveOnKeyPress(a);
         object = a;
-        nextObj = Hyuni_Controller.makeRect();
+        nextObj = InGame_Controller.makeRect();
         stage.setScene(scene);
         stage.setTitle("T E T R I S");
         stage.show();
@@ -102,20 +106,20 @@ public class Hyuni_Tetris extends Application {
         fall.schedule(task, 0, 300);
     }
 
-    private void moveOnKeyPress(Hyuni_Form form) {
+    private static void moveOnKeyPress(Form form) {
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 switch (event.getCode()) {
                     case RIGHT:
-                        Hyuni_Controller.MoveRight(form);
+                        InGame_Controller.MoveRight(form);
                         break;
                     case DOWN:
                         MoveDown(form);
                         score++;
                         break;
                     case LEFT:
-                        Hyuni_Controller.MoveLeft(form);
+                        InGame_Controller.MoveLeft(form);
                         break;
                     case UP:
                         MoveTurn(form);
@@ -125,7 +129,7 @@ public class Hyuni_Tetris extends Application {
         });
     }
 
-    private void MoveTurn(Hyuni_Form form) {
+    private static void MoveTurn(Form form) {
         int f = form.form;
         Rectangle a = form.a;
         Rectangle b = form.b;
@@ -413,7 +417,7 @@ public class Hyuni_Tetris extends Application {
         }
     }
 
-    private void RemoveRows(Pane pane) {
+    private static void RemoveRows(Pane pane) {
         ArrayList<Node> rects = new ArrayList<Node>();
         ArrayList<Integer> lines = new ArrayList<Integer>();
         ArrayList<Node> newrects = new ArrayList<Node>();
@@ -471,28 +475,28 @@ public class Hyuni_Tetris extends Application {
             } while (lines.size() > 0);
     }
 
-    private void MoveDown(Rectangle rect) {
+    private static void MoveDown(Rectangle rect) {
         if (rect.getY() + MOVE < YMAX)
             rect.setY(rect.getY() + MOVE);
 
     }
 
-    private void MoveRight(Rectangle rect) {
+    private static void MoveRight(Rectangle rect) {
         if (rect.getX() + MOVE <= XMAX - SIZE)
             rect.setX(rect.getX() + MOVE);
     }
 
-    private void MoveLeft(Rectangle rect) {
+    private static void MoveLeft(Rectangle rect) {
         if (rect.getX() - MOVE >= 0)
             rect.setX(rect.getX() - MOVE);
     }
 
-    private void MoveUp(Rectangle rect) {
+    private static void MoveUp(Rectangle rect) {
         if (rect.getY() - MOVE > 0)
             rect.setY(rect.getY() - MOVE);
     }
 
-    private void MoveDown(Hyuni_Form form) {
+    private static void MoveDown(Form form) {
         if (form.a.getY() == YMAX - SIZE || form.b.getY() == YMAX - SIZE || form.c.getY() == YMAX - SIZE
                 || form.d.getY() == YMAX - SIZE || moveA(form) || moveB(form) || moveC(form) || moveD(form)) {
             MESH[(int) form.a.getX() / SIZE][(int) form.a.getY() / SIZE] = 1;
@@ -501,8 +505,8 @@ public class Hyuni_Tetris extends Application {
             MESH[(int) form.d.getX() / SIZE][(int) form.d.getY() / SIZE] = 1;
             RemoveRows(group);
 
-            Hyuni_Form a = nextObj;
-            nextObj = Hyuni_Controller.makeRect();
+            Form a = nextObj;
+            nextObj = InGame_Controller.makeRect();
             object = a;
             group.getChildren().addAll(a.a, a.b, a.c, a.d);
             moveOnKeyPress(a);
@@ -523,23 +527,23 @@ public class Hyuni_Tetris extends Application {
         }
     }
 
-    private boolean moveA(Hyuni_Form form) {
+    private static boolean moveA(Form form) {
         return (MESH[(int) form.a.getX() / SIZE][((int) form.a.getY() / SIZE) + 1] == 1);
     }
 
-    private boolean moveB(Hyuni_Form form) {
+    private static boolean moveB(Form form) {
         return (MESH[(int) form.b.getX() / SIZE][((int) form.b.getY() / SIZE) + 1] == 1);
     }
 
-    private boolean moveC(Hyuni_Form form) {
+    private static boolean moveC(Form form) {
         return (MESH[(int) form.c.getX() / SIZE][((int) form.c.getY() / SIZE) + 1] == 1);
     }
 
-    private boolean moveD(Hyuni_Form form) {
+    private static boolean moveD(Form form) {
         return (MESH[(int) form.d.getX() / SIZE][((int) form.d.getY() / SIZE) + 1] == 1);
     }
 
-    private boolean cB(Rectangle rect, int x, int y) {
+    private static boolean cB(Rectangle rect, int x, int y) {
         boolean xb = false;
         boolean yb = false;
         if (x >= 0)
