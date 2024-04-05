@@ -24,7 +24,7 @@ public class Tetris extends Application {
     public static final int YMAX = SIZE * 20;
     public static final int xmesh = XMAX/SIZE;
     public static final int ymesh = YMAX/SIZE;
-    public static char [][] MESH = new char[XMAX/SIZE][YMAX/SIZE];
+    public static char [][] MESH = new char[YMAX/SIZE][XMAX/SIZE];
     public static Pane pane = new Pane();
     private static Scene scene = new Scene(pane, XMAX + 150, YMAX);
     public static int score = 0;
@@ -90,8 +90,10 @@ public class Tetris extends Application {
                     public void run() {
                         for (int y = 0; y < ymesh; y++) {
                             for (int x = 0; x < xmesh; x++) {
-                                Rectangle r = new Rectangle(x*Tetris.SIZE-1, y*Tetris.SIZE-1, Tetris.SIZE, Tetris.SIZE);
+                                Rectangle r = new Rectangle(x*Tetris.SIZE, y*Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
                                 r.setFill(TetrominoBase.getColor(MESH[y][x]));
+                                r.setStrokeWidth(1);
+                                r.setStroke(Color.BLACK);
                                 pane.getChildren().add(r);
                             }
                         }
