@@ -1,16 +1,17 @@
 package com.snust.tetrij.tetromino;
 
+import com.snust.tetrij.Tetris;
 import javafx.scene.paint.Color;
 
 
-public class Base {
+public class TetrominoBase {
     public int mesh[][];
     protected int pos_trans[][];
     public Color color;
     public char name;
     public int turned;
     public int[] pos;
-    public Base() {
+    public TetrominoBase() {
         this.color = new Color(0,0,0,0);
         this.turned = 0;
         this.pos = new int[] { 0, (int)(Math.random()*100)%7 }; //(y,x)
@@ -88,9 +89,6 @@ public class Base {
         }
     }
 
-
-    public void color_mesh() { }
-
     public void rotate_right() {
         mesh = new int[][] {
                 {mesh[0][3], mesh[1][3], mesh[2][3], mesh[3][3]},
@@ -109,5 +107,41 @@ public class Base {
                 {mesh[3][3], mesh[2][3], mesh[1][3], mesh[0][3]}
         };
         turned--;
+    }
+
+    public void update_mesh() {
+        for (int y = 0; y < 4; y++) {
+            for (int x = 0; x < 4; x++) {
+                Tetris.MESH[y+pos_trans[turned][0]][x+pos_trans[turned][1]]
+                        = this.mesh[y][x] == 1 ? name : '0';
+            }
+        }
+    }
+
+    public static Color getColor(char name) {
+        switch (name) {
+            case 'i' -> {
+                return Color.SKYBLUE;
+            }
+            case 'j' -> {
+                return Color.BLUE;
+            }
+            case 'l' -> {
+                return Color.ORANGE;
+            }
+            case 'o' -> {
+                return Color.YELLOW;
+            }
+            case 's' -> {
+                return Color.LIGHTGREEN;
+            }
+            case 't' -> {
+                return Color.PURPLE;
+            }
+            case 'z' -> {
+                return Color.RED;
+            }
+        };
+        return null;
     }
 }

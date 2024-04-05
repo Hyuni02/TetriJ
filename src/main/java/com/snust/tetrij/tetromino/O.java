@@ -1,4 +1,4 @@
 package com.snust.tetrij.tetromino;
 
-public class O extends Base {
+public class O extends TetrominoBase {
 }

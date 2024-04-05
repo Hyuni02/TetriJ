@@ -1,6 +1,6 @@
 package com.snust.tetrij.tetromino;
 
-public class J extends Base {
+public class J extends TetrominoBase {
 
     J() {
         super();
