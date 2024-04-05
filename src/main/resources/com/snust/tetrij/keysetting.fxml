@@ -23,10 +23,17 @@
 
 <VBox layoutX="20.0" layoutY="70.0" spacing="10">
     <Label text="블록 오른쪽 이동 버튼 설정" />
+    <Button fx:id="rightMoveKeyButton" onAction="#handleRightKeyInput" text="블록 왼쪽 이동 버튼 설정" />
 </VBox>
 
 <VBox layoutX="20.0" layoutY="120.0" spacing="10">
     <Label text="블록 회전 버튼 설정" />
+    <Button fx:id="rotateMoveKeyButton" onAction="#handleRotateKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+</VBox>
+
+<VBox layoutX="20.0" layoutY="170.0" spacing="10">
+    <Label text="블록 아래 이동 버튼 설정" />
+    <Button fx:id="downMoveKeyButton" onAction="#handleDownKeyInput" text="블록 왼쪽 이동 버튼 설정" />
 </VBox>
 
 </AnchorPane>
