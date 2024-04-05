@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 
 
 public class Base {
-    protected int mesh[][];
+    public int mesh[][];
     protected int pos_trans[][];
     public Color color;
     public char name;
@@ -13,7 +13,7 @@ public class Base {
     public Base() {
         this.color = new Color(0,0,0,0);
         this.turned = 0;
-        this.pos = new int[] { (int)(Math.random()*100)%7, 0 };
+        this.pos = new int[] { 0, (int)(Math.random()*100)%7 }; //(y,x)
         switch ((int)(Math.random()*100)%7) {
             case 1 -> {
                 name = 'i';

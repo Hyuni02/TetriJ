@@ -1,5 +1,6 @@
 package com.snust.tetrij;
 
+import com.snust.tetrij.tetromino.S;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -9,6 +10,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -22,8 +24,10 @@ public class Tetris extends Application {
     public static final int XMAX = SIZE * 10;
     public static final int YMAX = SIZE * 20;
     public static final int xmesh = XMAX/SIZE;
-    public static final int [][] MESH = new int [XMAX/SIZE][YMAX/SIZE];
-    private static Pane groupe = new Pane();
+    public static final int ymesh = XMAX/SIZE;
+    public static final char [][] MESH = new char [XMAX/SIZE][YMAX/SIZE];
+    private static Rectangle[][] grid = new Rectangle[XMAX/SIZE][YMAX/SIZE];
+    public static Pane groupe = new Pane();
     private static Scene scene = new Scene(groupe, XMAX + 150, YMAX);
     public static int score = 0;
     public static int top = 0;
@@ -34,8 +38,18 @@ public class Tetris extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        for(int[] a:MESH){
-            Arrays.fill(a,0);
+        for(char[] a:MESH){
+            Arrays.fill(a,'0');
+        }
+        for(Rectangle[] a:grid){
+            Arrays.fill(a, new Rectangle(SIZE, SIZE, Color.WHITE));
+        }
+
+        for (int y = 0; y < grid.length; y++) {
+            for (int x = 0; x < grid[y].length; x++) {
+                grid[y][x].setX(x*SIZE);
+                grid[y][x].setY(y*SIZE);
+            }
         }
 
         Line line = new Line(XMAX,0,XMAX,YMAX);

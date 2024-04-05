@@ -1,6 +1,7 @@
 package com.snust.tetrij.tetromino;
 
 import com.snust.tetrij.Tetris;
+import javafx.scene.shape.Rectangle;
 
 public class I extends Base {
 
@@ -17,6 +18,6 @@ public class I extends Base {
 
     @Override
     public void color_mesh() {
-        
+
     }
 }
