@@ -2,7 +2,6 @@ package com.snust.tetrij;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import com.snust.tetrij.Tetris;
 import java.io.IOException;
 
 public class GameManager {
