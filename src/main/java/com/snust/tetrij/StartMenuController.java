@@ -14,7 +14,7 @@ public class StartMenuController extends GameManager {
     private Scene scene;
 
     @FXML
-    protected void startTetris() {
+    protected void startTetris() throws Exception{
         startGame();
     }
     @FXML
