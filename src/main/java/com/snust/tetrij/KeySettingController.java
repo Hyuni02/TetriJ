@@ -1,7 +1,11 @@
 package com.snust.tetrij;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Dialog;
@@ -9,13 +13,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.json.JSONObject;
 
 import javafx.scene.control.Button;
 import org.json.JSONTokener;
 
 
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -25,7 +29,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KeySettingController {
+
+public class KeySettingController extends GameManager{
+    private Stage stage;
+    private Scene scene;
+    @FXML
+    private Button backButton;
     @FXML
     private Button leftMoveKeyButton;
     @FXML
@@ -170,5 +179,13 @@ public class KeySettingController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void handleBack(ActionEvent event) throws IOException {
+        Parent root = returnSceneRoot("setting.fxml");
+        stage =(Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }

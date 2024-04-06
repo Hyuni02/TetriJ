@@ -16,24 +16,29 @@
 
 <?import javafx.collections.FXCollections?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.KeySettingController">
-<VBox layoutX="20.0" layoutY="20.0" spacing="10">
-    <Label text="블록 왼쪽 이동 버튼 설정" />
-    <Button fx:id="leftMoveKeyButton" onAction="#handleLeftKeyInput" text="블록 왼쪽 이동 버튼 설정" />
-</VBox>
+    <VBox layoutX="20.0" layoutY="20.0" spacing="10">
+        <Label text="뒤로 가기" />
+        <Button fx:id="BackButton" onAction="#handleBack" text="뒤로 가기" />
+    </VBox>
 
-<VBox layoutX="20.0" layoutY="70.0" spacing="10">
-    <Label text="블록 오른쪽 이동 버튼 설정" />
-    <Button fx:id="rightMoveKeyButton" onAction="#handleRightKeyInput" text="블록 왼쪽 이동 버튼 설정" />
-</VBox>
+    <VBox layoutX="20.0" layoutY="70.0" spacing="10">
+        <Label text="블록 왼쪽 이동 버튼 설정" />
+        <Button fx:id="leftMoveKeyButton" onAction="#handleLeftKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+    </VBox>
 
-<VBox layoutX="20.0" layoutY="120.0" spacing="10">
-    <Label text="블록 회전 버튼 설정" />
-    <Button fx:id="rotateMoveKeyButton" onAction="#handleRotateKeyInput" text="블록 왼쪽 이동 버튼 설정" />
-</VBox>
+    <VBox layoutX="20.0" layoutY="120.0" spacing="10">
+        <Label text="블록 오른쪽 이동 버튼 설정" />
+        <Button fx:id="rightMoveKeyButton" onAction="#handleRightKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+    </VBox>
 
-<VBox layoutX="20.0" layoutY="170.0" spacing="10">
-    <Label text="블록 아래 이동 버튼 설정" />
-    <Button fx:id="downMoveKeyButton" onAction="#handleDownKeyInput" text="블록 왼쪽 이동 버튼 설정" />
-</VBox>
+    <VBox layoutX="20.0" layoutY="170.0" spacing="10">
+        <Label text="블록 회전 버튼 설정" />
+        <Button fx:id="rotateMoveKeyButton" onAction="#handleRotateKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+    </VBox>
+
+    <VBox layoutX="20.0" layoutY="220.0" spacing="10">
+        <Label text="블록 아래 이동 버튼 설정" />
+        <Button fx:id="downMoveKeyButton" onAction="#handleDownKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+    </VBox>
 
 </AnchorPane>
