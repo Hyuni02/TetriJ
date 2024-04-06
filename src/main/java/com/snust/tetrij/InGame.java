@@ -39,6 +39,16 @@ public class InGame extends Application {
     private static Form nextObj = InGame_Controller.makeRect();
     private static int linesNo = 0;
     private static boolean isPaused = false;
+
+    //블럭 움직임 키 설정
+    static String rightKey = loadKeySetting("right");
+    static String leftKey = loadKeySetting("left");
+    static String rotateKey = loadKeySetting("rotate");
+    static String downKey = loadKeySetting("down");
+    static KeyCode rightKeyCode = getKeyCodeFromString(rightKey);
+    static KeyCode leftKeyCode = getKeyCodeFromString(leftKey);
+    static KeyCode rotateKeyCode = getKeyCodeFromString(rotateKey);
+    static KeyCode downKeyCode = getKeyCodeFromString(downKey);
 //    private static long pauseTimeBefore = 0;   //일시정지 누르기 전 시간
 //    private static long resumeTime = 0;    //다시 시작될 때 시간 저장
 //    private static long pausedDuration = 0;    //일시정지 몇초동안 함?
@@ -73,11 +83,10 @@ public class InGame extends Application {
         Button pauseButton = new Button("Pause");
         pauseButton.setLayoutY(150);
         pauseButton.setLayoutX(XMAX + 5);
-        pauseButton.setStyle("-fx-background-color: lightgrey; -fx-border-color: black;");
         pauseButton.setPrefWidth(100);
         pauseButton.setPrefHeight(50);
-        pauseButton.setStyle("-fx-font-size: 20px;");
-
+        pauseButton.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; fx-font-size: 20px;");
+        pauseButton.setFocusTraversable(false);
         group.getChildren().addAll(scoretext, line, level, pauseButton);
 
         pauseButton.setOnAction(event -> togglePause());
@@ -103,14 +112,6 @@ public class InGame extends Application {
                         };
 
                         score++;
-//                        long actualPlayTime = System.currentTimeMillis() - startTime - pausedDuration;
-//                        System.out.println("풀래아 시간" + actualPlayTime
-//                                + "현재 시간: " + System.currentTimeMillis()
-//                                + ", 시작 시간: " + startTime
-//                                + ", 일시정지된 시간: " + pausedDuration);
-//                        if (actualPlayTime / 1000 % 60 == 0  || actualPlayTime / 1000 != 0) { // 1초마다 점수 증가
-//                            score++;
-//                        }
 
                         if (object.a.getY() == 0 || object.b.getY() == 0 || object.c.getY() == 0
                                 || object.d.getY() == 0)
@@ -147,14 +148,6 @@ public class InGame extends Application {
     }
     public static void togglePause() {
         isPaused = !isPaused;
-//        if(isPaused){
-//            pauseTimeBefore = System.currentTimeMillis();
-//        }
-//        else if(!isPaused){  //true -> false 일시중지상태 끝낸다면
-//            resumeTime = System.currentTimeMillis();
-//            pausedDuration += resumeTime - pauseTimeBefore; // 일시정지 상태에서 보낸 시간 누적
-//        }
-//        System.out.println("Paused: " + isPaused + " pausedDuration:" + pausedDuration); // 디버그용 로그
     }
 
     private static String loadKeySetting(String key) {
@@ -175,17 +168,6 @@ public class InGame extends Application {
                 if(isPaused)
                     return;
 
-                String rightKey = loadKeySetting("right");
-                String leftKey = loadKeySetting("left");
-                String rotateKey = loadKeySetting("rotate");
-                String downKey = loadKeySetting("down");
-
-                KeyCode rightKeyCode = KeyCode.getKeyCode(rightKey);
-                KeyCode leftKeyCode = KeyCode.getKeyCode(leftKey);
-                KeyCode rotateKeyCode = KeyCode.getKeyCode(rotateKey);
-                KeyCode downKeyCode = KeyCode.getKeyCode(downKey);
-
-
                 if (event.getCode() == rightKeyCode) {
                     InGame_Controller.MoveRight(form);
                 } else if (event.getCode() == downKeyCode) {
@@ -199,7 +181,14 @@ public class InGame extends Application {
             }
         });
     }
-
+    public static KeyCode getKeyCodeFromString(String keyName) {    //json -> KeyCode로 변경
+        for (KeyCode kc : KeyCode.values()) {
+            if (kc.getName().equalsIgnoreCase(keyName)) {
+                return kc;
+            }
+        }
+        return null;
+    }
 
 
     private static void MoveTurn(Form form) {

@@ -164,7 +164,8 @@ public class KeySettingController extends GameManager{
 
             for(String key : currentSettings.keySet()) {
                 if(keySettings.has(key)) {
-                    // 새로 바꾼 keySetiing의 key값과 json에 있는 key값이 일치하다면 keySetting의 값을 저장
+                    // 새로 바꾼 keySetiing의 key값과 json에 있는 key값이 일치하다면
+                    // keySetting의 값을 저장
                     currentSettings.put(key, keySettings.get(key));
                 }
                 else
