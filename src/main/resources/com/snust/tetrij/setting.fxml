@@ -23,7 +23,7 @@
     <!-- Key mapping for game controls -->
     <VBox layoutX="20.0" layoutY="70.0" spacing="10">
         <Label text="게임 조작을 위한 키 설정" />
-        <!-- Add key mapping components here -->
+        <Button fx:id="KeySettingButton" text="키 설정 열기" onAction="#handleKeySetting"/>
     </VBox>
 
     <!-- Scoreboard record reset -->

@@ -1,5 +1,8 @@
 package com.snust.tetrij;
 
+import java.awt.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Timer;
@@ -7,8 +10,10 @@ import java.util.TimerTask;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -16,6 +21,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.json.JSONObject;
 
 public class InGame extends Application {
     // The variables
@@ -32,6 +38,22 @@ public class InGame extends Application {
     private static boolean game = true;
     private static Form nextObj = InGame_Controller.makeRect();
     private static int linesNo = 0;
+    private static boolean isPaused = false;
+
+    //블럭 움직임 키 설정
+    static String rightKey = loadKeySetting("right");
+    static String leftKey = loadKeySetting("left");
+    static String rotateKey = loadKeySetting("rotate");
+    static String downKey = loadKeySetting("down");
+    static KeyCode rightKeyCode = getKeyCodeFromString(rightKey);
+    static KeyCode leftKeyCode = getKeyCodeFromString(leftKey);
+    static KeyCode rotateKeyCode = getKeyCodeFromString(rotateKey);
+    static KeyCode downKeyCode = getKeyCodeFromString(downKey);
+//    private static long pauseTimeBefore = 0;   //일시정지 누르기 전 시간
+//    private static long resumeTime = 0;    //다시 시작될 때 시간 저장
+//    private static long pausedDuration = 0;    //일시정지 몇초동안 함?
+//    private static long startTime = System.currentTimeMillis();    //시작 시간
+
 
     public static void main(String[] args) {
         launch(args);
@@ -57,7 +79,18 @@ public class InGame extends Application {
         level.setY(100);
         level.setX(XMAX + 5);
         level.setFill(Color.GREEN);
-        group.getChildren().addAll(scoretext, line, level);
+
+        Button pauseButton = new Button("Pause");
+        pauseButton.setLayoutY(150);
+        pauseButton.setLayoutX(XMAX + 5);
+        pauseButton.setPrefWidth(100);
+        pauseButton.setPrefHeight(50);
+        pauseButton.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; fx-font-size: 20px;");
+        pauseButton.setFocusTraversable(false);
+        group.getChildren().addAll(scoretext, line, level, pauseButton);
+
+        pauseButton.setOnAction(event -> togglePause());
+
 
         Form a = nextObj;
         group.getChildren().addAll(a.a, a.b, a.c, a.d);
@@ -68,11 +101,18 @@ public class InGame extends Application {
         stage.setTitle("T E T R I S");
         stage.show();
 
+
         Timer fall = new Timer();
         TimerTask task = new TimerTask() {
             public void run() {
                 Platform.runLater(new Runnable() {
                     public void run() {
+                        if (isPaused) {
+                            return;
+                        };
+
+                        score++;
+
                         if (object.a.getY() == 0 || object.b.getY() == 0 || object.c.getY() == 0
                                 || object.d.getY() == 0)
                             top++;
@@ -100,34 +140,56 @@ public class InGame extends Application {
                             level.setText("Lines: " + Integer.toString(linesNo));
                         }
                     }
+
                 });
             }
         };
         fall.schedule(task, 0, 300);
+    }
+    public static void togglePause() {
+        isPaused = !isPaused;
+    }
+
+    private static String loadKeySetting(String key) {
+        try {
+            String content = new String(Files.readAllBytes(Paths.get("keysetting.json")), "UTF-8");
+            JSONObject settings = new JSONObject(content);
+            return settings.getString(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private static void moveOnKeyPress(Form form) {
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                switch (event.getCode()) {
-                    case RIGHT:
-                        InGame_Controller.MoveRight(form);
-                        break;
-                    case DOWN:
-                        MoveDown(form);
-                        score++;
-                        break;
-                    case LEFT:
-                        InGame_Controller.MoveLeft(form);
-                        break;
-                    case UP:
-                        MoveTurn(form);
-                        break;
+                if(isPaused)
+                    return;
+
+                if (event.getCode() == rightKeyCode) {
+                    InGame_Controller.MoveRight(form);
+                } else if (event.getCode() == downKeyCode) {
+                    MoveDown(form);
+                    score++;
+                } else if (event.getCode() == leftKeyCode) {
+                    InGame_Controller.MoveLeft(form);
+                } else if (event.getCode() == rotateKeyCode) {
+                    MoveTurn(form);
                 }
             }
         });
     }
+    public static KeyCode getKeyCodeFromString(String keyName) {    //json -> KeyCode로 변경
+        for (KeyCode kc : KeyCode.values()) {
+            if (kc.getName().equalsIgnoreCase(keyName)) {
+                return kc;
+            }
+        }
+        return null;
+    }
+
 
     private static void MoveTurn(Form form) {
         int f = form.form;
