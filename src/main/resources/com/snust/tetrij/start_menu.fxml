@@ -5,7 +5,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.StartMenuController">
+<GridPane xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.StartMenuController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
    </columnConstraints>
@@ -20,22 +20,22 @@
                   <Image url="@image/TetriJ.bmp" />
                </image>
             </ImageView>
-            <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#startTetris" prefHeight="42.0" prefWidth="209.0" text="Game Start" textAlignment="CENTER">
+            <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#startTetris" onKeyPressed="#onButtonSound" onMouseEntered="#onButtonSound" prefHeight="42.0" prefWidth="209.0" text="Game Start" textAlignment="CENTER">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button mnemonicParsing="false" onAction="#switchToSetting" prefHeight="42.0" prefWidth="209.0" text="Setting" textAlignment="CENTER">
+            <Button mnemonicParsing="false" onAction="#switchToSetting" onKeyPressed="#onButtonSound" onMouseEntered="#onButtonSound" prefHeight="42.0" prefWidth="209.0" text="Setting" textAlignment="CENTER">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button mnemonicParsing="false" onAction="#switchToScoreBoard" prefHeight="42.0" prefWidth="209.0" text="Score Board" textAlignment="CENTER">
+            <Button mnemonicParsing="false" onAction="#switchToScoreBoard" onKeyPressed="#onButtonSound" onMouseEntered="#onButtonSound" prefHeight="42.0" prefWidth="209.0" text="Score Board" textAlignment="CENTER">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button mnemonicParsing="false" onAction="#exitGame" prefHeight="42.0" prefWidth="209.0" text="Exit">
+            <Button mnemonicParsing="false" onAction="#exitGame" onKeyPressed="#onButtonSound" onMouseEntered="#onButtonSound" prefHeight="42.0" prefWidth="209.0" text="Exit">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

@@ -7,7 +7,6 @@ import java.io.IOException;
 public class GameManager {
     public static int resolutionX = 800;
     public static int resolutionY = 600;
-    protected int score = 0;
 
     protected void startGame() throws Exception{
         Tetris.playTetrij();

@@ -16,7 +16,7 @@ import javafx.util.Duration;
 import java.io.File;
 
 public class Tetris extends Application {
-    private MediaPlayer mediaPlayer;
+    private static MediaPlayer mediaPlayer;
 
     public static Stage curStage;
 
@@ -34,9 +34,10 @@ public class Tetris extends Application {
             }
         });
         stage.show();
-        //stage.setResizable(false);
-        //stage.setFullScreen(true);
+        // stage.setResizable(false);
+        // stage.setFullScreen(true);
         //playSound("src/main/resources/com/snust/tetrij/sound/startMenuBGM.wav");
+        //mediaPlayer.setVolume(0.3);
         curStage = stage;
     }
 
@@ -61,16 +62,16 @@ public class Tetris extends Application {
         }
     }
 
-//    private void stopSound() {
-//        try {
-//            if (mediaPlayer != null) {
-//                mediaPlayer.stop();
-//                mediaPlayer.dispose(); // 리소스 해제
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    private void stopSound() {
+        try {
+            if (mediaPlayer != null) {
+                mediaPlayer.stop();
+                mediaPlayer.dispose(); // 리소스 해제
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public static void main(String[] args) {
         launch(args);
     }
