@@ -52,7 +52,7 @@ public class SettingController extends GameManager {
             }
         });
 
-
+    }
     public void handleKeySetting(ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("keysetting.fxml"));
