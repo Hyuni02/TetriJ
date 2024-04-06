@@ -2,6 +2,7 @@ package com.snust.tetrij;
 import com.snust.tetrij.GameManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,5 +29,16 @@ public class SettingController extends GameManager {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void handleKeySetting(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("keysetting.fxml"));
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.getScene().setRoot(root);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
