@@ -13,11 +13,14 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import java.io.BufferedWriter;
-import java.io.IOException;
+
+import java.io.*;
+
 import org.json.JSONObject;
 
 import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class SettingController extends GameManager {
     private Stage stage;
     private Scene scene;
