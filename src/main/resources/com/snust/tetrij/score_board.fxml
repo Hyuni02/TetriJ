@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.ScoreBoardController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.ScoreBoardController">
     <children>
         <Button layoutX="507.0" layoutY="341.0" mnemonicParsing="false" onAction="#switchToStartMenu" text="나가기" />
         <Text layoutX="200.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="스코어보드">
@@ -12,56 +12,55 @@
                 <Font name="Agency FB Bold" size="36.0" />
             </font>
         </Text>
-        <Label fx:id="score1" layoutX="186.0" layoutY="100.0" textAlignment="CENTER">
+        <Label fx:id="score1" layoutX="170.0" layoutY="80.0" textAlignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
         </Label>
-        <Label fx:id="score2" layoutX="186.0" layoutY="130.0" textAlignment="CENTER">
+        <Label fx:id="score2" layoutX="170.0" layoutY="110.0" textAlignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
         </Label>
-        <Label fx:id="score3" layoutX="186.0" layoutY="160.0" textAlignment="CENTER">
+        <Label fx:id="score3" layoutX="170.0" layoutY="140.0" textAlignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
         </Label>
-        <Label fx:id="score4" layoutX="186.0" layoutY="190.0" textAlignment="CENTER">
+        <Label fx:id="score4" layoutX="170.0" layoutY="170.0" textAlignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
         </Label>
-        <Label fx:id="score5" layoutX="186.0" layoutY="220.0" textAlignment="CENTER">
+        <Label fx:id="score5" layoutX="170.0" layoutY="200.0" textAlignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
         </Label>
-        <Label fx:id="score6" layoutX="186.0" layoutY="250.0" textAlignment="CENTER">
+        <Label fx:id="score6" layoutX="170.0" layoutY="230.0" textAlignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
         </Label>
-        <Label fx:id="score7" layoutX="186.0" layoutY="280.0" textAlignment="CENTER">
+        <Label fx:id="score7" layoutX="170.0" layoutY="260.0" textAlignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
         </Label>
-        <Label fx:id="score8" layoutX="186.0" layoutY="310.0" textAlignment="CENTER">
+        <Label fx:id="score8" layoutX="170.0" layoutY="290.0" textAlignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
         </Label>
-        <Label fx:id="score9" layoutX="186.0" layoutY="340.0" textAlignment="CENTER">
+        <Label fx:id="score9" layoutX="170.0" layoutY="320.0" textAlignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
         </Label>
-        <Label fx:id="score10" layoutX="186.0" layoutY="370.0" textAlignment="CENTER">
+        <Label fx:id="score10" layoutX="170.0" layoutY="350.0" textAlignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
         </Label>
-        <Button layoutX="495.0" layoutY="296.0" mnemonicParsing="false" onAction="#switchToGameOver" text="Game Over" />
     </children>
 </AnchorPane>

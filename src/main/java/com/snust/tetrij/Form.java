@@ -56,7 +56,6 @@ public class Form {
         this.d.setFill(color);
     }
 
-
     public String getName() {
         return name;
     }

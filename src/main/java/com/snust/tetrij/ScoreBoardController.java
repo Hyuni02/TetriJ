@@ -1,16 +1,20 @@
 package com.snust.tetrij;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +58,14 @@ public class ScoreBoardController extends GameManager {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    stage.close(); // ESC 키를 누르면 창을 닫음
+                }
+            }
+        });
         stage.show();
     }
 
@@ -94,4 +106,5 @@ public class ScoreBoardController extends GameManager {
             e.printStackTrace();
         }
     }
+
 }

@@ -1,6 +1,6 @@
 package com.snust.tetrij;
 
-import java.awt.*;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -10,6 +10,8 @@ import java.util.TimerTask;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -23,8 +25,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 
+import static com.snust.tetrij.GameOverController.switchToGameOver;
+
 public class InGame extends Application {
     // The variables
+    public static boolean restart = false;
     public static final int MOVE = 25;
     public static final int SIZE = 25;
     public static int XMAX = SIZE * 12;
@@ -38,7 +43,10 @@ public class InGame extends Application {
     private static boolean game = true;
     private static Form nextObj = InGame_Controller.makeRect();
     private static int linesNo = 0;
-    private static boolean isPaused = false;
+    private static Timer fall;
+    // 퍼즈 관련 변수
+    protected static boolean isPaused = false; // 퍼즈 중인가?
+    protected static boolean onPauseButton = false; // 퍼즈 버튼을 눌러서 퍼즈 창이 떠 있는 상태인가?
 
     //블럭 움직임 키 설정
     static String rightKey = loadKeySetting("right");
@@ -63,8 +71,23 @@ public class InGame extends Application {
     public void start(Stage stage) throws Exception {
         newGameScene(stage);
     }
-
     public static void newGameScene(Stage stage) throws Exception{
+        if(restart) {
+            group.getChildren().clear(); // 현재 씬 모든 노드 제거
+
+            // 변수 초기화
+            score = 0;
+            top = 0;
+            linesNo = 0;
+            game = true;
+            isPaused = false; // 퍼즈 후 시작화면으로 나가서 재시작할때 오류방지
+        }
+        if (restart) {
+            fall.cancel(); // 타이머 리셋
+        }
+        fall = new Timer(); // 타이머 전역변수로 뺌 -> 리셋 가능
+        restart = true;
+
         for (int[] a : MESH) {
             Arrays.fill(a, 0);
         }
@@ -102,7 +125,7 @@ public class InGame extends Application {
         stage.show();
 
 
-        Timer fall = new Timer();
+
         TimerTask task = new TimerTask() {
             public void run() {
                 Platform.runLater(new Runnable() {
@@ -131,7 +154,7 @@ public class InGame extends Application {
                         }
                         // Exit
                         if (top == 15) {
-                            System.exit(0);
+                                switchToGameOver(score, stage);
                         }
 
                         if (game) {
@@ -145,9 +168,33 @@ public class InGame extends Application {
             }
         };
         fall.schedule(task, 0, 300);
+
     }
     public static void togglePause() {
+        if(!onPauseButton){
         isPaused = !isPaused;
+        if (isPaused) {
+            // Pause 버튼을 눌렀을 때 퍼즈 메뉴 창 띄우기
+            try {
+                onPauseButton = true; // 퍼즈 버튼 눌러서 true (퍼즈 창이 떠 있는 상태)
+                FXMLLoader fxmlLoader = new FXMLLoader(InGame.class.getResource("pause_menu.fxml"));
+                Parent root = fxmlLoader.load();
+                Stage pauseStage = new Stage();
+                pauseStage.setScene(new Scene(root));
+                pauseStage.setTitle("Pause");
+
+                pauseStage.setOnCloseRequest(event -> {
+                    // Pause 창이 닫힐 때 isPaused와 onPauseButton을 false로 변경
+                    isPaused = false; //퍼즈 해제
+                    onPauseButton = false; // 창 꺼짐
+                });
+
+                pauseStage.showAndWait();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        }
     }
 
     private static String loadKeySetting(String key) {
@@ -618,5 +665,14 @@ public class InGame extends Application {
             yb = rect.getY() + y * MOVE < YMAX;
         return xb && yb && MESH[((int) rect.getX() / SIZE) + x][((int) rect.getY() / SIZE) - y] == 0;
     }
+    public static void switchToStartMenu() throws IOException { // 초기화면으로 돌아감
+        FXMLLoader loader = new FXMLLoader(InGame.class.getResource("start_menu.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) scene.getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
 
 }

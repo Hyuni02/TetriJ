@@ -1,9 +1,12 @@
 package com.snust.tetrij;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import java.io.*;
 
@@ -13,7 +16,7 @@ import javafx.util.Duration;
 import java.io.File;
 
 public class Tetris extends Application {
-    private MediaPlayer mediaPlayer;
+    private static MediaPlayer mediaPlayer;
 
     public static Stage curStage;
 
@@ -22,10 +25,19 @@ public class Tetris extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("start_menu.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    stage.close(); // ESC 키를 누르면 창을 닫음
+                }
+            }
+        });
         stage.show();
-        //stage.setResizable(false);
-        //stage.setFullScreen(true);
-        playSound("src/main/resources/com/snust/tetrij/sound/startMenuBGM.wav");
+        // stage.setResizable(false);
+        // stage.setFullScreen(true);
+        //playSound("src/main/resources/com/snust/tetrij/sound/startMenuBGM.wav");
+        //mediaPlayer.setVolume(0.3);
         curStage = stage;
     }
 
@@ -50,16 +62,16 @@ public class Tetris extends Application {
         }
     }
 
-//    private void stopSound() {
-//        try {
-//            if (mediaPlayer != null) {
-//                mediaPlayer.stop();
-//                mediaPlayer.dispose(); // 리소스 해제
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    private void stopSound() {
+        try {
+            if (mediaPlayer != null) {
+                mediaPlayer.stop();
+                mediaPlayer.dispose(); // 리소스 해제
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public static void main(String[] args) {
         launch(args);
     }

@@ -4,14 +4,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:id="root" alignment="CENTER" prefHeight="200" prefWidth="300" spacing="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal" fx:controller="com.snust.tetrij.GameOverController">
+<VBox fx:id="root" alignment="CENTER" prefHeight="200" prefWidth="300" spacing="10" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.GameOverController">
     <Label text="Game Over">
-      <font>
-         <Font name="Cooper Black" size="30.0" />
-      </font></Label>
-    <TextField fx:id="nameField" prefHeight="22.0" prefWidth="237.0" promptText="Your Name!" />
+        <font>
+            <Font name="Cooper Black" size="30.0" />
+        </font></Label>
+    <TextField fx:id="nameField" prefHeight="22.0" prefWidth="127.0" promptText="Your Name!" />
     <Button onAction="#saveScore" text="Save Score" textAlignment="CENTER">
-      <font>
-         <Font name="Calibri" size="12.0" />
-      </font></Button>
+        <font>
+            <Font name="Calibri" size="12.0" />
+        </font></Button>
 </VBox>
