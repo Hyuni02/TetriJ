@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.PauseMenuController">
+   <children>
+      <Button layoutX="35.0" layoutY="89.0" mnemonicParsing="false" onAction="#continue_game" text="계속하기" />
+      <Button layoutX="202.0" layoutY="89.0" mnemonicParsing="false" onAction="#exit_game" text="게임종료" />
+      <Button layoutX="118.0" layoutY="89.0" mnemonicParsing="false" onAction="#switchToStartMenu" text="메인화면" />
+   </children>
+</AnchorPane>
