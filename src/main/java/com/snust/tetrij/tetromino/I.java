@@ -1,17 +1,33 @@
 package com.snust.tetrij.tetromino;
 
 import com.snust.tetrij.Tetris;
+import javafx.scene.paint.Color;
 
 public class I extends TetrominoBase {
-
-    I() {
+    public I() {
         super();
-        super.pos_trans = new int[][]{
-                {0,2},
-                {2,0},
-                {0,1},
-                {1,0}
+        super.name = 'i';
+        super.color = Color.BLUE;
+        super.mesh = new int[][][] {
+                {
+                        {1,1,1,1}
+                },
+                {
+                        {1},
+                        {1},
+                        {1},
+                        {1}
+                },
+                {
+                        {1,1,1},
+                        {0,0,1}
+                },
+                {
+                        {0,1},
+                        {0,1},
+                        {1,1}
+                }
         };
-        super.pos = new int[] { (int)(Math.random()*100)%(Tetris.xmesh-pos_trans[0][0]), 0 };
+        super.pos = new int[] { 0, (int)(Math.random() * 6) };
     }
 }

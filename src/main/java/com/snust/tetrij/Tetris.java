@@ -22,15 +22,18 @@ public class Tetris extends Application {
     public static final int SIZE = 20;
     public static final int XMAX = SIZE * 10;
     public static final int YMAX = SIZE * 20;
-    public static final int xmesh = XMAX/SIZE;
-    public static final int ymesh = YMAX/SIZE;
-    public static char [][] MESH = new char[YMAX/SIZE][XMAX/SIZE];
+    public static final int WIDTH = XMAX/SIZE;
+    public static final int HEIGHT = YMAX/SIZE;
+    public static char [][] MESH = new char[HEIGHT][WIDTH];
     public static Pane pane = new Pane();
     private static Scene scene = new Scene(pane, XMAX + 150, YMAX);
-    public static int score = 0;
+
     private static boolean game = true;
 
+
     public static enum difficulty {EASY, NORMAL, HARD};
+    public static int score = 0;
+    public static int top = 0;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -54,28 +57,40 @@ public class Tetris extends Application {
         stage.setScene(scene);
         stage.setTitle("TETRIS");
         stage.show();
-
+        scene.setOnKeyPressed(e->{
+            switch (e.getCode()) {
+                case DOWN -> {
+                    Controller.moveDownOnKeyPress(Controller.bag.get(0));
+                    color_mesh();
+                }
+                case RIGHT -> {
+                    Controller.moveRightOnKeyPress(Controller.bag.get(0));
+                    color_mesh();
+                }
+                case LEFT -> {
+                    Controller.moveLeftOnKeyPress(Controller.bag.get(0));
+                    color_mesh();
+                }
+                case ESCAPE -> {
+                    System.out.println("esc");
+                    game = !game;
+                }
+            }
+        });
+        Controller.generate_tetromino();
         Timer timer = new Timer();
+        color_mesh();
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                scene.setOnKeyPressed(e->{
-                    switch (e.getCode()) {
-                        case DOWN -> Controller.moveDownOnKeyPress(Controller.bag.get(0));
-                        case RIGHT -> Controller.moveRightOnKeyPress(Controller.bag.get(0));
-                        case LEFT -> Controller.moveLeftOnKeyPress(Controller.bag.get(0));
-                        case ESCAPE -> {
-                            System.out.println("esc");
-                            game = !game;
-                        }
-                    }
-                });
+                if (!Controller.bag.isEmpty())
+                    Controller.moveDownPerSec(Controller.bag.get(0));
+                else
+                    Controller.generate_tetromino();
                 color_mesh();
-
-
             }
         };
-        timer.schedule(task, 1000, 1000);
+        timer.schedule(task, 1000, 100);
 
     }
 
@@ -88,8 +103,8 @@ public class Tetris extends Application {
                 new Runnable() {
                     @Override
                     public void run() {
-                        for (int y = 0; y < ymesh; y++) {
-                            for (int x = 0; x < xmesh; x++) {
+                        for (int y = 0; y < HEIGHT; y++) {
+                            for (int x = 0; x < WIDTH; x++) {
                                 Rectangle r = new Rectangle(x*Tetris.SIZE, y*Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
                                 r.setFill(TetrominoBase.getColor(MESH[y][x]));
                                 r.setStrokeWidth(1);
@@ -102,4 +117,13 @@ public class Tetris extends Application {
         );
     }
 
+    private void print() {
+        for (char[] arr : MESH) {
+            for (char c : arr) {
+                System.out.print(c);
+            }
+            System.out.println(' ');
+        }
+        System.out.println(' ');
+    }
 }

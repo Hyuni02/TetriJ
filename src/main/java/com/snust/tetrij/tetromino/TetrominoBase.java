@@ -5,115 +5,32 @@ import javafx.scene.paint.Color;
 
 
 public class TetrominoBase {
-    public int mesh[][];
-    protected int pos_trans[][];
+    public int mesh[][][];
     public Color color;
     public char name;
     public int turned;
-    public int[] pos;
+    public int[] pos; //(y,x)
+    public int rotate;
+
     public TetrominoBase() {
         this.color = new Color(0,0,0,0);
         this.turned = 0;
-        this.pos = new int[] { 0, (int)(Math.random()*100)%7 }; //(y,x)
-        switch ((int)(Math.random()*100)%7) {
-            case 1 -> {
-                name = 'i';
-                color = Color.SKYBLUE;
-                mesh = new int[][] {
-                        {0, 0, 1, 0},
-                        {0, 0, 1, 0},
-                        {0, 0, 1, 0},
-                        {0, 0, 1, 0}
-                };
-            }
-            case 2 -> {
-                name = 'j';
-                color = Color.BLUE;
-                mesh = new int[][] {
-                        {0, 0, 1, 0},
-                        {0, 0, 1, 0},
-                        {0, 1, 1, 0},
-                        {0, 0, 0, 0}
-                };
-            }
-            case 3 -> {
-                name = 'l';
-                color = Color.ORANGE;
-                mesh = new int[][] {
-                        {0, 1, 0, 0},
-                        {0, 1, 0, 0},
-                        {0, 1, 1, 0},
-                        {0, 0, 0, 0}
-                };
-            }
-            case 4 -> {
-                name = 'o';
-                color = Color.YELLOW;
-                mesh = new int[][] {
-                        {0, 0, 0, 0},
-                        {0, 1, 1, 0},
-                        {0, 1, 1, 0},
-                        {0, 0, 0, 0}
-                };
-            }
-            case 5 -> {
-                name = 's';
-                color = Color.LIGHTGREEN;
-                mesh = new int[][] {
-                        {0, 0, 0, 0},
-                        {0, 0, 1, 1},
-                        {0, 1, 1, 0},
-                        {0, 0, 0, 0}
-                };
-            }
-            case 6 -> {
-                name = 't';
-                color = Color.PURPLE;
-                mesh = new int[][] {
-                        {0, 0, 0, 0},
-                        {1, 1, 1, 0},
-                        {0, 1, 0, 0},
-                        {0, 0, 0, 0}
-                };
-            }
-            case 0 -> {
-                name = 'z';
-                color = Color.RED;
-                mesh = new int[][] {
-                        {0, 0, 0, 0},
-                        {0, 1, 1, 0},
-                        {0, 0, 1, 1},
-                        {0, 0, 0, 0}
-                };
-            }
-        }
+        this.rotate = 0;
     }
 
     public void rotate_right() {
-        mesh = new int[][] {
-                {mesh[0][3], mesh[1][3], mesh[2][3], mesh[3][3]},
-                {mesh[0][2], mesh[1][2], mesh[2][2], mesh[3][2]},
-                {mesh[0][1], mesh[1][1], mesh[2][1], mesh[3][1]},
-                {mesh[0][0], mesh[1][0], mesh[2][0], mesh[3][0]}
-        };
-        turned++;
+        rotate = rotate!=3 ? rotate++ : 0;
     }
 
     public void rotate_left() {
-        mesh = new int[][] {
-                {mesh[3][0], mesh[2][0], mesh[1][0], mesh[0][0]},
-                {mesh[3][1], mesh[2][1], mesh[1][1], mesh[0][1]},
-                {mesh[3][2], mesh[2][2], mesh[1][2], mesh[0][2]},
-                {mesh[3][3], mesh[2][3], mesh[1][3], mesh[0][3]}
-        };
-        turned--;
+        rotate = rotate!=0 ? rotate-- : 3;
     }
 
     public void update_mesh() {
-        for (int y = 0; y < 4; y++) {
-            for (int x = 0; x < 4; x++) {
-                Tetris.MESH[y+pos_trans[turned][0]][x+pos_trans[turned][1]]
-                        = this.mesh[y][x] == 1 ? name : '0';
+        for (int y = 0; y < this.mesh[rotate].length; y++) {
+            for (int x = 0; x < this.mesh[rotate][y].length; x++) {
+                if (this.mesh[rotate][y][x] == 1)
+                    Tetris.MESH[y+pos[0]][x+pos[1]] = this.name;
             }
         }
     }
@@ -142,6 +59,6 @@ public class TetrominoBase {
                 return Color.RED;
             }
         };
-        return null;
+        return Color.WHITE;
     }
 }
