@@ -9,7 +9,7 @@
     <!-- Tetris game screen size selection -->
     <VBox layoutX="20.0" layoutY="20.0" spacing="10">
         <Label text="테트리스 게임 화면 크기 설정" />
-        <ComboBox fx:id="sizeComboBox" promptText="게임 화면 크기 선택">
+        <ComboBox fx:id="sizeComboBox" promptText="게임 화면 크기 선택" onAction="#handleSize">
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <String fx:value="Small (300x400)" />
@@ -33,7 +33,7 @@
 
     <!-- Colorblind mode toggle -->
     <VBox layoutX="20.0" layoutY="170.0" spacing="10">
-        <CheckBox text="색맹 모드" />
+        <CheckBox fx:id="colorBlindModeCheckBox" onAction="#colorBlindMode" text="색맹 모드" />
     </VBox>
 
     <!-- Restore default settings -->
