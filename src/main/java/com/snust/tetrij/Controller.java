@@ -74,12 +74,15 @@ public class Controller {
     }
 
     public static void moveDownOnKeyPress(TetrominoBase tb) {
-        eraseMesh(tb);
         int rot = tb.rotate;
         int height = tb.mesh[rot].length;
         int width = tb.mesh[rot][height-1].length;
 
-        if (height + tb.pos[0] > Tetris.HEIGHT) {
+        eraseMesh(tb);
+        tb.pos[0]++;
+        tb.update_mesh();
+        if (tb.pos[0] >= Tetris.HEIGHT - height) {
+            Controller.bag.remove(0);
             return;
         }
         for (int x = 0; x < width; x++) {
@@ -87,13 +90,6 @@ public class Controller {
                 Controller.bag.remove(0);
                 return;
             }
-        }
-
-        tb.pos[0]++;
-        tb.update_mesh();
-        if (tb.pos[0] >= Tetris.HEIGHT - height - 1) {
-            Controller.bag.remove(0);
-            return;
         }
     }
 

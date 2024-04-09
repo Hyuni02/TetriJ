@@ -1,9 +1,11 @@
 package com.snust.tetrij;
 
+import com.almasb.fxgl.input.Input;
 import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -15,6 +17,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
+
 
 
 
@@ -58,7 +61,10 @@ public class Tetris extends Application {
         stage.setTitle("TETRIS");
         stage.show();
         scene.setOnKeyPressed(e->{
-            switch (e.getCode()) {
+            javafx.scene.input.KeyCode code = e.getCode();
+            if (Controller.bag.isEmpty())
+                code = KeyCode.NONCONVERT;
+            switch (code) {
                 case DOWN -> {
                     Controller.moveDownOnKeyPress(Controller.bag.get(0));
                     color_mesh();
@@ -74,6 +80,9 @@ public class Tetris extends Application {
                 case ESCAPE -> {
                     System.out.println("esc");
                     game = !game;
+                }
+                default -> {
+
                 }
             }
         });
