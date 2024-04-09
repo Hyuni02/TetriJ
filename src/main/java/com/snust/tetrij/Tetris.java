@@ -80,6 +80,8 @@ public class Tetris extends Application {
         Controller.generate_tetromino();
         Timer timer = new Timer();
         color_mesh();
+
+        //runtime logic
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
@@ -91,7 +93,6 @@ public class Tetris extends Application {
             }
         };
         timer.schedule(task, 1000, 100);
-
     }
 
     public static void main(String[] args) {

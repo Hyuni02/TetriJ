@@ -58,7 +58,11 @@ public class Controller {
         int height = tb.mesh[rot].length;
         int width = tb.mesh[rot][height-1].length;
 
-        if (height + tb.pos[0] >= Tetris.HEIGHT) {
+        eraseMesh(tb);
+        tb.pos[0]++;
+        tb.update_mesh();
+        if (tb.pos[0] >= Tetris.HEIGHT - height) {
+            Controller.bag.remove(0);
             return;
         }
         for (int x = 0; x < width; x++) {
@@ -66,13 +70,6 @@ public class Controller {
                 Controller.bag.remove(0);
                 return;
             }
-        }
-
-        eraseMesh(tb);
-        tb.pos[0]++;
-        tb.update_mesh();
-        if (tb.pos[0] >= Tetris.HEIGHT - height) {
-            Controller.bag.remove(0);
         }
     }
 
