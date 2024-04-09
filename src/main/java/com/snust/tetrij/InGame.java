@@ -134,7 +134,6 @@ public class InGame extends Application {
                             return;
                         };
 
-                        score++;
 
                         if (object.a.getY() == 0 || object.b.getY() == 0 || object.c.getY() == 0
                                 || object.d.getY() == 0)
@@ -159,11 +158,11 @@ public class InGame extends Application {
 
                         if (game) {
                             MoveDown(object);
+                            score++;
                             scoretext.setText("Score: " + Integer.toString(score));
                             level.setText("Lines: " + Integer.toString(linesNo));
                         }
                     }
-
                 });
             }
         };
