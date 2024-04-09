@@ -32,8 +32,8 @@ public class InGame extends Application {
     public static boolean restart = false;
     public static final int MOVE = 25;
     public static final int SIZE = 25;
-    public static int XMAX = SIZE * 12;
-    public static int YMAX = SIZE * 24;
+    public static int XMAX = SIZE * 10;
+    public static int YMAX = SIZE * 20;
     public static int[][] MESH = new int[XMAX / SIZE][YMAX / SIZE];
     private static Pane group = new Pane();
     private static Form object;
@@ -145,7 +145,6 @@ public class InGame extends Application {
                             return;
                         };
 
-                        score++;
 
                         if (object.a.getY() == 0 || object.b.getY() == 0 || object.c.getY() == 0
                                 || object.d.getY() == 0)
@@ -170,11 +169,11 @@ public class InGame extends Application {
 
                         if (game) {
                             MoveDown(object);
+                            score++;
                             scoretext.setText("Score: " + Integer.toString(score));
                             level.setText("Lines: " + Integer.toString(linesNo));
                         }
                     }
-
                 });
             }
         };
@@ -235,7 +234,7 @@ public class InGame extends Application {
                     InGame_Controller.MoveRight(form);
                 } else if (event.getCode() == downKeyCode) {
                     MoveDown(form);
-                    score++;
+                    //score++;
                 } else if (event.getCode() == leftKeyCode) {
                     InGame_Controller.MoveLeft(form);
                 } else if (event.getCode() == rotateKeyCode) {
