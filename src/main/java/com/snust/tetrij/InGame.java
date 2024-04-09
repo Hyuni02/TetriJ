@@ -91,8 +91,11 @@ public class InGame extends Application {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() { // 키 이벤트
             @Override
             public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.P) { // P 누르면 퍼즈
-                    togglePause();
+                if (event.getCode() == KeyCode.P) {
+                    togglePause(); // P 누르면 퍼즈
+                }
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    System.exit(0); // ESC 누르면 창 닫기
                 }
             }
         });
@@ -196,7 +199,6 @@ public class InGame extends Application {
                 Stage pauseStage = new Stage();
                 pauseStage.setScene(new Scene(root));
                 pauseStage.setTitle("Pause");
-
                 pauseStage.setOnCloseRequest(event -> {
                     // Pause 창이 닫힐 때 isPaused와 onPauseButton을 false로 변경
                     isPaused = false; //퍼즈 해제
