@@ -219,7 +219,7 @@ public class InGame extends Application {
                     InGame_Controller.MoveRight(form);
                 } else if (event.getCode() == downKeyCode) {
                     MoveDown(form);
-                    score++;
+                    //score++;
                 } else if (event.getCode() == leftKeyCode) {
                     InGame_Controller.MoveLeft(form);
                 } else if (event.getCode() == rotateKeyCode) {
