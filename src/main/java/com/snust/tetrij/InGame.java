@@ -32,8 +32,8 @@ public class InGame extends Application {
     public static boolean restart = false;
     public static final int MOVE = 25;
     public static final int SIZE = 25;
-    public static int XMAX = SIZE * 12;
-    public static int YMAX = SIZE * 24;
+    public static int XMAX = SIZE * 10;
+    public static int YMAX = SIZE * 20;
     public static int[][] MESH = new int[XMAX / SIZE][YMAX / SIZE];
     private static Pane group = new Pane();
     private static Form object;
