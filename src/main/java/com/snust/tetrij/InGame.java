@@ -88,6 +88,15 @@ public class InGame extends Application {
         fall = new Timer(); // 타이머 전역변수로 뺌 -> 리셋 가능
         restart = true;
 
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() { // 키 이벤트
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.P) { // P 누르면 퍼즈
+                    togglePause();
+                }
+            }
+        });
+
         for (int[] a : MESH) {
             Arrays.fill(a, 0);
         }
@@ -113,7 +122,6 @@ public class InGame extends Application {
         group.getChildren().addAll(scoretext, line, level, pauseButton);
 
         pauseButton.setOnAction(event -> togglePause());
-
 
         Form a = nextObj;
         group.getChildren().addAll(a.a, a.b, a.c, a.d);
@@ -169,6 +177,12 @@ public class InGame extends Application {
         };
         fall.schedule(task, 0, 300);
 
+    }
+    // 인게임에서 키 이벤트 처리 메서드
+    public void handleKeyPress(KeyEvent event) {
+        if (event.getCode() == KeyCode.P) {
+            togglePause(); // 'p' 키를 눌렀을 때 일시정지 토글
+        }
     }
     public static void togglePause() {
         if(!onPauseButton){
@@ -666,6 +680,7 @@ public class InGame extends Application {
         return xb && yb && MESH[((int) rect.getX() / SIZE) + x][((int) rect.getY() / SIZE) - y] == 0;
     }
     public static void switchToStartMenu() throws IOException { // 초기화면으로 돌아감
+        isPaused = true;
         FXMLLoader loader = new FXMLLoader(InGame.class.getResource("start_menu.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) scene.getWindow();

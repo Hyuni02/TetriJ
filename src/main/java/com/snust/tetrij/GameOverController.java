@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.BufferedWriter;
@@ -19,10 +20,15 @@ public class GameOverController extends GameManager {
     private static Scene scene;
     private static Stage tetrisStage;
     @FXML
+    private Text scoreText;
+    @FXML
     private TextField nameField;
     private static int resultScore;
-
-
+    @FXML
+    private void initialize() {
+        String displayStr = "Score : " + Integer.toString(resultScore);
+        scoreText.setText(displayStr);
+    }
     @FXML
     private void saveScore(ActionEvent event) throws IOException {
         String name = nameField.getText();
@@ -54,6 +60,9 @@ public class GameOverController extends GameManager {
     public static void switchToGameOver(int score, Stage tetrisStage) {
         try {
             resultScore = score;
+
+
+
             FXMLLoader loader = new FXMLLoader(GameOverController.class.getResource("game_over.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
