@@ -66,9 +66,13 @@ public class Controller {
             return;
         }
         for (int x = 0; x < width; x++) {
+            if (tb.mesh[tb.rotate][height-1][x] != 1)
+                continue;
+
             if (Tetris.MESH[tb.pos[0] + height][tb.pos[1] + x] != '0') {
+                Tetris.top -= height;
                 Controller.bag.remove(0);
-                return;
+                break;
             }
         }
     }
@@ -86,11 +90,17 @@ public class Controller {
             return;
         }
         for (int x = 0; x < width; x++) {
+            if (tb.mesh[tb.rotate][height-1][x] != 1)
+                continue;
+
             if (Tetris.MESH[tb.pos[0] + height][tb.pos[1] + x] != '0') {
+                Tetris.top -= height;
                 Controller.bag.remove(0);
-                return;
+                break;
             }
         }
+        if (Tetris.top <= 0)
+            Tetris.game = false;
     }
 
     public static void moveRightOnKeyPress(TetrominoBase tb) {
@@ -112,6 +122,12 @@ public class Controller {
         if (tb.pos[1] > 0) {
             tb.pos[1]--;
         }
+        tb.update_mesh();
+    }
+
+    public static void rotateRight(TetrominoBase tb) {
+        eraseMesh(tb);
+        tb.rotate = tb.rotate != 3 ? ++tb.rotate : 0;
         tb.update_mesh();
     }
 

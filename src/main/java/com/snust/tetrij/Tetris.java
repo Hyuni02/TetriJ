@@ -30,13 +30,13 @@ public class Tetris extends Application {
     public static char [][] MESH = new char[HEIGHT][WIDTH];
     public static Pane pane = new Pane();
     private static Scene scene = new Scene(pane, XMAX + 150, YMAX);
+    public static int top = YMAX;
 
-    private static boolean game = true;
+    public static boolean game = true;
 
 
     public static enum difficulty {EASY, NORMAL, HARD};
     public static int score = 0;
-    public static int top = 0;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -65,7 +65,7 @@ public class Tetris extends Application {
             if (Controller.bag.isEmpty())
                 code = KeyCode.NONCONVERT;
             switch (code) {
-                case DOWN -> {
+                case SPACE -> {
                     Controller.moveDownOnKeyPress(Controller.bag.get(0));
                     color_mesh();
                 }
@@ -80,6 +80,10 @@ public class Tetris extends Application {
                 case ESCAPE -> {
                     System.out.println("esc");
                     game = !game;
+                }
+                case UP -> {
+                    Controller.rotateRight(Controller.bag.get(0));
+                    color_mesh();
                 }
                 default -> {
 
@@ -101,7 +105,7 @@ public class Tetris extends Application {
                 color_mesh();
             }
         };
-        timer.schedule(task, 1000, 100);
+        timer.schedule(task, 1000, 1000);
     }
 
     public static void main(String[] args) {
@@ -135,5 +139,38 @@ public class Tetris extends Application {
             System.out.println(' ');
         }
         System.out.println(' ');
+    }
+
+    private boolean isFilled(char[] arr) {
+        for (char c : arr) {
+            if (c == '0')
+                return false;
+        }
+        return true;
+    }
+
+    private boolean isEmpty(char[] arr) {
+        for (char c : arr) {
+            if (c != '0')
+                return false;
+        }
+        return true;
+    }
+
+    private void removeLine(char[] arr, int y) {
+        if (isFilled(arr)) {
+            return;
+        }
+
+        for (char c : arr) {
+            c = '0';
+        }
+
+        for (; isEmpty(MESH[y]); y--){
+            for (int x = 0; x < WIDTH; x++) {
+                MESH[y][x] = MESH[y-1][x];
+            }
+        }
+
     }
 }

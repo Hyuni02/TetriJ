@@ -8,22 +8,12 @@ public class TetrominoBase {
     public int mesh[][][];
     public Color color;
     public char name;
-    public int turned;
     public int[] pos; //(y,x)
     public int rotate;
 
     public TetrominoBase() {
         this.color = new Color(0,0,0,0);
-        this.turned = 0;
         this.rotate = 0;
-    }
-
-    public void rotate_right() {
-        rotate = rotate!=3 ? rotate++ : 0;
-    }
-
-    public void rotate_left() {
-        rotate = rotate!=0 ? rotate-- : 3;
     }
 
     public void update_mesh() {

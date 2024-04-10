@@ -16,8 +16,8 @@ public class J extends TetrominoBase {
                 },
                 {
                         {1,1},
-                        {0,1},
-                        {0,1}
+                        {1,0},
+                        {1,0}
                 },
                 {
                         {1,1,1},
