@@ -16,6 +16,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import com.snust.tetrij.Tetris;
+import javafx.scene.shape.Mesh;
 
 public class Controller {
     public static List<TetrominoBase> bag = new Vector<TetrominoBase>();
@@ -61,8 +62,10 @@ public class Controller {
         eraseMesh(tb);
         tb.pos[0]++;
         tb.update_mesh();
+
         if (tb.pos[0] >= Tetris.HEIGHT - height) {
             Controller.bag.remove(0);
+            eraseLine();
             return;
         }
         for (int x = 0; x < width; x++) {
@@ -72,6 +75,7 @@ public class Controller {
             if (Tetris.MESH[tb.pos[0] + height][tb.pos[1] + x] != '0') {
                 Tetris.top -= height;
                 Controller.bag.remove(0);
+                eraseLine();
                 break;
             }
         }
@@ -87,6 +91,7 @@ public class Controller {
         tb.update_mesh();
         if (tb.pos[0] >= Tetris.HEIGHT - height) {
             Controller.bag.remove(0);
+            eraseLine();
             return;
         }
         for (int x = 0; x < width; x++) {
@@ -96,6 +101,7 @@ public class Controller {
             if (Tetris.MESH[tb.pos[0] + height][tb.pos[1] + x] != '0') {
                 Tetris.top -= height;
                 Controller.bag.remove(0);
+                eraseLine();
                 break;
             }
         }
@@ -141,6 +147,28 @@ public class Controller {
                 Tetris.MESH[y][x] = '0';
             }
         }
+    }
+
+    public static void eraseLine() {
+        List<Integer> arr = new Vector<Integer>();
+        for (int y = 2; y < Tetris.HEIGHT; y++) {
+            boolean add = true;
+            for (int x = 0; x < Tetris.WIDTH; x++) {
+                if (Tetris.MESH[y][x] == '0') {
+                    add = false;
+                    break;
+                }
+            }
+            if (add)
+                arr.add(y);
+        }
+        for (int cur : arr) {
+            for (int y = cur; y > 2; y--) {
+                Tetris.MESH[y] = Tetris.MESH[y-1];
+            }
+        }
+        Tetris.MESH[2] = new char[Tetris.WIDTH];
+        Arrays.fill(Tetris.MESH[2], '0');
     }
 }
 
