@@ -21,21 +21,25 @@ import java.util.TimerTask;
 
 
 public class Tetris extends Application {
+    // consts for game
     public static final int SIZE = 20;
     public static final int XMAX = SIZE * 10;
     public static final int YMAX = SIZE * 20;
     public static final int WIDTH = XMAX/SIZE;
     public static final int HEIGHT = YMAX/SIZE;
-    public static char [][] MESH = new char[HEIGHT][WIDTH];
-    public static Pane pane = new Pane();
-    private static Scene scene = new Scene(pane, XMAX + 150, YMAX);
     public static int top = YMAX;
 
+    // fx items
+    public static Pane pane = new Pane();
+    private static Scene scene = new Scene(pane, XMAX + 150, YMAX);
+    public static char [][] MESH = new char[HEIGHT][WIDTH];
+
+    // variables for game
+    public enum difficulty {EASY, NORMAL, HARD};
+    public static boolean color_weakness = true;
+    public static int score = 0;
     public static boolean game = true;
 
-
-    public static enum difficulty {EASY, NORMAL, HARD};
-    public static int score = 0;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -55,10 +59,12 @@ public class Tetris extends Application {
         level.setFill(Color.GREEN);
         pane.getChildren().addAll(scoretext, line, level);
 
-        //첫 블록 생성
+        //generate first block
         stage.setScene(scene);
         stage.setTitle("TETRIS");
         stage.show();
+
+        //set listener
         scene.setOnKeyPressed(e->{
             javafx.scene.input.KeyCode code = e.getCode();
             if (Controller.bag.isEmpty())
@@ -76,13 +82,17 @@ public class Tetris extends Application {
                     Controller.moveLeftOnKeyPress(Controller.bag.get(0));
                     color_mesh();
                 }
-                case ESCAPE -> {
-                    System.out.println("esc");
-                    game = !game;
-                }
                 case UP -> {
                     Controller.rotateRight(Controller.bag.get(0));
                     color_mesh();
+                }
+                case DOWN -> {
+                    Controller.softDrop(Controller.bag.get(0));
+                    color_mesh();
+                }
+                case ESCAPE -> {
+                    System.out.println("esc");
+                    game = !game;
                 }
                 default -> {
 
@@ -112,21 +122,16 @@ public class Tetris extends Application {
     }
 
     private void color_mesh() {
-        Platform.runLater(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int y = 0; y < HEIGHT; y++) {
-                            for (int x = 0; x < WIDTH; x++) {
-                                Rectangle r = new Rectangle(x*Tetris.SIZE, y*Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
-                                r.setFill(TetrominoBase.getColor(MESH[y][x]));
-                                r.setStrokeWidth(1);
-                                r.setStroke(Color.BLACK);
-                                pane.getChildren().add(r);
-                            }
-                        }
-                    }
+        Platform.runLater(() ->  {
+            for (int y = 0; y < HEIGHT; y++) {
+                for (int x = 0; x < WIDTH; x++) {
+                    Rectangle r = new Rectangle(x*Tetris.SIZE, y*Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
+                    r.setFill(TetrominoBase.getColor(MESH[y][x]));
+                    r.setStrokeWidth(0.5);
+                    r.setStroke(Color.BLACK);
+                    pane.getChildren().add(r);
                 }
-        );
+            }
+        });
     }
 }

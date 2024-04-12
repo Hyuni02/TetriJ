@@ -22,28 +22,13 @@ public class Controller {
     public static char generateTetromino() {
         TetrominoBase t = new TetrominoBase();
         switch((int)(Math.random()*7)) {
-            case 1 -> {
-                t = new I();
-            }
-            case 2 -> {
-                t = new J();
-            }
-            case 3 -> {
-                t = new L();
-            }
-            case 4 -> {
-                t = new O();
-            }
-            case 5 -> {
-                t = new S();
-            }
-            case 6 -> {
-                t = new T();
-
-            }
-            case 0 -> {
-                t = new Z();
-            }
+            case 1 -> t = new I();
+            case 2 -> t = new J();
+            case 3 -> t = new L();
+            case 4 -> t = new O();
+            case 5 -> t = new S();
+            case 6 -> t = new T();
+            case 0 -> t = new Z();
         }
         bag.add(t);
         t.update_mesh();
@@ -115,13 +100,17 @@ public class Controller {
         if (tb.pos[1] + width >= Tetris.WIDTH) {
             return;
         }
-        eraseMesh(tb);
-        /*
-        for (int[] y : tb.mesh[rot]) {
-            for (int x = y.length-1; x >= 0; x++) {
-                //todo) check if it is blocked
+        // check if right side is not blocked
+        for (int y = 0; y < height; y++) {
+            if (tb.mesh[tb.rotate][y][width-1] != 1)
+                continue;
+
+            if (Tetris.MESH[tb.pos[0]+y][tb.pos[1] + width] != '0') {
+                return;
             }
-        }*/
+        }
+
+        eraseMesh(tb);
         tb.pos[1]++;
         tb.update_mesh();
     }
@@ -133,6 +122,15 @@ public class Controller {
 
         if (tb.pos[1] <= 0) {
             return;
+        }
+        // check if left side is not blocked
+        for (int y = 0; y < height; y++) {
+            if (tb.mesh[tb.rotate][y][0] != 1)
+                continue;
+
+            if (Tetris.MESH[tb.pos[0]+y][tb.pos[1] - 1] != '0') {
+                return;
+            }
         }
 
         eraseMesh(tb);
