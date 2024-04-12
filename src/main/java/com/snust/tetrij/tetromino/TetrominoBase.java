@@ -60,7 +60,7 @@ public class TetrominoBase {
                 }
                 case 'j' -> {
                     // turquise, 청록
-                    return new Color(217.0/256.0, 56.0/256.0, 30.0/256.0, 0);
+                    return new Color(217.0/256.0, 56.0/256.0, 30.0/256.0, 1);
                 }
                 case 'l' -> {
                     return Color.ORANGE;
@@ -76,7 +76,7 @@ public class TetrominoBase {
                 }
                 case 'z' -> {
                     //red purple
-                    return new Color(149.0/256.0, 53.0/256.0, 83.0/256.0, 0);
+                    return new Color(149.0/256.0, 53.0/256.0, 83.0/256.0, 1);
                 }
             };
         }
