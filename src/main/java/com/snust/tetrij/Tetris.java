@@ -129,47 +129,4 @@ public class Tetris extends Application {
                 }
         );
     }
-
-    private void print() {
-        for (char[] arr : MESH) {
-            for (char c : arr) {
-                System.out.print(c);
-            }
-            System.out.println(' ');
-        }
-        System.out.println(' ');
-    }
-
-    private boolean isFilled(char[] arr) {
-        for (char c : arr) {
-            if (c == '0')
-                return false;
-        }
-        return true;
-    }
-
-    private boolean isEmpty(char[] arr) {
-        for (char c : arr) {
-            if (c != '0')
-                return false;
-        }
-        return true;
-    }
-
-    private void removeLine(char[] arr, int y) {
-        if (isFilled(arr)) {
-            return;
-        }
-
-        for (char c : arr) {
-            c = '0';
-        }
-
-        for (; isEmpty(MESH[y]); y--){
-            for (int x = 0; x < WIDTH; x++) {
-                MESH[y][x] = MESH[y-1][x];
-            }
-        }
-
-    }
 }
