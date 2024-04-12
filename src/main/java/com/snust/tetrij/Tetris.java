@@ -1,6 +1,5 @@
 package com.snust.tetrij;
 
-import com.almasb.fxgl.input.Input;
 import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -66,7 +65,7 @@ public class Tetris extends Application {
                 code = KeyCode.NONCONVERT;
             switch (code) {
                 case SPACE -> {
-                    Controller.moveDownOnKeyPress(Controller.bag.get(0));
+                    Controller.hardDrop(Controller.bag.get(0));
                     color_mesh();
                 }
                 case RIGHT -> {
@@ -90,7 +89,7 @@ public class Tetris extends Application {
                 }
             }
         });
-        Controller.generate_tetromino();
+        Controller.generateTetromino();
         Timer timer = new Timer();
         color_mesh();
 
@@ -99,9 +98,9 @@ public class Tetris extends Application {
             @Override
             public void run() {
                 if (!Controller.bag.isEmpty())
-                    Controller.moveDownPerSec(Controller.bag.get(0));
+                    Controller.softDrop(Controller.bag.get(0));
                 else
-                    Controller.generate_tetromino();
+                    Controller.generateTetromino();
                 color_mesh();
             }
         };
