@@ -35,58 +35,59 @@ public class Controller {
         return t.name;
     }
 
-    public static void softDrop(TetrominoBase tb) {
+    public static boolean canMoveDown(TetrominoBase tb, int distance) {
         int rot = tb.rotate;
-        int height = tb.mesh[rot].length;
-        int width = tb.mesh[rot][height-1].length;
+        int height = tb.getHeight();
+        int width = tb.getWidth();
 
-        eraseMesh(tb);
-        tb.pos[0]++;
-        tb.update_mesh();
-        if (tb.pos[0] >= Tetris.HEIGHT - height) {
-            Controller.bag.remove(0);
-            eraseLine();
-            return;
+        // Tetromino가 아래쪽 경계에 닿았는지 확인
+        if (tb.pos[0] + height + distance > Tetris.HEIGHT) {
+            return false;
         }
-        for (int x = 0; x < width; x++) {
-            if (tb.mesh[tb.rotate][height-1][x] != 1)
-                continue;
 
-            if (Tetris.MESH[tb.pos[0] + height][tb.pos[1] + x] != '0') {
-                Tetris.top -= height;
-                Controller.bag.remove(0);
-                eraseLine();
-                break;
-            }
-        }
-    }
-
-    public static void hardDrop(TetrominoBase tb) {
-        int rot = tb.rotate;
-        int height = tb.mesh[rot].length;
-        int width = tb.mesh[rot][height-1].length;
-
-        eraseMesh(Controller.bag.get(0));
-        int h = 0;
-        boolean can_move_down = true;
-        for (; can_move_down; h++) {
-            if (tb.pos[0] + h >= Tetris.HEIGHT - height) {
-                can_move_down = false;
-            }
+        // Tetromino의 각 블록이 아래로 이동할 때 다른 블록과 겹치는지 확인
+        for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                if (tb.mesh[tb.rotate][height-1][x] != 1)
-                    continue;
+                if (tb.mesh[rot][y][x] != 1) {
+                    continue; // 빈 공간은 확인하지 않음
+                }
 
-                if (Tetris.MESH[tb.pos[0] + height + h - 1][tb.pos[1] + x] != '0') {
-                    Tetris.top -= height;
-                    can_move_down = false;
-                    tb.pos[0]--;
-                    break;
+                // Tetromino의 블록이 아래쪽으로 이동할 때 충돌 여부 확인
+                if (Tetris.MESH[tb.pos[0] + y + distance][tb.pos[1] + x] != '0') {
+                    return false;
                 }
             }
         }
 
-        tb.pos[0] += h - 1;
+        return true; // 아래로 이동 가능
+    }
+
+
+    public static void softDrop(TetrominoBase tb) {
+        int rot = tb.rotate;
+        int height = tb.getHeight();
+        int width = tb.getWidth();
+
+        eraseMesh(tb);
+        int dropHeight = 1;
+        if (!canMoveDown(tb, dropHeight)) {
+            Controller.bag.remove(0);
+            return;
+        }
+
+        tb.pos[0]++;
+        tb.update_mesh();
+        eraseLine();
+    }
+
+    public static void hardDrop(TetrominoBase tb) {
+        eraseMesh(tb);
+        int dropHeight = 0;
+        while (canMoveDown(tb, dropHeight + 1)) {
+            dropHeight++;
+        }
+
+        tb.pos[0] += dropHeight;
         tb.update_mesh();
         eraseLine();
         Controller.bag.remove(0);
@@ -94,19 +95,24 @@ public class Controller {
 
     public static void moveRightOnKeyPress(TetrominoBase tb) {
         int rot = tb.rotate;
-        int height = tb.mesh[rot].length;
-        int width = tb.mesh[rot][height-1].length;
+        int height = tb.getHeight();
+        int width = tb.getWidth();
 
+        //오른쪽으로 이동할 때 범위를 벗어나는지 확인
         if (tb.pos[1] + width >= Tetris.WIDTH) {
             return;
         }
-        // check if right side is not blocked
+        // Tetromino의 각 블록이 오른쪽으로 이동할 때 다른 블록과 겹치는지 확인
         for (int y = 0; y < height; y++) {
-            if (tb.mesh[tb.rotate][y][width-1] != 1)
-                continue;
+            for (int x = 0; x < width; x++) {
+                if (tb.mesh[rot][y][x] != 1) {
+                    continue; // 빈 공간은 확인하지 않음
+                }
 
-            if (Tetris.MESH[tb.pos[0]+y][tb.pos[1] + width] != '0') {
-                return;
+                // Tetromino의 블록이 오른쪽으로 이동할 때 충돌 여부 확인
+                if (Tetris.MESH[tb.pos[0] + y][tb.pos[1] + x + 1] != '0') {
+                    return;
+                }
             }
         }
 
@@ -117,19 +123,24 @@ public class Controller {
 
     public static void moveLeftOnKeyPress(TetrominoBase tb) {
         int rot = tb.rotate;
-        int height = tb.mesh[rot].length;
-        int width = tb.mesh[rot][height-1].length;
+        int height = tb.getHeight();
+        int width = tb.getWidth();
 
+        //왼쪽 경계를 넘어가는지 확인
         if (tb.pos[1] <= 0) {
             return;
         }
-        // check if left side is not blocked
+        // Tetromino의 각 블록이 왼쪽으로 이동할 때 다른 블록과 겹치는지 확인
         for (int y = 0; y < height; y++) {
-            if (tb.mesh[tb.rotate][y][0] != 1)
-                continue;
+            for (int x = 0; x < width; x++) {
+                if (tb.mesh[rot][y][x] != 1) {
+                    continue; // 빈 공간은 확인하지 않음
+                }
 
-            if (Tetris.MESH[tb.pos[0]+y][tb.pos[1] - 1] != '0') {
-                return;
+                // Tetromino의 블록이 오른쪽으로 이동할 때 충돌 여부 확인
+                if (Tetris.MESH[tb.pos[0] + y][tb.pos[1] + x - 1] != '0') {
+                    return;
+                }
             }
         }
 
@@ -146,8 +157,8 @@ public class Controller {
 
     public static void eraseMesh(TetrominoBase tb) {
         int rot = tb.rotate;
-        int height = tb.mesh[rot].length;
-        int width = tb.mesh[rot][height-1].length;
+        int height = tb.getHeight();
+        int width = tb.getWidth();
 
         for (int y = tb.pos[0]; y < tb.pos[0] + height; y++) {
             for (int x = tb.pos[1]; x < tb.pos[1] + width; x++) {
@@ -157,6 +168,7 @@ public class Controller {
     }
 
     public static void eraseLine() {
+        //리스트에 가득 찬 라인을 저장
         List<Integer> l = new Vector<>();
         for (int y = 2; y < Tetris.HEIGHT; y++) {
             boolean is_full = true;
@@ -171,6 +183,7 @@ public class Controller {
                 l.add(y);
         }
 
+        //리스트에 저장된 라인들을 지움
         for (int i : l) {
             for (int line = i; line > 2; line--) {
                 Tetris.MESH[line] = Tetris.MESH[line-1];

@@ -83,4 +83,12 @@ public class TetrominoBase {
 
         return Color.WHITE;
     }
+
+    public int getHeight() {
+        return this.mesh[this.rotate].length;
+    }
+
+    public int getWidth() {
+        return this.mesh[this.rotate][this.getHeight()-1].length;
+    }
 }
