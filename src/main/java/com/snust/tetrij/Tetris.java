@@ -37,7 +37,7 @@ public class Tetris extends Application {
     public static final int YMAX = SIZE * 20;
     public static final int WIDTH = XMAX/SIZE;
     public static final int HEIGHT = YMAX/SIZE;
-    public static int top = YMAX;
+    public static int top = 0;
 
     // fx items
     public static Pane pane = new Pane();
@@ -84,8 +84,6 @@ public class Tetris extends Application {
             linesNo = 0;
             game = true;
             isPaused = false; // 퍼즈 후 시작화면으로 나가서 재시작할때 오류방지
-        }
-        if (restart) {
             fall.cancel(); // 타이머 리셋
         }
         fall = new Timer(); // 타이머 전역변수로 뺌 -> 리셋 가능
@@ -197,9 +195,9 @@ public class Tetris extends Application {
                 //일시정지
                 if(isPaused) return;
 
-                //게임 오버 띄우기
+                //todo 게임 오버 띄우기
                 
-                //점수 입력창 띄우기
+                //todo 점수 입력창 띄우기
 
                 //game running
                 if (!Controller.bag.isEmpty())
@@ -209,7 +207,7 @@ public class Tetris extends Application {
                 color_mesh();
             }
         };
-        timer.schedule(task, 1000, 1000);
+        timer.schedule(task, 0, 300);
     }
 
     private static String loadKeySetting(String key) {
@@ -267,19 +265,13 @@ public class Tetris extends Application {
                         isPaused = false; //퍼즈 해제
                         onPauseButton = false; // 창 꺼짐
                     });
-
-
                     pauseStage.getScene().setOnKeyPressed(event -> {
                         if (event.getCode() == KeyCode.ESCAPE) {
                             pauseStage.close();
                             Platform.exit();
                         }
                     });
-
-
                     pauseStage.showAndWait();
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -81,7 +81,7 @@ public class InGame extends Application {
     }
 
     public static void newGameScene(Stage stage) throws Exception {
-        if (restart) {
+        if(restart) {
             group.getChildren().clear(); // 현재 씬 모든 노드 제거
 
             // 변수 초기화
@@ -90,8 +90,6 @@ public class InGame extends Application {
             linesNo = 0;
             game = true;
             isPaused = false; // 퍼즈 후 시작화면으로 나가서 재시작할때 오류방지
-        }
-        if (restart) {
             fall.cancel(); // 타이머 리셋
         }
         fall = new Timer(); // 타이머 전역변수로 뺌 -> 리셋 가능
@@ -163,9 +161,6 @@ public class InGame extends Application {
                         if (isPaused) {
                             return;
                         }
-                        ;
-
-
                         if (object.a.getY() == 0 || object.b.getY() == 0 || object.c.getY() == 0
                                 || object.d.getY() == 0)
                             top++;
@@ -209,7 +204,7 @@ public class InGame extends Application {
     }
 
     public static void togglePause() {
-        if (!onPauseButton) {
+        if(!onPauseButton) {
             isPaused = !isPaused;
             if (isPaused) {
                 // Pause 버튼을 눌렀을 때 퍼즈 메뉴 창 띄우기
@@ -225,19 +220,13 @@ public class InGame extends Application {
                         isPaused = false; //퍼즈 해제
                         onPauseButton = false; // 창 꺼짐
                     });
-
-
                     pauseStage.getScene().setOnKeyPressed(event -> {
                         if (event.getCode() == KeyCode.ESCAPE) {
                             pauseStage.close();
                             Platform.exit();
                         }
                     });
-
-
                     pauseStage.showAndWait();
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

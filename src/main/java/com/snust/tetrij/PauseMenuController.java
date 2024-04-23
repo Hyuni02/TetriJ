@@ -21,15 +21,15 @@ public class PauseMenuController extends InGame {
         stage.close();
 
         // 현재 게임 일시정지 -> isPaused를 false로 설정하여 게임이 계속될 수 있도록 함
-        InGame.isPaused = false;
-        InGame.onPauseButton = false;
+        Tetris.isPaused = false;
+        Tetris.onPauseButton = false;
     }
     @FXML
     public void switchToStartMenu(ActionEvent event) throws IOException {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.close();
-        InGame.isPaused = false;
-        InGame.onPauseButton = false;
-        InGame.switchToStartMenu();
+        Tetris.isPaused = false;
+        Tetris.onPauseButton = false;
+        Tetris.switchToStartMenu();
     }
 }
