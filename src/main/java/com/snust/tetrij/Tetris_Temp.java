@@ -15,7 +15,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import java.io.File;
 
-public class Tetris extends Application {
+public class Tetris_Temp extends Application {
     private static MediaPlayer mediaPlayer;
 
     public static Stage curStage;
