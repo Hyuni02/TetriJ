@@ -1,5 +1,6 @@
 package com.snust.tetrij;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -10,14 +11,19 @@ import java.util.TimerTask;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -26,6 +32,7 @@ import javafx.stage.Stage;
 import org.json.JSONObject;
 
 import static com.snust.tetrij.GameOverController.switchToGameOver;
+import javafx.scene.media.MediaPlayer;
 
 public class InGame extends Application {
     // The variables
@@ -61,6 +68,7 @@ public class InGame extends Application {
 //    private static long resumeTime = 0;    //다시 시작될 때 시간 저장
 //    private static long pausedDuration = 0;    //일시정지 몇초동안 함?
 //    private static long startTime = System.currentTimeMillis();    //시작 시간
+    private MediaPlayer mediaPlayer;
 
 
     public static void main(String[] args) {
@@ -124,6 +132,16 @@ public class InGame extends Application {
         stage.setTitle("T E T R I S");
         stage.show();
 
+        //ESC 버튼 눌렀을 때 바로 게임 종료할 수 있게끔 띄우기
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                switch (event.getCode()) {
+                    case ESCAPE:
+                        Platform.exit();
+                }
+            }
+        });
 
 
         TimerTask task = new TimerTask() {
@@ -188,7 +206,18 @@ public class InGame extends Application {
                     onPauseButton = false; // 창 꺼짐
                 });
 
+
+                pauseStage.getScene().setOnKeyPressed(event -> {
+                    if (event.getCode() == KeyCode.ESCAPE) {
+                        pauseStage.close();
+                        Platform.exit();
+                    }
+                });
+
+
                 pauseStage.showAndWait();
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -665,6 +694,7 @@ public class InGame extends Application {
         return xb && yb && MESH[((int) rect.getX() / SIZE) + x][((int) rect.getY() / SIZE) - y] == 0;
     }
     public static void switchToStartMenu() throws IOException { // 초기화면으로 돌아감
+        isPaused = true;
         FXMLLoader loader = new FXMLLoader(InGame.class.getResource("start_menu.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) scene.getWindow();
@@ -673,5 +703,37 @@ public class InGame extends Application {
         stage.show();
     }
 
+    @FXML
+    private void exitGame() {
+        ClickButtonSound();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("게임 종료");
+        alert.setHeaderText("게임을 종료하시겠습니까?");
+        alert.setContentText("게임을 종료하려면 확인을 누르세요.");
 
-}
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.setAlwaysOnTop(true);
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                System.exit(0);
+            }
+        });
+    }
+
+        private void ClickButtonSound() {
+            try {
+                Media sound = new Media(new File("src/main/resources/com/snust/tetrij/sound/button_click.mp3").toURI().toString());
+
+                mediaPlayer = new MediaPlayer(sound);
+                mediaPlayer.setVolume(0.5);
+                mediaPlayer.play();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
