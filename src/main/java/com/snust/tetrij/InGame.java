@@ -64,7 +64,7 @@ public class InGame extends Application {
     static KeyCode leftKeyCode = getKeyCodeFromString(leftKey);
     static KeyCode rotateKeyCode = getKeyCodeFromString(rotateKey);
     static KeyCode downKeyCode = getKeyCodeFromString(downKey);
-//    private static long pauseTimeBefore = 0;   //일시정지 누르기 전 시간
+    //    private static long pauseTimeBefore = 0;   //일시정지 누르기 전 시간
 //    private static long resumeTime = 0;    //다시 시작될 때 시간 저장
 //    private static long pausedDuration = 0;    //일시정지 몇초동안 함?
 //    private static long startTime = System.currentTimeMillis();    //시작 시간
@@ -79,8 +79,9 @@ public class InGame extends Application {
     public void start(Stage stage) throws Exception {
         newGameScene(stage);
     }
-    public static void newGameScene(Stage stage) throws Exception{
-        if(restart) {
+
+    public static void newGameScene(Stage stage) throws Exception {
+        if (restart) {
             group.getChildren().clear(); // 현재 씬 모든 노드 제거
 
             // 변수 초기화
@@ -161,7 +162,8 @@ public class InGame extends Application {
                     public void run() {
                         if (isPaused) {
                             return;
-                        };
+                        }
+                        ;
 
 
                         if (object.a.getY() == 0 || object.b.getY() == 0 || object.c.getY() == 0
@@ -182,7 +184,7 @@ public class InGame extends Application {
                         }
                         // Exit
                         if (top == 15) {
-                                switchToGameOver(score, stage);
+                            switchToGameOver(score, stage);
                         }
 
                         if (game) {
@@ -198,46 +200,48 @@ public class InGame extends Application {
         fall.schedule(task, 0, 300);
 
     }
+
     // 인게임에서 키 이벤트 처리 메서드
     public void handleKeyPress(KeyEvent event) {
         if (event.getCode() == KeyCode.P) {
             togglePause(); // 'p' 키를 눌렀을 때 일시정지 토글
         }
     }
+
     public static void togglePause() {
-        if(!onPauseButton){
-        isPaused = !isPaused;
-        if (isPaused) {
-            // Pause 버튼을 눌렀을 때 퍼즈 메뉴 창 띄우기
-            try {
-                onPauseButton = true; // 퍼즈 버튼 눌러서 true (퍼즈 창이 떠 있는 상태)
-                FXMLLoader fxmlLoader = new FXMLLoader(InGame.class.getResource("pause_menu.fxml"));
-                Parent root = fxmlLoader.load();
-                Stage pauseStage = new Stage();
-                pauseStage.setScene(new Scene(root));
-                pauseStage.setTitle("Pause");
-                pauseStage.setOnCloseRequest(event -> {
-                    // Pause 창이 닫힐 때 isPaused와 onPauseButton을 false로 변경
-                    isPaused = false; //퍼즈 해제
-                    onPauseButton = false; // 창 꺼짐
-                });
+        if (!onPauseButton) {
+            isPaused = !isPaused;
+            if (isPaused) {
+                // Pause 버튼을 눌렀을 때 퍼즈 메뉴 창 띄우기
+                try {
+                    onPauseButton = true; // 퍼즈 버튼 눌러서 true (퍼즈 창이 떠 있는 상태)
+                    FXMLLoader fxmlLoader = new FXMLLoader(InGame.class.getResource("pause_menu.fxml"));
+                    Parent root = fxmlLoader.load();
+                    Stage pauseStage = new Stage();
+                    pauseStage.setScene(new Scene(root));
+                    pauseStage.setTitle("Pause");
+                    pauseStage.setOnCloseRequest(event -> {
+                        // Pause 창이 닫힐 때 isPaused와 onPauseButton을 false로 변경
+                        isPaused = false; //퍼즈 해제
+                        onPauseButton = false; // 창 꺼짐
+                    });
 
 
-                pauseStage.getScene().setOnKeyPressed(event -> {
-                    if (event.getCode() == KeyCode.ESCAPE) {
-                        pauseStage.close();
-                        Platform.exit();
-                    }
-                });
+                    pauseStage.getScene().setOnKeyPressed(event -> {
+                        if (event.getCode() == KeyCode.ESCAPE) {
+                            pauseStage.close();
+                            Platform.exit();
+                        }
+                    });
 
 
-                pauseStage.showAndWait();
+                    pauseStage.showAndWait();
 
 
-            } catch (Exception e) {
-                e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        }
         }
     }
 
@@ -256,7 +260,7 @@ public class InGame extends Application {
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if(isPaused)
+                if (isPaused)
                     return;
 
                 if (event.getCode() == rightKeyCode) {
@@ -272,6 +276,7 @@ public class InGame extends Application {
             }
         });
     }
+
     public static KeyCode getKeyCodeFromString(String keyName) {    //json -> KeyCode로 변경
         for (KeyCode kc : KeyCode.values()) {
             if (kc.getName().equalsIgnoreCase(keyName)) {
@@ -709,6 +714,7 @@ public class InGame extends Application {
             yb = rect.getY() + y * MOVE < YMAX;
         return xb && yb && MESH[((int) rect.getX() / SIZE) + x][((int) rect.getY() / SIZE) - y] == 0;
     }
+
     public static void switchToStartMenu() throws IOException { // 초기화면으로 돌아감
         isPaused = true;
         FXMLLoader loader = new FXMLLoader(InGame.class.getResource("start_menu.fxml"));
@@ -737,19 +743,19 @@ public class InGame extends Application {
         });
     }
 
-        private void ClickButtonSound() {
-            try {
-                Media sound = new Media(new File("src/main/resources/com/snust/tetrij/sound/button_click.mp3").toURI().toString());
+    private void ClickButtonSound() {
+        try {
+            Media sound = new Media(new File("src/main/resources/com/snust/tetrij/sound/button_click.mp3").toURI().toString());
 
-                mediaPlayer = new MediaPlayer(sound);
-                mediaPlayer.setVolume(0.5);
-                mediaPlayer.play();
+            mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setVolume(0.5);
+            mediaPlayer.play();
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+}
 
 
 

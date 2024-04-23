@@ -15,7 +15,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import java.io.File;
 
-public class Tetris_Temp extends Application {
+public class MainMenu extends Application {
     private static MediaPlayer mediaPlayer;
 
     public static Stage curStage;
@@ -43,7 +43,7 @@ public class Tetris_Temp extends Application {
 
     public static void playTetrij() throws Exception {
         // 여기다가 게임 로직 넣어주세여
-        InGame.newGameScene(curStage);
+        Tetris.newGameScene(curStage);
         System.out.println("게임 시작");
     }
 

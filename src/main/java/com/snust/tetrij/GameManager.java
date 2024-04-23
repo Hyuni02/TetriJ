@@ -9,7 +9,7 @@ public class GameManager {
     public static int resolutionY = 600;
 
     protected void startGame() throws Exception{
-        Tetris_Temp.playTetrij();
+        MainMenu.playTetrij();
     }
 
     protected Parent returnSceneRoot(String fxml) throws IOException {
