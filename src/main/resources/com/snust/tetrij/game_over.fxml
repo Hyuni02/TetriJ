@@ -9,6 +9,7 @@
         <font>
             <Font name="Cooper Black" size="30.0" />
         </font></Label>
+   <Text fx:id="scoreText" strokeType="OUTSIDE" strokeWidth="0.0" text="Score : " />
     <TextField fx:id="nameField" prefHeight="22.0" prefWidth="127.0" promptText="Your Name!" />
     <Button onAction="#saveScore" text="Save Score" textAlignment="CENTER">
         <font>

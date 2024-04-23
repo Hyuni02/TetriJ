@@ -96,6 +96,18 @@ public class InGame extends Application {
         fall = new Timer(); // 타이머 전역변수로 뺌 -> 리셋 가능
         restart = true;
 
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() { // 키 이벤트
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.P) {
+                    togglePause(); // P 누르면 퍼즈
+                }
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    System.exit(0); // ESC 누르면 창 닫기
+                }
+            }
+        });
+
         for (int[] a : MESH) {
             Arrays.fill(a, 0);
         }
@@ -121,7 +133,6 @@ public class InGame extends Application {
         group.getChildren().addAll(scoretext, line, level, pauseButton);
 
         pauseButton.setOnAction(event -> togglePause());
-
 
         Form a = nextObj;
         group.getChildren().addAll(a.a, a.b, a.c, a.d);
@@ -187,6 +198,12 @@ public class InGame extends Application {
         fall.schedule(task, 0, 300);
 
     }
+    // 인게임에서 키 이벤트 처리 메서드
+    public void handleKeyPress(KeyEvent event) {
+        if (event.getCode() == KeyCode.P) {
+            togglePause(); // 'p' 키를 눌렀을 때 일시정지 토글
+        }
+    }
     public static void togglePause() {
         if(!onPauseButton){
         isPaused = !isPaused;
@@ -199,7 +216,6 @@ public class InGame extends Application {
                 Stage pauseStage = new Stage();
                 pauseStage.setScene(new Scene(root));
                 pauseStage.setTitle("Pause");
-
                 pauseStage.setOnCloseRequest(event -> {
                     // Pause 창이 닫힐 때 isPaused와 onPauseButton을 false로 변경
                     isPaused = false; //퍼즈 해제
