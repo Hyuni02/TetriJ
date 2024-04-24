@@ -35,33 +35,6 @@ public class Controller {
         return t.name;
     }
 
-    public static boolean canMoveDown(TetrominoBase tb, int distance) {
-        int rot = tb.rotate;
-        int height = tb.getHeight();
-        int width = tb.getWidth();
-
-        // Tetromino가 아래쪽 경계에 닿았는지 확인
-        if (tb.pos[0] + height + distance > Tetris.HEIGHT) {
-            return false;
-        }
-
-        // Tetromino의 각 블록이 아래로 이동할 때 다른 블록과 겹치는지 확인
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                if (tb.mesh[rot][y][x] != 1) {
-                    continue; // 빈 공간은 확인하지 않음
-                }
-
-                // Tetromino의 블록이 아래쪽으로 이동할 때 충돌 여부 확인
-                if (Tetris.MESH[tb.pos[0] + y + distance][tb.pos[1] + x] != '0') {
-                    return false;
-                }
-            }
-        }
-
-        return true; // 아래로 이동 가능
-    }
-
 
     public static void softDrop(TetrominoBase tb) {
         int rot = tb.rotate;
@@ -69,15 +42,16 @@ public class Controller {
         int width = tb.getWidth();
 
         eraseMesh(tb);
-        int dropHeight = 1;
-        if (!canMoveDown(tb, dropHeight)) {
-            Controller.bag.remove(0);
-            return;
-        }
-
         tb.pos[0]++;
+
+        if (!canMoveDown(tb, 1)) {
+            Controller.bag.remove(0);
+            System.out.println("removed");
+        }
         tb.update_mesh();
         eraseLine();
+
+
     }
 
     public static void hardDrop(TetrominoBase tb) {
@@ -94,58 +68,18 @@ public class Controller {
     }
 
     public static void moveRightOnKeyPress(TetrominoBase tb) {
-        int rot = tb.rotate;
-        int height = tb.getHeight();
-        int width = tb.getWidth();
-
-        //오른쪽으로 이동할 때 범위를 벗어나는지 확인
-        if (tb.pos[1] + width >= Tetris.WIDTH) {
-            return;
-        }
-        // Tetromino의 각 블록이 오른쪽으로 이동할 때 다른 블록과 겹치는지 확인
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                if (tb.mesh[rot][y][x] != 1) {
-                    continue; // 빈 공간은 확인하지 않음
-                }
-
-                // Tetromino의 블록이 오른쪽으로 이동할 때 충돌 여부 확인
-                if (Tetris.MESH[tb.pos[0] + y][tb.pos[1] + x + 1] != '0') {
-                    return;
-                }
-            }
-        }
-
         eraseMesh(tb);
-        tb.pos[1]++;
+        if (canMoveSideWays(tb, 1)) {
+            tb.pos[1]++;
+        }
         tb.update_mesh();
     }
 
     public static void moveLeftOnKeyPress(TetrominoBase tb) {
-        int rot = tb.rotate;
-        int height = tb.getHeight();
-        int width = tb.getWidth();
-
-        //왼쪽 경계를 넘어가는지 확인
-        if (tb.pos[1] <= 0) {
-            return;
-        }
-        // Tetromino의 각 블록이 왼쪽으로 이동할 때 다른 블록과 겹치는지 확인
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                if (tb.mesh[rot][y][x] != 1) {
-                    continue; // 빈 공간은 확인하지 않음
-                }
-
-                // Tetromino의 블록이 오른쪽으로 이동할 때 충돌 여부 확인
-                if (Tetris.MESH[tb.pos[0] + y][tb.pos[1] + x - 1] != '0') {
-                    return;
-                }
-            }
-        }
-
         eraseMesh(tb);
-        tb.pos[1]--;
+        if (canMoveSideWays(tb, -1)) {
+            tb.pos[1]--;
+        }
         tb.update_mesh();
     }
 
@@ -191,6 +125,60 @@ public class Controller {
             Tetris.MESH[2] = new char[Tetris.WIDTH];
             Arrays.fill(Tetris.MESH[2], '0');
         }
+    }
+
+    public static boolean canMoveDown(TetrominoBase tb, int distance) {
+        int rot = tb.rotate;
+        int height = tb.getHeight();
+        int width = tb.getWidth();
+
+        // Tetromino가 아래쪽 경계에 닿았는지 확인
+        if (tb.pos[0] + height + distance > Tetris.HEIGHT) {
+            return false;
+        }
+
+        // Tetromino의 각 블록이 아래로 이동할 때 다른 블록과 겹치는지 확인
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (tb.mesh[rot][y][x] != 1) {
+                    continue; // 빈 공간은 확인하지 않음
+                }
+
+                // Tetromino의 블록이 아래쪽으로 이동할 때 충돌 여부 확인
+                if (Tetris.MESH[tb.pos[0] + y + distance][tb.pos[1] + x] != '0') {
+                    return false;
+                }
+            }
+        }
+
+        return true; // 아래로 이동 가능
+    }
+
+    public static boolean canMoveSideWays(TetrominoBase tb, int distance) {
+        int rot = tb.rotate;
+        int height = tb.getHeight();
+        int width = tb.getWidth();
+
+        // Tetromino가 아래쪽 경계에 닿았는지 확인
+        if (tb.pos[1] + distance < 0 || tb.pos[1] + width + distance > Tetris.WIDTH) {
+            return false;
+        }
+
+        // Tetromino의 각 블록이 아래로 이동할 때 다른 블록과 겹치는지 확인
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (tb.mesh[rot][y][x] != 1) {
+                    continue; // 빈 공간은 확인하지 않음
+                }
+
+                // Tetromino의 블록이 아래쪽으로 이동할 때 충돌 여부 확인
+                if (Tetris.MESH[tb.pos[1] + y][tb.pos[1] + x + distance] != '0') {
+                    return false;
+                }
+            }
+        }
+
+        return true; // 아래로 이동 가능
     }
 }
 
