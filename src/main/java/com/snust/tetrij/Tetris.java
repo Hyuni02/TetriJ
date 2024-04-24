@@ -202,27 +202,24 @@ public class Tetris extends Application {
                             case HARD -> finalFreq = freq - speedLevel * (int) (boost * 1.2f);
                         }
                         Thread.sleep(finalFreq);
-
-                        if (speedLevel == 0)
-                            score++;
-                        else if (speedLevel == 1)
-                            score += 2;
-                        else if (speedLevel == 2)
-                            score += 3;
-                        scoretext.setText("Score: " + Integer.toString(score));
-                        level.setText("Lines: " + Integer.toString(linesNo));
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
 
                     //일시정지
-                    if (isPaused) {
-                        continue;
-                    }
+                    if (isPaused) continue;
 
-                    //todo 게임 오버 띄우기
+                    if (speedLevel == 0)
+                        score++;
+                    else if (speedLevel == 1)
+                        score += 2;
+                    else if (speedLevel == 2)
+                        score += 3;
+                    scoretext.setText("Score: " + Integer.toString(score));
+                    level.setText("Lines: " + Integer.toString(linesNo));
 
                     //todo 점수 입력창 띄우기
+                    
 
                     //game running
                     if (!Controller.bag.isEmpty())
@@ -231,13 +228,11 @@ public class Tetris extends Application {
                         Controller.generateTetromino();
                     color_mesh();
 
-                    //System.out.println(freq);
-
                     System.out.println(top);
                     //todo 게임오버
                     if (Tetris.top >= Tetris.HEIGHT) {
                         System.out.println("game over");
-                        isPaused = true;
+                        isGameOver = true;
                     }
                 }
             }
