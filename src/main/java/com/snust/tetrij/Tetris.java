@@ -59,6 +59,8 @@ public class Tetris extends Application {
     public static int linesNo = 0;
     private static Timer fall;
     private static int freq = 300;
+    public static int speedLevel = 0;
+    private static int boost = 30;
     private MediaPlayer mediaPlayer;
     // 퍼즈 관련 변수
     protected static boolean isPaused = false; // 퍼즈 중인가?
@@ -79,12 +81,12 @@ public class Tetris extends Application {
 
     @Override
     public void start(Stage stage) throws Exception{
-        newGameScene(stage);
+        newGameScene(stage, difficulty.EASY);
     }
 
-    public static void newGameScene(Stage stage) throws IOException {
+    public static void newGameScene(Stage stage, difficulty dif) throws IOException {
         loadSettings();
-
+        System.out.println(dif.toString());
 
         if(restart) {
             group.getChildren().clear(); // 현재 씬 모든 노드 제거
@@ -181,36 +183,6 @@ public class Tetris extends Application {
                 Controller.hardDrop(Controller.bag.get(0));
                 color_mesh();
             }
-
-//            switch (code) {
-//                case SPACE -> {
-//                    Controller.hardDrop(Controller.bag.get(0));
-//                    color_mesh();
-//                }
-//                case RIGHT -> {
-//                    Controller.moveRightOnKeyPress(Controller.bag.get(0));
-//                    color_mesh();
-//                }
-//                case LEFT -> {
-//                    Controller.moveLeftOnKeyPress(Controller.bag.get(0));
-//                    color_mesh();
-//                }
-//                case UP -> {
-//                    Controller.rotateRight(Controller.bag.get(0));
-//                    color_mesh();
-//                }
-//                case DOWN -> {
-//                    Controller.softDrop(Controller.bag.get(0));
-//                    color_mesh();
-//                }
-//                case ESCAPE -> {
-//                    System.out.println("esc");
-//                    game = !game;
-//                }
-//                default -> {
-//
-//                }
-//            }
         });
         Controller.generateTetromino();
         Timer timer = new Timer();
@@ -221,12 +193,19 @@ public class Tetris extends Application {
             public void run() {
                 while(!isGameOver) {
                     try{
-                        Thread.sleep(freq);
-                        if (freq==300)
+                        int finalFreq = 0;
+                        switch (dif){
+                            case EASY -> finalFreq = freq - speedLevel * (int)(boost * 0.8f);
+                            case NORMAL -> finalFreq = freq - speedLevel *  boost;
+                            case HARD -> finalFreq = freq - speedLevel * (int)(boost * 1.2f);
+                        }
+                        Thread.sleep(finalFreq);
+
+                        if (speedLevel == 0)
                             score++;
-                        else if (freq==330)
+                        else if (speedLevel == 1)
                             score+=2;
-                        else if (freq==360)
+                        else if (speedLevel == 2)
                             score+=3;
                         scoretext.setText("Score: " + Integer.toString(score));
                         level.setText("Lines: " + Integer.toString(linesNo));
@@ -248,7 +227,7 @@ public class Tetris extends Application {
                         Controller.generateTetromino();
                     color_mesh();
 
-                    System.out.println(freq);
+                    //System.out.println(freq);
                 }
             }
         };
@@ -258,13 +237,13 @@ public class Tetris extends Application {
 
     public static void changeSpeed(){
         if(linesNo <= 5){
-            freq = 300;
+            speedLevel = 0;
         }
         else if(linesNo <= 10){
-            freq = 330;
+            speedLevel = 1;
         }
         else {
-            freq = 360;
+            speedLevel = 2;
         }
     }
 
