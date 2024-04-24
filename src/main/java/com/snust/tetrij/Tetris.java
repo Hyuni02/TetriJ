@@ -250,6 +250,18 @@ public class Tetris extends Application {
         thread.start();
     }
 
+    public static void changeSpeed(){
+        if(linesNo <= 5){
+            freq = 300;
+        }
+        else if(linesNo <= 10){
+            freq = 330;
+        }
+        else {
+            freq = 360;
+        }
+    }
+
     private static String loadKeySetting(String key) {
         try {
             String content = new String(Files.readAllBytes(Paths.get("keysetting.json")), "UTF-8");
