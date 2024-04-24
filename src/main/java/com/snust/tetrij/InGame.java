@@ -1,5 +1,6 @@
 package com.snust.tetrij;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -10,14 +11,19 @@ import java.util.TimerTask;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -26,14 +32,15 @@ import javafx.stage.Stage;
 import org.json.JSONObject;
 
 import static com.snust.tetrij.GameOverController.switchToGameOver;
+import javafx.scene.media.MediaPlayer;
 
 public class InGame extends Application {
     // The variables
     public static boolean restart = false;
     public static final int MOVE = 25;
     public static final int SIZE = 25;
-    public static int XMAX = SIZE * 12;
-    public static int YMAX = SIZE * 24;
+    public static int XMAX = SIZE * 10;
+    public static int YMAX = SIZE * 20;
     public static int[][] MESH = new int[XMAX / SIZE][YMAX / SIZE];
     private static Pane group = new Pane();
     private static Form object;
@@ -57,10 +64,11 @@ public class InGame extends Application {
     static KeyCode leftKeyCode = getKeyCodeFromString(leftKey);
     static KeyCode rotateKeyCode = getKeyCodeFromString(rotateKey);
     static KeyCode downKeyCode = getKeyCodeFromString(downKey);
-//    private static long pauseTimeBefore = 0;   //일시정지 누르기 전 시간
+    //    private static long pauseTimeBefore = 0;   //일시정지 누르기 전 시간
 //    private static long resumeTime = 0;    //다시 시작될 때 시간 저장
 //    private static long pausedDuration = 0;    //일시정지 몇초동안 함?
 //    private static long startTime = System.currentTimeMillis();    //시작 시간
+    private MediaPlayer mediaPlayer;
 
 
     public static void main(String[] args) {
@@ -71,7 +79,8 @@ public class InGame extends Application {
     public void start(Stage stage) throws Exception {
         newGameScene(stage);
     }
-    public static void newGameScene(Stage stage) throws Exception{
+
+    public static void newGameScene(Stage stage) throws Exception {
         if(restart) {
             group.getChildren().clear(); // 현재 씬 모든 노드 제거
 
@@ -81,12 +90,22 @@ public class InGame extends Application {
             linesNo = 0;
             game = true;
             isPaused = false; // 퍼즈 후 시작화면으로 나가서 재시작할때 오류방지
-        }
-        if (restart) {
             fall.cancel(); // 타이머 리셋
         }
         fall = new Timer(); // 타이머 전역변수로 뺌 -> 리셋 가능
         restart = true;
+
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() { // 키 이벤트
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.P) {
+                    togglePause(); // P 누르면 퍼즈
+                }
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    System.exit(0); // ESC 누르면 창 닫기
+                }
+            }
+        });
 
         for (int[] a : MESH) {
             Arrays.fill(a, 0);
@@ -114,7 +133,6 @@ public class InGame extends Application {
 
         pauseButton.setOnAction(event -> togglePause());
 
-
         Form a = nextObj;
         group.getChildren().addAll(a.a, a.b, a.c, a.d);
         moveOnKeyPress(a);
@@ -124,6 +142,16 @@ public class InGame extends Application {
         stage.setTitle("T E T R I S");
         stage.show();
 
+        //ESC 버튼 눌렀을 때 바로 게임 종료할 수 있게끔 띄우기
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                switch (event.getCode()) {
+                    case ESCAPE:
+                        Platform.exit();
+                }
+            }
+        });
 
 
         TimerTask task = new TimerTask() {
@@ -132,10 +160,7 @@ public class InGame extends Application {
                     public void run() {
                         if (isPaused) {
                             return;
-                        };
-
-                        score++;
-
+                        }
                         if (object.a.getY() == 0 || object.b.getY() == 0 || object.c.getY() == 0
                                 || object.d.getY() == 0)
                             top++;
@@ -154,46 +179,58 @@ public class InGame extends Application {
                         }
                         // Exit
                         if (top == 15) {
-                                switchToGameOver(score, stage);
+                            switchToGameOver(score, stage, Tetris.difficulty.NORMAL);
                         }
 
                         if (game) {
                             MoveDown(object);
+                            score++;
                             scoretext.setText("Score: " + Integer.toString(score));
                             level.setText("Lines: " + Integer.toString(linesNo));
                         }
                     }
-
                 });
             }
         };
         fall.schedule(task, 0, 300);
 
     }
-    public static void togglePause() {
-        if(!onPauseButton){
-        isPaused = !isPaused;
-        if (isPaused) {
-            // Pause 버튼을 눌렀을 때 퍼즈 메뉴 창 띄우기
-            try {
-                onPauseButton = true; // 퍼즈 버튼 눌러서 true (퍼즈 창이 떠 있는 상태)
-                FXMLLoader fxmlLoader = new FXMLLoader(InGame.class.getResource("pause_menu.fxml"));
-                Parent root = fxmlLoader.load();
-                Stage pauseStage = new Stage();
-                pauseStage.setScene(new Scene(root));
-                pauseStage.setTitle("Pause");
 
-                pauseStage.setOnCloseRequest(event -> {
-                    // Pause 창이 닫힐 때 isPaused와 onPauseButton을 false로 변경
-                    isPaused = false; //퍼즈 해제
-                    onPauseButton = false; // 창 꺼짐
-                });
-
-                pauseStage.showAndWait();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    // 인게임에서 키 이벤트 처리 메서드
+    public void handleKeyPress(KeyEvent event) {
+        if (event.getCode() == KeyCode.P) {
+            togglePause(); // 'p' 키를 눌렀을 때 일시정지 토글
         }
+    }
+
+    public static void togglePause() {
+        if(!onPauseButton) {
+            isPaused = !isPaused;
+            if (isPaused) {
+                // Pause 버튼을 눌렀을 때 퍼즈 메뉴 창 띄우기
+                try {
+                    onPauseButton = true; // 퍼즈 버튼 눌러서 true (퍼즈 창이 떠 있는 상태)
+                    FXMLLoader fxmlLoader = new FXMLLoader(InGame.class.getResource("pause_menu.fxml"));
+                    Parent root = fxmlLoader.load();
+                    Stage pauseStage = new Stage();
+                    pauseStage.setScene(new Scene(root));
+                    pauseStage.setTitle("Pause");
+                    pauseStage.setOnCloseRequest(event -> {
+                        // Pause 창이 닫힐 때 isPaused와 onPauseButton을 false로 변경
+                        isPaused = false; //퍼즈 해제
+                        onPauseButton = false; // 창 꺼짐
+                    });
+                    pauseStage.getScene().setOnKeyPressed(event -> {
+                        if (event.getCode() == KeyCode.ESCAPE) {
+                            pauseStage.close();
+                            Platform.exit();
+                        }
+                    });
+                    pauseStage.showAndWait();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -212,7 +249,7 @@ public class InGame extends Application {
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if(isPaused)
+                if (isPaused)
                     return;
 
                 if (event.getCode() == rightKeyCode) {
@@ -228,6 +265,7 @@ public class InGame extends Application {
             }
         });
     }
+
     public static KeyCode getKeyCodeFromString(String keyName) {    //json -> KeyCode로 변경
         for (KeyCode kc : KeyCode.values()) {
             if (kc.getName().equalsIgnoreCase(keyName)) {
@@ -665,7 +703,9 @@ public class InGame extends Application {
             yb = rect.getY() + y * MOVE < YMAX;
         return xb && yb && MESH[((int) rect.getX() / SIZE) + x][((int) rect.getY() / SIZE) - y] == 0;
     }
+
     public static void switchToStartMenu() throws IOException { // 초기화면으로 돌아감
+        isPaused = true;
         FXMLLoader loader = new FXMLLoader(InGame.class.getResource("start_menu.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) scene.getWindow();
@@ -674,5 +714,37 @@ public class InGame extends Application {
         stage.show();
     }
 
+    @FXML
+    private void exitGame() {
+        ClickButtonSound();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("게임 종료");
+        alert.setHeaderText("게임을 종료하시겠습니까?");
+        alert.setContentText("게임을 종료하려면 확인을 누르세요.");
 
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.setAlwaysOnTop(true);
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                System.exit(0);
+            }
+        });
+    }
+
+    private void ClickButtonSound() {
+        try {
+            Media sound = new Media(new File("src/main/resources/com/snust/tetrij/sound/button_click.mp3").toURI().toString());
+
+            mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setVolume(0.5);
+            mediaPlayer.play();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+
+

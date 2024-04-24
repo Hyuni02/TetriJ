@@ -38,7 +38,7 @@
 
     <!-- Restore default settings -->
     <VBox layoutX="20.0" layoutY="220.0" spacing="10">
-        <Button text="기본 설정으로 되돌리기" />
+        <Button fx:id="defaultButton" onAction="#defaultSetting" text="기본 설정으로 되돌리기" />
     </VBox>
 
     <!-- Save settings -->

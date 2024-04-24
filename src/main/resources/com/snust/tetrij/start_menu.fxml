@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<GridPane xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.StartMenuController">
+<GridPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.StartMenuController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
    </columnConstraints>
@@ -40,6 +42,15 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="위 메뉴: ↑" translateX="250.0" translateY="50.0">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="아래 메뉴: ↓" translateX="250.0" translateY="55.0" />
          </children>
       </VBox>
    </children>

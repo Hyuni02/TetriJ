@@ -48,6 +48,47 @@ public class SettingController extends GameManager {
     private void handleSize() {
         screenSize = sizeComboBox.getSelectionModel().getSelectedItem();
     }
+    public void defaultSetting(){
+        File file = new File("setting.json");
+
+        try {
+            String content = new String(Files.readAllBytes(Paths.get(file.toURI())), "UTF-8");
+            JSONObject currentSettings = new JSONObject(content);
+            currentSettings.put("screenSize", "Small (300x400)");
+            currentSettings.put("isColorBlind", false);
+
+            try (FileWriter fileWriter = new FileWriter(file)) {
+                fileWriter.write(currentSettings.toString());
+                fileWriter.flush();
+                loadSettings();
+                colorBlindModeCheckBox.setSelected(isColorBlind);
+                sizeComboBox.getSelectionModel().select(screenSize);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        file = new File("keysetting.json");
+
+        try {
+            String content = new String(Files.readAllBytes(Paths.get(file.toURI())), "UTF-8");
+            JSONObject currentSettings = new JSONObject(content);
+            currentSettings.put("right", "RIGHT");
+            currentSettings.put("left", "LEFT");
+            currentSettings.put("rotate", "UP");
+            currentSettings.put("down", "DOWN");
+            currentSettings.put("drop", "SPACE");
+
+            try (FileWriter fileWriter = new FileWriter(file)) {
+                fileWriter.write(currentSettings.toString());
+                fileWriter.flush();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
     public void colorBlindMode(){
         isColorBlind = colorBlindModeCheckBox.isSelected();

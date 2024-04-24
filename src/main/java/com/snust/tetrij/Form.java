@@ -3,6 +3,7 @@ package com.snust.tetrij;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+@Deprecated // 곧 삭제될 클래스입니다
 public class Form {
     Rectangle a;
     Rectangle b;
