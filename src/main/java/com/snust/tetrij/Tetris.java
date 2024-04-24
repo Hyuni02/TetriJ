@@ -88,7 +88,7 @@ public class Tetris extends Application {
     public static void newGameScene(Stage stage, difficulty dif) throws IOException {
         loadSettings();
         System.out.println(dif.toString());
-        //Controller.SetField(dif);
+        Controller.SetField(dif);
 
         if(restart) {
             group.getChildren().clear(); // 현재 씬 모든 노드 제거
