@@ -193,31 +193,30 @@ public class Tetris extends Application {
         //runtime logic
         Runnable task = new Runnable() {
             public void run() {
-                while(!isGameOver) {
-                    try{
+                while (!isGameOver) {
+                    try {
                         int finalFreq = 0;
-                        switch (dif){
-                            case EASY -> finalFreq = freq - speedLevel * (int)(boost * 0.8f);
-                            case NORMAL -> finalFreq = freq - speedLevel *  boost;
-                            case HARD -> finalFreq = freq - speedLevel * (int)(boost * 1.2f);
+                        switch (dif) {
+                            case EASY -> finalFreq = freq - speedLevel * (int) (boost * 0.8f);
+                            case NORMAL -> finalFreq = freq - speedLevel * boost;
+                            case HARD -> finalFreq = freq - speedLevel * (int) (boost * 1.2f);
                         }
                         Thread.sleep(finalFreq);
 
                         if (speedLevel == 0)
                             score++;
                         else if (speedLevel == 1)
-                            score+=2;
+                            score += 2;
                         else if (speedLevel == 2)
-                            score+=3;
+                            score += 3;
                         scoretext.setText("Score: " + Integer.toString(score));
                         level.setText("Lines: " + Integer.toString(linesNo));
-                    }
-                    catch (InterruptedException e){
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
 
                     //일시정지
-                    if (isPaused){
+                    if (isPaused) {
                         continue;
                     }
 
@@ -233,6 +232,13 @@ public class Tetris extends Application {
                     color_mesh();
 
                     //System.out.println(freq);
+
+                    System.out.println(top);
+                    //todo 게임오버
+                    if (Tetris.top >= Tetris.HEIGHT) {
+                        System.out.println("game over");
+                        isPaused = true;
+                    }
                 }
             }
         };

@@ -43,17 +43,9 @@ public class Controller {
 //        System.out.println("");
     }
 
-    public static char generateTetromino() {
+    public static void generateTetromino() {
         TetrominoBase t = new TetrominoBase();
-//        switch((int)(Math.random() * 7)) {
-//            case 1 -> t = new I();
-//            case 2 -> t = new J();
-//            case 3 -> t = new L();
-//            case 4 -> t = new O();
-//            case 5 -> t = new S();
-//            case 6 -> t = new T();
-//            case 0 -> t = new Z();
-//        }
+
         int idx = (int)(Math.random() * field.size());
         System.out.println(idx);
         switch(field.get(idx)) {
@@ -65,24 +57,26 @@ public class Controller {
             case 5 -> t = new S();
             case 6 -> t = new T();
         }
+        if (!canMoveDown(t, 0)){
+            Tetris.isPaused = true;
+            return;
+        }
         bag.add(t);
         t.update_mesh();
-        return t.name;
     }
 
 
     public static void softDrop(TetrominoBase tb) {
-        int rot = tb.rotate;
-        int height = tb.getHeight();
-        int width = tb.getWidth();
-
         eraseMesh(tb);
-        tb.pos[0]++;
-
         if (!canMoveDown(tb, 1)) {
+            updateTop(tb);
             Controller.bag.remove(0);
-            System.out.println("removed");
         }
+        else {
+            tb.pos[0]++;
+        }
+
+
         tb.update_mesh();
         eraseLine();
     }
@@ -96,6 +90,7 @@ public class Controller {
 
         tb.pos[0] += dropHeight;
         tb.update_mesh();
+        updateTop(tb);
         eraseLine();
         Controller.bag.remove(0);
     }
@@ -123,20 +118,20 @@ public class Controller {
     }
 
     public static void eraseMesh(TetrominoBase tb) {
-        int rot = tb.rotate;
         int height = tb.getHeight();
         int width = tb.getWidth();
 
-        for (int y = tb.pos[0]; y < tb.pos[0] + height; y++) {
-            for (int x = tb.pos[1]; x < tb.pos[1] + width; x++) {
-                Tetris.MESH[y][x] = '0';
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (tb.mesh[tb.rotate][y][x] == 1)
+                    Tetris.MESH[tb.pos[0]+y][tb.pos[1]+x] = '0';
             }
         }
     }
 
     public static void eraseLine() {
         //리스트에 가득 찬 라인을 저장
-        List<Integer> l = new Vector<>();
+        List<Integer> lines = new Vector<>();
         for (int y = 2; y < Tetris.HEIGHT; y++) {
             boolean is_full = true;
             for (int x = 0; x < Tetris.WIDTH; x++) {
@@ -147,11 +142,11 @@ public class Controller {
             }
 
             if (is_full)
-                l.add(y);
+                lines.add(y);
         }
-
+        Tetris.top -= lines.size();
         //리스트에 저장된 라인들을 지움
-        for (int i : l) {
+        for (int i : lines) {
             for (int line = i; line > 2; line--) {
                 Tetris.MESH[line] = Tetris.MESH[line-1];
             }
@@ -209,13 +204,16 @@ public class Controller {
                 }
 
                 // Tetromino의 블록이 아래쪽으로 이동할 때 충돌 여부 확인
-                if (Tetris.MESH[tb.pos[1] + y][tb.pos[1] + x + distance] != '0') {
+                if (Tetris.MESH[tb.pos[0] + y][tb.pos[1] + x + distance] != '0') {
                     return false;
                 }
             }
         }
-
         return true; // 아래로 이동 가능
+    }
+
+    private static void updateTop(TetrominoBase tb) {
+        Tetris.top = Math.max(Tetris.HEIGHT-tb.pos[0], Tetris.top);
     }
 }
 

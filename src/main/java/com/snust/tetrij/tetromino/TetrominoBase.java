@@ -17,8 +17,8 @@ public class TetrominoBase {
     }
 
     public void update_mesh() {
-        for (int y = 0; y < this.mesh[rotate].length; y++) {
-            for (int x = 0; x < this.mesh[rotate][y].length; x++) {
+        for (int y = 0; y < this.getHeight(); y++) {
+            for (int x = 0; x < this.getWidth(); x++) {
                 if (this.mesh[rotate][y][x] == 1)
                     Tetris.MESH[y+pos[0]][x+pos[1]] = this.name;
             }
