@@ -45,7 +45,7 @@ public class MainMenu extends Application {
 
     public static void playTetrij() throws Exception {
         // 여기다가 게임 로직 넣어주세여
-        Tetris.newGameScene(curStage);
+        Tetris.newGameScene(curStage, Tetris.difficulty.EASY);
         System.out.println("게임 시작");
     }
 
