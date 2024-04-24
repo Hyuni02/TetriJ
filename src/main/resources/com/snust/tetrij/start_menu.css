@@ -1,0 +1,31 @@
+/* 기본 스타일 */
+.vbox {
+    -fx-alignment: center;
+}
+
+.button {
+    -fx-background-color: #3498db; /* 기본 배경색 */
+    -fx-text-fill: white; /* 텍스트 색상 */
+    -fx-padding: 10px; /* 패딩 */
+    -fx-border-radius: 5px; /* 모서리 둥글기 */
+    -fx-background-radius: 5px; /* 배경 모서리 둥글기 */
+    -fx-font-size: 16px; /* 글자 크기 */
+}
+
+/* 마우스 오버 시 스타일 */
+.button:hover {
+    -fx-background-color: #2980b9; /* 오버 시 배경색 */
+    -fx-text-fill: white; /* 텍스트 색상 유지 */
+}
+
+/* 클릭할 때 스타일 */
+.button:pressed {
+    -fx-background-color: #1abc9c; /* 클릭 시 배경색 */
+    -fx-text-fill: white; /* 텍스트 색상 유지 */
+}
+
+/* 선택된 버튼 강조 */
+.button.selected {
+    -fx-border-color: red; /* 선택된 버튼의 테두리 색상 */
+    -fx-border-width: 2px; /* 테두리 두께 */
+}

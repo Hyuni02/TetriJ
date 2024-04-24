@@ -53,6 +53,7 @@ public class Tetris extends Application {
     public static boolean game = true;
     private static int linesNo = 0;
     private static Timer fall;
+    private static TimerTask task;
     private MediaPlayer mediaPlayer;
     // 퍼즈 관련 변수
     protected static boolean isPaused = false; // 퍼즈 중인가?
@@ -70,13 +71,14 @@ public class Tetris extends Application {
     static KeyCode dropKeyCode = getKeyCodeFromString(dropKey);
 
     @Override
-    public void start(Stage stage) throws Exception{
+    public void start(Stage stage) throws Exception {
         newGameScene(stage);
     }
 
     public static void newGameScene(Stage stage) throws IOException {
         if(restart) {
-            group.getChildren().clear(); // 현재 씬 모든 노드 제거
+            pane.getChildren().clear(); // 현재 씬 모든 노드 제거
+            Controller.bag.clear(); // 기존 리스트 초기화
 
             // 변수 초기화
             score = 0;
@@ -84,24 +86,29 @@ public class Tetris extends Application {
             linesNo = 0;
             game = true;
             isPaused = false; // 퍼즈 후 시작화면으로 나가서 재시작할때 오류방지
-            fall.cancel(); // 타이머 리셋
+            task.cancel(); // 기존 타이머 작업 취소
+            fall.cancel(); // 완료된 작업 제거
         }
         fall = new Timer(); // 타이머 전역변수로 뺌 -> 리셋 가능
+
+        if(!restart) {
+            scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() { // 키 이벤트
+                @Override
+                public void handle(KeyEvent event) {
+                    if (event.getCode() == KeyCode.P) {
+                        togglePause(); // P 누르면 퍼즈
+                    }
+                    if (event.getCode() == KeyCode.ESCAPE) {
+                        System.exit(0); // ESC 누르면 창 닫기
+                    }
+                }
+            });
+        }
+
+
         restart = true;
 
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() { // 키 이벤트
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.P) {
-                    togglePause(); // P 누르면 퍼즈
-                }
-                if (event.getCode() == KeyCode.ESCAPE) {
-                    System.exit(0); // ESC 누르면 창 닫기
-                }
-            }
-        });
-
-        for(char[] a:MESH){
+        for(char[] a:MESH) {
             Arrays.fill(a, '0');
         }
 
@@ -185,18 +192,17 @@ public class Tetris extends Application {
 //            }
         });
         Controller.generateTetromino();
-        Timer timer = new Timer();
         color_mesh();
 
         //runtime logic
-        TimerTask task = new TimerTask() {
+        task = new TimerTask() {
             @Override
             public void run() {
                 //일시정지
                 if(isPaused) return;
 
                 //todo 게임 오버 띄우기
-                
+
                 //todo 점수 입력창 띄우기
 
                 //game running
@@ -207,7 +213,7 @@ public class Tetris extends Application {
                 color_mesh();
             }
         };
-        timer.schedule(task, 0, 300);
+        fall.schedule(task, 0, 300);
     }
 
     private static String loadKeySetting(String key) {
