@@ -50,8 +50,6 @@ public class Controller {
         }
         tb.update_mesh();
         eraseLine();
-
-
     }
 
     public static void hardDrop(TetrominoBase tb) {
@@ -124,6 +122,7 @@ public class Controller {
             }
             Tetris.MESH[2] = new char[Tetris.WIDTH];
             Arrays.fill(Tetris.MESH[2], '0');
+            Tetris.linesNo++;
         }
     }
 
