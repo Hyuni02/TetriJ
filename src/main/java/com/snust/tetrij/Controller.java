@@ -1,18 +1,6 @@
 package com.snust.tetrij;
 
-import com.snust.tetrij.tetromino.I;
-import com.snust.tetrij.tetromino.J;
-import com.snust.tetrij.tetromino.L;
-import com.snust.tetrij.tetromino.O;
-import com.snust.tetrij.tetromino.S;
-import com.snust.tetrij.tetromino.T;
-import com.snust.tetrij.tetromino.Z;
-import com.snust.tetrij.tetromino.TetrominoBase;
-import javafx.animation.PauseTransition;
-import javafx.application.Platform;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
+import com.snust.tetrij.tetromino.*;
 
 import java.util.*;
 
@@ -46,14 +34,28 @@ public class Controller {
     public static void generateTetromino() {
         TetrominoBase t = new TetrominoBase();
         int idx = (int)(Math.random() * field.size());
-        switch(field.get(idx)) {
-            case 0 -> t = new Z();
-            case 1 -> t = new I();
-            case 2 -> t = new J();
-            case 3 -> t = new L();
-            case 4 -> t = new O();
-            case 5 -> t = new S();
-            case 6 -> t = new T();
+        if (!Tetris.item_mode) {
+            switch(field.get(idx)) {
+                case 0 -> t = new Z();
+                case 1 -> t = new I();
+                case 2 -> t = new J();
+                case 3 -> t = new L();
+                case 4 -> t = new O();
+                case 5 -> t = new S();
+                case 6 -> t = new T();
+            }
+        }
+        else {
+            switch(field.get(idx)) {
+                case 0 -> t = new Z();
+                case 1 -> t = new I();
+                case 2 -> t = new J();
+                case 3 -> t = new L();
+                case 4 -> t = new O();
+                case 5 -> t = new S();
+                case 6 -> t = new T();
+                case 7 -> t = new Weight();
+            }
         }
 
         if (!canMoveDown(t, 0)) {
@@ -61,17 +63,11 @@ public class Controller {
             return;
         }
         bag.add(t);
-        t.update_mesh();
     }
 
 
     public static void softDrop(TetrominoBase tb) {
-        int rot = tb.rotate;
-        int height = tb.getHeight();
-        int width = tb.getWidth();
-
         eraseMesh(tb);
-        tb.pos[0]++;
         if (!canMoveDown(tb, 1)) {
             updateTop(tb);
             Controller.bag.remove(0);
@@ -147,11 +143,9 @@ public class Controller {
                 l.add(y);
         }
         Tetris.top -= l.size();
-
         //리스트에 저장된 라인들을 지움
         for (int i : l) {
             for (int line = i; line > 2; line--) {
-                //highlightLines(i);
                 Tetris.MESH[line] = Tetris.MESH[line-1];
             }
             Tetris.MESH[2] = new char[Tetris.WIDTH];
@@ -162,27 +156,6 @@ public class Controller {
             Tetris.changeSpeed();
         }
     }
-//    public static void highlightLines(int fullLine) {
-//        Platform.runLater(() -> {
-//            for (int x = 0; x < Tetris.WIDTH; x++) {
-//                Rectangle r = (Rectangle) Tetris.pane.getChildren().get(fullLine * Tetris.WIDTH + x);
-//                r.setFill(Color.WHITE);
-//            }
-//        });
-//
-//        // 대기한 후 원래 색상으로 복원
-//        PauseTransition pause = new PauseTransition(Duration.millis(500));
-//        pause.setOnFinished(event -> {
-//            Platform.runLater(() -> {
-//                for (int x = 0; x < Tetris.WIDTH; x++) {
-//                    Rectangle r = (Rectangle) Tetris.pane.getChildren().get(fullLine * Tetris.WIDTH + x);
-//                    r.setFill(TetrominoBase.getColor(Tetris.MESH[fullLine][x]));
-//                }
-//            });
-//        });
-//        pause.play();
-//    }
-
 
     public static boolean canMoveDown(TetrominoBase tb, int distance) {
         int rot = tb.rotate;

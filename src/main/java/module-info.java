@@ -10,4 +10,7 @@ module com.snust.tetrij {
 
     opens com.snust.tetrij to javafx.fxml;
     exports com.snust.tetrij;
+    exports com.snust.tetrij.tetromino;
+    opens com.snust.tetrij.tetromino to javafx.fxml;
+
 }
