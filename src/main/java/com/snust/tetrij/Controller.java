@@ -1,13 +1,6 @@
 package com.snust.tetrij;
 
-import com.snust.tetrij.tetromino.I;
-import com.snust.tetrij.tetromino.J;
-import com.snust.tetrij.tetromino.L;
-import com.snust.tetrij.tetromino.O;
-import com.snust.tetrij.tetromino.S;
-import com.snust.tetrij.tetromino.T;
-import com.snust.tetrij.tetromino.Z;
-import com.snust.tetrij.tetromino.TetrominoBase;
+import com.snust.tetrij.tetromino.*;
 
 import java.util.*;
 
@@ -41,14 +34,28 @@ public class Controller {
     public static void generateTetromino() {
         TetrominoBase t = new TetrominoBase();
         int idx = (int)(Math.random() * field.size());
-        switch(field.get(idx)) {
-            case 0 -> t = new Z();
-            case 1 -> t = new I();
-            case 2 -> t = new J();
-            case 3 -> t = new L();
-            case 4 -> t = new O();
-            case 5 -> t = new S();
-            case 6 -> t = new T();
+        if (!Tetris.item_mode) {
+            switch(field.get(idx)) {
+                case 0 -> t = new Z();
+                case 1 -> t = new I();
+                case 2 -> t = new J();
+                case 3 -> t = new L();
+                case 4 -> t = new O();
+                case 5 -> t = new S();
+                case 6 -> t = new T();
+            }
+        }
+        else {
+            switch(field.get(idx)) {
+                case 0 -> t = new Z();
+                case 1 -> t = new I();
+                case 2 -> t = new J();
+                case 3 -> t = new L();
+                case 4 -> t = new O();
+                case 5 -> t = new S();
+                case 6 -> t = new T();
+                case 7 -> t = new Weight();
+            }
         }
 
         if (!canMoveDown(t, 0)) {
@@ -56,17 +63,11 @@ public class Controller {
             return;
         }
         bag.add(t);
-        t.update_mesh();
     }
 
 
     public static void softDrop(TetrominoBase tb) {
-        int rot = tb.rotate;
-        int height = tb.getHeight();
-        int width = tb.getWidth();
-
         eraseMesh(tb);
-        tb.pos[0]++;
         if (!canMoveDown(tb, 1)) {
             updateTop(tb);
             Controller.bag.remove(0);

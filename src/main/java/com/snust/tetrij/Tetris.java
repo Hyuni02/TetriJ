@@ -50,6 +50,7 @@ public class Tetris extends Application {
 
     // variables for game
     public static Thread thread;
+    public static boolean item_mode;
     public static boolean restart = false;
     public static boolean isGameOver = false;
     public enum difficulty {EASY, NORMAL, HARD};
@@ -139,10 +140,18 @@ public class Tetris extends Application {
         Button pauseButton = new Button("Pause");
         pauseButton.setLayoutY(150);
         pauseButton.setLayoutX(XMAX + 5);
-        pauseButton.setPrefWidth(100);
-        pauseButton.setPrefHeight(50);
+        pauseButton.setPrefWidth(50);
+        pauseButton.setPrefHeight(25);
         pauseButton.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; fx-font-size: 20px;");
         pauseButton.setFocusTraversable(false);
+
+        for (int y = 0; y < 4; y++) {
+            for (int x = 0; x < 4; x++) {
+                Rectangle r = new Rectangle(XMAX+10+x*Tetris.SIZE, 200+y*Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
+                r.setFill(Color.WHITE);
+                pane.getChildren().add(r);
+            }
+        }
 
         Text keyText = new Text("왼쪽 이동: "+leftKeyCode+"\n오른쪽 이동: "+rightKeyCode + "\n아래 이동: "+downKeyCode + "\n회전: "+rotateKeyCode + "\n드롭 버튼: "+dropKeyCode);
         keyText.setStyle("-fx-font: 10 arial;");
@@ -190,7 +199,10 @@ public class Tetris extends Application {
                 color_mesh();
             }
         });
+
         Controller.generateTetromino();
+        Controller.generateTetromino();
+        Controller.bag.get(0).update_mesh();
         color_mesh();
 
         if(!restart) { // 처음 한번만
@@ -225,13 +237,42 @@ public class Tetris extends Application {
                         if (isPaused) continue;
 
                         //game running
-                        if (!Controller.bag.isEmpty())
+
+
+                        if (Controller.bag.size() >= 2) {
                             Controller.softDrop(Controller.bag.get(0));
-                        else
+                        }
+                        if (Controller.bag.size() < 2) {
                             Controller.generateTetromino();
+                            Controller.bag.get(0).update_mesh();
+                        }
                         color_mesh();
 
-                        System.out.println(top);
+                        Platform.runLater(
+                                ()->{
+                                    TetrominoBase next = Controller.bag.get(1);
+                                    int nextWidth = next.getWidth();
+                                    int nextHeight = next.getHeight();
+                                    for (int y = 0; y < 4; y++) {
+                                        for (int x = 0; x < 4; x++) {
+                                            Rectangle r = new Rectangle(XMAX+10+x*Tetris.SIZE, 200+y*Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
+                                            if (x >= nextWidth || y >= nextHeight) {
+                                                r.setFill(Color.WHITE);
+                                            }
+                                            else if (next.mesh[next.rotate][y][x] == 0) {
+                                                r.setFill(Color.WHITE);
+                                            }
+                                            else {
+                                                r.setFill(TetrominoBase.getColor(Controller.bag.get(1).name));
+                                            }
+                                            pane.getChildren().add(r);
+                                        }
+                                    }
+                                }
+                        );
+
+
+
                         //게임오바
                         if (Tetris.top >= Tetris.HEIGHT - 1) {
                             System.out.println("game over");
