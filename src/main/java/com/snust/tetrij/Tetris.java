@@ -194,8 +194,6 @@ public class Tetris extends Application {
             public void run() {
                 //일시정지
                 if(isPaused) return;
-
-                //todo 게임 오버 띄우기
                 
                 //todo 점수 입력창 띄우기
 
@@ -205,6 +203,13 @@ public class Tetris extends Application {
                 else
                     Controller.generateTetromino();
                 color_mesh();
+
+                System.out.println(top);
+                //todo 게임오버
+                if (Tetris.top >= Tetris.HEIGHT) {
+                    System.out.println("game over");
+                    isPaused = true;
+                }
             }
         };
         timer.schedule(task, 0, 300);
