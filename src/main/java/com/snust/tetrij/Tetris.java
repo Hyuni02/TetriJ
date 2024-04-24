@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -23,6 +24,7 @@ import javafx.stage.Stage;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -44,16 +46,21 @@ public class Tetris extends Application {
     private static Scene scene = new Scene(pane, XMAX + 150, YMAX);
     public static char [][] MESH = new char[HEIGHT][WIDTH];
     private static Pane group = new Pane();
+    private static String screenSize;
 
     // variables for game
+    public static Thread thread;
     public static boolean restart = false;
+    public static boolean isGameOver = false;
     public enum difficulty {EASY, NORMAL, HARD};
-    public static boolean color_weakness = true;
+    public static boolean color_weakness = false;
     public static int score = 0;
     public static boolean game = true;
-    private static int linesNo = 0;
+    public static int linesNo = 0;
     private static Timer fall;
-    private static TimerTask task;
+    private static int freq = 300;
+    public static int speedLevel = 0;
+    private static int boost = 30;
     private MediaPlayer mediaPlayer;
     // 퍼즈 관련 변수
     protected static boolean isPaused = false; // 퍼즈 중인가?
@@ -70,15 +77,19 @@ public class Tetris extends Application {
     static KeyCode downKeyCode = getKeyCodeFromString(downKey);
     static KeyCode dropKeyCode = getKeyCodeFromString(dropKey);
 
+
+
     @Override
-    public void start(Stage stage) throws Exception {
-        newGameScene(stage);
+    public void start(Stage stage) throws Exception{
+        newGameScene(stage, difficulty.EASY);
     }
 
-    public static void newGameScene(Stage stage) throws IOException {
+    public static void newGameScene(Stage stage, difficulty dif) throws IOException {
+        loadSettings();
+        System.out.println(dif.toString());
+
         if(restart) {
-            pane.getChildren().clear(); // 현재 씬 모든 노드 제거
-            Controller.bag.clear(); // 기존 리스트 초기화
+            group.getChildren().clear(); // 현재 씬 모든 노드 제거
 
             // 변수 초기화
             score = 0;
@@ -86,43 +97,55 @@ public class Tetris extends Application {
             linesNo = 0;
             game = true;
             isPaused = false; // 퍼즈 후 시작화면으로 나가서 재시작할때 오류방지
-            task.cancel(); // 기존 타이머 작업 취소
-            fall.cancel(); // 완료된 작업 제거
+            fall.cancel(); // 타이머 리셋
         }
         fall = new Timer(); // 타이머 전역변수로 뺌 -> 리셋 가능
-
-        if(!restart) {
-            scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() { // 키 이벤트
-                @Override
-                public void handle(KeyEvent event) {
-                    if (event.getCode() == KeyCode.P) {
-                        togglePause(); // P 누르면 퍼즈
-                    }
-                    if (event.getCode() == KeyCode.ESCAPE) {
-                        System.exit(0); // ESC 누르면 창 닫기
-                    }
-                }
-            });
-        }
-
-
         restart = true;
 
-        for(char[] a:MESH) {
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() { // 키 이벤트
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.P) {
+                    togglePause(); // P 누르면 퍼즈
+                }
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    System.exit(0); // ESC 누르면 창 닫기
+                }
+            }
+        });
+
+        for(char[] a:MESH){
             Arrays.fill(a, '0');
         }
 
         Line line = new Line(XMAX,0,XMAX,YMAX);
         Text scoretext = new Text("Score: ");
-        scoretext.setStyle("-fx-font: 20 arials;");
+        scoretext.setStyle("-fx-font: 20 arial;");
         scoretext.setY(50);
         scoretext.setX(XMAX + 5);
         Text level = new Text("Lines: ");
-        level.setStyle("-fx-font: 20 arials;");
+        level.setStyle("-fx-font: 20 arial;");
         level.setY(100);
         level.setX(XMAX + 5);
         level.setFill(Color.GREEN);
-        pane.getChildren().addAll(scoretext, line, level);
+        //pane.getChildren().addAll(scoretext, line, level);
+
+        Button pauseButton = new Button("Pause");
+        pauseButton.setLayoutY(150);
+        pauseButton.setLayoutX(XMAX + 5);
+        pauseButton.setPrefWidth(100);
+        pauseButton.setPrefHeight(50);
+        pauseButton.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; fx-font-size: 20px;");
+        pauseButton.setFocusTraversable(false);
+
+        Text keyText = new Text("왼쪽 이동: "+leftKeyCode+"\n오른쪽 이동: "+rightKeyCode + "\n아래 이동: "+downKeyCode + "\n회전: "+rotateKeyCode + "\n드롭 버튼: "+dropKeyCode);
+        keyText.setStyle("-fx-font: 10 arial;");
+        keyText.setY(300);
+        keyText.setX(XMAX + 5);
+
+        pane.getChildren().addAll(scoretext, line, level, pauseButton, keyText);
+
+        pauseButton.setOnAction(event -> togglePause());
 
         //generate first block
         stage.setScene(scene);
@@ -160,60 +183,68 @@ public class Tetris extends Application {
                 Controller.hardDrop(Controller.bag.get(0));
                 color_mesh();
             }
-
-//            switch (code) {
-//                case SPACE -> {
-//                    Controller.hardDrop(Controller.bag.get(0));
-//                    color_mesh();
-//                }
-//                case RIGHT -> {
-//                    Controller.moveRightOnKeyPress(Controller.bag.get(0));
-//                    color_mesh();
-//                }
-//                case LEFT -> {
-//                    Controller.moveLeftOnKeyPress(Controller.bag.get(0));
-//                    color_mesh();
-//                }
-//                case UP -> {
-//                    Controller.rotateRight(Controller.bag.get(0));
-//                    color_mesh();
-//                }
-//                case DOWN -> {
-//                    Controller.softDrop(Controller.bag.get(0));
-//                    color_mesh();
-//                }
-//                case ESCAPE -> {
-//                    System.out.println("esc");
-//                    game = !game;
-//                }
-//                default -> {
-//
-//                }
-//            }
         });
         Controller.generateTetromino();
+        Timer timer = new Timer();
         color_mesh();
 
         //runtime logic
-        task = new TimerTask() {
-            @Override
+        Runnable task = new Runnable() {
             public void run() {
-                //일시정지
-                if(isPaused) return;
+                while(!isGameOver) {
+                    try{
+                        int finalFreq = 0;
+                        switch (dif){
+                            case EASY -> finalFreq = freq - speedLevel * (int)(boost * 0.8f);
+                            case NORMAL -> finalFreq = freq - speedLevel *  boost;
+                            case HARD -> finalFreq = freq - speedLevel * (int)(boost * 1.2f);
+                        }
+                        Thread.sleep(finalFreq);
 
-                //todo 게임 오버 띄우기
+                        if (speedLevel == 0)
+                            score++;
+                        else if (speedLevel == 1)
+                            score+=2;
+                        else if (speedLevel == 2)
+                            score+=3;
+                        scoretext.setText("Score: " + Integer.toString(score));
+                        level.setText("Lines: " + Integer.toString(linesNo));
+                    }
+                    catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
+                    //일시정지
+                    if (isPaused) return;
 
-                //todo 점수 입력창 띄우기
+                    //todo 게임 오버 띄우기
 
-                //game running
-                if (!Controller.bag.isEmpty())
-                    Controller.softDrop(Controller.bag.get(0));
-                else
-                    Controller.generateTetromino();
-                color_mesh();
+                    //todo 점수 입력창 띄우기
+
+                    //game running
+                    if (!Controller.bag.isEmpty())
+                        Controller.softDrop(Controller.bag.get(0));
+                    else
+                        Controller.generateTetromino();
+                    color_mesh();
+
+                    //System.out.println(freq);
+                }
             }
         };
-        fall.schedule(task, 0, 300);
+        thread = new Thread(task);
+        thread.start();
+    }
+
+    public static void changeSpeed(){
+        if(linesNo <= 5){
+            speedLevel = 0;
+        }
+        else if(linesNo <= 10){
+            speedLevel = 1;
+        }
+        else {
+            speedLevel = 2;
+        }
     }
 
     private static String loadKeySetting(String key) {
@@ -282,6 +313,26 @@ public class Tetris extends Application {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    private static void loadSettings() {    //셋팅 파일 읽어옴
+        try {
+            File file = new File("setting.json");
+            FileReader fileReader = new FileReader(file);
+            StringBuilder stringBuilder = new StringBuilder();
+            int i;
+            while ((i = fileReader.read()) != -1) {
+                stringBuilder.append((char) i);
+            }
+            fileReader.close();
+
+            JSONObject setting = new JSONObject(stringBuilder.toString());
+            screenSize = setting.getString("screenSize");
+            color_weakness = setting.getBoolean("isColorBlind");
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
