@@ -1,7 +1,10 @@
 package com.snust.tetrij.tetromino;
 
+import com.snust.tetrij.Controller;
 import com.snust.tetrij.Tetris;
 import javafx.scene.paint.Color;
+
+import javax.sound.sampled.Control;
 
 
 public class TetrominoBase {
@@ -14,6 +17,8 @@ public class TetrominoBase {
     public TetrominoBase() {
         this.color = new Color(0,0,0,0);
         this.rotate = 0;
+
+        int block_count = (int)(Math.random()*4);
     }
 
     public void update_mesh() {
@@ -21,6 +26,8 @@ public class TetrominoBase {
             for (int x = 0; x < this.getWidth(); x++) {
                 if (this.mesh[rotate][y][x] == 1)
                     Tetris.MESH[y+pos[0]][x+pos[1]] = this.name;
+                // else if (this.mesh[rotate][y][x] == 2)
+                //     Tetris.MESH[y+pos[0]][x+pos[1]] = 'L'; // item mode - Line clear
             }
         }
     }
@@ -50,6 +57,9 @@ public class TetrominoBase {
                 case 'z' -> {
                     return Color.RED;
                 }
+                case 'w' -> {
+                    return Color.BLACK;
+                }
             };
         }
         else {
@@ -78,9 +88,14 @@ public class TetrominoBase {
                     //red purple
                     return new Color(149.0/256.0, 53.0/256.0, 83.0/256.0, 1);
                 }
+                case 'w' -> {
+                    return Color.BLACK;
+                }
+                case 'L' -> {
+                    return getColor(Controller.bag.get(0).name);
+                }
             };
         }
-
         return Color.WHITE;
     }
 

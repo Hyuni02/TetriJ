@@ -47,10 +47,11 @@ public class Tetris extends Application {
 
     // variables for game
     public static boolean restart = false;
+    public static boolean item_mode = true;
     public enum difficulty {EASY, NORMAL, HARD};
     public static boolean color_weakness = true;
-    public static int score = 0;
     public static boolean game = true;
+    public static int score = 0;
     private static int linesNo = 0;
     private static Timer fall;
     private MediaPlayer mediaPlayer;
