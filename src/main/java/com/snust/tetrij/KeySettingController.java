@@ -43,6 +43,8 @@ public class KeySettingController extends GameManager{
     private Button rotateMoveKeyButton;
     @FXML
     private Button downMoveKeyButton;
+    @FXML
+    private Button dropKeyButton;
     private EventHandler<KeyEvent> currentKeyEventHandler;  //현재 키 이벤트가 활성화되어있는가?
     private List<Button> allButtons = new ArrayList<>();    //버튼 입력 이벤트 초기화시 쓰임
 
@@ -51,6 +53,7 @@ public class KeySettingController extends GameManager{
         allButtons.add(rightMoveKeyButton);
         allButtons.add(rotateMoveKeyButton);
         allButtons.add(downMoveKeyButton);
+        allButtons.add(dropKeyButton);
         removeCurrentKeyEventHandler(); //예전이벤트 삭제
         loadKeySettings();  //json파일 읽어옴
     }
@@ -71,7 +74,10 @@ public class KeySettingController extends GameManager{
     private void handleDownKeyInput() {
         setupKeyButton(downMoveKeyButton, "down");
     }
-
+    @FXML
+    private void handleDropInput() {
+        setupKeyButton(dropKeyButton, "drop");
+    }
     private void loadKeySettings() {    //키셋팅 파일 읽어옴
         try {
             File file = new File("keysetting.json");
@@ -88,6 +94,7 @@ public class KeySettingController extends GameManager{
             rightMoveKeyButton.setText(keySettings.getString("right"));
             rotateMoveKeyButton.setText(keySettings.getString("rotate"));
             downMoveKeyButton.setText(keySettings.getString("down"));
+            dropKeyButton.setText(keySettings.getString("drop"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -101,6 +108,17 @@ public class KeySettingController extends GameManager{
     private void handleKeyPressed(KeyEvent keyEvent, String direction, Button button) { //키 누른거 json형으로 변환
         String keyName = keyEvent.getCode().toString();
         JSONObject keySettings = new JSONObject();
+        if(keyName == "CONTROL"){
+            javafx.application.Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("등록 불가능한 키");
+                alert.setHeaderText(null);
+                alert.setContentText("등록 불가능한 키입니다. 다른 값을 입력해주세요.");
+                alert.showAndWait();
+            });
+            return; // 메소드 종료
+        }
+        
 
         //키 중복여부 ㄱㄱ
         if (isKeyAlreadyRegistered(direction, keyName)) {

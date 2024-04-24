@@ -77,6 +77,7 @@ public class SettingController extends GameManager {
             currentSettings.put("left", "LEFT");
             currentSettings.put("rotate", "UP");
             currentSettings.put("down", "DOWN");
+            currentSettings.put("drop", "SPACE");
 
             try (FileWriter fileWriter = new FileWriter(file)) {
                 fileWriter.write(currentSettings.toString());
