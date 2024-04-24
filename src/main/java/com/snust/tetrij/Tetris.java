@@ -228,8 +228,6 @@ public class Tetris extends Application {
                             continue;
                         }
 
-                        //todo 게임 오버 띄우기
-
                         //todo 점수 입력창 띄우기
 
                         //game running
@@ -240,6 +238,12 @@ public class Tetris extends Application {
                         color_mesh();
 
                         //System.out.println(freq);
+                    }
+
+                    //게임오바
+                    if (Tetris.top >= Tetris.HEIGHT) {
+                        System.out.println("game over");
+                        isPaused = true;
                     }
                 }
             };

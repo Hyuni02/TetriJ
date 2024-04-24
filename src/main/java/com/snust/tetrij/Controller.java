@@ -43,7 +43,7 @@ public class Controller {
 //        System.out.println("");
     }
 
-    public static char generateTetromino() {
+    public static void generateTetromino() {
         TetrominoBase t = new TetrominoBase();
 //        switch((int)(Math.random() * 7)) {
 //            case 1 -> t = new I();
@@ -65,9 +65,13 @@ public class Controller {
             case 5 -> t = new S();
             case 6 -> t = new T();
         }
+
+        if (!canMoveDown(t, 0)) {
+            Tetris.isPaused = true;
+            return;
+        }
         bag.add(t);
         t.update_mesh();
-        return t.name;
     }
 
 
@@ -78,10 +82,12 @@ public class Controller {
 
         eraseMesh(tb);
         tb.pos[0]++;
-
         if (!canMoveDown(tb, 1)) {
+            updateTop(tb);
             Controller.bag.remove(0);
-            System.out.println("removed");
+        }
+        else {
+            tb.pos[0]++;
         }
         tb.update_mesh();
         eraseLine();
@@ -96,6 +102,7 @@ public class Controller {
 
         tb.pos[0] += dropHeight;
         tb.update_mesh();
+        updateTop(tb);
         eraseLine();
         Controller.bag.remove(0);
     }
@@ -149,7 +156,7 @@ public class Controller {
             if (is_full)
                 l.add(y);
         }
-
+        Tetris.top -= l.size();
         //리스트에 저장된 라인들을 지움
         for (int i : l) {
             for (int line = i; line > 2; line--) {
@@ -172,6 +179,11 @@ public class Controller {
         // Tetromino가 아래쪽 경계에 닿았는지 확인
         if (tb.pos[0] + height + distance > Tetris.HEIGHT) {
             return false;
+        }
+
+        //무게추 모드
+        if (tb.name == 'w') {
+            return true;
         }
 
         // Tetromino의 각 블록이 아래로 이동할 때 다른 블록과 겹치는지 확인
@@ -214,8 +226,11 @@ public class Controller {
                 }
             }
         }
-
         return true; // 아래로 이동 가능
+    }
+
+    private static void updateTop(TetrominoBase tb) {
+        Tetris.top = Math.max(Tetris.HEIGHT - tb.pos[0], Tetris.top);
     }
 }
 
