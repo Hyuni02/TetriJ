@@ -125,6 +125,7 @@ public class Controller {
 
             Tetris.score += 50;
             Tetris.linesNo++;
+            Tetris.changeSpeed();
         }
     }
 
