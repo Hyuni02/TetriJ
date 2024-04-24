@@ -248,6 +248,7 @@ public class Tetris extends Application {
                         }
                         color_mesh();
 
+                        //다음블럭 그리기
                         Platform.runLater(
                                 ()->{
                                     TetrominoBase next = Controller.bag.get(1);

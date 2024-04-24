@@ -26,6 +26,6 @@ public class Weight extends TetrominoBase {
                         {1,1,1,1}
                 }
         };
-        super.pos = new int[] { 0, (int)(Math.random()*6) };
+        super.pos = new int[] { 0, 3 };
     }
 }
