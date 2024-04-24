@@ -8,27 +8,62 @@ import com.snust.tetrij.tetromino.S;
 import com.snust.tetrij.tetromino.T;
 import com.snust.tetrij.tetromino.Z;
 import com.snust.tetrij.tetromino.TetrominoBase;
-import javafx.scene.shape.Mesh;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 public class Controller {
     public static List<TetrominoBase> bag = new Vector<TetrominoBase>();
 
+    public static ArrayList<Integer> field = new ArrayList<Integer>();
+
     public Controller() { }
+
+    public static void SetField(Tetris.difficulty dif){
+        //모든 블록의 비중을 10으로 세팅
+        for(int i=0;i<7;i++){
+            for(int j=0;j<10;j++){
+                field.add(i);
+            }
+        }
+
+        //쉬움 난이도는 I블럭의 비중 20% 증가
+        if(dif == Tetris.difficulty.EASY){
+            field.add(1);
+            field.add(1);
+        }
+        //어려움 난이도는 I블럭의 비중 20% 감소
+        if(dif == Tetris.difficulty.HARD){
+            field.remove(1);
+            field.remove(1);
+        }
+
+//        for(int i=0;i<field.size();i++){
+//            System.out.print(field.get(i));
+//        }
+//        System.out.println("");
+    }
 
     public static char generateTetromino() {
         TetrominoBase t = new TetrominoBase();
-        switch((int)(Math.random()*7)) {
+//        switch((int)(Math.random() * 7)) {
+//            case 1 -> t = new I();
+//            case 2 -> t = new J();
+//            case 3 -> t = new L();
+//            case 4 -> t = new O();
+//            case 5 -> t = new S();
+//            case 6 -> t = new T();
+//            case 0 -> t = new Z();
+//        }
+        int idx = (int)(Math.random() * field.size());
+        System.out.println(idx);
+        switch(field.get(idx)) {
+            case 0 -> t = new Z();
             case 1 -> t = new I();
             case 2 -> t = new J();
             case 3 -> t = new L();
             case 4 -> t = new O();
             case 5 -> t = new S();
             case 6 -> t = new T();
-            case 0 -> t = new Z();
         }
         bag.add(t);
         t.update_mesh();

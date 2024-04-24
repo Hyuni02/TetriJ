@@ -14,6 +14,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -30,6 +31,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class Tetris extends Application {
     // consts for game
@@ -53,19 +55,18 @@ public class Tetris extends Application {
     public static boolean isGameOver = false;
     public enum difficulty {EASY, NORMAL, HARD};
     public static boolean color_weakness = false;
-    public static int score = 0;
+    public static int score = 0; //점수
     public static boolean game = true;
-    public static int linesNo = 0;
-    private static Timer fall;
-    private static Runnable task;
-    private static int freq = 300;
-    public static int speedLevel = 0;
-    private static int boost = 30;
+    public static int linesNo = 0; //지워진 줄 수
+    public static boolean isZeroScoreText = true;
+    private static int freq = 300; //하강 속도
+    public static int speedLevel = 0; //지워진 줄 수에 따른 속도 레벨
+    private static int boost = 30; //하강 속도 증가량
     private MediaPlayer mediaPlayer;
     // 퍼즈 관련 변수
     protected static boolean isPaused = false; // 퍼즈 중인가?
     protected static boolean onPauseButton = false; // 퍼즈 버튼을 눌러서 퍼즈 창이 떠 있는 상태인가?
-    //블럭 움직임 키 설정
+    // region 블럭 움직임 키 설정
     static String rightKey = loadKeySetting("right");
     static String leftKey = loadKeySetting("left");
     static String rotateKey = loadKeySetting("rotate");
@@ -76,7 +77,7 @@ public class Tetris extends Application {
     static KeyCode rotateKeyCode = getKeyCodeFromString(rotateKey);
     static KeyCode downKeyCode = getKeyCodeFromString(downKey);
     static KeyCode dropKeyCode = getKeyCodeFromString(dropKey);
-
+    // endregion
 
 
     @Override
@@ -87,9 +88,13 @@ public class Tetris extends Application {
     public static void newGameScene(Stage stage, difficulty dif) throws IOException {
         loadSettings();
         System.out.println(dif.toString());
+        Controller.SetField(dif);
 
         if(restart) {
-            pane.getChildren().clear(); // 현재 씬 모든 노드 제거
+            //pane.getChildren().clear(); // 현재 씬 모든 노드 제거
+            Controller.bag.clear();
+
+            //thread.interrupt(); // 스레드 중지
 
             // 변수 초기화
             score = 0;
@@ -97,14 +102,12 @@ public class Tetris extends Application {
             linesNo = 0;
             game = true;
             isPaused = false; // 퍼즈 후 시작화면으로 나가서 재시작할때 오류방지
-            fall.cancel(); // 타이머 리셋
+//            fall.cancel(); // 타이머 리셋
+//            fall.purge();
         }
-        fall = new Timer(); // 타이머 전역변수로 뺌 -> 리셋 가능
+//        if(!restart)
+//        fall = new Timer(); // 타이머 전역변수로 뺌 -> 리셋 가능
 
-
-        if(!restart) {
-
-        }
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() { // 키 이벤트
             @Override
@@ -191,53 +194,59 @@ public class Tetris extends Application {
         Controller.generateTetromino();
         color_mesh();
 
-        //runtime logic
-        task = new Runnable() {
-            public void run() {
-                while(!isGameOver) {
-                    try{
-                        int finalFreq = 0;
-                        switch (dif){
-                            case EASY -> finalFreq = freq - speedLevel * (int)(boost * 0.8f);
-                            case NORMAL -> finalFreq = freq - speedLevel *  boost;
-                            case HARD -> finalFreq = freq - speedLevel * (int)(boost * 1.2f);
+        if(!restart) { // 처음 한번만
+            //runtime logic
+            Runnable task = new Runnable() {
+                public void run() {
+                    while (!isGameOver) {
+
+                        try {
+                            int finalFreq = 0;
+                            switch (dif) {
+                                case EASY -> finalFreq = freq - speedLevel * (int) (boost * 0.8f);
+                                case NORMAL -> finalFreq = freq - speedLevel * boost;
+                                case HARD -> finalFreq = freq - speedLevel * (int) (boost * 1.2f);
+                            }
+
+                            Thread.sleep(finalFreq);
+
+                            if (speedLevel == 0)
+                                score++;
+                            else if (speedLevel == 1)
+                                score += 2;
+                            else if (speedLevel == 2)
+                                score += 3;
+
+                            scoretext.setText("Score: " + Integer.toString(score));
+                            level.setText("Lines: " + Integer.toString(linesNo));
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
-                        Thread.sleep(finalFreq);
 
-                        if (speedLevel == 0)
-                            score++;
-                        else if (speedLevel == 1)
-                            score+=2;
-                        else if (speedLevel == 2)
-                            score+=3;
-                        scoretext.setText("Score: " + Integer.toString(score));
-                        level.setText("Lines: " + Integer.toString(linesNo));
+                        //일시정지
+                        if (isPaused) {
+                            continue;
+                        }
+
+                        //todo 게임 오버 띄우기
+
+                        //todo 점수 입력창 띄우기
+
+                        //game running
+                        if (!Controller.bag.isEmpty())
+                            Controller.softDrop(Controller.bag.get(0));
+                        else
+                            Controller.generateTetromino();
+                        color_mesh();
+
+                        //System.out.println(freq);
                     }
-                    catch (InterruptedException e){
-                        e.printStackTrace();
-                    }
-                    //일시정지
-                    if (isPaused) return;
-
-                    //todo 게임 오버 띄우기
-
-                    //todo 점수 입력창 띄우기
-
-                    //game running
-                    if (!Controller.bag.isEmpty())
-                        Controller.softDrop(Controller.bag.get(0));
-                    else
-                        Controller.generateTetromino();
-                    color_mesh();
-
-                    //System.out.println(freq);
                 }
-            }
-        };
-        //if(!restart) {
+            };
             thread = new Thread(task);
             thread.start();
-        //}
+        }
+
         restart = true;
     }
 

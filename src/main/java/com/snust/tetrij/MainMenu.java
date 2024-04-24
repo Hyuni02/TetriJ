@@ -5,7 +5,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -17,25 +16,20 @@ import javafx.util.Duration;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.List;
 
 public class MainMenu extends Application {
     private static MediaPlayer mediaPlayer;
 
     public static Stage curStage;
-    private List<Button> menuButtons;
-    private int currentButtonIndex = 0; // 현재 선택된 버튼 인덱스
+
     @Override
     public void start(Stage stage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("start_menu.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setWidth(800);
-        stage.setHeight(600);
         scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-
                 if (event.getCode() == KeyCode.ESCAPE) {
                     stage.close(); // ESC 키를 누르면 창을 닫음
                 }
