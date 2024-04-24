@@ -135,7 +135,13 @@ public class Tetris extends Application {
         pauseButton.setPrefHeight(50);
         pauseButton.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; fx-font-size: 20px;");
         pauseButton.setFocusTraversable(false);
-        pane.getChildren().addAll(scoretext, line, level, pauseButton);
+
+        Text keyText = new Text("왼쪽 이동: "+leftKeyCode+"\n오른쪽 이동: "+rightKeyCode + "\n아래 이동: "+downKeyCode + "\n회전: "+rotateKeyCode + "\n드롭 버튼: "+dropKeyCode);
+        keyText.setStyle("-fx-font: 10 arial;");
+        keyText.setY(300);
+        keyText.setX(XMAX + 5);
+
+        pane.getChildren().addAll(scoretext, line, level, pauseButton, keyText);
 
         pauseButton.setOnAction(event -> togglePause());
 
