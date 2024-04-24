@@ -57,7 +57,7 @@ public class GameOverController extends GameManager {
         stage.close(); // 종료하면 setOnHidden 이벤트 핸들러 작동
     }
 
-    public static void switchToGameOver(int score, Stage tetrisStage) {
+    public static void switchToGameOver(int score, Stage tetrisStage, Tetris.difficulty difficulty) {
         try {
             resultScore = score;
 

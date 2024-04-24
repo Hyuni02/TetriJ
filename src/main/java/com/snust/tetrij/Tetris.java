@@ -238,7 +238,7 @@ public class Tetris extends Application {
                             isGameOver = true;
                         }
                     }
-                    GameOver(stage);
+                    GameOver(stage, dif);
                 }
             };
             thread = new Thread(task);
@@ -248,9 +248,9 @@ public class Tetris extends Application {
     }
 
     @FXML
-    public static void GameOver(Stage stage){
+    public static void GameOver(Stage stage, difficulty dif){
         Platform.runLater(()-> {
-            switchToGameOver(score, stage);
+            switchToGameOver(score, stage, dif);
         });
     }
 

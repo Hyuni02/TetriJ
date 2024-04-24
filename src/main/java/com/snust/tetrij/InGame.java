@@ -179,7 +179,7 @@ public class InGame extends Application {
                         }
                         // Exit
                         if (top == 15) {
-                            switchToGameOver(score, stage);
+                            switchToGameOver(score, stage, Tetris.difficulty.NORMAL);
                         }
 
                         if (game) {
