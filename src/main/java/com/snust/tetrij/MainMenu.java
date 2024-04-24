@@ -30,6 +30,8 @@ public class MainMenu extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("start_menu.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setWidth(800);
+        stage.setHeight(600);
         scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {

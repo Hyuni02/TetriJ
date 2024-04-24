@@ -30,7 +30,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class Tetris extends Application {
     // consts for game
@@ -58,6 +57,7 @@ public class Tetris extends Application {
     public static boolean game = true;
     public static int linesNo = 0;
     private static Timer fall;
+    private static Runnable task;
     private static int freq = 300;
     public static int speedLevel = 0;
     private static int boost = 30;
@@ -89,7 +89,7 @@ public class Tetris extends Application {
         System.out.println(dif.toString());
 
         if(restart) {
-            group.getChildren().clear(); // 현재 씬 모든 노드 제거
+            pane.getChildren().clear(); // 현재 씬 모든 노드 제거
 
             // 변수 초기화
             score = 0;
@@ -100,7 +100,11 @@ public class Tetris extends Application {
             fall.cancel(); // 타이머 리셋
         }
         fall = new Timer(); // 타이머 전역변수로 뺌 -> 리셋 가능
-        restart = true;
+
+
+        if(!restart) {
+
+        }
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() { // 키 이벤트
             @Override
@@ -185,11 +189,10 @@ public class Tetris extends Application {
             }
         });
         Controller.generateTetromino();
-        Timer timer = new Timer();
         color_mesh();
 
         //runtime logic
-        Runnable task = new Runnable() {
+        task = new Runnable() {
             public void run() {
                 while(!isGameOver) {
                     try{
@@ -231,8 +234,11 @@ public class Tetris extends Application {
                 }
             }
         };
-        thread = new Thread(task);
-        thread.start();
+        //if(!restart) {
+            thread = new Thread(task);
+            thread.start();
+        //}
+        restart = true;
     }
 
     public static void changeSpeed(){
