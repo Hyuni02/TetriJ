@@ -70,6 +70,7 @@ public class ScoreBoardController extends GameManager {
             }
         });
         stage.show();
+        com.snust.tetrij.SetResolution.setResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
     }
 
     @FXML

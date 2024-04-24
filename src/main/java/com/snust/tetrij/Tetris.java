@@ -404,6 +404,7 @@ public class Tetris extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        com.snust.tetrij.SetResolution.setResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
     }
 
     @FXML

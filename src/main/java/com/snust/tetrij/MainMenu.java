@@ -35,9 +35,9 @@ public class MainMenu extends Application {
             }
         });
         stage.show();
-//        stage.setHeight(600);
-//        stage.setWidth(800);// ID로 노드 찾기
-//        com.snust.tetrij.SetResolution.setStartMenu600x800(root);
+//        stage.setHeight(800);
+//        stage.setWidth(1000);
+        com.snust.tetrij.SetResolution.setResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
 
 
         stage.setResizable(false);
@@ -47,9 +47,15 @@ public class MainMenu extends Application {
         curStage = stage;
     }
 
-    public static void playTetrij() throws Exception {
-        // 여기다가 게임 로직 넣어주세여
-        Tetris.newGameScene(curStage, Tetris.difficulty.EASY);
+    public static void playTetrij(String difficulty) throws Exception {
+        if(difficulty == "EASY")
+            Tetris.newGameScene(curStage, Tetris.difficulty.EASY);
+        if(difficulty == "NORMAL")
+            Tetris.newGameScene(curStage, Tetris.difficulty.NORMAL);
+        if(difficulty == "HARD")
+            Tetris.newGameScene(curStage, Tetris.difficulty.HARD);
+        if(difficulty == "ITEM")
+            // Tetris.newGameScene(curStage, Tetris.difficulty.ITEM);
         System.out.println("게임 시작");
     }
 
