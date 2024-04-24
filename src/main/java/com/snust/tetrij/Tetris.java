@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -117,15 +118,26 @@ public class Tetris extends Application {
 
         Line line = new Line(XMAX,0,XMAX,YMAX);
         Text scoretext = new Text("Score: ");
-        scoretext.setStyle("-fx-font: 20 arials;");
+        scoretext.setStyle("-fx-font: 20 arial;");
         scoretext.setY(50);
         scoretext.setX(XMAX + 5);
         Text level = new Text("Lines: ");
-        level.setStyle("-fx-font: 20 arials;");
+        level.setStyle("-fx-font: 20 arial;");
         level.setY(100);
         level.setX(XMAX + 5);
         level.setFill(Color.GREEN);
-        pane.getChildren().addAll(scoretext, line, level);
+        //pane.getChildren().addAll(scoretext, line, level);
+
+        Button pauseButton = new Button("Pause");
+        pauseButton.setLayoutY(150);
+        pauseButton.setLayoutX(XMAX + 5);
+        pauseButton.setPrefWidth(100);
+        pauseButton.setPrefHeight(50);
+        pauseButton.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; fx-font-size: 20px;");
+        pauseButton.setFocusTraversable(false);
+        pane.getChildren().addAll(scoretext, line, level, pauseButton);
+
+        pauseButton.setOnAction(event -> togglePause());
 
         //generate first block
         stage.setScene(scene);
@@ -204,6 +216,14 @@ public class Tetris extends Application {
                 while(!isGameOver) {
                     try{
                         Thread.sleep(freq);
+                        if (freq==300)
+                            score++;
+                        else if (freq==330)
+                            score+=2;
+                        else if (freq==360)
+                            score+=3;
+                        scoretext.setText("Score: " + Integer.toString(score));
+                        level.setText("Lines: " + Integer.toString(linesNo));
                     }
                     catch (InterruptedException e){
                         e.printStackTrace();
