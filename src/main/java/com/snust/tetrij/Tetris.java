@@ -56,7 +56,7 @@ public class Tetris extends Application {
     public static boolean color_weakness = false;
     public static int score = 0;
     public static boolean game = true;
-    private static int linesNo = 0;
+    public static int linesNo = 0;
     private static Timer fall;
     private static int freq = 300;
     private MediaPlayer mediaPlayer;
