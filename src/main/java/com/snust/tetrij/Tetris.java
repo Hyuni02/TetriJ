@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -44,15 +45,17 @@ public class Tetris extends Application {
     private static Scene scene = new Scene(pane, XMAX + 150, YMAX);
     public static char [][] MESH = new char[HEIGHT][WIDTH];
     private static Pane group = new Pane();
+    private static String screenSize;
 
     // variables for game
     public static boolean restart = false;
     public enum difficulty {EASY, NORMAL, HARD};
-    public static boolean color_weakness = true;
+    public static boolean color_weakness = false;
     public static int score = 0;
     public static boolean game = true;
     private static int linesNo = 0;
     private static Timer fall;
+    private static int delay = 300;
     private MediaPlayer mediaPlayer;
     // 퍼즈 관련 변수
     protected static boolean isPaused = false; // 퍼즈 중인가?
@@ -69,12 +72,17 @@ public class Tetris extends Application {
     static KeyCode downKeyCode = getKeyCodeFromString(downKey);
     static KeyCode dropKeyCode = getKeyCodeFromString(dropKey);
 
+
+
     @Override
     public void start(Stage stage) throws Exception{
         newGameScene(stage);
     }
 
     public static void newGameScene(Stage stage) throws IOException {
+        loadSettings();
+
+
         if(restart) {
             group.getChildren().clear(); // 현재 씬 모든 노드 제거
 
@@ -205,9 +213,11 @@ public class Tetris extends Application {
                 else
                     Controller.generateTetromino();
                 color_mesh();
+
+                delay += 100;
             }
         };
-        timer.schedule(task, 0, 300);
+        timer.schedule(task, 0, delay);
     }
 
     private static String loadKeySetting(String key) {
@@ -276,6 +286,26 @@ public class Tetris extends Application {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    private static void loadSettings() {    //셋팅 파일 읽어옴
+        try {
+            File file = new File("setting.json");
+            FileReader fileReader = new FileReader(file);
+            StringBuilder stringBuilder = new StringBuilder();
+            int i;
+            while ((i = fileReader.read()) != -1) {
+                stringBuilder.append((char) i);
+            }
+            fileReader.close();
+
+            JSONObject setting = new JSONObject(stringBuilder.toString());
+            screenSize = setting.getString("screenSize");
+            color_weakness = setting.getBoolean("isColorBlind");
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
