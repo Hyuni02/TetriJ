@@ -124,6 +124,9 @@ public class Controller {
             }
             Tetris.MESH[2] = new char[Tetris.WIDTH];
             Arrays.fill(Tetris.MESH[2], '0');
+
+            Tetris.score += 50;
+            //Tetris.linesNo++;
         }
     }
 
