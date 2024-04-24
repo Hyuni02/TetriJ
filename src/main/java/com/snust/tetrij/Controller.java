@@ -36,26 +36,11 @@ public class Controller {
             field.remove(1);
             field.remove(1);
         }
-
-//        for(int i=0;i<field.size();i++){
-//            System.out.print(field.get(i));
-//        }
-//        System.out.println("");
     }
 
     public static void generateTetromino() {
         TetrominoBase t = new TetrominoBase();
-//        switch((int)(Math.random() * 7)) {
-//            case 1 -> t = new I();
-//            case 2 -> t = new J();
-//            case 3 -> t = new L();
-//            case 4 -> t = new O();
-//            case 5 -> t = new S();
-//            case 6 -> t = new T();
-//            case 0 -> t = new Z();
-//        }
         int idx = (int)(Math.random() * field.size());
-        System.out.println(idx);
         switch(field.get(idx)) {
             case 0 -> t = new Z();
             case 1 -> t = new I();

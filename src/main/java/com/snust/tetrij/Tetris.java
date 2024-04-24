@@ -30,8 +30,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Timer;
-import java.util.TimerTask;
+import static com.snust.tetrij.GameOverController.switchToGameOver;
 
 public class Tetris extends Application {
     // consts for game
@@ -199,7 +198,6 @@ public class Tetris extends Application {
             Runnable task = new Runnable() {
                 public void run() {
                     while (!isGameOver) {
-
                         try {
                             int finalFreq = 0;
                             switch (dif) {
@@ -224,11 +222,7 @@ public class Tetris extends Application {
                         }
 
                         //일시정지
-                        if (isPaused) {
-                            continue;
-                        }
-
-                        //todo 점수 입력창 띄우기
+                        if (isPaused) continue;
 
                         //game running
                         if (!Controller.bag.isEmpty())
@@ -237,21 +231,27 @@ public class Tetris extends Application {
                             Controller.generateTetromino();
                         color_mesh();
 
-                        //System.out.println(freq);
+                        System.out.println(top);
+                        //게임오바
+                        if (Tetris.top >= Tetris.HEIGHT - 1) {
+                            System.out.println("game over");
+                            isGameOver = true;
+                        }
                     }
-
-                    //게임오바
-                    if (Tetris.top >= Tetris.HEIGHT) {
-                        System.out.println("game over");
-                        isPaused = true;
-                    }
+                    GameOver(stage);
                 }
             };
             thread = new Thread(task);
             thread.start();
         }
-
         restart = true;
+    }
+
+    @FXML
+    public static void GameOver(Stage stage){
+        Platform.runLater(()-> {
+            switchToGameOver(score, stage);
+        });
     }
 
     public static void changeSpeed(){

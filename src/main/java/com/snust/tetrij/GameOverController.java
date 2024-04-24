@@ -61,8 +61,6 @@ public class GameOverController extends GameManager {
         try {
             resultScore = score;
 
-
-
             FXMLLoader loader = new FXMLLoader(GameOverController.class.getResource("game_over.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
