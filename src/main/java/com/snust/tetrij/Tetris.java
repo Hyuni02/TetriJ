@@ -48,14 +48,16 @@ public class Tetris extends Application {
     private static String screenSize;
 
     // variables for game
+    public static Thread thread;
     public static boolean restart = false;
+    public static boolean isGameOver = false;
     public enum difficulty {EASY, NORMAL, HARD};
     public static boolean color_weakness = false;
     public static int score = 0;
     public static boolean game = true;
     private static int linesNo = 0;
     private static Timer fall;
-    private static int delay = 300;
+    private static int freq = 300;
     private MediaPlayer mediaPlayer;
     // 퍼즈 관련 변수
     protected static boolean isPaused = false; // 퍼즈 중인가?
@@ -197,27 +199,35 @@ public class Tetris extends Application {
         color_mesh();
 
         //runtime logic
-        TimerTask task = new TimerTask() {
-            @Override
+        Runnable task = new Runnable() {
             public void run() {
-                //일시정지
-                if(isPaused) return;
+                while(!isGameOver) {
+                    try{
+                        Thread.sleep(freq);
+                    }
+                    catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
+                    //일시정지
+                    if (isPaused) return;
 
-                //todo 게임 오버 띄우기
-                
-                //todo 점수 입력창 띄우기
+                    //todo 게임 오버 띄우기
 
-                //game running
-                if (!Controller.bag.isEmpty())
-                    Controller.softDrop(Controller.bag.get(0));
-                else
-                    Controller.generateTetromino();
-                color_mesh();
+                    //todo 점수 입력창 띄우기
 
-                delay += 100;
+                    //game running
+                    if (!Controller.bag.isEmpty())
+                        Controller.softDrop(Controller.bag.get(0));
+                    else
+                        Controller.generateTetromino();
+                    color_mesh();
+
+                    System.out.println(freq);
+                }
             }
         };
-        timer.schedule(task, 0, delay);
+        thread = new Thread(task);
+        thread.start();
     }
 
     private static String loadKeySetting(String key) {
