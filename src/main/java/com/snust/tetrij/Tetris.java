@@ -14,6 +14,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -54,18 +55,18 @@ public class Tetris extends Application {
     public static boolean isGameOver = false;
     public enum difficulty {EASY, NORMAL, HARD};
     public static boolean color_weakness = false;
-    public static int score = 0;
+    public static int score = 0; //점수
     public static boolean game = true;
-    public static int linesNo = 0;
+    public static int linesNo = 0; //지워진 줄 수
     private static Timer fall;
-    private static int freq = 300;
-    public static int speedLevel = 0;
-    private static int boost = 30;
+    private static int freq = 300; //하강 속도
+    public static int speedLevel = 0; //지워진 줄 수에 따른 속도 레벨
+    private static int boost = 30; //하강 속도 증가량
     private MediaPlayer mediaPlayer;
     // 퍼즈 관련 변수
     protected static boolean isPaused = false; // 퍼즈 중인가?
     protected static boolean onPauseButton = false; // 퍼즈 버튼을 눌러서 퍼즈 창이 떠 있는 상태인가?
-    //블럭 움직임 키 설정
+    // region 블럭 움직임 키 설정
     static String rightKey = loadKeySetting("right");
     static String leftKey = loadKeySetting("left");
     static String rotateKey = loadKeySetting("rotate");
@@ -76,7 +77,7 @@ public class Tetris extends Application {
     static KeyCode rotateKeyCode = getKeyCodeFromString(rotateKey);
     static KeyCode downKeyCode = getKeyCodeFromString(downKey);
     static KeyCode dropKeyCode = getKeyCodeFromString(dropKey);
-
+    // endregion
 
 
     @Override
@@ -87,6 +88,7 @@ public class Tetris extends Application {
     public static void newGameScene(Stage stage, difficulty dif) throws IOException {
         loadSettings();
         System.out.println(dif.toString());
+        //Controller.SetField(dif);
 
         if(restart) {
             group.getChildren().clear(); // 현재 씬 모든 노드 제거
@@ -213,8 +215,11 @@ public class Tetris extends Application {
                     catch (InterruptedException e){
                         e.printStackTrace();
                     }
+
                     //일시정지
-                    if (isPaused) return;
+                    if (isPaused){
+                        continue;
+                    }
 
                     //todo 게임 오버 띄우기
 
