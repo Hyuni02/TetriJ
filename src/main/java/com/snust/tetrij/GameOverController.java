@@ -24,6 +24,7 @@ public class GameOverController extends GameManager {
     @FXML
     private TextField nameField;
     private static int resultScore;
+    private static String diff;
     @FXML
     private void initialize() {
         String displayStr = "Score : " + Integer.toString(resultScore);
@@ -32,21 +33,8 @@ public class GameOverController extends GameManager {
     @FXML
     private void saveScore(ActionEvent event) throws IOException {
         String name = nameField.getText();
-        //  ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ
-//        while(true) {
-//
-//
-//            if (nameField == null || nameField.getText().trim().isEmpty()) {
-//                if (nameField != null) {
-//                    // nameField가 존재하고 공백인 경우
-//                    nameField.setStyle("-fx-prompt-text-fill: red;"); // promptText의 색상을 빨간색으로 설정
-//                    nameField.setPromptText("이름을 입력해주세요");
-//                }
-//                else break;
-//            }
-//        }
 
-        String fileWriteText = name + " " + resultScore + " " + LocalDate.now() + '\n';
+        String fileWriteText = name + " " + resultScore + " " + LocalDate.now() + diff + '\n';
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/com/snust/tetrij/score.txt", true))) {
             writer.write(fileWriteText);
@@ -60,6 +48,7 @@ public class GameOverController extends GameManager {
     public static void switchToGameOver(int score, Stage tetrisStage, Tetris.difficulty difficulty) {
         try {
             resultScore = score;
+            diff = difficulty.name();
 
             FXMLLoader loader = new FXMLLoader(GameOverController.class.getResource("game_over.fxml"));
             Parent root = loader.load();

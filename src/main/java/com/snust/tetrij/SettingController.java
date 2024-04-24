@@ -54,7 +54,7 @@ public class SettingController extends GameManager {
         try {
             String content = new String(Files.readAllBytes(Paths.get(file.toURI())), "UTF-8");
             JSONObject currentSettings = new JSONObject(content);
-            currentSettings.put("screenSize", "Small (300x400)");
+            currentSettings.put("screenSize", "Small (400x600)");
             currentSettings.put("isColorBlind", false);
 
             try (FileWriter fileWriter = new FileWriter(file)) {
@@ -91,7 +91,7 @@ public class SettingController extends GameManager {
     }
 
     public void colorBlindMode(){
-        isColorBlind = colorBlindModeCheckBox.isSelected();
+        //isColorBlind = colorBlindModeCheckBox.isSelected();
     }
 
     private void saveSettingsToFile() {   //json 파일로 저장

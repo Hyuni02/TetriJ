@@ -13,7 +13,6 @@ import java.io.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
-import org.json.JSONObject;
 
 import java.io.File;
 
@@ -36,7 +35,12 @@ public class MainMenu extends Application {
             }
         });
         stage.show();
-        // stage.setResizable(false);
+//        stage.setHeight(600);
+//        stage.setWidth(800);// ID로 노드 찾기
+//        com.snust.tetrij.SetResolution.setStartMenu600x800(root);
+
+
+        stage.setResizable(false);
         // stage.setFullScreen(true);
         //playSound("src/main/resources/com/snust/tetrij/sound/startMenuBGM.wav");
         //mediaPlayer.setVolume(0.3);
