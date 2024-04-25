@@ -62,7 +62,7 @@
                 <Font size="15.0" />
             </font>
         </Label>
-      <ComboBox fx:id="difficultyComboBox" layoutX="48.0" layoutY="50.0" prefHeight="22.0" prefWidth="91.0" promptText="EASY" />
+      <ComboBox fx:id="difficultyComboBox" layoutX="48.0" layoutY="50.0" prefHeight="22.0" prefWidth="91.0" promptText="-" />
       <Text fx:id="diffText" layoutX="76.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="난이도" />
     </children>
 </AnchorPane>

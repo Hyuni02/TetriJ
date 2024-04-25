@@ -10,6 +10,8 @@ import javafx.util.Duration;
 
 import java.util.*;
 
+import static javafx.application.Platform.*;
+
 public class Controller {
     public static List<TetrominoBase> bag = new Vector<TetrominoBase>();
 
@@ -62,7 +64,7 @@ public class Controller {
                     case 3 -> t = new L(true);
                     case 4 -> t = new O(true);
                     case 5 -> t = new S(true);
-                    case 6 -> t = new Weight();
+                    case 6 -> t = new T(true);
 
                 }
             }
@@ -84,9 +86,10 @@ public class Controller {
             Tetris.isPaused = true;
             return;
         }
-        //bag.add(new I(false));
+
+//        bag.add(new I());
         bag.add(t);
-        //todo 여기 꼭 수정할것!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //여기 꼭 수정할것!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
 
@@ -100,12 +103,6 @@ public class Controller {
             Controller.bag.remove(0);
             return;
         }
-        if (tb.name == 'w') {
-            if (!isClearBelow((Weight)tb)) {
-                tb.can_move = false;
-            }
-        }
-
         tb.update_mesh();
     }
 
@@ -125,7 +122,7 @@ public class Controller {
 
     public static void moveRightOnKeyPress(TetrominoBase tb) {
         eraseMesh(tb);
-        if (canMoveSideWays(tb, 1) && tb.can_move) {
+        if (canMoveSideWays(tb, 1)) {
             tb.pos[1]++;
         }
         tb.update_mesh();
@@ -133,7 +130,7 @@ public class Controller {
 
     public static void moveLeftOnKeyPress(TetrominoBase tb) {
         eraseMesh(tb);
-        if (canMoveSideWays(tb, -1) && tb.can_move) {
+        if (canMoveSideWays(tb, -1)) {
             tb.pos[1]--;
         }
         tb.update_mesh();
@@ -293,27 +290,6 @@ public class Controller {
             }
         }
 
-        return true; // 아래로 이동 가능
-    }
-
-    //무게추가 좌우 고정이 되어야하는지 확인만을 위한 함수
-    public static boolean isClearBelow(Weight tb) {
-        int rot = tb.rotate;
-        int height = tb.getHeight();
-        int width = tb.getWidth();
-
-        // Tetromino가 아래쪽 경계에 닿았는지 확인
-        if (tb.pos[0] + height > Tetris.HEIGHT) {
-            return false;
-        }
-
-        // Tetromino의 각 블록이 아래로 이동할 때 다른 블록과 겹치는지 확인
-        for (int x = 0; x < width; x++) {
-            // Tetromino의 블록이 아래쪽으로 이동할 때 충돌 여부 확인
-            if (Tetris.MESH[tb.pos[0] + 2][tb.pos[1] + x] != '0') {
-                return false;
-            }
-        }
         return true; // 아래로 이동 가능
     }
 
