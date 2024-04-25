@@ -15,10 +15,12 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.io.File;
+import static com.snust.tetrij.SetResolution.resolutionInitialize;
+import static com.snust.tetrij.SetResolution.curHeight;
+import static com.snust.tetrij.SetResolution.curWidth;
 
 public class MainMenu extends Application {
     private static MediaPlayer mediaPlayer;
-
     public static Stage curStage;
 
     @Override
@@ -35,8 +37,9 @@ public class MainMenu extends Application {
             }
         });
         stage.show();
-        stage.setHeight(600);
-        stage.setWidth(800);
+        resolutionInitialize();
+        stage.setHeight(curHeight);
+        stage.setWidth(curWidth);
         com.snust.tetrij.SetResolution.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
 
 
