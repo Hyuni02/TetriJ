@@ -6,8 +6,8 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.ScoreBoardController">
     <children>
-        <Button layoutX="507.0" layoutY="341.0" mnemonicParsing="false" onAction="#switchToStartMenu" text="나가기" />
-        <Text layoutX="200.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="스코어보드">
+        <Button fx:id="exitButton" layoutX="507.0" layoutY="341.0" mnemonicParsing="false" onAction="#switchToStartMenu" text="나가기" />
+        <Text fx:id="scoreBoardTitle" layoutX="200.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="스코어보드">
             <font>
                 <Font name="Agency FB Bold" size="36.0" />
             </font>
@@ -63,6 +63,6 @@
             </font>
         </Label>
       <ComboBox fx:id="difficultyComboBox" layoutX="48.0" layoutY="50.0" prefHeight="22.0" prefWidth="91.0" promptText="EASY" />
-      <Text layoutX="76.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="난이도" />
+      <Text fx:id="diffText" layoutX="76.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="난이도" />
     </children>
 </AnchorPane>

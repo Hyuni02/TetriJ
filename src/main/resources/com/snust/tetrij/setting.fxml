@@ -4,45 +4,47 @@
 <?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.SettingController">
     <!-- Tetris game screen size selection -->
-    <VBox layoutX="20.0" layoutY="20.0" spacing="10">
-        <Label text="테트리스 게임 화면 크기 설정" />
-        <ComboBox fx:id="sizeComboBox" promptText="게임 화면 크기 선택" onAction="#handleSize">
+    <VBox layoutX="39.0" layoutY="107.0" spacing="10">
+        <Label fx:id="text1" text="해상도" />
+        <ComboBox fx:id="sizeComboBox" onAction="#handleSize" promptText="게임 화면 크기 선택">
             <items>
                 <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="Small (300x400)" />
-                    <String fx:value="Medium (400x600)" />
-                    <String fx:value="Large (600x800)" />
+                    <String fx:value="300x400" />
+                    <String fx:value="400x600" />
+                    <String fx:value="600x800" />
                 </FXCollections>
             </items>
         </ComboBox>
     </VBox>
 
     <!-- Key mapping for game controls -->
-    <VBox layoutX="20.0" layoutY="70.0" spacing="10">
-        <Label text="게임 조작을 위한 키 설정" />
-        <Button fx:id="KeySettingButton" text="키 설정 열기" onAction="#handleKeySetting"/>
+    <VBox layoutX="253.0" layoutY="107.0" spacing="10">
+        <Label fx:id="text2" text="게임 조작 키 설정" />
+        <Button fx:id="KeySettingButton" onAction="#handleKeySetting" text="키 설정 열기" />
     </VBox>
 
     <!-- Scoreboard record reset -->
-    <VBox layoutX="20.0" layoutY="120.0" spacing="10">
-        <Button onAction="#deleteScores" text="스코어 보드 기록 초기화" />
-    </VBox>
+    <VBox layoutX="20.0" layoutY="120.0" spacing="10" />
 
     <!-- Colorblind mode toggle -->
-    <VBox layoutX="20.0" layoutY="170.0" spacing="10">
-        <CheckBox fx:id="colorBlindModeCheckBox" onAction="#colorBlindMode" text="색맹 모드" />
-    </VBox>
+    <VBox layoutX="356.0" layoutY="35.0" spacing="10" />
 
     <!-- Restore default settings -->
-    <VBox layoutX="20.0" layoutY="220.0" spacing="10">
-        <Button fx:id="defaultButton" onAction="#defaultSetting" text="기본 설정으로 되돌리기" />
-    </VBox>
+    <VBox layoutX="20.0" layoutY="220.0" spacing="10" />
 
     <!-- Save settings -->
-    <VBox layoutX="20.0" layoutY="270.0" spacing="10">
-        <Button onAction="#switchToStartMenu" text="설정 저장" />
-    </VBox>
+    <VBox layoutX="20.0" layoutY="270.0" spacing="10" />
+     <Button fx:id="exitButton" layoutX="475.0" layoutY="336.0" onAction="#switchToStartMenu" text="나가기" />
+     <Button fx:id="scoreBoardInitButton" layoutX="428.0" layoutY="248.0" onAction="#deleteScores" text="스코어 보드 기록 초기화" />
+     <Button fx:id="defaultButton" layoutX="430.0" layoutY="292.0" onAction="#defaultSetting" text="기본 설정으로 되돌리기" />
+     <CheckBox fx:id="colorBlindModeCheckBox" layoutX="438.0" layoutY="122.0" onAction="#colorBlindMode" text="색맹 모드" />
+   <Text fx:id="settingTitle" layoutX="216.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="환경설정">
+      <font>
+         <Font size="42.0" />
+      </font>
+   </Text>
 </AnchorPane>

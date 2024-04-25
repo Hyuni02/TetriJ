@@ -14,7 +14,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -54,7 +53,8 @@ public class Tetris extends Application {
     public static boolean item_mode = true;
     public static boolean restart = false;
     public static boolean isGameOver = false;
-    public enum difficulty {EASY, NORMAL, HARD};
+    public enum difficulty {EASY, NORMAL, HARD, ITEM};
+    public static difficulty cur_dif;
     public static boolean color_weakness = false;
     public static int score = 0; //점수
     public static boolean game = true;
@@ -88,6 +88,7 @@ public class Tetris extends Application {
     }
 
     public static void newGameScene(Stage stage, difficulty dif) throws IOException {
+        cur_dif = dif;
         loadSettings();
         System.out.println(dif.toString());
         Controller.SetField(dif);
@@ -218,6 +219,7 @@ public class Tetris extends Application {
                             switch (dif) {
                                 case EASY -> finalFreq = freq - speedLevel * (int) (boost * 0.8f);
                                 case NORMAL -> finalFreq = freq - speedLevel * boost;
+                                case ITEM -> finalFreq = freq - speedLevel * boost;
                                 case HARD -> finalFreq = freq - speedLevel * (int) (boost * 1.2f);
                             }
 
@@ -413,7 +415,7 @@ public class Tetris extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        com.snust.tetrij.SetResolution.setResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
+        com.snust.tetrij.SetResolution.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
     }
 
     @FXML

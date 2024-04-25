@@ -70,7 +70,9 @@ public class ScoreBoardController extends GameManager {
             }
         });
         stage.show();
-        com.snust.tetrij.SetResolution.setResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
+        System.out.println((int) stage.getHeight());
+        System.out.println((int) stage.getWidth());
+        com.snust.tetrij.SetResolution.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
     }
 
     @FXML
@@ -87,6 +89,7 @@ public class ScoreBoardController extends GameManager {
         // 콤보박스에 난이도 옵션 추가
         difficultyComboBox.getItems().addAll("EASY", "NORMAL", "HARD", "ITEM");
 
+
         // 콤보박스 선택 이벤트 핸들러 추가
         difficultyComboBox.setOnAction(event -> {
             String selectedDifficulty = difficultyComboBox.getValue();
@@ -94,7 +97,7 @@ public class ScoreBoardController extends GameManager {
         });
 
         // 초기 스코어 로드
-        loadScores("EASY");
+        loadScores(Tetris.cur_dif.toString());
     }
     private void loadScores(String difficulty) {
         String filePath = "src/main/resources/com/snust/tetrij/score.txt";
@@ -142,6 +145,4 @@ public class ScoreBoardController extends GameManager {
         String difficulty = scoreData[3];
         return name + ": " + score + "점 (날짜: " + date + ", 난이도: " + difficulty + ")";
     }
-
-
 }

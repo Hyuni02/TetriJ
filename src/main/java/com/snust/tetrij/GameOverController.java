@@ -32,7 +32,7 @@ public class GameOverController extends GameManager {
     }
     @FXML
     private void saveScore(ActionEvent event) throws IOException {
-        String name = nameField.getText();
+        String name = nameField.getText().replace(" ","");
 
         String fileWriteText = name + " " + resultScore + " " + LocalDate.now() + " " + diff + '\n';
 
@@ -49,9 +49,6 @@ public class GameOverController extends GameManager {
         try {
             resultScore = score;
             diff = difficulty.name();
-            if (Tetris.item_mode){
-                diff = "ITEM";
-            }
 
             FXMLLoader loader = new FXMLLoader(GameOverController.class.getResource("game_over.fxml"));
             Parent root = loader.load();

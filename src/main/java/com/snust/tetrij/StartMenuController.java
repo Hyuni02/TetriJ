@@ -3,25 +3,19 @@ package com.snust.tetrij;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
 import javafx.scene.control.Alert;
-import javafx.util.Duration;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 
 import static com.snust.tetrij.SelectModeController.selectMode;
 
@@ -49,7 +43,7 @@ public class StartMenuController extends GameManager {
             }
         });
         stage.show();
-        com.snust.tetrij.SetResolution.setResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
+        com.snust.tetrij.SetResolution.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
     }
     @FXML
     public void switchToScoreBoard(ActionEvent event) throws IOException {
@@ -59,7 +53,7 @@ public class StartMenuController extends GameManager {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        com.snust.tetrij.SetResolution.setResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
+        com.snust.tetrij.SetResolution.setScoreBoardResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
     }
     @FXML
     public void switchToSetting(ActionEvent event) throws IOException {
@@ -69,7 +63,7 @@ public class StartMenuController extends GameManager {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        com.snust.tetrij.SetResolution.setResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
+        com.snust.tetrij.SetResolution.setSettingMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
     }
     @FXML
     private void exitGame() {
