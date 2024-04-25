@@ -28,7 +28,7 @@ public class GameOverController extends GameManager {
     private TextField nameField;
     private static int resultScore;
     private static String diff;
-    public static String scoreId = "02a71ec2-501e-4a57-855c-e5cf5e178d76";
+    public static String scoreId = "";
 
     @FXML
     private void initialize() {
@@ -50,17 +50,6 @@ public class GameOverController extends GameManager {
         }
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close(); // 종료하면 setOnHidden 이벤트 핸들러 작동
-//        try {
-//            FXMLLoader scoreLoader = new FXMLLoader(GameOverController.class.getResource("score_board.fxml"));
-//            Parent scoreRoot;
-//            scoreRoot = scoreLoader.load();
-//
-//            curStage.setScene(new Scene(scoreRoot));
-//            SetResolution.setScoreBoardResolution(scoreRoot, (int) curStage.getHeight(), (int) curStage.getWidth());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        curStage.show();
     }
 
     public static void switchToGameOver(int score, Stage tetrisStage, Tetris.difficulty difficulty) {

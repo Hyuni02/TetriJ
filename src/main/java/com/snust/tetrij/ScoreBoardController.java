@@ -133,7 +133,9 @@ public class ScoreBoardController extends GameManager {
                 if(currentScoreId.equals(scoreData[4])) {
                     System.out.println("성공!");
                     scoreLabels.get(i).setStyle("-fx-text-fill: blue; -fx-font-weight: bold;");
+                    scoreId = "";
                 }
+                else scoreLabels.get(i).setStyle("");
                     scoreLabels.get(i).setText(formatScore(scoreData));
                 System.out.println(scoreData[4]);
                 System.out.println(scoreId);
