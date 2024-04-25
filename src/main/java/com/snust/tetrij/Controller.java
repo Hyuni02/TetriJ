@@ -1,8 +1,15 @@
 package com.snust.tetrij;
 
 import com.snust.tetrij.tetromino.*;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 import java.util.*;
+
+import static javafx.application.Platform.*;
 
 public class Controller {
     public static List<TetrominoBase> bag = new Vector<TetrominoBase>();
@@ -62,7 +69,9 @@ public class Controller {
             Tetris.isPaused = true;
             return;
         }
-        bag.add(t);
+        bag.add(new I());
+        //bag.add(t);
+        //여기 꼭 수정할것!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
 
@@ -146,6 +155,9 @@ public class Controller {
         //리스트에 저장된 라인들을 지움
         for (int i : l) {
             for (int line = i; line > 2; line--) {
+               highlightLine(i);
+               PauseTransition wait = new PauseTransition(Duration.millis(1000));
+
                 Tetris.MESH[line] = Tetris.MESH[line-1];
             }
             Tetris.MESH[2] = new char[Tetris.WIDTH];
@@ -155,6 +167,25 @@ public class Controller {
             Tetris.linesNo++;
             Tetris.changeSpeed();
         }
+    }
+
+    //줄 삭제시 깜빡거리는 애니메이션
+//    public static void highlightLine(int line){
+//        // 0~10까지의 x값 반복문
+//        // 해당 반복문에서 Tetris.MESH[lin][x]의 색을 RED로 지정
+//    }
+
+    public static void highlightLine(int line){
+        for (int x = 0; x < Tetris.WIDTH; x++) {
+            Rectangle r = Tetris.rectMesh[line][x]; // rectMesh 배열에서 Rectangle 객체를 가져옴
+            if (r != null) {
+                r.setFill(Color.RED); // 색상을 빨간색으로 변경
+            }
+        }
+
+        // 300ms 기다린 후 색상을 원래대로 복구
+        PauseTransition wait = new PauseTransition(Duration.millis(300));
+        wait.play();
     }
 
     public static boolean canMoveDown(TetrominoBase tb, int distance) {

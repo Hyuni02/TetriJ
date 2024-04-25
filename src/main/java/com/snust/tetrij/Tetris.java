@@ -45,6 +45,7 @@ public class Tetris extends Application {
     public static Pane pane = new Pane();
     private static Scene scene = new Scene(pane, XMAX + 150, YMAX);
     public static char [][] MESH = new char[HEIGHT][WIDTH];
+    public static Rectangle[][] rectMesh = new Rectangle[HEIGHT][WIDTH];    //애니메이션용..
     private static Pane group = new Pane();
     private static String screenSize;
 
@@ -340,6 +341,7 @@ public class Tetris extends Application {
                     r.setStrokeWidth(0.5);
                     r.setStroke(Color.BLACK);
                     pane.getChildren().add(r);
+                    rectMesh[y][x] = r; //애니메이션용..
                 }
             }
         });
