@@ -85,7 +85,7 @@ public class ScoreBoardController extends GameManager {
     @FXML
     private void initialize() {
         // 콤보박스에 난이도 옵션 추가
-        difficultyComboBox.getItems().addAll("EASY", "NORMAL", "HARD");
+        difficultyComboBox.getItems().addAll("EASY", "NORMAL", "HARD", "ITEM");
 
         // 콤보박스 선택 이벤트 핸들러 추가
         difficultyComboBox.setOnAction(event -> {
