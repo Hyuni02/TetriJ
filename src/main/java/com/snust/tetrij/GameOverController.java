@@ -32,7 +32,7 @@ public class GameOverController extends GameManager {
     }
     @FXML
     private void saveScore(ActionEvent event) throws IOException {
-        String name = nameField.getText();
+        String name = nameField.getText().replace(" ","");
 
         String fileWriteText = name + " " + resultScore + " " + LocalDate.now() + " " + diff + '\n';
 
