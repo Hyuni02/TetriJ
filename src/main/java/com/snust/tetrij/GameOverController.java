@@ -49,9 +49,6 @@ public class GameOverController extends GameManager {
         try {
             resultScore = score;
             diff = difficulty.name();
-            if (Tetris.item_mode){
-                diff = "ITEM";
-            }
 
             FXMLLoader loader = new FXMLLoader(GameOverController.class.getResource("game_over.fxml"));
             Parent root = loader.load();

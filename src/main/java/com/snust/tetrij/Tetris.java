@@ -54,7 +54,8 @@ public class Tetris extends Application {
     public static boolean item_mode = false;
     public static boolean restart = false;
     public static boolean isGameOver = false;
-    public enum difficulty {EASY, NORMAL, HARD};
+    public enum difficulty {EASY, NORMAL, HARD, ITEM};
+    public static difficulty cur_dif;
     public static boolean color_weakness = false;
     public static int score = 0; //점수
     public static boolean game = true;
@@ -88,6 +89,7 @@ public class Tetris extends Application {
     }
 
     public static void newGameScene(Stage stage, difficulty dif) throws IOException {
+        cur_dif = dif;
         loadSettings();
         System.out.println(dif.toString());
         Controller.SetField(dif);
@@ -217,6 +219,7 @@ public class Tetris extends Application {
                             switch (dif) {
                                 case EASY -> finalFreq = freq - speedLevel * (int) (boost * 0.8f);
                                 case NORMAL -> finalFreq = freq - speedLevel * boost;
+                                case ITEM -> finalFreq = freq - speedLevel * boost;
                                 case HARD -> finalFreq = freq - speedLevel * (int) (boost * 1.2f);
                             }
 
