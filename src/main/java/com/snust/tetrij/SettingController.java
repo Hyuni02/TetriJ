@@ -54,7 +54,7 @@ public class SettingController extends GameManager {
         try {
             String content = new String(Files.readAllBytes(Paths.get(file.toURI())), "UTF-8");
             JSONObject currentSettings = new JSONObject(content);
-            currentSettings.put("screenSize", "Small (400x600)");
+            currentSettings.put("screenSize", "400x600");
             currentSettings.put("isColorBlind", false);
 
             try (FileWriter fileWriter = new FileWriter(file)) {
@@ -128,6 +128,7 @@ public class SettingController extends GameManager {
             }
         });
         stage.show();
+        com.snust.tetrij.SetResolution.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
     }
     public void deleteScores() { // 스코어보드 초기화 메서드
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

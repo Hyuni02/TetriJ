@@ -35,9 +35,9 @@ public class MainMenu extends Application {
             }
         });
         stage.show();
-//        stage.setHeight(800);
-//        stage.setWidth(1000);
-        com.snust.tetrij.SetResolution.setResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
+        stage.setHeight(600);
+        stage.setWidth(800);
+        com.snust.tetrij.SetResolution.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
 
 
         stage.setResizable(false);

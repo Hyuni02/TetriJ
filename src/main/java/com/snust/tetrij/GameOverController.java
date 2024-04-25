@@ -34,7 +34,7 @@ public class GameOverController extends GameManager {
     private void saveScore(ActionEvent event) throws IOException {
         String name = nameField.getText();
 
-        String fileWriteText = name + " " + resultScore + " " + LocalDate.now() + diff + '\n';
+        String fileWriteText = name + " " + resultScore + " " + LocalDate.now() + " " + diff + '\n';
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/com/snust/tetrij/score.txt", true))) {
             writer.write(fileWriteText);

@@ -70,7 +70,9 @@ public class ScoreBoardController extends GameManager {
             }
         });
         stage.show();
-        com.snust.tetrij.SetResolution.setResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
+        System.out.println((int) stage.getHeight());
+        System.out.println((int) stage.getWidth());
+        com.snust.tetrij.SetResolution.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
     }
 
     @FXML
@@ -142,6 +144,4 @@ public class ScoreBoardController extends GameManager {
         String difficulty = scoreData[3];
         return name + ": " + score + "점 (날짜: " + date + ", 난이도: " + difficulty + ")";
     }
-
-
 }
