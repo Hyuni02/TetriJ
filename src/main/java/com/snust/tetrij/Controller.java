@@ -68,13 +68,12 @@ public class Controller {
 
     public static void softDrop(TetrominoBase tb) {
         eraseMesh(tb);
+        tb.pos[0]++;
         if (!canMoveDown(tb, 1)) {
             updateTop(tb);
             Controller.bag.remove(0);
         }
-        else {
-            tb.pos[0]++;
-        }
+
         tb.update_mesh();
         eraseLine();
     }
