@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -33,20 +34,28 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Stack;
+import static com.snust.tetrij.SetResolution.curHeight;
+import static com.snust.tetrij.SetResolution.curWidth;
 
 import static com.snust.tetrij.GameOverController.switchToGameOver;
 
 public class Tetris extends Application {
+    public static double offset = 500;
     // consts for game
-    public static final int SIZE = 20;
-    public static final int XMAX = SIZE * 10;
-    public static final int YMAX = SIZE * 20;
-    public static final int WIDTH = XMAX/SIZE;
-    public static final int HEIGHT = YMAX/SIZE;
+    public static int SIZE = 30;
+//    public static final int XMAX = SIZE * 10;
+//    public static final int YMAX = SIZE * 20;
+    public static final int XMAX = 20 * 10;
+    public static final int YMAX = 20 * 20;
+//    public static final int WIDTH = XMAX/SIZE;
+//    public static final int HEIGHT = YMAX/SIZE;
+public static final int WIDTH = XMAX/20;
+    public static final int HEIGHT = YMAX/20;
     public static int top = 0;
 
     // fx items
-    public static Pane pane = new Pane();
+    //private static StackPane stackPane = new StackPane(); // StackPane 사용
+    private static Pane pane = new Pane(); // 기존 Pane 사용
     private static Scene scene = new Scene(pane, XMAX + 150, YMAX);
     public static char [][] MESH = new char[HEIGHT][WIDTH];
     public static Rectangle[][] rectMesh = new Rectangle[HEIGHT][WIDTH];    //애니메이션용..
@@ -85,14 +94,40 @@ public class Tetris extends Application {
     static KeyCode downKeyCode = getKeyCodeFromString(downKey);
     static KeyCode dropKeyCode = getKeyCodeFromString(dropKey);
     // endregion
-
+    public Stage stage;
 
     @Override
-    public void start(Stage stage) throws Exception{
-        newGameScene(stage, difficulty.EASY);
+    public void start(Stage stage) throws Exception {
+
+
+        this.stage = stage;
+        //stackPane = new StackPane();  // StackPane 재정의
+        pane = new Pane();  // Pane 재정의
+        //stackPane.setAlignment(Pos.CENTER);  // StackPane 중앙 정렬
+        //stackPane.getChildren().add(pane);  // StackPane에 Pane 추가
+
+        scene = new Scene(pane, 1200, 800); // 기본 해상도 설정
+        stage.setScene(scene);  // Stage에 Scene 설정
+
+        stage.show();
+        newGameScene(stage, Tetris.difficulty.EASY);  // 새 게임 시작
+
+
     }
 
     public static void newGameScene(Stage stage, difficulty dif) throws IOException {
+        if(curWidth == 600 && curHeight == 400) {
+            SIZE = 18;
+            offset = 0;
+        }
+        if(curWidth == 900 && curHeight == 600){
+            SIZE = 25;
+            offset = 300;
+        }
+        if(curWidth == 1200 && curHeight == 800){
+            SIZE = 30;
+            offset = 500;
+        }
         cur_dif = dif;
         loadSettings();
         System.out.println(dif.toString());
@@ -100,7 +135,7 @@ public class Tetris extends Application {
 
 
         if(restart) {
-            //pane.getChildren().clear(); // 현재 씬 모든 노드 제거
+            pane.getChildren().clear(); // 현재 씬 모든 노드 제거
             Controller.bag.clear();
 
             //thread.interrupt(); // 스레드 중지
@@ -134,21 +169,21 @@ public class Tetris extends Application {
             Arrays.fill(a, '0');
         }
 
-        Line line = new Line(XMAX,0,XMAX,YMAX);
+        Line line = new Line(XMAX+ offset,0,XMAX + offset,YMAX + + offset);
         Text scoretext = new Text("Score: ");
         scoretext.setStyle("-fx-font: 20 arial;");
         scoretext.setY(50);
-        scoretext.setX(XMAX + 5);
+        scoretext.setX(XMAX + 5 + offset);
         Text level = new Text("Lines: ");
         level.setStyle("-fx-font: 20 arial;");
         level.setY(100);
-        level.setX(XMAX + 5);
+        level.setX(XMAX + 5 + offset);
         level.setFill(Color.GREEN);
         //pane.getChildren().addAll(scoretext, line, level);
 
         Button pauseButton = new Button("Pause");
         pauseButton.setLayoutY(150);
-        pauseButton.setLayoutX(XMAX + 5);
+        pauseButton.setLayoutX(XMAX + 5 + offset);
         pauseButton.setPrefWidth(50);
         pauseButton.setPrefHeight(25);
         pauseButton.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; fx-font-size: 20px;");
@@ -156,7 +191,7 @@ public class Tetris extends Application {
 
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
-                Rectangle r = new Rectangle(XMAX+10+x*Tetris.SIZE, 200+y*Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
+                Rectangle r = new Rectangle(XMAX+10+x*Tetris.SIZE + offset, 200+y*Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
                 r.setFill(Color.WHITE);
                 pane.getChildren().add(r);
             }
@@ -164,8 +199,8 @@ public class Tetris extends Application {
 
         Text keyText = new Text("왼쪽 이동: "+leftKeyCode+"\n오른쪽 이동: "+rightKeyCode + "\n아래 이동: "+downKeyCode + "\n회전: "+rotateKeyCode + "\n드롭 버튼: "+dropKeyCode);
         keyText.setStyle("-fx-font: 10 arial;");
-        keyText.setY(300);
-        keyText.setX(XMAX + 5);
+        keyText.setY(300 + offset/5);
+        keyText.setX(XMAX + 5 + offset);
 
         pane.getChildren().addAll(scoretext, line, level, pauseButton, keyText);
 
@@ -268,7 +303,7 @@ public class Tetris extends Application {
                                     int nextHeight = next.getHeight();
                                     for (int y = 0; y < 4; y++) {
                                         for (int x = 0; x < 4; x++) {
-                                            Rectangle r = new Rectangle(XMAX+10+x*Tetris.SIZE, 200+y*Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
+                                            Rectangle r = new Rectangle(XMAX+10+x*Tetris.SIZE + offset, 200+y*Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
                                             if (x >= nextWidth || y >= nextHeight) {
                                                 r.setFill(Color.WHITE);
                                             }

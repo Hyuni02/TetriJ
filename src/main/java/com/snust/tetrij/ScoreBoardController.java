@@ -18,6 +18,7 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
+import static com.snust.tetrij.GameOverController.scoreId;
 
 public class ScoreBoardController extends GameManager {
     @FXML
@@ -121,12 +122,24 @@ public class ScoreBoardController extends GameManager {
             }
 
             filteredScores.sort((s1, s2) -> Integer.compare(Integer.parseInt(s2[1]), Integer.parseInt(s1[1])));
-
+            String currentScoreId = scoreId != null ? scoreId : ""; // NullPointerException 대비
             // 상위 10개 레이블 업데이트
             List<Label> scoreLabels = List.of(score1, score2, score3, score4, score5, score6, score7, score8, score9, score10);
             for (int i = 0; i < Math.min(10, filteredScores.size()); i++) {
+
                 String[] scoreData = filteredScores.get(i);
-                scoreLabels.get(i).setText(formatScore(scoreData));
+
+
+                if(currentScoreId.equals(scoreData[4])) {
+                    System.out.println("성공!");
+                    scoreLabels.get(i).setStyle("-fx-text-fill: blue; -fx-font-weight: bold;");
+                    scoreId = "";
+                }
+                else scoreLabels.get(i).setStyle("");
+                    scoreLabels.get(i).setText(formatScore(scoreData));
+                System.out.println(scoreData[4]);
+                System.out.println(scoreId);
+                System.out.println();
             }
 
             // 남은 레이블은 빈 텍스트로 초기화
@@ -144,26 +157,5 @@ public class ScoreBoardController extends GameManager {
         String date = scoreData[2];
         String difficulty = scoreData[3];
         return name + ": " + score + "점 (날짜: " + date + ", 난이도: " + difficulty + ")";
-    }
-
-    public void highlightRecentScore(String scoreId) throws IOException {
-        String filePath = "src/main/resources/com/snust/tetrij/score.txt";
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            List<String[]> scores = new ArrayList<>();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(" ");
-
-                if (parts.length == 5) {
-                    scores.add(parts);
-                }
-            }
-
-//        for (Label label : scoreLabels) {
-//            if (label != null && scoreData[4] == scoreId) {
-//                label.setStyle("-fx-background-color: yellow; -fx-text-fill: red; -fx-font-weight: bold;");
-//            }
-        }
     }
 }
