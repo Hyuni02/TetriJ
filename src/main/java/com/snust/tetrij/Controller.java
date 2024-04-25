@@ -1,8 +1,16 @@
 package com.snust.tetrij;
 
 import com.snust.tetrij.tetromino.*;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 import java.util.*;
+
+import static javafx.application.Platform.*;
 
 public class Controller {
     public static List<TetrominoBase> bag = new Vector<TetrominoBase>();
@@ -78,7 +86,9 @@ public class Controller {
             Tetris.isPaused = true;
             return;
         }
-        bag.add(t);
+        bag.add(new I());
+        //bag.add(t);
+        //여기 꼭 수정할것!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
 
@@ -162,18 +172,92 @@ public class Controller {
         }
         Tetris.top -= l.size();
         Tetris.deleted_lines += l.size();
-        //리스트에 저장된 라인들을 지움
-        for (int i : l) {
-            for (int line = i; line > 2; line--) {
-                Tetris.MESH[line] = Tetris.MESH[line-1];
-            }
-            Tetris.MESH[2] = new char[Tetris.WIDTH];
-            Arrays.fill(Tetris.MESH[2], '0');
 
-            Tetris.score += 50;
-            Tetris.linesNo++;
-            Tetris.changeSpeed();
+        if (l.isEmpty())
+            return;
+
+        //리스트에 저장된 라인들을 지움
+        Task<Void> eraseTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                for (int line : l) {
+                    Platform.runLater(() -> {
+                        highlightLine(line); //삭제되는 블록색 바꾸기
+                    });
+                    Platform.runLater(() -> {
+                        // 라인 지우기
+                        for (int l = line; l > 2; l--) {
+                            Tetris.MESH[l] = Tetris.MESH[l-1];  //블록 당기기
+                        }
+                        Tetris.MESH[2] = new char[Tetris.WIDTH];
+                        Arrays.fill(Tetris.MESH[2], '0');
+                        Tetris.score += 50;
+                        Tetris.linesNo++;
+                        Tetris.changeSpeed();
+                    });
+                }
+                return null;
+            }
+        };
+        Thread eraseThread = new Thread(eraseTask);
+        eraseThread.setDaemon(true);
+        eraseThread.start();
+    }
+
+    /*
+    public static void eraseLine() {
+        //리스트에 가득 찬 라인을 저장
+        List<Integer> l = new Vector<>();
+        for (int y = 2; y < Tetris.HEIGHT; y++) {
+            boolean is_full = true;
+            for (int x = 0; x < Tetris.WIDTH; x++) {
+                if (Tetris.MESH[y][x] == '0') {
+                    is_full = false;
+                    break;
+                }
+            }
+
+            if (is_full)
+                l.add(y);
         }
+        Tetris.top -= l.size();
+
+        if (l.isEmpty())
+            return;
+
+        //리스트에 저장된 라인들을 지움
+        for (int i : l){
+            highlightLine(i);
+        }
+        PauseTransition wait = new PauseTransition(Duration.millis(1000));
+        wait.setOnFinished(event -> {
+            for (int i : l) {
+                for (int line = i; line > 2; line--) {
+                    Tetris.MESH[line] = Tetris.MESH[line - 1];
+                }
+                Tetris.MESH[2] = new char[Tetris.WIDTH];
+                Arrays.fill(Tetris.MESH[2], '0');
+
+                Tetris.score += 50;
+                Tetris.linesNo++;
+                Tetris.changeSpeed();
+            }
+        });
+        wait.play();
+    }
+     */
+
+    public static void highlightLine(int line){
+        for (int x = 0; x < Tetris.WIDTH; x++) {
+            Rectangle r = Tetris.rectMesh[line][x]; // rectMesh 배열에서 Rectangle 객체를 가져옴
+            if (r != null) {
+                r.setFill(Color.RED); // 색상을 빨간색으로 변경
+            }
+        }
+
+        // 0.3초동안 빨간색 유지
+        PauseTransition wait = new PauseTransition(Duration.millis(300));
+        wait.play();
     }
 
     public static boolean canMoveDown(TetrominoBase tb, int distance) {
