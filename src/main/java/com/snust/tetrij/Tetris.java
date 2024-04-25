@@ -249,6 +249,7 @@ public class Tetris extends Application {
                         }
                         color_mesh();
 
+                        //다음블럭 그리기
                         Platform.runLater(
                                 ()->{
                                     TetrominoBase next = Controller.bag.get(1);
@@ -406,6 +407,7 @@ public class Tetris extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        com.snust.tetrij.SetResolution.setResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
     }
 
     @FXML

@@ -8,8 +8,8 @@ public class GameManager {
     public static int resolutionX = 800;
     public static int resolutionY = 600;
 
-    protected void startGame() throws Exception{
-        MainMenu.playTetrij();
+    protected void startGame(String diff) throws Exception{
+        MainMenu.playTetrij(diff);
     }
 
     protected Parent returnSceneRoot(String fxml) throws IOException {

@@ -3,6 +3,7 @@ package com.snust.tetrij;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,6 +13,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -21,14 +23,16 @@ import javafx.util.Duration;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+import static com.snust.tetrij.SelectModeController.selectMode;
+
 public class StartMenuController extends GameManager {
     private MediaPlayer mediaPlayer;
     private Stage stage;
     private Scene scene;
 
     @FXML
-    protected void startTetris() throws Exception{
-        startGame();
+    protected void startTetris() throws Exception{// 모드 선택 창을 열기 위한 FXMLLoader
+        selectMode();
     }
     @FXML
     public void switchToStartMenu(ActionEvent event) throws IOException {
@@ -45,6 +49,7 @@ public class StartMenuController extends GameManager {
             }
         });
         stage.show();
+        com.snust.tetrij.SetResolution.setResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
     }
     @FXML
     public void switchToScoreBoard(ActionEvent event) throws IOException {
@@ -54,6 +59,7 @@ public class StartMenuController extends GameManager {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        com.snust.tetrij.SetResolution.setResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
     }
     @FXML
     public void switchToSetting(ActionEvent event) throws IOException {
@@ -63,6 +69,7 @@ public class StartMenuController extends GameManager {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        com.snust.tetrij.SetResolution.setResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
     }
     @FXML
     private void exitGame() {
