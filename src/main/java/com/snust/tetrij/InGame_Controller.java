@@ -2,6 +2,7 @@ package com.snust.tetrij;
 
 import javafx.scene.shape.Rectangle;
 
+@Deprecated
 public class InGame_Controller {
     // Getting the numbers and the MESH from Hyuni_Tetris
     public static final int MOVE = InGame.MOVE;
