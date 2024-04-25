@@ -7,10 +7,20 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileReader;
 
 public class SetResolution {
 
     String curResolution;
+    // 근데 아래 initialize가 실행 잘 될지 모름.. 확인좀 해보고싶은데 어느부분 java 파일인지 몰라서 ㅜㅜ
+    // 안되면 다른 함수 안에 intialize() 넣어서 해봐용
+    public void initialize() {
+        loadSettings();  //json파일 읽어옴
+        System.out.println(curResolution);  //디버그용.. 한번 확인해보이소~
+    }
 
     public static void setStartMenuResolution(Parent root, int height, int width) {
         if (height == 600 && width == 800) {
@@ -185,6 +195,25 @@ public class SetResolution {
             checkBox.setLayoutX(layoutX);
             checkBox.setLayoutY(layoutY);
             checkBox.setStyle(css);
+        }
+    }
+
+    private void loadSettings() {    //셋팅 파일 읽어옴
+        try {
+            File file = new File("setting.json");
+            FileReader fileReader = new FileReader(file);
+            StringBuilder stringBuilder = new StringBuilder();
+            int i;
+            while ((i = fileReader.read()) != -1) {
+                stringBuilder.append((char) i);
+            }
+            fileReader.close();
+
+            JSONObject setting = new JSONObject(stringBuilder.toString());
+            curResolution = setting.getString("screenSize");
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
