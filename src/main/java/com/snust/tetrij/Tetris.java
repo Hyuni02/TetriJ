@@ -51,7 +51,7 @@ public class Tetris extends Application {
 
     // variables for game
     public static Thread thread;
-    public static boolean item_mode = false;
+    public static boolean item_mode = true;
     public static boolean restart = false;
     public static boolean isGameOver = false;
     public enum difficulty {EASY, NORMAL, HARD};

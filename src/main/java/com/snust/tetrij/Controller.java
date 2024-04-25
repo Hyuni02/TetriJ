@@ -47,7 +47,7 @@ public class Controller {
             }
         }
         else {
-            if (Tetris.deleted_lines >= 10) {
+            if (Tetris.deleted_lines <= 10) {
                 Tetris.deleted_lines = 0;
                 switch(field.get(idx)) {
                     case 0 -> t = new Z(true);
@@ -87,8 +87,10 @@ public class Controller {
         tb.pos[0]++;
         if (!canMoveDown(tb, 1)) {
             updateTop(tb);
+            tb.update_mesh();
             eraseLine();
             Controller.bag.remove(0);
+            return;
         }
         tb.update_mesh();
     }
