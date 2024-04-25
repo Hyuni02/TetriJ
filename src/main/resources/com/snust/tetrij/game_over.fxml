@@ -14,5 +14,7 @@
     <Button onAction="#saveScore" text="Save Score" textAlignment="CENTER">
         <font>
             <Font name="Calibri" size="12.0" />
-        </font></Button>
+        </font>
+    </Button>
+   <Button mnemonicParsing="false" text="Exit" />
 </VBox>

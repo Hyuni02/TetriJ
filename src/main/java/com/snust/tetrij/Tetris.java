@@ -81,10 +81,11 @@ public class Tetris extends Application {
     static KeyCode downKeyCode = getKeyCodeFromString(downKey);
     static KeyCode dropKeyCode = getKeyCodeFromString(dropKey);
     // endregion
-
+    public Stage stage;
 
     @Override
     public void start(Stage stage) throws Exception{
+        this.stage = stage;
         newGameScene(stage, difficulty.EASY);
     }
 

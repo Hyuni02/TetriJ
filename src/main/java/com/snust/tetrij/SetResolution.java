@@ -142,16 +142,26 @@ public class SetResolution {
         double layoutY = 120;
         double offset = 40;
 
-        setLabelLayout(root, "#score1", layoutX, layoutY + 0*offset, cssLabel);
-        setLabelLayout(root, "#score2", layoutX, layoutY + 1*offset, cssLabel);
-        setLabelLayout(root, "#score3", layoutX, layoutY + 2*offset, cssLabel);
-        setLabelLayout(root, "#score4", layoutX, layoutY + 3*offset, cssLabel);
-        setLabelLayout(root, "#score5", layoutX, layoutY + 4*offset, cssLabel);
-        setLabelLayout(root, "#score6", layoutX, layoutY + 5*offset, cssLabel);
-        setLabelLayout(root, "#score7", layoutX, layoutY + 6*offset, cssLabel);
-        setLabelLayout(root, "#score8", layoutX, layoutY + 7*offset, cssLabel);
-        setLabelLayout(root, "#score9", layoutX, layoutY + 8*offset, cssLabel);
-        setLabelLayout(root, "#score10", layoutX, layoutY + 9*offset, cssLabel);
+//        setLabelLayout(root, "#score1", layoutX, layoutY + 0*offset, cssLabel);
+//        setLabelLayout(root, "#score2", layoutX, layoutY + 1*offset, cssLabel);
+//        setLabelLayout(root, "#score3", layoutX, layoutY + 2*offset, cssLabel);
+//        setLabelLayout(root, "#score4", layoutX, layoutY + 3*offset, cssLabel);
+//        setLabelLayout(root, "#score5", layoutX, layoutY + 4*offset, cssLabel);
+//        setLabelLayout(root, "#score6", layoutX, layoutY + 5*offset, cssLabel);
+//        setLabelLayout(root, "#score7", layoutX, layoutY + 6*offset, cssLabel);
+//        setLabelLayout(root, "#score8", layoutX, layoutY + 7*offset, cssLabel);
+//        setLabelLayout(root, "#score9", layoutX, layoutY + 8*offset, cssLabel);
+//        setLabelLayout(root, "#score10", layoutX, layoutY + 9*offset, cssLabel);
+        setLabelLayout(root, "#score1", layoutX, layoutY + 0*offset);
+        setLabelLayout(root, "#score2", layoutX, layoutY + 1*offset);
+        setLabelLayout(root, "#score3", layoutX, layoutY + 2*offset);
+        setLabelLayout(root, "#score4", layoutX, layoutY + 3*offset);
+        setLabelLayout(root, "#score5", layoutX, layoutY + 4*offset);
+        setLabelLayout(root, "#score6", layoutX, layoutY + 5*offset);
+        setLabelLayout(root, "#score7", layoutX, layoutY + 6*offset);
+        setLabelLayout(root, "#score8", layoutX, layoutY + 7*offset);
+        setLabelLayout(root, "#score9", layoutX, layoutY + 8*offset);
+        setLabelLayout(root, "#score10", layoutX, layoutY + 9*offset);
 
         setComboBoxLayout(root, "#difficultyComboBox", 70.0, 90.0, 100.0, 30.0, "-fx-font-size: 8pt;");
     }
@@ -219,12 +229,19 @@ public class SetResolution {
             text.setStyle(css);
         }
     }
-
-    private static void setLabelLayout(Parent root, String id, double layoutX, double layoutY, String css) {
+    private static void setLabelLayout(Parent root, String id, double layoutX, double layoutY){
         Label label = (Label) root.lookup(id);
         if (label != null) {
             label.setLayoutX(layoutX);
             label.setLayoutY(layoutY);
+        }
+    }
+    private static void setLabelLayout(Parent root, String id, double layoutX, double layoutY, String css) {
+
+        Label label = (Label) root.lookup(id);
+        setLabelLayout(root, id, layoutX,layoutY);
+        if (label != null) {
+
             label.setStyle(css);
         }
     }
