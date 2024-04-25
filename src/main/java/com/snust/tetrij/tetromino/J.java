@@ -5,8 +5,8 @@ import javafx.scene.paint.Color;
 
 public class J extends TetrominoBase {
 
-    public J() {
-        super();
+    public J(boolean gen_item) {
+        super(gen_item);
         super.name = 'j';
         super.color = Color.BLUE;
         super.mesh = new int[][][] {
@@ -30,5 +30,8 @@ public class J extends TetrominoBase {
                 }
         };
         super.pos = new int[] { 0, (int)(Math.random()*7) };
+        if (gen_item) {
+            genItem();
+        }
     }
 }

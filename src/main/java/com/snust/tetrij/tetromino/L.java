@@ -4,8 +4,8 @@ import com.snust.tetrij.Tetris;
 import javafx.scene.paint.Color;
 
 public class L extends TetrominoBase {
-    public L() {
-        super();
+    public L(boolean gen_item) {
+        super(gen_item);
         super.name = 'l';
         super.color = Color.ORANGE;
         super.mesh = new int[][][] {
@@ -29,5 +29,8 @@ public class L extends TetrominoBase {
                 }
         };
         super.pos = new int[] { 0, (int)(Math.random()*7) };
+        if (gen_item) {
+            genItem();
+        }
     }
 }

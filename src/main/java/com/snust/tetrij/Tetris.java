@@ -24,6 +24,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 
+import javax.print.attribute.standard.PrinterMessageFromOperator;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -50,7 +51,7 @@ public class Tetris extends Application {
 
     // variables for game
     public static Thread thread;
-    public static boolean item_mode;
+    public static boolean item_mode = false;
     public static boolean restart = false;
     public static boolean isGameOver = false;
     public enum difficulty {EASY, NORMAL, HARD};
@@ -62,6 +63,7 @@ public class Tetris extends Application {
     private static int freq = 300; //하강 속도
     public static int speedLevel = 0; //지워진 줄 수에 따른 속도 레벨
     private static int boost = 30; //하강 속도 증가량
+    public static int deleted_lines = 0;
     private MediaPlayer mediaPlayer;
     // 퍼즈 관련 변수
     protected static boolean isPaused = false; // 퍼즈 중인가?
@@ -238,6 +240,10 @@ public class Tetris extends Application {
 
                         //game running
 
+/*                        for (char[] arr : MESH) {
+                            System.out.println(arr);
+                        }
+                        System.out.println("\n");*/
 
                         if (Controller.bag.size() >= 2) {
                             Controller.softDrop(Controller.bag.get(0));
@@ -271,6 +277,7 @@ public class Tetris extends Application {
                                     }
                                 }
                         );
+
 
 
 

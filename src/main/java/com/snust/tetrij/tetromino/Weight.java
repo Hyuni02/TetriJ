@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 
 public class Weight extends TetrominoBase {
     public Weight() {
-        super();
+        super(false);
         super.name = 'w';
         super.color = Color.BLACK;
         super.mesh = new int[][][] {
