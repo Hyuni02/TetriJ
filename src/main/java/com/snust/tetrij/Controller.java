@@ -184,6 +184,49 @@ public class Controller {
         eraseThread.start();
     }
 
+    /*
+    public static void eraseLine() {
+        //리스트에 가득 찬 라인을 저장
+        List<Integer> l = new Vector<>();
+        for (int y = 2; y < Tetris.HEIGHT; y++) {
+            boolean is_full = true;
+            for (int x = 0; x < Tetris.WIDTH; x++) {
+                if (Tetris.MESH[y][x] == '0') {
+                    is_full = false;
+                    break;
+                }
+            }
+
+            if (is_full)
+                l.add(y);
+        }
+        Tetris.top -= l.size();
+
+        if (l.isEmpty())
+            return;
+
+        //리스트에 저장된 라인들을 지움
+        for (int i : l){
+            highlightLine(i);
+        }
+        PauseTransition wait = new PauseTransition(Duration.millis(1000));
+        wait.setOnFinished(event -> {
+            for (int i : l) {
+                for (int line = i; line > 2; line--) {
+                    Tetris.MESH[line] = Tetris.MESH[line - 1];
+                }
+                Tetris.MESH[2] = new char[Tetris.WIDTH];
+                Arrays.fill(Tetris.MESH[2], '0');
+
+                Tetris.score += 50;
+                Tetris.linesNo++;
+                Tetris.changeSpeed();
+            }
+        });
+        wait.play();
+    }
+     */
+
     public static void highlightLine(int line){
         for (int x = 0; x < Tetris.WIDTH; x++) {
             Rectangle r = Tetris.rectMesh[line][x]; // rectMesh 배열에서 Rectangle 객체를 가져옴
