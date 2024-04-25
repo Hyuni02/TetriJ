@@ -193,7 +193,8 @@ public class SetResolution {
         setTextLayout(root, "#settingTitle", 320.0, 67.0, "-fx-font-size: 42pt;");
         setButtonLayout(root, "#scoreBoardInitButton", buttonLayoutX, buttonLayoutY + 0*buttonOffset, buttonWidth, buttonHeight, "-fx-font-size: 8pt;");
         setButtonLayout(root, "#defaultButton", buttonLayoutX, buttonLayoutY + 1*buttonOffset, buttonWidth, buttonHeight, "-fx-font-size: 8pt;");
-        setButtonLayout(root, "#exitButton", buttonLayoutX, buttonLayoutY + 2*buttonOffset, buttonWidth, buttonHeight, "-fx-font-size: 8pt;");
+        setButtonLayout(root, "#saveButton", buttonLayoutX, buttonLayoutY + 2*buttonOffset, buttonWidth, buttonHeight, "-fx-font-size: 8pt;");
+        setButtonLayout(root, "#exitButton", buttonLayoutX, buttonLayoutY + 3*buttonOffset, buttonWidth, buttonHeight, "-fx-font-size: 8pt;");
 
         setLabelLayout(root, "#text1", 80.0, 90.0, "-fx-font-size: 12pt;");
         setComboBoxLayout(root, "#sizeComboBox", 80.0, 120.0, 150.0, 30.0, "-fx-font-size: 12pt;");
@@ -204,23 +205,24 @@ public class SetResolution {
         setCheckBoxLayout(root, "#colorBlindModeCheckBox", 650.0, 120.0, "-fx-font-size: 15pt;");
     }
     public static void setSettingMenu1200x800(Parent root) {
-        double buttonWidth = 150.0;
-        double buttonHeight = 30.0;
-        double buttonLayoutX =700.0;
-        double buttonLayoutY = 380.0;
-        double buttonOffset = 50;
-        setTextLayout(root, "#settingTitle", 320.0, 67.0, "-fx-font-size: 42pt;");
+        double buttonWidth = 200.0;
+        double buttonHeight = 50.0;
+        double buttonLayoutX =900.0;
+        double buttonLayoutY = 500.0;
+        double buttonOffset = 70;
+        setTextLayout(root, "#settingTitle", 480.0, 67.0, "-fx-font-size: 42pt;");
         setButtonLayout(root, "#scoreBoardInitButton", buttonLayoutX, buttonLayoutY + 0*buttonOffset, buttonWidth, buttonHeight, "-fx-font-size: 8pt;");
         setButtonLayout(root, "#defaultButton", buttonLayoutX, buttonLayoutY + 1*buttonOffset, buttonWidth, buttonHeight, "-fx-font-size: 8pt;");
-        setButtonLayout(root, "#exitButton", buttonLayoutX, buttonLayoutY + 2*buttonOffset, buttonWidth, buttonHeight, "-fx-font-size: 8pt;");
+        setButtonLayout(root, "#saveButton", buttonLayoutX, buttonLayoutY + 2*buttonOffset, buttonWidth, buttonHeight, "-fx-font-size: 8pt;");
+        setButtonLayout(root, "#exitButton", buttonLayoutX, buttonLayoutY + 3*buttonOffset, buttonWidth, buttonHeight, "-fx-font-size: 8pt;");
 
-        setLabelLayout(root, "#text1", 80.0, 90.0, "-fx-font-size: 12pt;");
-        setComboBoxLayout(root, "#sizeComboBox", 80.0, 120.0, 150.0, 30.0, "-fx-font-size: 12pt;");
+        setLabelLayout(root, "#text1", 80.0, 150.0, "-fx-font-size: 12pt;");
+        setComboBoxLayout(root, "#sizeComboBox", 80.0, 180.0, 150.0, 30.0, "-fx-font-size: 12pt;");
 
-        setLabelLayout(root, "#text2", 350.0, 90.0, "-fx-font-size: 12pt;");
-        setButtonLayout(root, "#KeySettingButton", 350, 120, buttonWidth, buttonHeight, "-fx-font-size: 12pt;");
+        setLabelLayout(root, "#text2", 450.0, 150.0, "-fx-font-size: 12pt;");
+        setButtonLayout(root, "#KeySettingButton", 450, 180, 150, 40, "-fx-font-size: 12pt;");
 
-        setCheckBoxLayout(root, "#colorBlindModeCheckBox", 650.0, 120.0, "-fx-font-size: 15pt;");
+        setCheckBoxLayout(root, "#colorBlindModeCheckBox", 850.0, 180.0, "-fx-font-size: 15pt;");
     }
     /*
     레이아웃 설정 관련 함수
