@@ -146,6 +146,8 @@ public static final int WIDTH = XMAX/20;
             linesNo = 0;
             game = true;
             isPaused = false; // 퍼즈 후 시작화면으로 나가서 재시작할때 오류방지
+            isGameOver = false;
+            restart = false;
 //            fall.cancel(); // 타이머 리셋
 //            fall.purge();
         }
