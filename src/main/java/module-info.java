@@ -6,6 +6,7 @@ module com.snust.tetrij {
     requires java.desktop;
     requires javafx.media;
     requires org.json;
+    requires junit;
 
 
     opens com.snust.tetrij to javafx.fxml;
