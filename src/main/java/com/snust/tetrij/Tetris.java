@@ -246,13 +246,6 @@ public class Tetris extends Application {
                         //일시정지
                         if (isPaused) continue;
 
-                        //game running
-
-/*                        for (char[] arr : MESH) {
-                            System.out.println(arr);
-                        }
-                        System.out.println("\n");*/
-
                         if (Controller.bag.size() >= 2) {
                             Controller.softDrop(Controller.bag.get(0));
                         }
@@ -285,10 +278,6 @@ public class Tetris extends Application {
                                     }
                                 }
                         );
-
-
-
-
                         //게임오바
                         if (Tetris.top >= Tetris.HEIGHT - 1) {
                             System.out.println("game over");
@@ -480,5 +469,12 @@ public class Tetris extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static void printMesh() {
+        for (char[] arr : MESH) {
+            System.out.println(arr);
+        }
+        System.out.println("\n");
     }
 }

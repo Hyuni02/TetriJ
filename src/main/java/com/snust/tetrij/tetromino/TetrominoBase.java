@@ -14,9 +14,12 @@ public class TetrominoBase {
     public int[] pos; //(y,x)
     public int rotate;
 
+    public boolean can_move;
+
     public TetrominoBase(boolean gen_item) {
         this.color = new Color(0,0,0,0);
         this.rotate = 0;
+        this.can_move = true;
     }
 
     protected void genItem() {
