@@ -107,7 +107,7 @@ public class ScoreBoardController extends GameManager {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(" ");
 
-                if (parts.length == 4) {
+                if (parts.length == 5) {
                     scores.add(parts);
                 }
             }
@@ -144,5 +144,26 @@ public class ScoreBoardController extends GameManager {
         String date = scoreData[2];
         String difficulty = scoreData[3];
         return name + ": " + score + "점 (날짜: " + date + ", 난이도: " + difficulty + ")";
+    }
+
+    public void highlightRecentScore(String scoreId) throws IOException {
+        String filePath = "src/main/resources/com/snust/tetrij/score.txt";
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            List<String[]> scores = new ArrayList<>();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(" ");
+
+                if (parts.length == 5) {
+                    scores.add(parts);
+                }
+            }
+
+//        for (Label label : scoreLabels) {
+//            if (label != null && scoreData[4] == scoreId) {
+//                label.setStyle("-fx-background-color: yellow; -fx-text-fill: red; -fx-font-weight: bold;");
+//            }
+        }
     }
 }

@@ -14,6 +14,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.UUID;
 
 public class GameOverController extends GameManager {
     private static Stage stage;
@@ -25,6 +26,7 @@ public class GameOverController extends GameManager {
     private TextField nameField;
     private static int resultScore;
     private static String diff;
+    private static String scoreId;
     @FXML
     private void initialize() {
         String displayStr = "Score : " + Integer.toString(resultScore);
@@ -33,8 +35,9 @@ public class GameOverController extends GameManager {
     @FXML
     private void saveScore(ActionEvent event) throws IOException {
         String name = nameField.getText().replace(" ","");
+        scoreId = UUID.randomUUID().toString(); // 고유 식별자 생성
 
-        String fileWriteText = name + " " + resultScore + " " + LocalDate.now() + " " + diff + '\n';
+        String fileWriteText = name + " " + resultScore + " " + LocalDate.now() + " " + diff + " " + scoreId + '\n';
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/com/snust/tetrij/score.txt", true))) {
             writer.write(fileWriteText);
@@ -61,13 +64,20 @@ public class GameOverController extends GameManager {
                 Parent scoreRoot;
                 try {
                     scoreRoot = scoreLoader.load();
+
+                    // 스코어보드 컨트롤러에서 가장 최근 점수의 고유 식별자를 강조하도록 설정
+                    ScoreBoardController scoreBoardController = scoreLoader.getController();
+                    scoreBoardController.highlightRecentScore(scoreId); // 최근 점수 강조
+
                     tetrisStage.setScene(new Scene(scoreRoot));
+                    SetResolution.setScoreBoardResolution(scoreRoot, (int) tetrisStage.getHeight(), (int) tetrisStage.getWidth());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 tetrisStage.show();
             });
             stage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -21,6 +21,8 @@ import org.json.JSONObject;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import static com.snust.tetrij.SetResolution.*;
+
 public class SettingController extends GameManager {
     private Stage stage;
     private Scene scene;
@@ -96,7 +98,6 @@ public class SettingController extends GameManager {
 
     private void saveSettingsToFile() {   //json 파일로 저장
         File file = new File("setting.json");
-
         try {
             String content = new String(Files.readAllBytes(Paths.get(file.toURI())), "UTF-8");
             JSONObject currentSettings = new JSONObject(content);
@@ -114,11 +115,14 @@ public class SettingController extends GameManager {
     }
 
     public void switchToStartMenu(ActionEvent event) throws IOException {
+        resolutionInitialize();
         saveSettingsToFile();
         Parent root = returnSceneRoot("start_menu.fxml");
         stage =(Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
+        stage.setHeight(curHeight);
+        stage.setWidth(curWidth);
         scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -128,6 +132,8 @@ public class SettingController extends GameManager {
             }
         });
         stage.show();
+        System.out.println(stage.getHeight());
+        System.out.println(stage.getWidth());
         com.snust.tetrij.SetResolution.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
     }
     public void deleteScores() { // 스코어보드 초기화 메서드

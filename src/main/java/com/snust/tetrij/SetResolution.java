@@ -14,34 +14,44 @@ import java.io.FileReader;
 
 public class SetResolution {
 
-    String curResolution;
-    // 근데 아래 initialize가 실행 잘 될지 모름.. 확인좀 해보고싶은데 어느부분 java 파일인지 몰라서 ㅜㅜ
-    // 안되면 다른 함수 안에 intialize() 넣어서 해봐용
-    public void initialize() {
+    static String curResolution;
+    static int curHeight;
+    static int curWidth;
+
+    public static void resolutionInitialize() {
         loadSettings();  //json파일 읽어옴
         System.out.println(curResolution);  //디버그용.. 한번 확인해보이소~
+        String[] parts = curResolution.split("x");
+
+        if (parts.length == 2) {
+            curWidth = Integer.parseInt(parts[0]);
+            curHeight = Integer.parseInt(parts[1]);
+
+            System.out.println("Width: " + curWidth);
+            System.out.println("Height: " + curHeight);
+        }
     }
 
     public static void setStartMenuResolution(Parent root, int height, int width) {
-        if (height == 600 && width == 800) {
-            setStartMenu600x800(root);
-        } else if (height == 800 && width == 1000) {
-            setStartMenu800x1000(root);
+        if (height == 600 && width == 900) {
+            setStartMenu900x600(root);
+        } else if (height == 800 && width == 1200) {
+            setStartMenu1200x800(root);
         }
     }
 
     public static void setScoreBoardResolution(Parent root, int height, int width){
-        if (height == 600 && width == 800) {
-            setScoreBoard600x800(root);
-        } else if (height == 800 && width == 1000) {
-            setScoreBoard800x1000(root);
+        if (height == 600 && width == 900) {
+            setScoreBoard900x600(root);
+        } else if (height == 800 && width == 1200) {
+            setScoreBoard1200x800(root);
         }
     }
     public static void setSettingMenuResolution(Parent root, int height, int width) {
-        if (height == 600 && width == 800) {
-            setSettingMenu600x800(root);
-        } else if (height == 800 && width == 1000) {
-            setSettingMenu800x1000(root);
+        if (height == 600 && width == 900) {
+            setSettingMenu900x600(root);
+        } else if (height == 800 && width == 1200) {
+            setSettingMenu1200x800(root);
         }
     }
 
@@ -49,103 +59,143 @@ public class SetResolution {
         시작 메뉴 해상도 설정
         */
 
-    public static void setStartMenu600x800(Parent root) {
+    public static void setStartMenu900x600(Parent root) {
         ImageView imageView = (ImageView) root.lookup("#Tetrij");
         if (imageView != null) {
             imageView.setFitHeight(150.0);
             imageView.setFitWidth(400.0);
-            imageView.setLayoutX(200.0);
+            imageView.setLayoutX(220.0);
             imageView.setLayoutY(50.0);
         }
+        double buttonLayoutX = 310.0;
+        double buttonLayoutY = 180.0;
+        double buttonOffset = 70.0;
 
-        setButtonLayout(root, "#startBtn1", 270.0, 180.0, 220.0, 60.0, "-fx-font-size: 20pt;");
-        setButtonLayout(root, "#startBtn2", 270.0, 250.0, 220.0, 60.0, "-fx-font-size: 20pt;");
-        setButtonLayout(root, "#startBtn3", 270.0, 320.0, 220.0, 60.0, "-fx-font-size: 20pt;");
-        setButtonLayout(root, "#startBtn4", 270.0, 390.0, 220.0, 60.0, "-fx-font-size: 20pt;");
+        setButtonLayout(root, "#startBtn1", buttonLayoutX, buttonLayoutY + 0*buttonOffset, 220.0, 60.0, "-fx-font-size: 20pt;");
+        setButtonLayout(root, "#startBtn2", buttonLayoutX, buttonLayoutY + 1*buttonOffset, 220.0, 60.0, "-fx-font-size: 20pt;");
+        setButtonLayout(root, "#startBtn3", buttonLayoutX, buttonLayoutY + 2*buttonOffset, 220.0, 60.0, "-fx-font-size: 20pt;");
+        setButtonLayout(root, "#startBtn4", buttonLayoutX, buttonLayoutY + 3*buttonOffset, 220.0, 60.0, "-fx-font-size: 20pt;");
 
-        setTextLayout(root, "#upText", 400.0, 450.0, "-fx-font-size: 12pt;");
-        setTextLayout(root, "#downText", 400.0, 480.0, "-fx-font-size: 12pt;");
+        setTextLayout(root, "#upText", 500.0, 450.0, "-fx-font-size: 12pt;");
+        setTextLayout(root, "#downText", 500.0, 480.0, "-fx-font-size: 12pt;");
     }
 
-    public static void setStartMenu800x1000(Parent root) {
+    public static void setStartMenu1200x800(Parent root) {
         ImageView imageView = (ImageView) root.lookup("#Tetrij");
         if (imageView != null) {
-            imageView.setFitHeight(150.0);
-            imageView.setFitWidth(400.0);
-            imageView.setLayoutX(200.0);
+            imageView.setFitHeight(180.0);
+            imageView.setFitWidth(480.0);
+            imageView.setLayoutX(340.0);
             imageView.setLayoutY(50.0);
         }
 
-        setButtonLayout(root, "#startBtn1", 350.0, 230.0, 250.0, 90.0, "-fx-font-size: 22pt;");
-        setButtonLayout(root, "#startBtn2", 350.0, 330.0, 250.0, 90.0, "-fx-font-size: 22pt;");
-        setButtonLayout(root, "#startBtn3", 350.0, 430.0, 250.0, 90.0, "-fx-font-size: 22pt;");
-        setButtonLayout(root, "#startBtn4", 350.0, 530.0, 250.0, 90.0, "-fx-font-size: 22pt;");
+        double buttonLayoutX = 470.0;
+        double buttonLayoutY = 260.0;
+        double buttonOffset = 100.0;
 
-        setTextLayout(root, "#upText", 550.0, 600.0, "-fx-font-size: 15pt;");
-        setTextLayout(root, "#downText", 550.0, 630.0, "-fx-font-size: 15pt;");
+        setButtonLayout(root, "#startBtn1", buttonLayoutX, buttonLayoutY + 0*buttonOffset, 220.0, 60.0, "-fx-font-size: 22pt;");
+        setButtonLayout(root, "#startBtn2", buttonLayoutX, buttonLayoutY + 1*buttonOffset, 220.0, 60.0, "-fx-font-size: 22pt;");
+        setButtonLayout(root, "#startBtn3", buttonLayoutX, buttonLayoutY + 2*buttonOffset, 220.0, 60.0, "-fx-font-size: 22pt;");
+        setButtonLayout(root, "#startBtn4", buttonLayoutX, buttonLayoutY + 3*buttonOffset, 220.0, 60.0, "-fx-font-size: 22pt;");
+
+        setTextLayout(root, "#upText", 650.0, 600.0, "-fx-font-size: 15pt;");
+        setTextLayout(root, "#downText", 650.0, 630.0, "-fx-font-size: 15pt;");
     }
 
     /*
     스코어보드 해상도 설정
     */
 
-    public static void setScoreBoard600x800(Parent root) {
-        setButtonLayout(root, "#exitButton", 600.0, 450.0, 100.0, 30.0, "-fx-font-size: 12pt;");
-        setTextLayout(root, "#scoreBoardTitle", 240.0, 54.0, "-fx-font-size: 40pt;");
+    public static void setScoreBoard900x600(Parent root) {
+        setButtonLayout(root, "#exitButton", 700.0, 450.0, 100.0, 30.0, "-fx-font-size: 12pt;");
+        setTextLayout(root, "#scoreBoardTitle", 300.0, 54.0, "-fx-font-size: 40pt;");
         setTextLayout(root, "#diffText", 50.0, 50.0, "-fx-font-size: 15pt;");
 
         String cssLabel = "-fx-font-size: 18pt;";
-        setLabelLayout(root, "#score1", 170.0, 80.0, cssLabel);
-        setLabelLayout(root, "#score2", 170.0, 110.0, cssLabel);
-        setLabelLayout(root, "#score3", 170.0, 140.0, cssLabel);
-        setLabelLayout(root, "#score4", 170.0, 170.0, cssLabel);
-        setLabelLayout(root, "#score5", 170.0, 200.0, cssLabel);
-        setLabelLayout(root, "#score6", 170.0, 230.0, cssLabel);
-        setLabelLayout(root, "#score7", 170.0, 260.0, cssLabel);
-        setLabelLayout(root, "#score8", 170.0, 290.0, cssLabel);
-        setLabelLayout(root, "#score9", 170.0, 320.0, cssLabel);
-        setLabelLayout(root, "#score10", 170.0, 350.0, cssLabel);
+        double layoutX = 170.0;
+        double layoutY = 80.0;
+        double offset = 30.0;
+
+        setLabelLayout(root, "#score1", layoutX, layoutY + 0*offset, cssLabel);
+        setLabelLayout(root, "#score2", layoutX, layoutY + 1*offset, cssLabel);
+        setLabelLayout(root, "#score3", layoutX, layoutY + 2*offset, cssLabel);
+        setLabelLayout(root, "#score4", layoutX, layoutY + 3*offset, cssLabel);
+        setLabelLayout(root, "#score5", layoutX, layoutY + 4*offset, cssLabel);
+        setLabelLayout(root, "#score6", layoutX, layoutY + 5*offset, cssLabel);
+        setLabelLayout(root, "#score7", layoutX, layoutY + 6*offset, cssLabel);
+        setLabelLayout(root, "#score8", layoutX, layoutY + 7*offset, cssLabel);
+        setLabelLayout(root, "#score9", layoutX, layoutY + 8*offset, cssLabel);
+        setLabelLayout(root, "#score10", layoutX, layoutY + 9*offset, cssLabel);
 
         setComboBoxLayout(root, "#difficultyComboBox", 30.0, 60.0, 100.0, 30.0, "-fx-font-size: 8pt;");
     }
 
-    public static void setScoreBoard800x1000(Parent root) {
-        setButtonLayout(root, "#exitButton", 600.0, 400.0, 150.0, 45.0, "-fx-font-size: 15pt;");
-        setTextLayout(root, "#scoreBoardTitle", 300.0, 100.0, "-fx-font-size: 45pt;");
+    public static void setScoreBoard1200x800(Parent root) {
+        setButtonLayout(root, "#exitButton", 900.0, 650.0, 180.0, 60.0, "-fx-font-size: 15pt;");
+        setTextLayout(root, "#scoreBoardTitle", 440.0, 60.0, "-fx-font-size: 40pt;");
+        setTextLayout(root, "#diffText", 90.0, 75.0, "-fx-font-size: 15pt;");
 
-        String cssLabel = "-fx-font-size: 18pt;";
-        setLabelLayout(root, "#score1", 170.0, 80.0, cssLabel);
-        setLabelLayout(root, "#score2", 170.0, 110.0, cssLabel);
-        setLabelLayout(root, "#score3", 170.0, 140.0, cssLabel);
-        setLabelLayout(root, "#score4", 170.0, 170.0, cssLabel);
-        setLabelLayout(root, "#score5", 170.0, 200.0, cssLabel);
-        setLabelLayout(root, "#score6", 170.0, 230.0, cssLabel);
-        setLabelLayout(root, "#score7", 170.0, 260.0, cssLabel);
-        setLabelLayout(root, "#score8", 170.0, 290.0, cssLabel);
-        setLabelLayout(root, "#score9", 170.0, 320.0, cssLabel);
-        setLabelLayout(root, "#score10", 170.0, 350.0, cssLabel);
+        String cssLabel = "-fx-font-size: 20pt;";
+        String highlight = "-fx-text-fill: blue; -fx-font-weight: bold; -fx-font-size: 20pt;";
 
-        setComboBoxLayout(root, "#difficultyComboBox", 60.0, 100.0, 120.0, 30.0, "-fx-font-size: 8pt;");
-        setTextLayout(root, "#diffText",100.0, 100.0, "-fx-font-size: 10pt;");
+        double layoutX = 280;
+        double layoutY = 120;
+        double offset = 40;
+
+        setLabelLayout(root, "#score1", layoutX, layoutY + 0*offset, cssLabel);
+        setLabelLayout(root, "#score2", layoutX, layoutY + 1*offset, cssLabel);
+        setLabelLayout(root, "#score3", layoutX, layoutY + 2*offset, cssLabel);
+        setLabelLayout(root, "#score4", layoutX, layoutY + 3*offset, cssLabel);
+        setLabelLayout(root, "#score5", layoutX, layoutY + 4*offset, cssLabel);
+        setLabelLayout(root, "#score6", layoutX, layoutY + 5*offset, cssLabel);
+        setLabelLayout(root, "#score7", layoutX, layoutY + 6*offset, cssLabel);
+        setLabelLayout(root, "#score8", layoutX, layoutY + 7*offset, cssLabel);
+        setLabelLayout(root, "#score9", layoutX, layoutY + 8*offset, cssLabel);
+        setLabelLayout(root, "#score10", layoutX, layoutY + 9*offset, cssLabel);
+
+        setComboBoxLayout(root, "#difficultyComboBox", 70.0, 90.0, 100.0, 30.0, "-fx-font-size: 8pt;");
+    }
+    public static void setScoreBoard1200x800(Parent root, String name, int score) {
+        setScoreBoard1200x800(root);
+
     }
 
     /*
     환경설정 메뉴 해상도 설정
      */
 
-    public static void setSettingMenu600x800(Parent root) {
-        setTextLayout(root, "#settingTitle", 280.0, 67.0, "-fx-font-size: 42pt;");
-        setButtonLayout(root, "#scoreBoardInitButton", 550.0, 380.0, 150.0, 30.0, "-fx-font-size: 8pt;");
-        setButtonLayout(root, "#defaultButton", 550.0, 430.0, 150.0, 30.0, "-fx-font-size: 8pt;");
-        setButtonLayout(root, "#exitButton", 550.0, 480.0, 150.0, 30.0, "-fx-font-size: 8pt;");
-        setCheckBoxLayout(root, "#colorBlindModeCheckBox", 438.0, 122.0, "-fx-font-size: 15pt;");
-        setComboBoxLayout(root, "#sizeComboBox", 39.0, 107.0, 100.0, 30.0, "-fx-font-size: 12pt;");
+    public static void setSettingMenu900x600(Parent root) {
+        double buttonWidth = 150.0;
+        double buttonHeight = 30.0;
+        double buttonLayoutX =700.0;
+        double buttonLayoutY = 380.0;
+        double buttonOffset = 50;
+        setTextLayout(root, "#settingTitle", 320.0, 67.0, "-fx-font-size: 42pt;");
+        setButtonLayout(root, "#scoreBoardInitButton", buttonLayoutX, buttonLayoutY + 0*buttonOffset, buttonWidth, buttonHeight, "-fx-font-size: 8pt;");
+        setButtonLayout(root, "#defaultButton", buttonLayoutX, buttonLayoutY + 1*buttonOffset, buttonWidth, buttonHeight, "-fx-font-size: 8pt;");
+        setButtonLayout(root, "#exitButton", buttonLayoutX, buttonLayoutY + 2*buttonOffset, buttonWidth, buttonHeight, "-fx-font-size: 8pt;");
+
+        setLabelLayout(root, "#text1", 80.0, 90.0, "-fx-font-size: 12pt;");
+        setComboBoxLayout(root, "#sizeComboBox", 80.0, 120.0, 150.0, 30.0, "-fx-font-size: 12pt;");
+
+        setLabelLayout(root, "#text2", 350.0, 90.0, "-fx-font-size: 12pt;");
+        setButtonLayout(root, "#KeySettingButton", 350, 120, buttonWidth, buttonHeight, "-fx-font-size: 12pt;");
+
+        setCheckBoxLayout(root, "#colorBlindModeCheckBox", 650.0, 120.0, "-fx-font-size: 15pt;");
     }
-    public static void setSettingMenu800x1000(Parent root) {
-        setTextLayout(root, "#settingTitle", 316.0, 117.0, "-fx-font-size: 45pt;");
-        setButtonLayout(root, "#exitButton", 475.0, 336.0, 150.0, 45.0, "-fx-font-size: 15pt;");
-        setButtonLayout(root, "#scoreBoardInitButton", 428.0, 248.0, 180.0, 40.0, "-fx-font-size: 15pt;");
-        setComboBoxLayout(root, "#sizeComboBox", 39.0, 107.0, 120.0, 40.0, "-fx-font-size: 15pt;");
+    public static void setSettingMenu1200x800(Parent root) {
+        double buttonWidth = 200.0;
+        double buttonHeight = 40.0;
+        double buttonLayoutX = 700.0;
+        double buttonLayoutY = 550.0;
+        double buttonOffset = 50;
+        setTextLayout(root, "#settingTitle", 370.0, 67.0, "-fx-font-size: 42pt;");
+        setButtonLayout(root, "#scoreBoardInitButton", buttonLayoutX, buttonLayoutY + 0*buttonOffset, buttonWidth, buttonHeight, "-fx-font-size: 8pt;");
+        setButtonLayout(root, "#defaultButton", buttonLayoutX, buttonLayoutY + 1*buttonOffset, buttonWidth, buttonHeight, "-fx-font-size: 8pt;");
+        setButtonLayout(root, "#exitButton", buttonLayoutX, buttonLayoutY + 2*buttonOffset, buttonWidth, buttonHeight, "-fx-font-size: 8pt;");
+        setButtonLayout(root, "#KeySettingButton", buttonLayoutX, buttonLayoutY + 3*buttonOffset, buttonWidth, buttonHeight, "-fx-font-size: 12pt;");
+        setCheckBoxLayout(root, "#colorBlindModeCheckBox", 500.0, 120.0, "-fx-font-size: 15pt;");
+        setComboBoxLayout(root, "#sizeComboBox", 39.0, 107.0, 150.0, 30.0, "-fx-font-size: 12pt;");
     }
     /*
     레이아웃 설정 관련 함수
@@ -198,7 +248,11 @@ public class SetResolution {
         }
     }
 
-    private void loadSettings() {    //셋팅 파일 읽어옴
+    private static void getCurrentScoreTxt() {
+
+    }
+
+    private static void loadSettings() {    //셋팅 파일 읽어옴
         try {
             File file = new File("setting.json");
             FileReader fileReader = new FileReader(file);
