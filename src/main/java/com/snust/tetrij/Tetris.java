@@ -14,7 +14,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -416,7 +415,7 @@ public class Tetris extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        com.snust.tetrij.SetResolution.setResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
+        com.snust.tetrij.SetResolution.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
     }
 
     @FXML

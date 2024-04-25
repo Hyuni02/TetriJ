@@ -206,5 +206,6 @@ public class KeySettingController extends GameManager{
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        com.snust.tetrij.SetResolution.setSettingMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
     }
 }
