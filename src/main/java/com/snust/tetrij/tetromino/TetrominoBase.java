@@ -75,9 +75,8 @@ public class TetrominoBase {
                 case 'w' -> {
                     return Color.BLACK;
                 }
-
                 case 'L' -> {
-                    return Color.GREY;
+                    return getColor(Controller.bag.get(0).name);
                 }
             };
         }
@@ -111,7 +110,7 @@ public class TetrominoBase {
                     return Color.BLACK;
                 }
                 case 'L' -> {
-                    return Color.GREY;
+                    return getColor(Controller.bag.get(0).name);
                 }
             };
         }
