@@ -34,6 +34,7 @@ import org.json.JSONObject;
 import static com.snust.tetrij.GameOverController.switchToGameOver;
 import javafx.scene.media.MediaPlayer;
 
+@Deprecated
 public class InGame extends Application {
     // The variables
     public static boolean restart = false;

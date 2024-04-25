@@ -90,7 +90,6 @@ public class Controller {
             eraseLine();
             Controller.bag.remove(0);
         }
-
         tb.update_mesh();
     }
 
@@ -126,14 +125,7 @@ public class Controller {
 
     public static void rotateRight(TetrominoBase tb) {
         eraseMesh(tb);
-        if (canRotate(tb)) {
-            tb.rotate = tb.rotate != 3 ? ++tb.rotate : 0;
-        }
-        else{
-            while (!canRotate(tb)) {
-                tb.pos[0]++;
-            }
-        }
+        tb.rotate = tb.rotate == 3 ? tb.rotate = 0 : ++tb.rotate;
         tb.update_mesh();
     }
 
@@ -156,7 +148,6 @@ public class Controller {
             boolean is_full = true;
             for (int x = 0; x < Tetris.WIDTH; x++) {
                 if (Tetris.MESH[y][x] == 'L') {
-                System.out.println("added");
                 is_full = true;
                 break;
                 }

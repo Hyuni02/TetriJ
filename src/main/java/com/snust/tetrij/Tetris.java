@@ -92,6 +92,7 @@ public class Tetris extends Application {
         System.out.println(dif.toString());
         Controller.SetField(dif);
 
+
         if(restart) {
             //pane.getChildren().clear(); // 현재 씬 모든 노드 제거
             Controller.bag.clear();
