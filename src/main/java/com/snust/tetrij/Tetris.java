@@ -1,5 +1,6 @@
 package com.snust.tetrij;
 
+import com.snust.tetrij.tetromino.S;
 import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -14,6 +15,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -30,6 +32,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Stack;
+
 import static com.snust.tetrij.GameOverController.switchToGameOver;
 
 public class Tetris extends Application {
@@ -151,22 +155,20 @@ public class Tetris extends Application {
         pauseButton.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; fx-font-size: 20px;");
         pauseButton.setFocusTraversable(false);
 
-        //인풋렉 임시 방편
-//        for (int y = 0; y < 4; y++) {
-//            for (int x = 0; x < 4; x++) {
-//                Rectangle r = new Rectangle(XMAX+10+x*Tetris.SIZE, 200+y*Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
-//                r.setFill(Color.WHITE);
-//                pane.getChildren().add(r);
-//            }
-//        }
+        for (int y = 0; y < 4; y++) {
+            for (int x = 0; x < 4; x++) {
+                Rectangle r = new Rectangle(XMAX+10+x*Tetris.SIZE, 200+y*Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
+                r.setFill(Color.WHITE);
+                pane.getChildren().add(r);
+            }
+        }
 
         Text keyText = new Text("왼쪽 이동: "+leftKeyCode+"\n오른쪽 이동: "+rightKeyCode + "\n아래 이동: "+downKeyCode + "\n회전: "+rotateKeyCode + "\n드롭 버튼: "+dropKeyCode);
         keyText.setStyle("-fx-font: 10 arial;");
         keyText.setY(300);
         keyText.setX(XMAX + 5);
 
-        //인풋렉 임시 방편
-//        pane.getChildren().addAll(scoretext, line, level, pauseButton, keyText);
+        pane.getChildren().addAll(scoretext, line, level, pauseButton, keyText);
 
         pauseButton.setOnAction(event -> togglePause());
 
@@ -174,7 +176,7 @@ public class Tetris extends Application {
         stage.setScene(scene);
         stage.setTitle("TETRIS");
         stage.show();
-
+        int childrens_without_blocks = init_mesh();
         //set listener
         scene.setOnKeyPressed(e->{
             javafx.scene.input.KeyCode code = e.getCode();
@@ -188,30 +190,30 @@ public class Tetris extends Application {
             }
             else if(code == leftKeyCode){
                 Controller.moveLeftOnKeyPress(Controller.bag.get(0));
-                color_mesh();
+                color_mesh(childrens_without_blocks);
             }
             else if(code == rightKeyCode){
                 Controller.moveRightOnKeyPress(Controller.bag.get(0));
-                color_mesh();
+                color_mesh(childrens_without_blocks);
             }
             else if(code == rotateKeyCode){
                 Controller.rotateRight(Controller.bag.get(0));
-                color_mesh();
+                color_mesh(childrens_without_blocks);
             }
             else if(code == downKeyCode){
                 Controller.softDrop(Controller.bag.get(0));
-                color_mesh();
+                color_mesh(childrens_without_blocks);
             }
             else if(code == dropKeyCode){
                 Controller.hardDrop(Controller.bag.get(0));
-                color_mesh();
+                color_mesh(childrens_without_blocks);
             }
         });
 
         Controller.generateTetromino();
         Controller.generateTetromino();
         Controller.bag.get(0).update_mesh();
-        color_mesh();
+        color_mesh(childrens_without_blocks);
 
         if(!restart) { // 처음 한번만
             //runtime logic
@@ -245,13 +247,6 @@ public class Tetris extends Application {
                         //일시정지
                         if (isPaused) continue;
 
-                        //game running
-
-/*                        for (char[] arr : MESH) {
-                            System.out.println(arr);
-                        }
-                        System.out.println("\n");*/
-
                         if (Controller.bag.size() >= 2) {
                             Controller.softDrop(Controller.bag.get(0));
                         }
@@ -259,33 +254,11 @@ public class Tetris extends Application {
                             Controller.generateTetromino();
                             Controller.bag.get(0).update_mesh();
                         }
-                        color_mesh();
+                        color_mesh(childrens_without_blocks);
 
                         //다음블럭 그리기
                         Platform.runLater(
                                 ()->{
-                                    System.out.println(pane.getChildren().size());
-                                    //region 인풋렉 임시 방편
-                                    if(pane.getChildren().size() > 5000){
-                                        pane.getChildren().clear();
-                                    }
-
-                                    for (int y = 0; y < 4; y++) {
-                                        for (int x = 0; x < 4; x++) {
-                                            Rectangle r = new Rectangle(XMAX+10+x*Tetris.SIZE, 200+y*Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
-                                            r.setFill(Color.WHITE);
-                                            pane.getChildren().add(r);
-                                        }
-                                    }
-
-                                    try {
-                                        pane.getChildren().addAll(scoretext, line, level, pauseButton, keyText);
-                                    }
-                                    catch (Exception e){
-
-                                    }
-                                    //endregion
-
                                     TetrominoBase next = Controller.bag.get(1);
                                     int nextWidth = next.getWidth();
                                     int nextHeight = next.getHeight();
@@ -306,10 +279,6 @@ public class Tetris extends Application {
                                     }
                                 }
                         );
-
-
-
-
                         //게임오바
                         if (Tetris.top >= Tetris.HEIGHT - 1) {
                             System.out.println("game over");
@@ -368,20 +337,47 @@ public class Tetris extends Application {
         launch();
     }
 
-    private static void color_mesh() {
+    private static int init_mesh() {
+        int childrens_witout_blocks = pane.getChildren().size();
         Platform.runLater(() ->  {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     Rectangle r = new Rectangle(x*Tetris.SIZE, y*Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
-                    r.setFill(TetrominoBase.getColor(MESH[y][x]));
+                    r.setFill(Color.WHITE);
                     r.setStrokeWidth(0.5);
                     r.setStroke(Color.BLACK);
-                    pane.getChildren().add(r);
+                    Text t = new Text(" ");
+                    StackPane sp = new StackPane();
+                    sp.setLayoutX(x*Tetris.SIZE);
+                    sp.setLayoutY(y*Tetris.SIZE);
+                    sp.getChildren().addAll(r, t);
+                    pane.getChildren().add(sp);
                     rectMesh[y][x] = r; //애니메이션용..
                 }
             }
         });
+        return childrens_witout_blocks;
     }
+
+    private static void color_mesh(int start_pos) {
+        Platform.runLater(() ->  {
+            for (int y = 0; y < HEIGHT; y++) {
+                for (int x = 0; x < WIDTH; x++) {
+                    StackPane sp = (StackPane)pane.getChildren().get(start_pos+y*WIDTH+x);
+                    Rectangle r = (Rectangle)sp.getChildren().get(0);
+                    r.setFill(TetrominoBase.getColor(MESH[y][x]));
+                    Text t = (Text)sp.getChildren().get(1);
+                    if (MESH[y][x] == 'L'){
+                        t.setText("L");
+                    }
+                    else{
+                        t.setText(" ");
+                    }
+                }
+            }
+        });
+    }
+
 
     public static void togglePause() {
         if(!onPauseButton){
@@ -474,5 +470,12 @@ public class Tetris extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static void printMesh() {
+        for (char[] arr : MESH) {
+            System.out.println(arr);
+        }
+        System.out.println("\n");
     }
 }

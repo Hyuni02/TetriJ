@@ -20,8 +20,9 @@
      <Label fx:id="text2" layoutX="253.0" layoutY="107.0" text="게임 조작 키 설정" />
      <Button fx:id="KeySettingButton" layoutX="253.0" layoutY="131.0" onAction="#handleKeySetting" text="키 설정 열기" />
      <Button fx:id="exitButton" layoutX="475.0" layoutY="336.0" onAction="#switchToStartMenu" text="나가기" />
-     <Button fx:id="scoreBoardInitButton" layoutX="428.0" layoutY="248.0" onAction="#deleteScores" text="스코어 보드 기록 초기화" />
-     <Button fx:id="defaultButton" layoutX="430.0" layoutY="292.0" onAction="#defaultSetting" text="기본 설정으로 되돌리기" />
+     <Button fx:id="scoreBoardInitButton" layoutX="428.0" layoutY="220.0" onAction="#deleteScores" text="스코어 보드 기록 초기화" />
+     <Button fx:id="defaultButton" layoutX="430.0" layoutY="250.0" onAction="#defaultSetting" text="기본 설정으로 되돌리기" />
+     <Button fx:id="savaButton" layoutX="430.0" layoutY="280.0" onAction="#saveSetting" text="저장하기" />
      <CheckBox fx:id="colorBlindModeCheckBox" layoutX="438.0" layoutY="122.0" onAction="#colorBlindMode" text="색맹 모드" />
    <Text fx:id="settingTitle" layoutX="216.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="환경설정">
       <font>
