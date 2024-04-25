@@ -1,5 +1,6 @@
 package com.snust.tetrij;
 
+import com.snust.tetrij.tetromino.S;
 import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -14,6 +15,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -30,6 +32,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Stack;
+
 import static com.snust.tetrij.GameOverController.switchToGameOver;
 
 public class Tetris extends Application {
@@ -351,7 +355,12 @@ public class Tetris extends Application {
                     r.setFill(Color.WHITE);
                     r.setStrokeWidth(0.5);
                     r.setStroke(Color.BLACK);
-                    pane.getChildren().add(r);
+                    Text t = new Text(" ");
+                    StackPane sp = new StackPane();
+                    sp.setLayoutX(x*Tetris.SIZE);
+                    sp.setLayoutY(y*Tetris.SIZE);
+                    sp.getChildren().addAll(r, t);
+                    pane.getChildren().add(sp);
                 }
             }
         });
@@ -362,8 +371,16 @@ public class Tetris extends Application {
         Platform.runLater(() ->  {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
-                    Rectangle r = (Rectangle)pane.getChildren().get(start_pos+y*WIDTH+x);
+                    StackPane sp = (StackPane)pane.getChildren().get(start_pos+y*WIDTH+x);
+                    Rectangle r = (Rectangle)sp.getChildren().get(0);
                     r.setFill(TetrominoBase.getColor(MESH[y][x]));
+                    Text t = (Text)sp.getChildren().get(1);
+                    if (MESH[y][x] == 'L'){
+                        t.setText("L");
+                    }
+                    else{
+                        t.setText(" ");
+                    }
                 }
             }
         });
