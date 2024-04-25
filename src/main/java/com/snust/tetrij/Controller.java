@@ -3,6 +3,7 @@ package com.snust.tetrij;
 import com.snust.tetrij.tetromino.*;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -151,28 +152,37 @@ public class Controller {
                 l.add(y);
         }
         Tetris.top -= l.size();
+
+        if (l.isEmpty())
+            return;
+
         //리스트에 저장된 라인들을 지움
-        for (int i : l) {
-            for (int line = i; line > 2; line--) {
-               highlightLine(i);
-               PauseTransition wait = new PauseTransition(Duration.millis(1000));
-
-                Tetris.MESH[line] = Tetris.MESH[line-1];
+        Task<Void> eraseTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                for (int line : l) {
+                    Platform.runLater(() -> {
+                        highlightLine(line); //삭제되는 블록색 바꾸기
+                    });
+                    Platform.runLater(() -> {
+                        // 라인 지우기
+                        for (int l = line; l > 2; l--) {
+                            Tetris.MESH[l] = Tetris.MESH[l-1];  //블록 당기기
+                        }
+                        Tetris.MESH[2] = new char[Tetris.WIDTH];
+                        Arrays.fill(Tetris.MESH[2], '0');
+                        Tetris.score += 50;
+                        Tetris.linesNo++;
+                        Tetris.changeSpeed();
+                    });
+                }
+                return null;
             }
-            Tetris.MESH[2] = new char[Tetris.WIDTH];
-            Arrays.fill(Tetris.MESH[2], '0');
-
-            Tetris.score += 50;
-            Tetris.linesNo++;
-            Tetris.changeSpeed();
-        }
+        };
+        Thread eraseThread = new Thread(eraseTask);
+        eraseThread.setDaemon(true);
+        eraseThread.start();
     }
-
-    //줄 삭제시 깜빡거리는 애니메이션
-//    public static void highlightLine(int line){
-//        // 0~10까지의 x값 반복문
-//        // 해당 반복문에서 Tetris.MESH[lin][x]의 색을 RED로 지정
-//    }
 
     public static void highlightLine(int line){
         for (int x = 0; x < Tetris.WIDTH; x++) {
@@ -182,7 +192,7 @@ public class Controller {
             }
         }
 
-        // 300ms 기다린 후 색상을 원래대로 복구
+        // 0.3초동안 빨간색 유지
         PauseTransition wait = new PauseTransition(Duration.millis(300));
         wait.play();
     }
