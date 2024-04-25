@@ -87,7 +87,8 @@ public class ScoreBoardController extends GameManager {
     @FXML
     private void initialize() {
         // 콤보박스에 난이도 옵션 추가
-        difficultyComboBox.getItems().addAll("EASY", "NORMAL", "HARD");
+        difficultyComboBox.getItems().addAll("EASY", "NORMAL", "HARD", "ITEM");
+        
 
         // 콤보박스 선택 이벤트 핸들러 추가
         difficultyComboBox.setOnAction(event -> {
@@ -96,7 +97,7 @@ public class ScoreBoardController extends GameManager {
         });
 
         // 초기 스코어 로드
-        loadScores("EASY");
+        loadScores(Tetris.cur_dif.toString());
     }
     private void loadScores(String difficulty) {
         String filePath = "src/main/resources/com/snust/tetrij/score.txt";

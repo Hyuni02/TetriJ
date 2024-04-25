@@ -14,11 +14,26 @@ public class TetrominoBase {
     public int[] pos; //(y,x)
     public int rotate;
 
-    public TetrominoBase() {
+    public TetrominoBase(boolean gen_item) {
         this.color = new Color(0,0,0,0);
         this.rotate = 0;
+    }
 
+    protected void genItem() {
         int block_count = (int)(Math.random()*4);
+        for (int rotate = 0; rotate < 4; rotate++) {
+            int n = block_count;
+            for (int y = 0; y < this.getHeight(rotate); y++) {
+                for (int x = 0; x < this.getWidth(rotate); x++) {
+                    if (mesh[rotate][y][x] == 1) {
+                        n--;
+                        if (n == 0)
+                            mesh[rotate][y][x] = 2;
+                    }
+                }
+            }
+        }
+
     }
 
     public void update_mesh() {
@@ -26,8 +41,8 @@ public class TetrominoBase {
             for (int x = 0; x < this.getWidth(); x++) {
                 if (this.mesh[rotate][y][x] == 1)
                     Tetris.MESH[y+pos[0]][x+pos[1]] = this.name;
-                // else if (this.mesh[rotate][y][x] == 2)
-                //     Tetris.MESH[y+pos[0]][x+pos[1]] = 'L'; // item mode - Line clear
+                else if (this.mesh[rotate][y][x] == 2)
+                    Tetris.MESH[y+pos[0]][x+pos[1]] = 'L'; // item mode - Line clear
             }
         }
     }
@@ -59,6 +74,10 @@ public class TetrominoBase {
                 }
                 case 'w' -> {
                     return Color.BLACK;
+                }
+
+                case 'L' -> {
+                    return Color.GREY;
                 }
             };
         }
@@ -92,7 +111,7 @@ public class TetrominoBase {
                     return Color.BLACK;
                 }
                 case 'L' -> {
-                    return getColor(Controller.bag.get(0).name);
+                    return Color.GREY;
                 }
             };
         }
@@ -105,5 +124,13 @@ public class TetrominoBase {
 
     public int getWidth() {
         return this.mesh[this.rotate][this.getHeight()-1].length;
+    }
+
+    public int getHeight(int rotate) {
+        return this.mesh[rotate].length;
+    }
+
+    public int getWidth(int rotate) {
+        return this.mesh[rotate][this.getHeight(rotate)-1].length;
     }
 }

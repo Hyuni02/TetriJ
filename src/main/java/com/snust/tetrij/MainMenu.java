@@ -45,17 +45,26 @@ public class MainMenu extends Application {
         //playSound("src/main/resources/com/snust/tetrij/sound/startMenuBGM.wav");
         //mediaPlayer.setVolume(0.3);
         curStage = stage;
+        Tetris.cur_dif = Tetris.difficulty.EASY;
     }
 
     public static void playTetrij(String difficulty) throws Exception {
-        if(difficulty == "EASY")
+        if(difficulty == "EASY") {
+            Tetris.item_mode = false;
             Tetris.newGameScene(curStage, Tetris.difficulty.EASY);
-        if(difficulty == "NORMAL")
+        }
+        if(difficulty == "NORMAL") {
+            Tetris.item_mode = false;
             Tetris.newGameScene(curStage, Tetris.difficulty.NORMAL);
-        if(difficulty == "HARD")
+        }
+        if(difficulty == "HARD"){
+            Tetris.item_mode = false;
             Tetris.newGameScene(curStage, Tetris.difficulty.HARD);
-        if(difficulty == "ITEM")
-            // Tetris.newGameScene(curStage, Tetris.difficulty.ITEM);
+        }
+        if(difficulty == "ITEM") {
+            Tetris.item_mode = true;
+            Tetris.newGameScene(curStage, Tetris.difficulty.ITEM);
+        }
         System.out.println("게임 시작");
     }
 

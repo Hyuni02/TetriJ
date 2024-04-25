@@ -32,30 +32,46 @@ public class Controller {
     }
 
     public static void generateTetromino() {
-        TetrominoBase t = new TetrominoBase();
+
+        TetrominoBase t = new TetrominoBase(false);
         int idx = (int)(Math.random() * field.size());
         if (!Tetris.item_mode) {
             switch(field.get(idx)) {
-                case 0 -> t = new Z();
-                case 1 -> t = new I();
-                case 2 -> t = new J();
-                case 3 -> t = new L();
-                case 4 -> t = new O();
-                case 5 -> t = new S();
-                case 6 -> t = new T();
+                case 0 -> t = new Z(false);
+                case 1 -> t = new I(false);
+                case 2 -> t = new J(false);
+                case 3 -> t = new L(false);
+                case 4 -> t = new O(false);
+                case 5 -> t = new S(false);
+                case 6 -> t = new T(false);
             }
         }
         else {
-            switch(field.get(idx)) {
-                case 0 -> t = new Z();
-                case 1 -> t = new I();
-                case 2 -> t = new J();
-                case 3 -> t = new L();
-                case 4 -> t = new O();
-                case 5 -> t = new S();
-                case 6 -> t = new T();
-                case 7 -> t = new Weight();
+            if (Tetris.deleted_lines >= 10) {
+                Tetris.deleted_lines = 0;
+                switch(field.get(idx)) {
+                    case 0 -> t = new Z(true);
+                    case 1 -> t = new I(true);
+                    case 2 -> t = new J(true);
+                    case 3 -> t = new L(true);
+                    case 4 -> t = new O(true);
+                    case 5 -> t = new S(true);
+                    case 6 -> t = new T(true);
+
+                }
             }
+            else {
+                switch(field.get(idx)) {
+                    case 0 -> t = new Z(false);
+                    case 1 -> t = new I(false);
+                    case 2 -> t = new J(false);
+                    case 3 -> t = new L(false);
+                    case 4 -> t = new O(false);
+                    case 5 -> t = new S(false);
+                    case 6 -> t = new T(false);
+                }
+            }
+
         }
 
         if (!canMoveDown(t, 0)) {
@@ -68,15 +84,13 @@ public class Controller {
 
     public static void softDrop(TetrominoBase tb) {
         eraseMesh(tb);
+        tb.pos[0]++;
         if (!canMoveDown(tb, 1)) {
             updateTop(tb);
+            eraseLine();
             Controller.bag.remove(0);
         }
-        else {
-            tb.pos[0]++;
-        }
         tb.update_mesh();
-        eraseLine();
     }
 
     public static void hardDrop(TetrominoBase tb) {
@@ -111,7 +125,7 @@ public class Controller {
 
     public static void rotateRight(TetrominoBase tb) {
         eraseMesh(tb);
-        tb.rotate = tb.rotate != 3 ? ++tb.rotate : 0;
+        tb.rotate = tb.rotate == 3 ? tb.rotate = 0 : ++tb.rotate;
         tb.update_mesh();
     }
 
@@ -133,16 +147,19 @@ public class Controller {
         for (int y = 2; y < Tetris.HEIGHT; y++) {
             boolean is_full = true;
             for (int x = 0; x < Tetris.WIDTH; x++) {
+                if (Tetris.MESH[y][x] == 'L') {
+                is_full = true;
+                break;
+                }
                 if (Tetris.MESH[y][x] == '0') {
                     is_full = false;
-                    break;
                 }
             }
-
             if (is_full)
                 l.add(y);
         }
         Tetris.top -= l.size();
+        Tetris.deleted_lines += l.size();
         //리스트에 저장된 라인들을 지움
         for (int i : l) {
             for (int line = i; line > 2; line--) {
@@ -175,7 +192,7 @@ public class Controller {
         // Tetromino의 각 블록이 아래로 이동할 때 다른 블록과 겹치는지 확인
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                if (tb.mesh[rot][y][x] != 1) {
+                if (tb.mesh[rot][y][x] == 0) {
                     continue; // 빈 공간은 확인하지 않음
                 }
 
@@ -202,7 +219,7 @@ public class Controller {
         // Tetromino의 각 블록이 아래로 이동할 때 다른 블록과 겹치는지 확인
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                if (tb.mesh[rot][y][x] != 1) {
+                if (tb.mesh[rot][y][x] == 0) {
                     continue; // 빈 공간은 확인하지 않음
                 }
 
@@ -213,6 +230,26 @@ public class Controller {
             }
         }
         return true; // 아래로 이동 가능
+    }
+
+    public static boolean canRotate(TetrominoBase tb) {
+        int rot = tb.rotate == 3 ? 0 : tb.rotate+1;
+        int height = tb.getHeight(rot);
+        int width = tb.getWidth(rot);
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (tb.mesh[rot][y][x] == 0) {
+                    continue; // 빈 공간은 확인하지 않음
+                }
+
+                // Tetromino의 블록이 회전할때
+                if (Tetris.MESH[tb.pos[1] + y][tb.pos[1] + x] != '0') {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private static void updateTop(TetrominoBase tb) {

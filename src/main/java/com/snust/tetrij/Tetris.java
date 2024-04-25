@@ -23,6 +23,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 
+import javax.print.attribute.standard.PrinterMessageFromOperator;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -49,10 +50,11 @@ public class Tetris extends Application {
 
     // variables for game
     public static Thread thread;
-    public static boolean item_mode;
+    public static boolean item_mode = false;
     public static boolean restart = false;
     public static boolean isGameOver = false;
-    public enum difficulty {EASY, NORMAL, HARD};
+    public enum difficulty {EASY, NORMAL, HARD, ITEM};
+    public static difficulty cur_dif;
     public static boolean color_weakness = false;
     public static int score = 0; //점수
     public static boolean game = true;
@@ -61,6 +63,7 @@ public class Tetris extends Application {
     private static int freq = 300; //하강 속도
     public static int speedLevel = 0; //지워진 줄 수에 따른 속도 레벨
     private static int boost = 30; //하강 속도 증가량
+    public static int deleted_lines = 0;
     private MediaPlayer mediaPlayer;
     // 퍼즈 관련 변수
     protected static boolean isPaused = false; // 퍼즈 중인가?
@@ -85,9 +88,11 @@ public class Tetris extends Application {
     }
 
     public static void newGameScene(Stage stage, difficulty dif) throws IOException {
+        cur_dif = dif;
         loadSettings();
         System.out.println(dif.toString());
         Controller.SetField(dif);
+
 
         if(restart) {
             //pane.getChildren().clear(); // 현재 씬 모든 노드 제거
@@ -214,6 +219,7 @@ public class Tetris extends Application {
                             switch (dif) {
                                 case EASY -> finalFreq = freq - speedLevel * (int) (boost * 0.8f);
                                 case NORMAL -> finalFreq = freq - speedLevel * boost;
+                                case ITEM -> finalFreq = freq - speedLevel * boost;
                                 case HARD -> finalFreq = freq - speedLevel * (int) (boost * 1.2f);
                             }
 
@@ -237,6 +243,10 @@ public class Tetris extends Application {
 
                         //game running
 
+/*                        for (char[] arr : MESH) {
+                            System.out.println(arr);
+                        }
+                        System.out.println("\n");*/
 
                         if (Controller.bag.size() >= 2) {
                             Controller.softDrop(Controller.bag.get(0));
@@ -247,6 +257,7 @@ public class Tetris extends Application {
                         }
                         color_mesh();
 
+                        //다음블럭 그리기
                         Platform.runLater(
                                 ()->{
                                     TetrominoBase next = Controller.bag.get(1);
@@ -269,6 +280,7 @@ public class Tetris extends Application {
                                     }
                                 }
                         );
+
 
 
 
