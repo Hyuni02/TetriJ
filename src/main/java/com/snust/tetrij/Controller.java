@@ -55,7 +55,7 @@ public class Controller {
             }
         }
         else {
-            if (Tetris.deleted_lines >= 2) {
+            if (Tetris.deleted_lines <= 2) {
                 Tetris.deleted_lines = 0;
                 switch(field.get(idx)) {
                     case 0 -> t = new Z(true);
@@ -152,7 +152,7 @@ public class Controller {
 
     public static void moveRightOnKeyPress(TetrominoBase tb) {
         eraseMesh(tb);
-        if (canMoveSideWays(tb, 1)) {
+        if (canMoveSideWays(tb, 1) && tb.can_move) {
             tb.pos[1]++;
         }
         tb.update_mesh();
@@ -160,7 +160,7 @@ public class Controller {
 
     public static void moveLeftOnKeyPress(TetrominoBase tb) {
         eraseMesh(tb);
-        if (canMoveSideWays(tb, -1)) {
+        if (canMoveSideWays(tb, -1) && tb.can_move) {
             tb.pos[1]--;
         }
         tb.update_mesh();
