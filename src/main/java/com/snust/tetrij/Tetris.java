@@ -170,7 +170,7 @@ public class Tetris extends Application {
         stage.setScene(scene);
         stage.setTitle("TETRIS");
         stage.show();
-        int childrens_without_blocks = init_mesh();
+
         //set listener
         scene.setOnKeyPressed(e->{
             javafx.scene.input.KeyCode code = e.getCode();
@@ -184,30 +184,30 @@ public class Tetris extends Application {
             }
             else if(code == leftKeyCode){
                 Controller.moveLeftOnKeyPress(Controller.bag.get(0));
-                color_mesh(childrens_without_blocks);
+                color_mesh();
             }
             else if(code == rightKeyCode){
                 Controller.moveRightOnKeyPress(Controller.bag.get(0));
-                color_mesh(childrens_without_blocks);
+                color_mesh();
             }
             else if(code == rotateKeyCode){
                 Controller.rotateRight(Controller.bag.get(0));
-                color_mesh(childrens_without_blocks);
+                color_mesh();
             }
             else if(code == downKeyCode){
                 Controller.softDrop(Controller.bag.get(0));
-                color_mesh(childrens_without_blocks);
+                color_mesh();
             }
             else if(code == dropKeyCode){
                 Controller.hardDrop(Controller.bag.get(0));
-                color_mesh(childrens_without_blocks);
+                color_mesh();
             }
         });
 
         Controller.generateTetromino();
         Controller.generateTetromino();
         Controller.bag.get(0).update_mesh();
-        color_mesh(childrens_without_blocks);
+        color_mesh();
 
         if(!restart) { // 처음 한번만
             //runtime logic
@@ -255,7 +255,7 @@ public class Tetris extends Application {
                             Controller.generateTetromino();
                             Controller.bag.get(0).update_mesh();
                         }
-                        color_mesh(childrens_without_blocks);
+                        color_mesh();
 
                         //다음블럭 그리기
                         Platform.runLater(
@@ -342,33 +342,19 @@ public class Tetris extends Application {
         launch();
     }
 
-    private static int init_mesh() {
-        int childrens_witout_blocks = pane.getChildren().size();
+    private static void color_mesh() {
         Platform.runLater(() ->  {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     Rectangle r = new Rectangle(x*Tetris.SIZE, y*Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
-                    r.setFill(Color.WHITE);
+                    r.setFill(TetrominoBase.getColor(MESH[y][x]));
                     r.setStrokeWidth(0.5);
                     r.setStroke(Color.BLACK);
                     pane.getChildren().add(r);
                 }
             }
         });
-        return childrens_witout_blocks;
     }
-
-    private static void color_mesh(int start_pos) {
-        Platform.runLater(() ->  {
-            for (int y = 0; y < HEIGHT; y++) {
-                for (int x = 0; x < WIDTH; x++) {
-                    Rectangle r = (Rectangle)pane.getChildren().get(start_pos+y*WIDTH+x);
-                    r.setFill(TetrominoBase.getColor(MESH[y][x]));
-                }
-            }
-        });
-    }
-
 
     public static void togglePause() {
         if(!onPauseButton){
