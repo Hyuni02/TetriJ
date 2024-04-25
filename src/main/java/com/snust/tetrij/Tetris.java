@@ -150,20 +150,22 @@ public class Tetris extends Application {
         pauseButton.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; fx-font-size: 20px;");
         pauseButton.setFocusTraversable(false);
 
-        for (int y = 0; y < 4; y++) {
-            for (int x = 0; x < 4; x++) {
-                Rectangle r = new Rectangle(XMAX+10+x*Tetris.SIZE, 200+y*Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
-                r.setFill(Color.WHITE);
-                pane.getChildren().add(r);
-            }
-        }
+        //인풋렉 임시 방편
+//        for (int y = 0; y < 4; y++) {
+//            for (int x = 0; x < 4; x++) {
+//                Rectangle r = new Rectangle(XMAX+10+x*Tetris.SIZE, 200+y*Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
+//                r.setFill(Color.WHITE);
+//                pane.getChildren().add(r);
+//            }
+//        }
 
         Text keyText = new Text("왼쪽 이동: "+leftKeyCode+"\n오른쪽 이동: "+rightKeyCode + "\n아래 이동: "+downKeyCode + "\n회전: "+rotateKeyCode + "\n드롭 버튼: "+dropKeyCode);
         keyText.setStyle("-fx-font: 10 arial;");
         keyText.setY(300);
         keyText.setX(XMAX + 5);
 
-        pane.getChildren().addAll(scoretext, line, level, pauseButton, keyText);
+        //인풋렉 임시 방편
+//        pane.getChildren().addAll(scoretext, line, level, pauseButton, keyText);
 
         pauseButton.setOnAction(event -> togglePause());
 
@@ -261,6 +263,28 @@ public class Tetris extends Application {
                         //다음블럭 그리기
                         Platform.runLater(
                                 ()->{
+                                    System.out.println(pane.getChildren().size());
+                                    //region 인풋렉 임시 방편
+                                    if(pane.getChildren().size() > 5000){
+                                        pane.getChildren().clear();
+                                    }
+
+                                    for (int y = 0; y < 4; y++) {
+                                        for (int x = 0; x < 4; x++) {
+                                            Rectangle r = new Rectangle(XMAX+10+x*Tetris.SIZE, 200+y*Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
+                                            r.setFill(Color.WHITE);
+                                            pane.getChildren().add(r);
+                                        }
+                                    }
+
+                                    try {
+                                        pane.getChildren().addAll(scoretext, line, level, pauseButton, keyText);
+                                    }
+                                    catch (Exception e){
+
+                                    }
+                                    //endregion
+
                                     TetrominoBase next = Controller.bag.get(1);
                                     int nextWidth = next.getWidth();
                                     int nextHeight = next.getHeight();
