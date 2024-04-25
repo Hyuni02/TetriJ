@@ -42,10 +42,11 @@ public class SettingController extends GameManager {
     }
 
     // 해상도 변경 메서드
-    public static void setResolution(int width, int height) {
-        resolutionX = width;
-        resolutionY = height;
-    }
+    // -> no usage 떠서 주석처리 할게용
+//    public static void setResolution(int width, int height) {
+//        resolutionX = width;
+//        resolutionY = height;
+//    }
     @FXML
     private void handleSize() {
         screenSize = sizeComboBox.getSelectionModel().getSelectedItem();
@@ -94,6 +95,11 @@ public class SettingController extends GameManager {
 
     public void colorBlindMode(){
         //isColorBlind = colorBlindModeCheckBox.isSelected();
+    }
+
+    @FXML
+    public void saveSetting(){
+        saveSettingsToFile();
     }
 
     private void saveSettingsToFile() {   //json 파일로 저장

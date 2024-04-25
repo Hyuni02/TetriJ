@@ -86,7 +86,7 @@ public class Controller {
             Tetris.isPaused = true;
             return;
         }
-//        bag.add(new I(false));
+        //bag.add(new I(false));
         bag.add(t);
         //todo 여기 꼭 수정할것!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
