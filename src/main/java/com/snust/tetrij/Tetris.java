@@ -220,6 +220,12 @@ public class Tetris extends Application {
                 public void run() {
                     while (!isGameOver) {
                         try {
+                            //일시정지
+                            if (isPaused) {
+                                System.out.print("");   //이거없음 pauseButton 버그남 ㄷㄷ
+                                continue;
+                            }
+
                             int finalFreq = 0;
                             switch (dif) {
                                 case EASY -> finalFreq = freq - speedLevel * (int) (boost * 0.8f);
@@ -243,8 +249,7 @@ public class Tetris extends Application {
                             e.printStackTrace();
                         }
 
-                        //일시정지
-                        if (isPaused) continue;
+
 
                         if (Controller.bag.size() >= 2) {
                             Controller.softDrop(Controller.bag.get(0));
