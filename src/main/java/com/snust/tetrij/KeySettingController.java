@@ -80,8 +80,7 @@ public class KeySettingController extends GameManager{
     }
     private void loadKeySettings() {    //키셋팅 파일 읽어옴
         try {
-            File file = new File("keysetting.json");
-            FileReader fileReader = new FileReader(file);
+            File file = new File("src/main/resources/com/snust/tetrij/keysetting.json");            FileReader fileReader = new FileReader(file);
             StringBuilder stringBuilder = new StringBuilder();
             int i;
             while ((i = fileReader.read()) != -1) {
@@ -143,7 +142,7 @@ public class KeySettingController extends GameManager{
 
     private JSONObject readKeySettingsFromFile() {  // json 저장되어있는것 가져오는 용도
         JSONObject keySettings = new JSONObject();
-        try (FileReader reader = new FileReader("keysetting.json")) {
+        try (FileReader reader = new FileReader("src/main/resources/com/snust/tetrij/keysetting.json")) {
             keySettings = new JSONObject(new JSONTokener(reader));
         } catch (IOException e) {
             e.printStackTrace();
@@ -174,7 +173,7 @@ public class KeySettingController extends GameManager{
 
 
     private void saveKeySettingsToFile(JSONObject keySettings) {   //json 파일로 저장
-        File file = new File("keysetting.json");
+        File file = new File("src/main/resources/com/snust/tetrij/keysetting.json");
 
         try {
             String content = new String(Files.readAllBytes(Paths.get(file.toURI())), "UTF-8");

@@ -52,8 +52,7 @@ public class SettingController extends GameManager {
         screenSize = sizeComboBox.getSelectionModel().getSelectedItem();
     }
     public void defaultSetting(){
-        File file = new File("setting.json");
-
+        File file = new File("src/main/resources/com/snust/tetrij/setting.json");
         try {
             String content = new String(Files.readAllBytes(Paths.get(file.toURI())), "UTF-8");
             JSONObject currentSettings = new JSONObject(content);
@@ -71,8 +70,7 @@ public class SettingController extends GameManager {
             e.printStackTrace();
         }
 
-        file = new File("keysetting.json");
-
+        file = new File("src/main/resources/com/snust/tetrij/keysetting.json");
         try {
             String content = new String(Files.readAllBytes(Paths.get(file.toURI())), "UTF-8");
             JSONObject currentSettings = new JSONObject(content);
@@ -103,7 +101,7 @@ public class SettingController extends GameManager {
     }
 
     private void saveSettingsToFile() {   //json 파일로 저장
-        File file = new File("setting.json");
+        File file = new File("src/main/resources/com/snust/tetrij/setting.json");
         try {
             String content = new String(Files.readAllBytes(Paths.get(file.toURI())), "UTF-8");
             JSONObject currentSettings = new JSONObject(content);
@@ -175,7 +173,7 @@ public class SettingController extends GameManager {
 
     private void loadSettings() {    //셋팅 파일 읽어옴
         try {
-            File file = new File("setting.json");
+            File file = new File("src/main/resources/com/snust/tetrij/setting.json");
             FileReader fileReader = new FileReader(file);
             StringBuilder stringBuilder = new StringBuilder();
             int i;

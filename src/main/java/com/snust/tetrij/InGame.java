@@ -237,7 +237,7 @@ public class InGame extends Application {
 
     private static String loadKeySetting(String key) {
         try {
-            String content = new String(Files.readAllBytes(Paths.get("keysetting.json")), "UTF-8");
+            String content = new String(Files.readAllBytes(Paths.get("src/main/resources/com/snust/tetrij/keysetting.json")), "UTF-8");
             JSONObject settings = new JSONObject(content);
             return settings.getString(key);
         } catch (Exception e) {

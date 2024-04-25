@@ -314,7 +314,7 @@ public class Tetris extends Application {
 
     private static String loadKeySetting(String key) {
         try {
-            String content = new String(Files.readAllBytes(Paths.get("keysetting.json")), "UTF-8");
+            String content = new String(Files.readAllBytes(Paths.get("src/main/resources/com/snust/tetrij/keysetting.json")), "UTF-8");
             JSONObject settings = new JSONObject(content);
             return settings.getString(key);
         } catch (Exception e) {
@@ -411,7 +411,7 @@ public class Tetris extends Application {
 
     private static void loadSettings() {    //셋팅 파일 읽어옴
         try {
-            File file = new File("setting.json");
+            File file = new File("src/main/resources/com/snust/tetrij/setting.json");
             FileReader fileReader = new FileReader(file);
             StringBuilder stringBuilder = new StringBuilder();
             int i;

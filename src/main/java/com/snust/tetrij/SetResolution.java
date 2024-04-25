@@ -254,7 +254,7 @@ public class SetResolution {
 
     private static void loadSettings() {    //셋팅 파일 읽어옴
         try {
-            File file = new File("setting.json");
+            File file = new File("src/main/resources/com/snust/tetrij/setting.json");
             FileReader fileReader = new FileReader(file);
             StringBuilder stringBuilder = new StringBuilder();
             int i;
