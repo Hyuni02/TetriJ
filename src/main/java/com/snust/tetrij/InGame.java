@@ -734,16 +734,16 @@ public class InGame extends Application {
     }
 
     private void ClickButtonSound() {
-        try {
-            Media sound = new Media(new File("src/main/resources/com/snust/tetrij/sound/button_click.mp3").toURI().toString());
-
-            mediaPlayer = new MediaPlayer(sound);
-            mediaPlayer.setVolume(0.5);
-            mediaPlayer.play();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Media sound = new Media(new File("src/main/resources/com/snust/tetrij/sound/button_click.mp3").toURI().toString());
+//
+//            mediaPlayer = new MediaPlayer(sound);
+//            mediaPlayer.setVolume(0.5);
+//            mediaPlayer.play();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 }
 

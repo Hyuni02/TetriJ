@@ -27,9 +27,7 @@ import javafx.stage.Stage;
 import org.json.JSONObject;
 
 import javax.print.attribute.standard.PrinterMessageFromOperator;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -360,6 +358,34 @@ public static final int WIDTH = XMAX/20;
             JSONObject settings = new JSONObject(content);
             return settings.getString(key);
         } catch (Exception e) {
+//            e.printStackTrace();
+            return loadKeySetting_build(key);
+        }
+    }
+
+    private static String loadKeySetting_build(String key) {
+        try {
+            // 클래스 로더를 사용하여 리소스 파일 읽기
+            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("com/snust/tetrij/keysetting.json");
+            if (inputStream == null) {
+                System.err.println("설정 파일을 찾을 수 없습니다.");
+                return null;
+            }
+
+            // 입력 스트림을 문자열로 변환
+            StringBuilder stringBuilder = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+            }
+
+            // JSON 객체 생성
+            JSONObject settings = new JSONObject(stringBuilder.toString());
+            return settings.getString(key);
+
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -501,16 +527,16 @@ public static final int WIDTH = XMAX/20;
     }
 
     private void ClickButtonSound() {
-        try {
-            Media sound = new Media(new File("src/main/resources/com/snust/tetrij/sound/button_click.mp3").toURI().toString());
-
-            mediaPlayer = new MediaPlayer(sound);
-            mediaPlayer.setVolume(0.5);
-            mediaPlayer.play();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Media sound = new Media(new File("src/main/resources/com/snust/tetrij/sound/button_click.mp3").toURI().toString());
+//
+//            mediaPlayer = new MediaPlayer(sound);
+//            mediaPlayer.setVolume(0.5);
+//            mediaPlayer.play();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     private static void printMesh() {

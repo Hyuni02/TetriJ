@@ -12,10 +12,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import static com.snust.tetrij.GameOverController.scoreId;
@@ -147,9 +147,59 @@ public class ScoreBoardController extends GameManager {
                 scoreLabels.get(i).setText("");
             }
         } catch (IOException e) {
+//            e.printStackTrace();
+            loadScores_build(difficulty);
+        }
+    }
+
+    private void loadScores_build(String difficulty) {
+        try {
+            // 클래스 로더를 사용하여 리소스 파일 읽기
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("/com/snust/tetrij/score.txt");
+            if (inputStream == null) {
+                System.err.println("점수 파일을 찾을 수 없습니다.");
+                return;
+            }
+
+            // 입력 스트림을 문자열로 변환
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+                List<String[]> scores = new ArrayList<>();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] parts = line.split(" ");
+
+                    if (parts.length == 5) {
+                        scores.add(parts);
+                    }
+                }
+
+                // 선택된 난이도에 따른 스코어 필터링 및 정렬
+                List<String[]> filteredScores = new ArrayList<>();
+                for (String[] scoreData : scores) {
+                    if (scoreData[3].equals(difficulty)) {
+                        filteredScores.add(scoreData);
+                    }
+                }
+
+                filteredScores.sort((s1, s2) -> Integer.compare(Integer.parseInt(s2[1]), Integer.parseInt(s1[1])));
+
+                // 상위 10개 레이블 업데이트
+                List<Label> scoreLabels = List.of(score1, score2, score3, score4, score5, score6, score7, score8, score9, score10);
+                for (int i = 0; i < Math.min(10, filteredScores.size()); i++) {
+                    String[] scoreData = filteredScores.get(i);
+                    scoreLabels.get(i).setText(formatScore(scoreData));
+                }
+
+                // 남은 레이블은 빈 텍스트로 초기화
+                for (int i = filteredScores.size(); i < scoreLabels.size(); i++) {
+                    scoreLabels.get(i).setText("");
+                }
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     private String formatScore(String[] scoreData) {
         String name = scoreData[0];

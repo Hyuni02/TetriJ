@@ -9,8 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 
 public class SetResolution {
 
@@ -299,7 +298,36 @@ public class SetResolution {
             curResolution = setting.getString("screenSize");
 
         } catch (Exception e) {
+//            e.printStackTrace();
+            loadSettings_build();
+        }
+    }
+
+    private static void loadSettings_build() {
+        try {
+            // 클래스 로더를 사용하여 리소스 파일 읽기
+            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("com/snust/tetrij/setting.json");
+            if (inputStream == null) {
+                System.err.println("설정 파일을 찾을 수 없습니다.");
+                return;
+            }
+
+            // 입력 스트림을 문자열로 변환
+            StringBuilder stringBuilder = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+            }
+
+            // JSON 객체 생성
+            JSONObject setting = new JSONObject(stringBuilder.toString());
+            curResolution = setting.getString("screenSize");
+
+        } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("No setting.json");
         }
     }
 }
