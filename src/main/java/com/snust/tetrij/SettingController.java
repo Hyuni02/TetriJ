@@ -92,7 +92,7 @@ public class SettingController extends GameManager {
     }
 
     public void colorBlindMode(){
-        //isColorBlind = colorBlindModeCheckBox.isSelected();
+        isColorBlind = colorBlindModeCheckBox.isSelected();
     }
 
     @FXML
