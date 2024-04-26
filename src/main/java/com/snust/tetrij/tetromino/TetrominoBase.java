@@ -1,20 +1,24 @@
 package com.snust.tetrij.tetromino;
 
-import com.snust.tetrij.TetrisBoardController;
+import com.snust.tetrij.Controller;
 import com.snust.tetrij.Tetris;
 import javafx.scene.paint.Color;
 
+import javax.sound.sampled.Control;
+
 
 public class TetrominoBase {
-    public int mesh[][];
+    public int mesh[][][];
     public Color color;
     public char name;
     public int[] pos; //(y,x)
+    public int rotate;
 
     public boolean can_move;
 
     public TetrominoBase(boolean gen_item) {
         this.color = new Color(0,0,0,0);
+        this.rotate = 0;
         this.can_move = true;
     }
 
@@ -22,12 +26,12 @@ public class TetrominoBase {
         int block_count = (int)(Math.random()*4);
         for (int rotate = 0; rotate < 4; rotate++) {
             int n = block_count;
-            for (int y = 0; y < 4; y++) {
-                for (int x = 0; x < 4; x++) {
-                    if (mesh[y][x] == 1) {
+            for (int y = 0; y < this.getHeight(rotate); y++) {
+                for (int x = 0; x < this.getWidth(rotate); x++) {
+                    if (mesh[rotate][y][x] == 1) {
                         n--;
                         if (n == 0)
-                            mesh[y][x] = 2;
+                            mesh[rotate][y][x] = 2;
                     }
                 }
             }
@@ -36,11 +40,11 @@ public class TetrominoBase {
     }
 
     public void update_mesh() {
-        for (int y = 0; y < 4; y++) {
-            for (int x = 0; x < 4; x++) {
-                if (this.mesh[y][x] == 1)
+        for (int y = 0; y < this.getHeight(); y++) {
+            for (int x = 0; x < this.getWidth(); x++) {
+                if (this.mesh[rotate][y][x] == 1)
                     Tetris.MESH[y+pos[0]][x+pos[1]] = this.name;
-                else if (this.mesh[y][x] == 2)
+                else if (this.mesh[rotate][y][x] == 2)
                     Tetris.MESH[y+pos[0]][x+pos[1]] = 'L'; // item mode - Line clear
             }
         }
@@ -75,7 +79,7 @@ public class TetrominoBase {
                     return Color.BLACK;
                 }
                 case 'L' -> {
-                    return getColor(TetrisBoardController.bag.get(0).name);
+                    return getColor(Controller.bag.get(0).name);
                 }
             };
         }
@@ -109,10 +113,26 @@ public class TetrominoBase {
                     return Color.BLACK;
                 }
                 case 'L' -> {
-                    return getColor(TetrisBoardController.bag.get(0).name);
+                    return getColor(Controller.bag.get(0).name);
                 }
             };
         }
         return Color.WHITE;
+    }
+
+    public int getHeight() {
+        return this.mesh[this.rotate].length;
+    }
+
+    public int getWidth() {
+        return this.mesh[this.rotate][this.getHeight()-1].length;
+    }
+
+    public int getHeight(int rotate) {
+        return this.mesh[rotate].length;
+    }
+
+    public int getWidth(int rotate) {
+        return this.mesh[rotate][this.getHeight(rotate)-1].length;
     }
 }

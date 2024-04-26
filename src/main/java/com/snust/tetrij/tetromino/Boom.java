@@ -7,11 +7,23 @@ public class Boom extends TetrominoBase {
         super(gen_item);
         super.name = 'B';
         super.color = Color.GREY;
-        super.mesh = super.mesh = new int[][] {
-                {0,0,0,0},
-                {0,1,1,0},
-                {0,1,1,0},
-                {0,0,0,0}
+        super.mesh = new int[][][] {
+                {
+                        {1,1},
+                        {1,1}
+                },
+                {
+                        {1,1},
+                        {1,1}
+                },
+                {
+                        {1,1},
+                        {1,1}
+                },
+                {
+                        {1,1},
+                        {1,1}
+                }
         };
         super.pos = new int[] { 0, (int)(Math.random()*8) };
 //        if (gen_item) {

@@ -8,11 +8,25 @@ public class S extends TetrominoBase {
         super(gen_item);
         super.name = 's';
         super.color = Color.LIGHTGREEN;
-        super.mesh = super.mesh = new int[][] {
-                {0,0,0,0},
-                {0,0,1,1},
-                {0,1,1,0},
-                {0,0,0,0}
+        super.mesh = new int[][][] {
+                {
+                        {0,1,1},
+                        {1,1,0}
+                },
+                {
+                        {1,0},
+                        {1,1},
+                        {0,1}
+                },
+                {
+                        {0,1,1},
+                        {1,1,0}
+                },
+                {
+                        {1,0},
+                        {1,1},
+                        {0,1}
+                }
         };
         super.pos = new int[] { 0, (int)(Math.random()*7) };
         if (gen_item) {

@@ -7,11 +7,21 @@ public class DeleteAll extends TetrominoBase {
         super(false);
         super.name = 'D';
         super.color = Color.BLUE;
-        super.mesh = super.mesh = new int[][] {
-                {0,0,0,0},
-                {0,1,1,0},
-                {0,1,1,0},
-                {0,0,0,0}
+        super.mesh = new int[][][] {
+                {
+                        {1,1}
+                },
+                {
+                        {1},
+                        {1}
+                },
+                {
+                        {1,1}
+                },
+                {
+                        {1},
+                        {1},
+                }
         };
         super.pos = new int[] { 0, 4 };
     }
