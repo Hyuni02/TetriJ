@@ -18,6 +18,8 @@ import java.io.*;
 
 import org.json.JSONObject;
 
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -114,9 +116,43 @@ public class SettingController extends GameManager {
                 loadSettings();
             }
         } catch (Exception e) {
+//            e.printStackTrace();
+            saveSettingsToFile_build();
+        }
+    }
+
+    private void saveSettingsToFile_build() {
+        try {
+            // 클래스 로더를 사용하여 리소스 파일 읽기
+            InputStream inputStream = this.getClass().getResourceAsStream("com/snust/tetrij/setting.json");
+            if (inputStream == null) {
+                System.err.println("설정 파일을 찾을 수 없습니다.");
+                return;
+            }
+            byte[] bytes = inputStream.readAllBytes();
+
+            // 파일 읽기
+            String content = new String(bytes, StandardCharsets.UTF_8);
+            JSONObject currentSettings = new JSONObject(content);
+
+            // 설정 값 업데이트
+            currentSettings.put("screenSize", screenSize);
+            currentSettings.put("isColorBlind", isColorBlind);
+
+            // 파일 쓰기
+            File file = new File(getClass().getResource("/com/snust/tetrij/setting.json").getFile());
+            try (FileWriter fileWriter = new FileWriter(file)) {
+                fileWriter.write(currentSettings.toString());
+                fileWriter.flush();
+            }
+            loadSettings();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
+
 
     public void switchToStartMenu(ActionEvent event) throws IOException {
         resolutionInitialize();
@@ -187,7 +223,36 @@ public class SettingController extends GameManager {
             isColorBlind = setting.getBoolean("isColorBlind");
 
         } catch (Exception e) {
+//            e.printStackTrace();
+            loadSettings_build();
+        }
+    }
+
+    private static void loadSettings_build() {
+        try {
+            // 클래스 로더를 사용하여 리소스 파일 읽기
+            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("com/snust/tetrij/setting.json");
+            if (inputStream == null) {
+                System.err.println("설정 파일을 찾을 수 없습니다.");
+                return;
+            }
+
+            // 입력 스트림을 문자열로 변환
+            StringBuilder stringBuilder = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+            }
+
+            // JSON 객체 생성
+            JSONObject setting = new JSONObject(stringBuilder.toString());
+            curResolution = setting.getString("screenSize");
+
+        } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("No setting.json");
         }
     }
 }
