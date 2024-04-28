@@ -1,6 +1,5 @@
 package com.snust.tetrij;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -22,7 +21,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -32,7 +30,6 @@ import javafx.stage.Stage;
 import org.json.JSONObject;
 
 import static com.snust.tetrij.GameOverController.switchToGameOver;
-import javafx.scene.media.MediaPlayer;
 
 @Deprecated
 public class InGame extends Application {
@@ -180,7 +177,7 @@ public class InGame extends Application {
                         }
                         // Exit
                         if (top == 15) {
-                            switchToGameOver(score, stage, Tetris.difficulty.NORMAL);
+                            switchToGameOver(score, Tetris.difficulty.NORMAL);
                         }
 
                         if (game) {

@@ -18,16 +18,16 @@ import java.io.*;
 
 import org.json.JSONObject;
 
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static com.snust.tetrij.SetResolution.*;
+import static com.snust.tetrij.ResolutionManager.*;
 
-public class SettingController extends GameManager {
+public class SettingController {
     private Stage stage;
     private Scene scene;
+    GameManager instance = GameManager.getInstance();
     @FXML
     private ComboBox<String> resolutionComboBox;        //이건 어디에 쓰는거조??
     @FXML
@@ -157,7 +157,7 @@ public class SettingController extends GameManager {
     public void switchToStartMenu(ActionEvent event) throws IOException {
         resolutionInitialize();
         saveSettingsToFile();
-        Parent root = returnSceneRoot("start_menu.fxml");
+        Parent root = instance.loadFXML("start_menu.fxml");
         stage =(Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -174,7 +174,7 @@ public class SettingController extends GameManager {
         stage.show();
         System.out.println(stage.getHeight());
         System.out.println(stage.getWidth());
-        com.snust.tetrij.SetResolution.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
+        ResolutionManager.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
     }
     public void deleteScores() { // 스코어보드 초기화 메서드
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

@@ -28,8 +28,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-import static com.snust.tetrij.SetResolution.curHeight;
-import static com.snust.tetrij.SetResolution.curWidth;
+import static com.snust.tetrij.ResolutionManager.curHeight;
+import static com.snust.tetrij.ResolutionManager.curWidth;
 
 import static com.snust.tetrij.GameOverController.switchToGameOver;
 
@@ -315,7 +315,7 @@ public static final int WIDTH = XMAX/20;
     @FXML
     public static void GameOver(Stage stage, difficulty dif){
         Platform.runLater(()-> {
-            switchToGameOver(score, stage, dif);
+            switchToGameOver(score, dif);
         });
     }
 
@@ -484,7 +484,7 @@ public static final int WIDTH = XMAX/20;
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        com.snust.tetrij.SetResolution.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
+        ResolutionManager.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
     }
 
     @FXML

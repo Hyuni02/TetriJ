@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class PauseMenuController extends Tetris {
+    private final static GameManager instance = GameManager.getInstance();
     @FXML
     public void exit_game() {
         System.exit(0);
@@ -30,7 +31,7 @@ public class PauseMenuController extends Tetris {
         stage.close();
         Tetris.isPaused = false;
         Tetris.onPauseButton = false;
-        Tetris.isGameOver = true;
-        Tetris.switchToStartMenu();
+
+        instance.switchToScene("start_menu.fxml");
     }
 }

@@ -9,7 +9,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class SelectModeController extends GameManager {
+public class SelectModeController {
+    GameManager instance = GameManager.getInstance();
     private Stage thisStage;
 
     public static void selectMode() throws IOException {
@@ -35,25 +36,25 @@ public class SelectModeController extends GameManager {
 
     @FXML
     private void selectEasy() throws Exception {
-        startGame("EASY");
+        instance.startGame("EASY");
         closeStage();
     }
 
     @FXML
     private void selectNormal() throws Exception {
-        startGame("NORMAL");
+        instance.startGame("NORMAL");
         closeStage();
     }
 
     @FXML
     private void selectHard() throws Exception {
-        startGame("HARD");
+        instance.startGame("HARD");
         closeStage();
     }
 
     @FXML
     private void selectItem() throws Exception {
-        startGame("ITEM");
+        instance.startGame("ITEM");
         closeStage();
     }
 
