@@ -14,13 +14,12 @@ import javafx.stage.Stage;
 
 import java.io.*;
 
-import java.net.URL;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import static com.snust.tetrij.GameOverController.scoreId;
 
-public class ScoreBoardController extends GameManager {
+public class ScoreBoardController {
+    GameManager instance = GameManager.getInstance();
     @FXML
     private ComboBox<String> difficultyComboBox; // 콤보박스 멤버 변수 추가
     private Stage stage;
@@ -58,27 +57,13 @@ public class ScoreBoardController extends GameManager {
 
     @FXML
     public void switchToStartMenu(ActionEvent event) throws IOException {
-        Parent root = returnSceneRoot("start_menu.fxml");
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ESCAPE) {
-                    stage.close(); // ESC 키를 누르면 창을 닫음
-                }
-            }
-        });
-        stage.show();
-        System.out.println((int) stage.getHeight());
-        System.out.println((int) stage.getWidth());
-        com.snust.tetrij.SetResolution.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
+        instance.switchToScene("start_menu.fxml");
+
     }
 
     @FXML
     public void switchToGameOver(ActionEvent event) throws IOException {
-        Parent root = returnSceneRoot("game_over.fxml");
+        Parent root = instance.loadFXML("game_over.fxml");
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

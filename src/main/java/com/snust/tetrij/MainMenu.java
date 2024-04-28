@@ -15,18 +15,18 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.io.File;
-import static com.snust.tetrij.SetResolution.resolutionInitialize;
-import static com.snust.tetrij.SetResolution.curHeight;
-import static com.snust.tetrij.SetResolution.curWidth;
+import static com.snust.tetrij.ResolutionManager.resolutionInitialize;
+import static com.snust.tetrij.ResolutionManager.curHeight;
+import static com.snust.tetrij.ResolutionManager.curWidth;
 
 public class MainMenu extends Application {
+    private final static GameManager instance = GameManager.getInstance();
     private static MediaPlayer mediaPlayer;
-    public static Stage curStage;
-
     @Override
     public void start(Stage stage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("start_menu.fxml"));
         Scene scene = new Scene(root);
+        instance.setPrimaryStage(stage);
         stage.setScene(scene);
         scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
@@ -37,36 +37,38 @@ public class MainMenu extends Application {
             }
         });
         stage.show();
+
+        // 초기 해상도 설정
         resolutionInitialize();
         stage.setHeight(curHeight);
         stage.setWidth(curWidth);
-        com.snust.tetrij.SetResolution.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
+        ResolutionManager.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
 
-
+        // 해상도 변경되지 않도록 창을 드래그하여 늘리는 기능 false
         stage.setResizable(false);
         // stage.setFullScreen(true);
         //playSound("src/main/resources/com/snust/tetrij/sound/startMenuBGM.wav");
         //mediaPlayer.setVolume(0.3);
-        curStage = stage;
+
         Tetris.cur_dif = Tetris.difficulty.EASY;
     }
 
     public static void playTetrij(String difficulty) throws Exception {
         if(difficulty == "EASY") {
             Tetris.item_mode = false;
-            Tetris.newGameScene(curStage, Tetris.difficulty.EASY);
+            Tetris.newGameScene(instance.getPrimaryStage(), Tetris.difficulty.EASY);
         }
         if(difficulty == "NORMAL") {
             Tetris.item_mode = false;
-            Tetris.newGameScene(curStage, Tetris.difficulty.NORMAL);
+            Tetris.newGameScene(instance.getPrimaryStage(), Tetris.difficulty.NORMAL);
         }
         if(difficulty == "HARD"){
             Tetris.item_mode = false;
-            Tetris.newGameScene(curStage, Tetris.difficulty.HARD);
+            Tetris.newGameScene(instance.getPrimaryStage(), Tetris.difficulty.HARD);
         }
         if(difficulty == "ITEM") {
             Tetris.item_mode = true;
-            Tetris.newGameScene(curStage, Tetris.difficulty.ITEM);
+            Tetris.newGameScene(instance.getPrimaryStage(), Tetris.difficulty.ITEM);
         }
         System.out.println("게임 시작");
     }

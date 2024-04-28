@@ -1,13 +1,11 @@
 package com.snust.tetrij;
 
-import com.snust.tetrij.tetromino.S;
 import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -17,7 +15,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -26,14 +23,13 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 
-import javax.print.attribute.standard.PrinterMessageFromOperator;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Stack;
-import static com.snust.tetrij.SetResolution.curHeight;
-import static com.snust.tetrij.SetResolution.curWidth;
+
+import static com.snust.tetrij.ResolutionManager.curHeight;
+import static com.snust.tetrij.ResolutionManager.curWidth;
 
 import static com.snust.tetrij.GameOverController.switchToGameOver;
 
@@ -336,7 +332,7 @@ public static final int WIDTH = XMAX/20;
     @FXML
     public static void GameOver(Stage stage, difficulty dif){
         Platform.runLater(()-> {
-            switchToGameOver(score, stage, dif);
+            switchToGameOver(score, dif);
         });
     }
 
@@ -505,7 +501,7 @@ public static final int WIDTH = XMAX/20;
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        com.snust.tetrij.SetResolution.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
+        ResolutionManager.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
     }
 
     @FXML

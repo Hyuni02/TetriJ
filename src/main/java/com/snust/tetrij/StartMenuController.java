@@ -1,10 +1,7 @@
 package com.snust.tetrij;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
@@ -13,7 +10,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -21,7 +17,8 @@ import javafx.scene.control.Alert;
 
 import static com.snust.tetrij.SelectModeController.selectMode;
 
-public class StartMenuController extends GameManager {
+public class StartMenuController {
+    private final GameManager instance = GameManager.getInstance();
     private MediaPlayer mediaPlayer;
     private Stage stage;
     private Scene scene;
@@ -30,42 +27,54 @@ public class StartMenuController extends GameManager {
     protected void startTetris() throws Exception{// 모드 선택 창을 열기 위한 FXMLLoader
         selectMode();
     }
-    @FXML
-    public void switchToStartMenu(ActionEvent event) throws IOException {
-        Parent root = returnSceneRoot("start_menu.fxml");
-        stage =(Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ESCAPE) {
-                    stage.close(); // ESC 키를 누르면 창을 닫음
-                }
+//    @FXML
+//    public void switchToStartMenu(ActionEvent event) throws IOException {
+//        Parent root = instance.loadFXML("start_menu.fxml");
+//        stage =(Stage)((Node)event.getSource()).getScene().getWindow();
+//        scene = new Scene(root);
+//        stage.setScene(scene);
+//        scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+//            @Override
+//            public void handle(KeyEvent event) {
+//                if (event.getCode() == KeyCode.ESCAPE) {
+//                    stage.close(); // ESC 키를 누르면 창을 닫음
+//                }
+//            }
+//        });
+//        stage.show();
+//        com.snust.tetrij.SetResolution.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
+//    }
+@FXML
+public void switchToStartMenu() throws IOException {
+    instance.switchToScene("start_menu.fxml");
+}
+
+    private void setupEscKeyHandler(Scene scene, Stage stage) {
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                stage.close();
             }
         });
-        stage.show();
-        com.snust.tetrij.SetResolution.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
+    }
+
+//    private void switchToScene(Stage stage, String fxml) throws IOException {
+//        Parent root = instance.loadFXML(fxml);
+//        Scene newScene = new Scene(root);
+//        stage.setScene(newScene);
+//        setupEscKeyHandler(newScene, stage);
+//        stage.show();
+//    }
+
+    @FXML
+    public void switchToScoreBoard() throws IOException {
+        ClickButtonSound();
+        instance.switchToScene("score_board.fxml");
     }
     @FXML
-    public void switchToScoreBoard(ActionEvent event) throws IOException {
+    public void switchToSetting() throws IOException {
         ClickButtonSound();
-        Parent root = returnSceneRoot("score_board.fxml");
-        stage =(Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-        com.snust.tetrij.SetResolution.setScoreBoardResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
-    }
-    @FXML
-    public void switchToSetting(ActionEvent event) throws IOException {
-        ClickButtonSound();
-        Parent root = returnSceneRoot("setting.fxml");
-        stage =(Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-        com.snust.tetrij.SetResolution.setSettingMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
+        instance.switchToScene("setting.fxml");
+
     }
     @FXML
     private void exitGame() {
@@ -74,9 +83,6 @@ public class StartMenuController extends GameManager {
         alert.setTitle("게임 종료");
         alert.setHeaderText("게임을 종료하시겠습니까?");
         alert.setContentText("게임을 종료하려면 확인을 누르세요.");
-
-        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.setAlwaysOnTop(true);
 
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {

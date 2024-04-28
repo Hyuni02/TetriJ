@@ -11,7 +11,7 @@ import org.json.JSONObject;
 
 import java.io.*;
 
-public class SetResolution {
+public class ResolutionManager {
 
     static String curResolution;
     static int curHeight;

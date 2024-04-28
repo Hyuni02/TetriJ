@@ -16,12 +16,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import static com.snust.tetrij.MainMenu.curStage;
-
-public class GameOverController extends GameManager {
-    private static Stage stage;
-    private static Scene scene;
-    private static Stage tetrisStage;
+public class GameOverController {
+    private final static GameManager instance = GameManager.getInstance();
     @FXML
     private Text scoreText;
     @FXML
@@ -52,35 +48,35 @@ public class GameOverController extends GameManager {
         stage.close(); // 종료하면 setOnHidden 이벤트 핸들러 작동
     }
 
-    public static void switchToGameOver(int score, Stage tetrisStage, Tetris.difficulty difficulty) {
-        try {
-            resultScore = score;
-            diff = difficulty.name();
+    public static void switchToGameOver(int score, Tetris.difficulty difficulty) {
 
-            FXMLLoader loader = new FXMLLoader(GameOverController.class.getResource("game_over.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
+        resultScore = score;
+        diff = difficulty.name();
+
+        FXMLLoader loader = new FXMLLoader(GameOverController.class.getResource("game_over.fxml"));
+        Parent root = null;
+        try {
+
+            root = loader.load();  // 루트 load
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Stage stage = new Stage();
             stage.setScene(new Scene(root));
+            stage.show();
 
             // 게임 오버 창이 닫히면 테트리스 스코어보드로 넘어가도록 설정
             stage.setOnHidden(event -> {
                 try {
-                FXMLLoader scoreLoader = new FXMLLoader(GameOverController.class.getResource("score_board.fxml"));
-                Parent scoreRoot;
 
-                    scoreRoot = scoreLoader.load();
+                    instance.switchToScene("score_board.fxml"); // 메인 스테이지를 스코어보드로 전환
 
-                    tetrisStage.setScene(new Scene(scoreRoot));
-                    SetResolution.setScoreBoardResolution(scoreRoot, (int) tetrisStage.getHeight(), (int) tetrisStage.getWidth());
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
-                tetrisStage.show();
             });
-            stage.show();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
