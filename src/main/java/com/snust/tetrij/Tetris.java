@@ -58,7 +58,7 @@ public static final int WIDTH = XMAX/20;
 
     // variables for game
     public static Thread thread;
-    public static boolean item_mode = true;
+    public static boolean item_mode = false;
     public static boolean restart = false;
     public static boolean isGameOver = false;
     public enum difficulty {EASY, NORMAL, HARD, ITEM};
@@ -92,8 +92,6 @@ public static final int WIDTH = XMAX/20;
 
     @Override
     public void start(Stage stage) throws Exception {
-
-
         this.stage = stage;
         //stackPane = new StackPane();  // StackPane 재정의
         pane = new Pane();  // Pane 재정의
@@ -105,8 +103,6 @@ public static final int WIDTH = XMAX/20;
 
         stage.show();
         newGameScene(stage, Tetris.difficulty.EASY);  // 새 게임 시작
-
-
     }
 
     public static void newGameScene(Stage stage, difficulty dif) throws IOException {
@@ -125,12 +121,12 @@ public static final int WIDTH = XMAX/20;
         cur_dif = dif;
         loadSettings();
         System.out.println(dif.toString());
-        Controller.SetField(dif);
+        TetrisBoardController.RWS(dif);
 
 
         if(restart) {
             pane.getChildren().clear(); // 현재 씬 모든 노드 제거
-            Controller.bag.clear();
+            TetrisBoardController.bag.clear();
 
             //thread.interrupt(); // 스레드 중지
 
@@ -210,7 +206,7 @@ public static final int WIDTH = XMAX/20;
         //set listener
         scene.setOnKeyPressed(e->{
             javafx.scene.input.KeyCode code = e.getCode();
-            if (Controller.bag.isEmpty())
+            if (TetrisBoardController.bag.isEmpty())
                 code = KeyCode.NONCONVERT;
 
             if(code == KeyCode.NONCONVERT);
@@ -219,30 +215,30 @@ public static final int WIDTH = XMAX/20;
                 game = !game;
             }
             else if(code == leftKeyCode){
-                Controller.moveLeftOnKeyPress(Controller.bag.get(0));
+                TetrisBoardController.moveLeftOnKeyPress(TetrisBoardController.bag.get(0));
                 color_mesh(childrens_without_blocks);
             }
             else if(code == rightKeyCode){
-                Controller.moveRightOnKeyPress(Controller.bag.get(0));
+                TetrisBoardController.moveRightOnKeyPress(TetrisBoardController.bag.get(0));
                 color_mesh(childrens_without_blocks);
             }
             else if(code == rotateKeyCode){
-                Controller.rotateRight(Controller.bag.get(0));
+                TetrisBoardController.rotateClockWise(TetrisBoardController.bag.get(0));
                 color_mesh(childrens_without_blocks);
             }
             else if(code == downKeyCode){
-                Controller.softDrop(Controller.bag.get(0));
+                TetrisBoardController.softDrop(TetrisBoardController.bag.get(0));
                 color_mesh(childrens_without_blocks);
             }
             else if(code == dropKeyCode){
-                Controller.hardDrop(Controller.bag.get(0));
+                TetrisBoardController.hardDrop(TetrisBoardController.bag.get(0));
                 color_mesh(childrens_without_blocks);
             }
         });
 
-        Controller.generateTetromino();
-        Controller.generateTetromino();
-        Controller.bag.get(0).update_mesh();
+        TetrisBoardController.generateTetromino();
+        TetrisBoardController.generateTetromino();
+        TetrisBoardController.bag.get(0).update_mesh();
         color_mesh(childrens_without_blocks);
 
         if(!restart) { // 처음 한번만
@@ -280,34 +276,21 @@ public static final int WIDTH = XMAX/20;
                             e.printStackTrace();
                         }
 
-
-
-                        if (Controller.bag.size() >= 2) {
-                            Controller.softDrop(Controller.bag.get(0));
-                        }
-                        if (Controller.bag.size() < 2) {
-                            Controller.generateTetromino();
-                            Controller.bag.get(0).update_mesh();
-                        }
+                        TetrisBoardController.softDrop(TetrisBoardController.bag.get(0));
                         color_mesh(childrens_without_blocks);
 
                         //다음블럭 그리기
                         Platform.runLater(
                                 ()->{
-                                    TetrominoBase next = Controller.bag.get(1);
-                                    int nextWidth = next.getWidth();
-                                    int nextHeight = next.getHeight();
+                                    TetrominoBase next = TetrisBoardController.bag.get(1);
                                     for (int y = 0; y < 4; y++) {
                                         for (int x = 0; x < 4; x++) {
                                             Rectangle r = new Rectangle(XMAX+10+x*Tetris.SIZE + offset, 200+y*Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
-                                            if (x >= nextWidth || y >= nextHeight) {
-                                                r.setFill(Color.WHITE);
-                                            }
-                                            else if (next.mesh[next.rotate][y][x] == 0) {
+                                            if (next.mesh[y][x] == 0) {
                                                 r.setFill(Color.WHITE);
                                             }
                                             else {
-                                                r.setFill(TetrominoBase.getColor(Controller.bag.get(1).name));
+                                                r.setFill(TetrominoBase.getColor(TetrisBoardController.bag.get(1).name));
                                             }
                                             pane.getChildren().add(r);
                                         }

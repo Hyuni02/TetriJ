@@ -10,41 +10,53 @@ import javafx.util.Duration;
 
 import java.util.*;
 
-import static javafx.application.Platform.*;
-
-public class Controller {
+public class TetrisBoardController {
     public static List<TetrominoBase> bag = new Vector<TetrominoBase>();
 
-    public static ArrayList<Integer> field = new ArrayList<Integer>();
+    public TetrisBoardController() { }
 
-    public Controller() { }
-
-    public static void SetField(Tetris.difficulty dif){
-        //모든 블록의 비중을 10으로 세팅
-        for(int i=0;i<7;i++){
-            for(int j=0;j<10;j++){
-                field.add(i);
+    public static int RWS(Tetris.difficulty dif){
+        double[] fitnesses = null;
+        switch (dif) {
+            case EASY -> {
+                fitnesses = new double[] {1,1,1,1.2,1,1,1};  //easy난이도에서는 L블럭 20퍼센트 더 많이
+            }
+            case NORMAL -> {
+                fitnesses = new double[] {1,1,1,1,1,1,1};
+            }
+            case HARD -> {
+                fitnesses = new double[] {1,1,1,0.8,1,1,1};
             }
         }
 
-        //쉬움 난이도는 I블럭의 비중 20% 증가
-        if(dif == Tetris.difficulty.EASY){
-            field.add(1);
-            field.add(1);
+        double totalFitness = 0;
+        // 모든 적합도의 합을 계산
+        for (double fitness : fitnesses) {
+            totalFitness += fitness;
         }
-        //어려움 난이도는 I블럭의 비중 20% 감소
-        if(dif == Tetris.difficulty.HARD){
-            field.remove(1);
-            field.remove(1);
+
+        // 랜덤값을 기준으로 선택할 위치 결정
+        Random rand = new Random();
+        double value = rand.nextDouble() * totalFitness;
+
+        // 룰렛 휠 시뮬레이션
+        double runningTotal = 0;
+        for (int i = 0; i < fitnesses.length; i++) {
+            runningTotal += fitnesses[i];
+            if (runningTotal >= value) {
+                return i;
+            }
         }
+
+        // 모든 값이 0인 경우 마지막 인덱스 반환
+        return fitnesses.length - 1;
     }
 
     public static void generateTetromino() {
-
         TetrominoBase t = new TetrominoBase(false);
-        int idx = (int)(Math.random() * field.size());
+        int idx = RWS(Tetris.cur_dif);
         if (!Tetris.item_mode) {
-            switch(field.get(idx)) {
+            switch(idx) {
                 case 0 -> t = new Z(false);
                 case 1 -> t = new I(false);
                 case 2 -> t = new J(false);
@@ -57,7 +69,7 @@ public class Controller {
         else {
             if (Tetris.deleted_lines <= 2) {
                 Tetris.deleted_lines = 0;
-                switch(field.get(idx)) {
+                switch(idx) {
                     case 0 -> t = new Z(true);
                     case 1 -> t = new I(true);
                     case 2 -> t = new J(true);
@@ -69,7 +81,7 @@ public class Controller {
 //                t = new DeleteAll();
             }
             else {
-                switch(field.get(idx)) {
+                switch(idx) {
                     case 0 -> t = new Z(false);
                     case 1 -> t = new I(false);
                     case 2 -> t = new J(false);
@@ -100,7 +112,8 @@ public class Controller {
             updateTop(tb);
             tb.update_mesh();
             eraseLine();
-            Controller.bag.remove(0);
+            TetrisBoardController.bag.remove(0);
+            generateTetromino();
             return;
         }
         if (tb.name == 'w') {
@@ -112,27 +125,15 @@ public class Controller {
 
         }
         tb.update_mesh();
+
     }
 
     //무게추가 좌우 고정이 되어야하는지 확인만을 위한 함수
     public static boolean isClearBelow(Weight tb) {
-        int rot = tb.rotate;
-        int height = tb.getHeight();
-        int width = tb.getWidth();
-
-        // Tetromino가 아래쪽 경계에 닿았는지 확인
-        if (tb.pos[0] + height > Tetris.HEIGHT) {
-            return false;
+        if (canMoveDown(tb, 0)) {
+            return true;
         }
-
-        // Tetromino의 각 블록이 아래로 이동할 때 다른 블록과 겹치는지 확인
-        for (int x = 0; x < width; x++) {
-            // Tetromino의 블록이 아래쪽으로 이동할 때 충돌 여부 확인
-            if (Tetris.MESH[tb.pos[0] + 2][tb.pos[1] + x] != '0') {
-                return false;
-            }
-        }
-        return true; // 아래로 이동 가능
+        return false;
     }
 
 
@@ -147,7 +148,8 @@ public class Controller {
         tb.update_mesh();
         updateTop(tb);
         eraseLine();
-        Controller.bag.remove(0);
+        TetrisBoardController.bag.remove(0);
+        generateTetromino();
     }
 
     public static void moveRightOnKeyPress(TetrominoBase tb) {
@@ -166,20 +168,93 @@ public class Controller {
         tb.update_mesh();
     }
 
-    public static void rotateRight(TetrominoBase tb) {
+    public static void rotateClockWise(TetrominoBase tb) {
         eraseMesh(tb);
-        tb.rotate = tb.rotate == 3 ? tb.rotate = 0 : ++tb.rotate;
+        int[][] rotated = canRotateClockwise(tb);
+        if (rotated != null) {
+            tb.mesh = rotated;
+        }
         tb.update_mesh();
     }
 
-    public static void eraseMesh(TetrominoBase tb) {
-        int rot = tb.rotate;
-        int height = tb.getHeight();
-        int width = tb.getWidth();
+    public static boolean canMoveDown(TetrominoBase tb, int distance) {
+        if (tb.name == 'w')
+            return true;
 
-        for (int y = tb.pos[0]; y < tb.pos[0] + height; y++) {
-            for (int x = tb.pos[1]; x < tb.pos[1] + width; x++) {
-                Tetris.MESH[y][x] = '0';
+        // 블록의 아래쪽에 다른 블록이 있는지 확인
+        for (int y = 0; y < 4; y++) {
+            for (int x = 0; x < 4; x++) {
+                if (tb.mesh[y][x] == 0) {
+                    continue;
+                }
+                if (y + tb.pos[0] + distance >= Tetris.HEIGHT
+                        || Tetris.MESH[y + tb.pos[0] + distance][x + tb.pos[1]] != '0') {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static boolean canMoveSideWays(TetrominoBase tb, int distance) {
+        // Tetromino의 각 블록이 아래로 이동할 때 다른 블록과 겹치는지 확인
+        for (int y = 0; y < 4; y++) {
+            for (int x = 0; x < 4; x++) {
+                if (tb.mesh[y][x] == 0) {
+                    continue; // 빈 공간은 확인하지 않음
+                }
+                // Tetromino의 블록이 밖으로 나가는지 확인
+                if (x + tb.pos[1] + distance < 0 || x + tb.pos[1] + distance >= Tetris.WIDTH  ) {
+                    return false;
+                }
+                // Tetromino의 블록이 측면으로 이동할 때 충돌 여부 확인
+                if (Tetris.MESH[tb.pos[0] + y][tb.pos[1] + x + distance] != '0') {
+                    return false;
+                }
+            }
+        }
+        return true; // 아래로 이동 가능
+    }
+
+    public static int[][] canRotateClockwise(TetrominoBase tb) {
+        // 회전 후의 상태를 가상으로 생성하여 유효성을 검사
+        int[][] rotatedShape = new int[4][4];
+
+        // 회전 후의 모양을 생성
+        for (int y = 0; y < 4; y++) {
+            for (int x = 0; x < 4; x++) {
+                rotatedShape[y][x] = tb.mesh[4 - 1 - x][y];
+            }
+        }
+
+        // 유효성 검사
+        for (int y = 0; y < 4; y++) {
+            for (int x = 0; x < 4; x++) {
+                if (rotatedShape[y][x] == 1) {
+                    // 회전 후의 위치가 보드를 벗어나는 경우
+                    if (y >= Tetris.HEIGHT || x >= Tetris.WIDTH) {
+                        return null;
+                    }
+                    // 회전 후의 위치에 이미 다른 블록이 있는 경우
+                    if (Tetris.MESH[y+tb.pos[0]][x+tb.pos[1]] == 1) {
+                        return null;
+                    }
+                }
+            }
+        }
+        return rotatedShape;
+    }
+
+    public static void eraseMesh(TetrominoBase tb) {
+        for (int y = tb.pos[0]; y < tb.pos[0] + 4; y++) {
+            for (int x = tb.pos[1]; x < tb.pos[1] + 4; x++) {
+                if (y >= Tetris.HEIGHT)
+                    continue;
+                if (x >= Tetris.WIDTH)
+                    continue;
+
+                if (tb.mesh[y-tb.pos[0]][x-tb.pos[1]] == 1)
+                    Tetris.MESH[y][x] = '0';
             }
         }
     }
@@ -291,83 +366,7 @@ public class Controller {
         wait.play();
     }
 
-    public static boolean canMoveDown(TetrominoBase tb, int distance) {
-        int rot = tb.rotate;
-        int height = tb.getHeight();
-        int width = tb.getWidth();
 
-        // Tetromino가 아래쪽 경계에 닿았는지 확인
-        if (tb.pos[0] + height + distance > Tetris.HEIGHT) {
-            return false;
-        }
-
-        //무게추 모드
-        if (tb.name == 'w') {
-            return true;
-        }
-
-        // Tetromino의 각 블록이 아래로 이동할 때 다른 블록과 겹치는지 확인
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                if (tb.mesh[rot][y][x] == 0) {
-                    continue; // 빈 공간은 확인하지 않음
-                }
-
-                // Tetromino의 블록이 아래쪽으로 이동할 때 충돌 여부 확인
-                if (Tetris.MESH[tb.pos[0] + y + distance][tb.pos[1] + x] != '0') {
-                    return false;
-                }
-            }
-        }
-
-        return true; // 아래로 이동 가능
-    }
-
-    public static boolean canMoveSideWays(TetrominoBase tb, int distance) {
-        int rot = tb.rotate;
-        int height = tb.getHeight();
-        int width = tb.getWidth();
-
-        // Tetromino가 아래쪽 경계에 닿았는지 확인
-        if (tb.pos[1] + distance < 0 || tb.pos[1] + width + distance > Tetris.WIDTH) {
-            return false;
-        }
-
-        // Tetromino의 각 블록이 아래로 이동할 때 다른 블록과 겹치는지 확인
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                if (tb.mesh[rot][y][x] == 0) {
-                    continue; // 빈 공간은 확인하지 않음
-                }
-
-                // Tetromino의 블록이 아래쪽으로 이동할 때 충돌 여부 확인
-                if (Tetris.MESH[tb.pos[1] + y][tb.pos[1] + x + distance] != '0') {
-                    return false;
-                }
-            }
-        }
-        return true; // 아래로 이동 가능
-    }
-
-    public static boolean canRotate(TetrominoBase tb) {
-        int rot = tb.rotate == 3 ? 0 : tb.rotate+1;
-        int height = tb.getHeight(rot);
-        int width = tb.getWidth(rot);
-
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                if (tb.mesh[rot][y][x] == 0) {
-                    continue; // 빈 공간은 확인하지 않음
-                }
-
-                // Tetromino의 블록이 회전할때
-                if (Tetris.MESH[tb.pos[1] + y][tb.pos[1] + x] != '0') {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
 
     private static void updateTop(TetrominoBase tb) {
         Tetris.top = Math.max(Tetris.HEIGHT - tb.pos[0], Tetris.top);
