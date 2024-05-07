@@ -1,4 +1,4 @@
-package com.snust.tetrij;
+package com.snust.tetrij.Controller;
 
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -14,8 +14,8 @@ import java.io.*;
 public class ResolutionManager {
 
     static String curResolution;
-    static int curHeight;
-    static int curWidth;
+    public static int curHeight;
+    public static int curWidth;
 
     public static void resolutionInitialize() {
         loadSettings();  //json파일 읽어옴

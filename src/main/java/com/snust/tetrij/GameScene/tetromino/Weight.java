@@ -1,6 +1,5 @@
-package com.snust.tetrij.tetromino;
+package com.snust.tetrij.GameScene.tetromino;
 
-import com.snust.tetrij.Tetris;
 import javafx.scene.paint.Color;
 
 public class Weight extends TetrominoBase {

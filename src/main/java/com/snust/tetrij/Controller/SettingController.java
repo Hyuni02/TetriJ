@@ -1,4 +1,5 @@
-package com.snust.tetrij;
+package com.snust.tetrij.Controller;
+import com.snust.tetrij.GameManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,7 +23,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static com.snust.tetrij.ResolutionManager.*;
+import static com.snust.tetrij.Controller.ResolutionManager.*;
 
 public class SettingController {
     private Stage stage;

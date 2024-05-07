@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.ScoreBoardController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.Controller.ScoreBoardController">
     <children>
         <Button fx:id="exitButton" layoutX="507.0" layoutY="341.0" mnemonicParsing="false" onAction="#switchToStartMenu" text="나가기" />
         <Text fx:id="scoreBoardTitle" layoutX="200.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="스코어보드">

@@ -1,4 +1,4 @@
-package com.snust.tetrij.tetromino;
+package com.snust.tetrij.GameScene.tetromino;
 
 import javafx.scene.paint.Color;
 

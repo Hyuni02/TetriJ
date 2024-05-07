@@ -1,5 +1,6 @@
-package com.snust.tetrij;
+package com.snust.tetrij.Controller;
 
+import com.snust.tetrij.GameManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

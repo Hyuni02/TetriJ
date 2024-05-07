@@ -1,5 +1,6 @@
 package com.snust.tetrij;
 
+import com.snust.tetrij.Controller.ResolutionManager;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -15,9 +16,9 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.io.File;
-import static com.snust.tetrij.ResolutionManager.resolutionInitialize;
-import static com.snust.tetrij.ResolutionManager.curHeight;
-import static com.snust.tetrij.ResolutionManager.curWidth;
+import static com.snust.tetrij.Controller.ResolutionManager.resolutionInitialize;
+import static com.snust.tetrij.Controller.ResolutionManager.curHeight;
+import static com.snust.tetrij.Controller.ResolutionManager.curWidth;
 
 public class MainMenu extends Application {
     private final static GameManager instance = GameManager.getInstance();

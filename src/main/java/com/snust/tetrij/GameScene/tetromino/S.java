@@ -1,17 +1,16 @@
-package com.snust.tetrij.tetromino;
+package com.snust.tetrij.GameScene.tetromino;
 
-import com.snust.tetrij.Tetris;
 import javafx.scene.paint.Color;
 
-public class Z extends TetrominoBase {
-    public Z(boolean gen_item) {
+public class S extends TetrominoBase {
+    public S(boolean gen_item) {
         super(gen_item);
-        super.name = 'z';
-        super.color = Color.RED;
+        super.name = 's';
+        super.color = Color.LIGHTGREEN;
         super.mesh = super.mesh = new int[][] {
                 {0,0,0,0},
-                {0,1,1,0},
                 {0,0,1,1},
+                {0,1,1,0},
                 {0,0,0,0}
         };
         super.pos = new int[] { 0, (int)(Math.random()*7) };

@@ -1,6 +1,8 @@
 package com.snust.tetrij;
 
-import com.snust.tetrij.tetromino.TetrominoBase;
+import com.snust.tetrij.Controller.ResolutionManager;
+import com.snust.tetrij.GameScene.TetrisBoardController;
+import com.snust.tetrij.GameScene.tetromino.TetrominoBase;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -15,7 +17,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -28,22 +29,18 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-import static com.snust.tetrij.ResolutionManager.curHeight;
-import static com.snust.tetrij.ResolutionManager.curWidth;
+import static com.snust.tetrij.Controller.ResolutionManager.curHeight;
+import static com.snust.tetrij.Controller.ResolutionManager.curWidth;
 
-import static com.snust.tetrij.GameOverController.switchToGameOver;
+import static com.snust.tetrij.Controller.GameOverController.switchToGameOver;
 
 public class Tetris extends Application {
     public static double offset = 500;
     // consts for game
     public static int SIZE = 30;
-//    public static final int XMAX = SIZE * 10;
-//    public static final int YMAX = SIZE * 20;
     public static final int XMAX = 20 * 10;
     public static final int YMAX = 20 * 20;
-//    public static final int WIDTH = XMAX/SIZE;
-//    public static final int HEIGHT = YMAX/SIZE;
-public static final int WIDTH = XMAX/20;
+    public static final int WIDTH = XMAX/20;
     public static final int HEIGHT = YMAX/20;
     public static int top = 0;
 
@@ -53,11 +50,10 @@ public static final int WIDTH = XMAX/20;
     private static Scene scene = new Scene(pane, XMAX + 150, YMAX);
     public static char [][] MESH = new char[HEIGHT][WIDTH];
     public static Rectangle[][] rectMesh = new Rectangle[HEIGHT][WIDTH];    //애니메이션용..
-    private static Pane group = new Pane();
     private static String screenSize;
 
     // variables for game
-    public static Thread thread;
+    //public static Thread thread;
     public static boolean item_mode = false;
     public static boolean restart = false;
     public static boolean isGameOver = false;
@@ -67,12 +63,10 @@ public static final int WIDTH = XMAX/20;
     public static int score = 0; //점수
     public static boolean game = true;
     public static int linesNo = 0; //지워진 줄 수
-    public static boolean isZeroScoreText = true;
-    private static int freq = 300; //하강 속도
+    // private static int freq = 300; //하강 속도
     public static int speedLevel = 0; //지워진 줄 수에 따른 속도 레벨
     private static int boost = 30; //하강 속도 증가량
     public static int deleted_lines = 0;
-    private MediaPlayer mediaPlayer;
     // 퍼즈 관련 변수
     protected static boolean isPaused = false; // 퍼즈 중인가?
     protected static boolean onPauseButton = false; // 퍼즈 버튼을 눌러서 퍼즈 창이 떠 있는 상태인가?
@@ -241,74 +235,74 @@ public static final int WIDTH = XMAX/20;
         TetrisBoardController.bag.get(0).update_mesh();
         color_mesh(childrens_without_blocks);
 
-        if(!restart) { // 처음 한번만
-            //runtime logic
-            Runnable task = new Runnable() {
-                public void run() {
-                    while (!isGameOver) {
-                        try {
-                            //일시정지
-                            if (isPaused) {
-                                System.out.print("");   //이거없음 pauseButton 버그남 ㄷㄷ
-                                continue;
-                            }
-
-                            int finalFreq = 0;
-                            switch (dif) {
-                                case EASY -> finalFreq = freq - speedLevel * (int) (boost * 0.8f);
-                                case NORMAL -> finalFreq = freq - speedLevel * boost;
-                                case ITEM -> finalFreq = freq - speedLevel * boost;
-                                case HARD -> finalFreq = freq - speedLevel * (int) (boost * 1.2f);
-                            }
-
-                            Thread.sleep(finalFreq);
-
-                            if (speedLevel == 0)
-                                score++;
-                            else if (speedLevel == 1)
-                                score += 2;
-                            else if (speedLevel == 2)
-                                score += 3;
-
-                            scoretext.setText("Score: " + Integer.toString(score));
-                            level.setText("Lines: " + Integer.toString(linesNo));
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+        Thread thread = new Thread(()->{});
+        //runtime logic
+        Runnable task = new Runnable() {
+            public void run() {
+                while (!isGameOver) {
+                    int freq = 300;
+                    try {
+                        //일시정지
+                        if (isPaused) {
+                            System.out.print("");   //이거없음 pauseButton 버그남 ㄷㄷ
+                            continue;
                         }
 
-                        TetrisBoardController.softDrop(TetrisBoardController.bag.get(0));
-                        color_mesh(childrens_without_blocks);
+                        int finalFreq = 0;
+                        switch (dif) {
+                            case EASY -> finalFreq = freq - speedLevel * (int) (boost * 0.8f);
+                            case NORMAL -> finalFreq = freq - speedLevel * boost;
+                            case ITEM -> finalFreq = freq - speedLevel * boost;
+                            case HARD -> finalFreq = freq - speedLevel * (int) (boost * 1.2f);
+                        }
 
-                        //다음블럭 그리기
-                        Platform.runLater(
-                                ()->{
-                                    TetrominoBase next = TetrisBoardController.bag.get(1);
-                                    for (int y = 0; y < 4; y++) {
-                                        for (int x = 0; x < 4; x++) {
-                                            Rectangle r = new Rectangle(XMAX+10+x*Tetris.SIZE + offset, 200+y*Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
-                                            if (next.mesh[y][x] == 0) {
-                                                r.setFill(Color.WHITE);
-                                            }
-                                            else {
-                                                r.setFill(TetrominoBase.getColor(TetrisBoardController.bag.get(1).name));
-                                            }
-                                            pane.getChildren().add(r);
+                        Thread.sleep(finalFreq);
+
+                        if (speedLevel == 0)
+                            score++;
+                        else if (speedLevel == 1)
+                            score += 2;
+                        else if (speedLevel == 2)
+                            score += 3;
+
+                        scoretext.setText("Score: " + Integer.toString(score));
+                        level.setText("Lines: " + Integer.toString(linesNo));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    TetrisBoardController.softDrop(TetrisBoardController.bag.get(0));
+                    color_mesh(childrens_without_blocks);
+
+                    //다음블럭 그리기
+                    Platform.runLater(
+                            () -> {
+                                TetrominoBase next = TetrisBoardController.bag.get(1);
+                                for (int y = 0; y < 4; y++) {
+                                    for (int x = 0; x < 4; x++) {
+                                        Rectangle r = new Rectangle(XMAX + 10 + x * Tetris.SIZE + offset, 200 + y * Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
+                                        if (next.mesh[y][x] == 0) {
+                                            r.setFill(Color.WHITE);
+                                        } else {
+                                            r.setFill(TetrominoBase.getColor(TetrisBoardController.bag.get(1).name));
                                         }
+                                        pane.getChildren().add(r);
                                     }
                                 }
-                        );
-                        //게임오바
-                        if (Tetris.top >= Tetris.HEIGHT - 1) {
-                            System.out.println("game over");
-                            isGameOver = true;
-                        }
+                            }
+                    );
+                    //게임오바
+                    if (Tetris.top >= Tetris.HEIGHT - 1) {
+                        System.out.println("game over");
+                        isGameOver = true;
                     }
-                    GameOver(stage, dif);
                 }
-            };
-            thread = new Thread(task);
-            thread.start();
-        }
+                GameOver(stage, dif);
+            }
+        };
+        thread = new Thread(task);
+        thread.start();
+
         restart = true;
     }
 

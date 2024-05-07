@@ -1,6 +1,7 @@
-package com.snust.tetrij;
+package com.snust.tetrij.GameScene;
 
-import com.snust.tetrij.tetromino.*;
+import com.snust.tetrij.Tetris;
+import com.snust.tetrij.GameScene.tetromino.*;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.concurrent.Task;

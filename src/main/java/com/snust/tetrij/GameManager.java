@@ -1,5 +1,6 @@
 package com.snust.tetrij;
 
+import com.snust.tetrij.Controller.ResolutionManager;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -89,7 +90,7 @@ public class GameManager {
         MainMenu.playTetrij(diff);
     }
 
-    protected Parent loadFXML(String fxml) throws IOException {
+    public Parent loadFXML(String fxml) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
         return loader.load();
     }

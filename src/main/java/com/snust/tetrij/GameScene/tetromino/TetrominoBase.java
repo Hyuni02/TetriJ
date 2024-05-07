@@ -1,6 +1,6 @@
-package com.snust.tetrij.tetromino;
+package com.snust.tetrij.GameScene.tetromino;
 
-import com.snust.tetrij.TetrisBoardController;
+import com.snust.tetrij.GameScene.TetrisBoardController;
 import com.snust.tetrij.Tetris;
 import javafx.scene.paint.Color;
 

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -29,7 +30,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 
-import static com.snust.tetrij.GameOverController.switchToGameOver;
+import static com.snust.tetrij.Controller.GameOverController.switchToGameOver;
 
 @Deprecated
 public class InGame extends Application {

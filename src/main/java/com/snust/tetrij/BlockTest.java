@@ -1,5 +1,6 @@
 package com.snust.tetrij;
 
+import com.snust.tetrij.GameScene.TetrisBoardController;
 import org.junit.Assert;
 import org.junit.Test;
 

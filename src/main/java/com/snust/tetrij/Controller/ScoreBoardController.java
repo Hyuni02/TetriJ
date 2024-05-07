@@ -1,22 +1,21 @@
-package com.snust.tetrij;
+package com.snust.tetrij.Controller;
 
+import com.snust.tetrij.GameManager;
+import com.snust.tetrij.Tetris;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import static com.snust.tetrij.GameOverController.scoreId;
+import static com.snust.tetrij.Controller.GameOverController.scoreId;
 
 public class ScoreBoardController {
     GameManager instance = GameManager.getInstance();

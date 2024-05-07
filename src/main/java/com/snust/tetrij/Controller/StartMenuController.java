@@ -1,6 +1,6 @@
-package com.snust.tetrij;
+package com.snust.tetrij.Controller;
 
-import javafx.event.ActionEvent;
+import com.snust.tetrij.GameManager;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
@@ -15,7 +15,7 @@ import java.net.URL;
 
 import javafx.scene.control.Alert;
 
-import static com.snust.tetrij.SelectModeController.selectMode;
+import static com.snust.tetrij.Controller.SelectModeController.selectMode;
 
 public class StartMenuController {
     private final GameManager instance = GameManager.getInstance();

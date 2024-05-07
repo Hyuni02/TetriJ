@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.StartMenuController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.Controller.StartMenuController">
    <children>
       <ImageView fx:id="Tetrij" cache="true" fitHeight="77.0" fitWidth="198.0" layoutX="201.3333282470703" layoutY="74.0" pickOnBounds="true" preserveRatio="true" smooth="false">
          <image>
