@@ -1,20 +1,16 @@
 package com.snust.tetrij;
 
-import com.snust.tetrij.Controller.ResolutionManager;
+
 import com.snust.tetrij.GameScene.TetrisBoardController;
 import com.snust.tetrij.GameScene.tetromino.TetrominoBase;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -25,13 +21,12 @@ import javafx.stage.Stage;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Arrays;
 
 import static com.snust.tetrij.Controller.ResolutionManager.curHeight;
 import static com.snust.tetrij.Controller.ResolutionManager.curWidth;
 
+import static com.snust.tetrij.GameScene.GameKeyController.*;
 import static com.snust.tetrij.Controller.GameOverController.switchToGameOver;
 
 public class Tetris extends Application {
@@ -45,15 +40,13 @@ public class Tetris extends Application {
     public static int top = 0;
 
     // fx items
-    //private static StackPane stackPane = new StackPane(); // StackPane 사용
     private static Pane pane = new Pane(); // 기존 Pane 사용
     private static Scene scene = new Scene(pane, XMAX + 150, YMAX);
     public static char [][] MESH = new char[HEIGHT][WIDTH];
     public static Rectangle[][] rectMesh = new Rectangle[HEIGHT][WIDTH];    //애니메이션용..
-    private static String screenSize;
+    public static int childrens_without_blocks;
 
     // variables for game
-    //public static Thread thread;
     public static boolean item_mode = false;
     public static boolean restart = false;
     public static boolean isGameOver = false;
@@ -63,40 +56,29 @@ public class Tetris extends Application {
     public static int score = 0; //점수
     public static boolean game = true;
     public static int linesNo = 0; //지워진 줄 수
-    // private static int freq = 300; //하강 속도
     public static int speedLevel = 0; //지워진 줄 수에 따른 속도 레벨
     private static int boost = 30; //하강 속도 증가량
     public static int deleted_lines = 0;
     // 퍼즈 관련 변수
-    protected static boolean isPaused = false; // 퍼즈 중인가?
+    public static boolean isPaused = false; // 퍼즈 중인가?
     protected static boolean onPauseButton = false; // 퍼즈 버튼을 눌러서 퍼즈 창이 떠 있는 상태인가?
-    // region 블럭 움직임 키 설정
-    static String rightKey = loadKeySetting("right");
-    static String leftKey = loadKeySetting("left");
-    static String rotateKey = loadKeySetting("rotate");
-    static String downKey = loadKeySetting("down");
-    static String dropKey = loadKeySetting("drop");
-    static KeyCode rightKeyCode = getKeyCodeFromString(rightKey);
-    static KeyCode leftKeyCode = getKeyCodeFromString(leftKey);
-    static KeyCode rotateKeyCode = getKeyCodeFromString(rotateKey);
-    static KeyCode downKeyCode = getKeyCodeFromString(downKey);
-    static KeyCode dropKeyCode = getKeyCodeFromString(dropKey);
     // endregion
     public Stage stage;
 
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-        //stackPane = new StackPane();  // StackPane 재정의
         pane = new Pane();  // Pane 재정의
-        //stackPane.setAlignment(Pos.CENTER);  // StackPane 중앙 정렬
-        //stackPane.getChildren().add(pane);  // StackPane에 Pane 추가
 
         scene = new Scene(pane, 1200, 800); // 기본 해상도 설정
         stage.setScene(scene);  // Stage에 Scene 설정
 
         stage.show();
         newGameScene(stage, Tetris.difficulty.EASY);  // 새 게임 시작
+    }
+
+    public static void main(String[] args) {
+        launch();
     }
 
     public static void newGameScene(Stage stage, difficulty dif) throws IOException {
@@ -117,13 +99,9 @@ public class Tetris extends Application {
         System.out.println(dif.toString());
         TetrisBoardController.RWS(dif);
 
-
         if(restart) {
             pane.getChildren().clear(); // 현재 씬 모든 노드 제거
             TetrisBoardController.bag.clear();
-
-            //thread.interrupt(); // 스레드 중지
-
             // 변수 초기화
             score = 0;
             top = 0;
@@ -132,24 +110,10 @@ public class Tetris extends Application {
             isPaused = false; // 퍼즈 후 시작화면으로 나가서 재시작할때 오류방지
             isGameOver = false;
             restart = false;
-//            fall.cancel(); // 타이머 리셋
-//            fall.purge();
+            childrens_without_blocks = 0;
         }
-//        if(!restart)
-//        fall = new Timer(); // 타이머 전역변수로 뺌 -> 리셋 가능
 
-
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() { // 키 이벤트
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.P) {
-                    togglePause(); // P 누르면 퍼즈
-                }
-                if (event.getCode() == KeyCode.ESCAPE) {
-                    System.exit(0); // ESC 누르면 창 닫기
-                }
-            }
-        });
+        addListener(scene); //GameScene.GameKeyController.addListener
 
         for(char[] a:MESH){
             Arrays.fill(a, '0');
@@ -165,7 +129,6 @@ public class Tetris extends Application {
         level.setY(100);
         level.setX(XMAX + 5 + offset);
         level.setFill(Color.GREEN);
-        //pane.getChildren().addAll(scoretext, line, level);
 
         Button pauseButton = new Button("Pause");
         pauseButton.setLayoutY(150);
@@ -183,60 +146,28 @@ public class Tetris extends Application {
             }
         }
 
-        Text keyText = new Text("왼쪽 이동: "+leftKeyCode+"\n오른쪽 이동: "+rightKeyCode + "\n아래 이동: "+downKeyCode + "\n회전: "+rotateKeyCode + "\n드롭 버튼: "+dropKeyCode);
+        Text keyText = new Text("왼쪽 이동: "+leftKeyCode+"\n오른쪽 이동: "+rightKeyCode
+                + "\n아래 이동: "+downKeyCode + "\n회전: "+rotateKeyCode + "\n드롭 버튼: "+dropKeyCode);
         keyText.setStyle("-fx-font: 10 arial;");
         keyText.setY(300 + offset/5);
         keyText.setX(XMAX + 5 + offset);
 
         pane.getChildren().addAll(scoretext, line, level, pauseButton, keyText);
-
         pauseButton.setOnAction(event -> togglePause());
 
         //generate first block
         stage.setScene(scene);
         stage.setTitle("TETRIS");
         stage.show();
-        int childrens_without_blocks = init_mesh();
-        //set listener
-        scene.setOnKeyPressed(e->{
-            javafx.scene.input.KeyCode code = e.getCode();
-            if (TetrisBoardController.bag.isEmpty())
-                code = KeyCode.NONCONVERT;
-
-            if(code == KeyCode.NONCONVERT);
-            else if(code == KeyCode.ESCAPE){
-                System.out.println("esc");
-                game = !game;
-            }
-            else if(code == leftKeyCode){
-                TetrisBoardController.moveLeftOnKeyPress(TetrisBoardController.bag.get(0));
-                color_mesh(childrens_without_blocks);
-            }
-            else if(code == rightKeyCode){
-                TetrisBoardController.moveRightOnKeyPress(TetrisBoardController.bag.get(0));
-                color_mesh(childrens_without_blocks);
-            }
-            else if(code == rotateKeyCode){
-                TetrisBoardController.rotateClockWise(TetrisBoardController.bag.get(0));
-                color_mesh(childrens_without_blocks);
-            }
-            else if(code == downKeyCode){
-                TetrisBoardController.softDrop(TetrisBoardController.bag.get(0));
-                color_mesh(childrens_without_blocks);
-            }
-            else if(code == dropKeyCode){
-                TetrisBoardController.hardDrop(TetrisBoardController.bag.get(0));
-                color_mesh(childrens_without_blocks);
-            }
-        });
+        childrens_without_blocks = init_mesh();
+        gameProc(scene); //GameScene.GameKeyController.gameProc - setting event listener
 
         TetrisBoardController.generateTetromino();
         TetrisBoardController.generateTetromino();
         TetrisBoardController.bag.get(0).update_mesh();
         color_mesh(childrens_without_blocks);
 
-        Thread thread = new Thread(()->{});
-        //runtime logic
+        Thread thread;
         Runnable task = new Runnable() {
             public void run() {
                 while (!isGameOver) {
@@ -255,7 +186,6 @@ public class Tetris extends Application {
                             case ITEM -> finalFreq = freq - speedLevel * boost;
                             case HARD -> finalFreq = freq - speedLevel * (int) (boost * 1.2f);
                         }
-
                         Thread.sleep(finalFreq);
 
                         if (speedLevel == 0)
@@ -325,59 +255,7 @@ public class Tetris extends Application {
         }
     }
 
-    private static String loadKeySetting(String key) {
-        try {
-            String content = new String(Files.readAllBytes(Paths.get("src/main/resources/com/snust/tetrij/keysetting.json")), "UTF-8");
-            JSONObject settings = new JSONObject(content);
-            return settings.getString(key);
-        } catch (Exception e) {
-//            e.printStackTrace();
-            return loadKeySetting_build(key);
-        }
-    }
-
-    private static String loadKeySetting_build(String key) {
-        try {
-            // 클래스 로더를 사용하여 리소스 파일 읽기
-            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("com/snust/tetrij/keysetting.json");
-            if (inputStream == null) {
-                System.err.println("설정 파일을 찾을 수 없습니다.");
-                return null;
-            }
-
-            // 입력 스트림을 문자열로 변환
-            StringBuilder stringBuilder = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line);
-                }
-            }
-
-            // JSON 객체 생성
-            JSONObject settings = new JSONObject(stringBuilder.toString());
-            return settings.getString(key);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static KeyCode getKeyCodeFromString(String keyName) {    //json -> KeyCode로 변경
-        for (KeyCode kc : KeyCode.values()) {
-            if (kc.getName().equalsIgnoreCase(keyName)) {
-                return kc;
-            }
-        }
-        return null;
-    }
-
-    public static void main(String[] args) {
-        launch();
-    }
-
-    private static int init_mesh() {
+    public static int init_mesh() {
         int childrens_witout_blocks = pane.getChildren().size();
         Platform.runLater(() ->  {
             for (int y = 0; y < HEIGHT; y++) {
@@ -399,7 +277,7 @@ public class Tetris extends Application {
         return childrens_witout_blocks;
     }
 
-    private static void color_mesh(int start_pos) {
+    public static void color_mesh(int start_pos) {
         Platform.runLater(() ->  {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
@@ -417,7 +295,6 @@ public class Tetris extends Application {
             }
         });
     }
-
 
     public static void togglePause() {
         if(!onPauseButton){
@@ -462,60 +339,11 @@ public class Tetris extends Application {
             fileReader.close();
 
             JSONObject setting = new JSONObject(stringBuilder.toString());
-            screenSize = setting.getString("screenSize");
+            String screenSize = setting.getString("screenSize");
             color_weakness = setting.getBoolean("isColorBlind");
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static void switchToStartMenu() throws IOException { // 초기화면으로 돌아감
-        isPaused = true;
-        FXMLLoader loader = new FXMLLoader(InGame.class.getResource("start_menu.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) scene.getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-        ResolutionManager.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
-    }
-
-    @FXML
-    private void exitGame() {
-        ClickButtonSound();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("게임 종료");
-        alert.setHeaderText("게임을 종료하시겠습니까?");
-        alert.setContentText("게임을 종료하려면 확인을 누르세요.");
-
-        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.setAlwaysOnTop(true);
-
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                System.exit(0);
-            }
-        });
-    }
-
-    private void ClickButtonSound() {
-//        try {
-//            Media sound = new Media(new File("src/main/resources/com/snust/tetrij/sound/button_click.mp3").toURI().toString());
-//
-//            mediaPlayer = new MediaPlayer(sound);
-//            mediaPlayer.setVolume(0.5);
-//            mediaPlayer.play();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-    }
-
-    private static void printMesh() {
-        for (char[] arr : MESH) {
-            System.out.println(arr);
-        }
-        System.out.println("\n");
     }
 }

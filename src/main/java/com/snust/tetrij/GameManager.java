@@ -86,7 +86,7 @@ public class GameManager {
         stage.show(); // 스테이지 보여주기
     }
 
-    protected void startGame(String diff) throws Exception {
+    public void startGame(String diff) throws Exception {
         MainMenu.playTetrij(diff);
     }
 
