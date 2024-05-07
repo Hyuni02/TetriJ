@@ -25,7 +25,7 @@ public class StartMenuController {
 
     @FXML
     protected void startTetris() throws Exception{// 모드 선택 창을 열기 위한 FXMLLoader
-        SelectModeController.selectMode();
+        SelectModeController.getInstance().selectMode();
     }
 //    @FXML
 //    public void switchToStartMenu(ActionEvent event) throws IOException {

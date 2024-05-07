@@ -11,11 +11,20 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class SelectModeController {
-    GameManager instance = GameManager.getInstance();
+
+    public static SelectModeController instance;
     private Stage thisStage;
 
-    public static void selectMode() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(SelectModeController.class.getResource("select_mode.fxml"));
+    public static SelectModeController getInstance(){
+        if(instance == null){
+            instance = new SelectModeController();
+        }
+
+        return instance;
+    }
+
+    public void selectMode() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("select_mode.fxml"));
         Parent root = fxmlLoader.load();
 
         Stage modeSelectStage = new Stage();
@@ -37,25 +46,25 @@ public class SelectModeController {
 
     @FXML
     private void selectEasy() throws Exception {
-        instance.startGame("EASY");
+        GameManager.getInstance().startGame("EASY");
         closeStage();
     }
 
     @FXML
     private void selectNormal() throws Exception {
-        instance.startGame("NORMAL");
+        GameManager.getInstance().startGame("NORMAL");
         closeStage();
     }
 
     @FXML
     private void selectHard() throws Exception {
-        instance.startGame("HARD");
+        GameManager.getInstance().startGame("HARD");
         closeStage();
     }
 
     @FXML
     private void selectItem() throws Exception {
-        instance.startGame("ITEM");
+        GameManager.getInstance().startGame("ITEM");
         closeStage();
     }
 
