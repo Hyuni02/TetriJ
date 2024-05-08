@@ -32,12 +32,13 @@ public class TetrominoBase {
                 }
             }
         }
-
     }
 
     public void update_mesh() {
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
+                if (pos[0]+y < 0)
+                    continue;
                 if (this.mesh[y][x] == 1)
                     Tetris.MESH[y+pos[0]][x+pos[1]] = this.name;
                 else if (this.mesh[y][x] == 2)

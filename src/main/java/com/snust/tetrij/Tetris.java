@@ -47,17 +47,15 @@ public class Tetris extends Application {
     public static int childrens_without_blocks;
 
     // variables for game
-    public static boolean item_mode = false;
+    public enum difficulty {EASY, NORMAL, HARD, ITEM};
     public static boolean restart = false;
     public static boolean isGameOver = false;
-    public enum difficulty {EASY, NORMAL, HARD, ITEM};
     public static difficulty cur_dif;
     public static boolean color_weakness = false;
     public static int score = 0; //점수
     public static boolean game = true;
     public static int linesNo = 0; //지워진 줄 수
     public static int speedLevel = 0; //지워진 줄 수에 따른 속도 레벨
-    private static int boost = 30; //하강 속도 증가량
     public static int deleted_lines = 0;
     // 퍼즈 관련 변수
     public static boolean isPaused = false; // 퍼즈 중인가?
@@ -99,19 +97,17 @@ public class Tetris extends Application {
         System.out.println(dif.toString());
         TetrisBoardController.RWS(dif);
 
-        if(restart) {
-            pane.getChildren().clear(); // 현재 씬 모든 노드 제거
-            TetrisBoardController.bag.clear();
-            // 변수 초기화
-            score = 0;
-            top = 0;
-            linesNo = 0;
-            game = true;
-            isPaused = false; // 퍼즈 후 시작화면으로 나가서 재시작할때 오류방지
-            isGameOver = false;
-            restart = false;
-            childrens_without_blocks = 0;
-        }
+
+        pane.getChildren().clear(); // 현재 씬 모든 노드 제거
+        TetrisBoardController.bag.clear();
+        // 변수 초기화
+        score = 0;
+        top = 0;
+        linesNo = 0;
+        game = true;
+        isPaused = false; // 퍼즈 후 시작화면으로 나가서 재시작할때 오류방지
+        isGameOver = false;
+        childrens_without_blocks = 0;
 
         addListener(scene); //GameScene.GameKeyController.addListener
 
@@ -180,11 +176,11 @@ public class Tetris extends Application {
                         }
 
                         int finalFreq = 0;
+                        int boost = 30;
                         switch (dif) {
                             case EASY -> finalFreq = freq - speedLevel * (int) (boost * 0.8f);
-                            case NORMAL -> finalFreq = freq - speedLevel * boost;
-                            case ITEM -> finalFreq = freq - speedLevel * boost;
                             case HARD -> finalFreq = freq - speedLevel * (int) (boost * 1.2f);
+                            default -> finalFreq = freq - speedLevel * boost;
                         }
                         Thread.sleep(finalFreq);
 
@@ -232,8 +228,6 @@ public class Tetris extends Application {
         };
         thread = new Thread(task);
         thread.start();
-
-        restart = true;
     }
 
     @FXML

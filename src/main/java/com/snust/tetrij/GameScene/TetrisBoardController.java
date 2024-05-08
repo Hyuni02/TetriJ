@@ -22,11 +22,12 @@ public class TetrisBoardController {
             case EASY -> {
                 fitnesses = new double[] {1,1,1,1.2,1,1,1};  //easy난이도에서는 L블럭 20퍼센트 더 많이
             }
-            case NORMAL -> {
-                fitnesses = new double[] {1,1,1,1,1,1,1};
-            }
             case HARD -> {
                 fitnesses = new double[] {1,1,1,0.8,1,1,1};
+            }
+            default -> {
+                // normal 혹은 item
+                fitnesses = new double[]{1, 1, 1, 1, 1, 1, 1};
             }
         }
 
@@ -56,7 +57,7 @@ public class TetrisBoardController {
     public static void generateTetromino() {
         TetrominoBase t = new TetrominoBase(false);
         int idx = RWS(Tetris.cur_dif);
-        if (!Tetris.item_mode) {
+        if (Tetris.cur_dif != Tetris.difficulty.ITEM) {
             switch(idx) {
                 case 0 -> t = new Z(false);
                 case 1 -> t = new I(false);
@@ -79,7 +80,6 @@ public class TetrisBoardController {
                     case 5 -> t = new S(true);
                     case 6 -> t = new Weight();
                 }
-//                t = new DeleteAll();
             }
             else {
                 switch(idx) {
@@ -100,8 +100,23 @@ public class TetrisBoardController {
             return;
         }
 
-//        bag.add(new I());
         bag.add(t);
+
+        int start_pos_y = 0;
+        for (int[] y: t.mesh) {
+            boolean is_empty = true;
+            for (int x : y) {
+                if (x != 0)
+                    is_empty = false;
+            }
+
+            if (!is_empty) {
+                break;
+            }
+            start_pos_y++;
+        }
+
+        t.pos[0] -= start_pos_y;
         //여기 꼭 수정할것!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
