@@ -15,8 +15,6 @@ import java.net.URL;
 
 import javafx.scene.control.Alert;
 
-import com.snust.tetrij.Controller.SelectModeController;
-
 public class StartMenuController {
     private final GameManager instance = GameManager.getInstance();
     private MediaPlayer mediaPlayer;

@@ -14,6 +14,7 @@ public class SelectModeController {
 
     public static SelectModeController instance;
     private Stage thisStage;
+    private Scene thisScene;
 
     public static SelectModeController getInstance(){
         if(instance == null){
@@ -24,20 +25,51 @@ public class SelectModeController {
     }
 
     public void selectMode() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("select_mode.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("game_mode.fxml"));
         Parent root = fxmlLoader.load();
 
-        Stage modeSelectStage = new Stage();
-        modeSelectStage.initModality(Modality.APPLICATION_MODAL); // modality : 이걸로 띄우면 다른 창 이용 불가
-        modeSelectStage.setScene(new Scene(root));
-        modeSelectStage.setTitle("Select Mode!");
+        thisStage = new Stage();
+        thisStage.initModality(Modality.APPLICATION_MODAL); // modality : 이걸로 띄우면 다른 창 이용 불가
+        thisScene = new Scene(root);
+        thisStage.setScene(thisScene);
+        thisStage.setTitle("Select Mode!");
 
         // 컨트롤러에 Stage 전달
         SelectModeController controller = fxmlLoader.getController();
-        controller.setStage(modeSelectStage); // Stage 설정
+        controller.setStage(thisStage); // Stage 설정
 
         // 모드 선택 창 표시
-        modeSelectStage.showAndWait();
+        thisStage.show();
+    }
+
+    public void selectSingle() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("single_mode.fxml"));
+        Parent root = fxmlLoader.load();
+
+        thisScene = new Scene(root); // 씬 생성
+        thisStage.setScene(thisScene);
+        thisStage.setTitle("Select Mode!");
+
+        // 컨트롤러에 Stage 전달
+        SelectModeController controller = fxmlLoader.getController();
+        controller.setStage(thisStage); // Stage 설정
+
+        thisStage.show();
+    }
+
+    public void selectBattle() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("battle_mode.fxml"));
+        Parent root = fxmlLoader.load();
+
+        thisScene = new Scene(root); // 씬 생성
+        thisStage.setScene(thisScene);
+        thisStage.setTitle("Select Mode!");
+
+        // 컨트롤러에 Stage 전달
+        SelectModeController controller = fxmlLoader.getController();
+        controller.setStage(thisStage); // Stage 설정
+
+        thisStage.show();
     }
 
     public void setStage(Stage stage) {

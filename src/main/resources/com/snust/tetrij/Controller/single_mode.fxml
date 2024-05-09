@@ -10,7 +10,7 @@
       <Button layoutX="111.66" layoutY="80.0" mnemonicParsing="false" onAction="#selectNormal" prefHeight="80.0" prefWidth="80.0" text="NORMAL" />
       <Button layoutX="208.33" layoutY="80.0" mnemonicParsing="false" onAction="#selectHard" prefHeight="80.0" prefWidth="80.0" text="HARD" />
       <Button layoutX="305.0" layoutY="80.0" mnemonicParsing="false" onAction="#selectItem" prefHeight="80.0" prefWidth="80.0" text="ITEM" />
-      <Text layoutX="65.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="게임 모드를 선택하세요!">
+      <Text layoutX="65.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="싱글 모드 선택">
          <font>
             <Font size="25.0" />
          </font>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.Controller.SelectModeController">
+    <children>
+        <Button layoutX="111.66" layoutY="80.0" mnemonicParsing="false" onAction="#selectSingle" prefHeight="80.0" prefWidth="80.0" text="Single" />
+        <Button layoutX="208.33" layoutY="80.0" mnemonicParsing="false" onAction="#selectBattle" prefHeight="80.0" prefWidth="80.0" text="Battle" />
+        <Text layoutX="65.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="게임 모드 선택">
+            <font>
+                <Font size="25.0" />
+            </font>
+        </Text>
+    </children>
+</AnchorPane>
