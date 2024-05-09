@@ -16,6 +16,11 @@ public class TetrisBoardController {
 
     public TetrisBoardController() { }
 
+    /**
+     * roulett wheel select
+     * @param dif : 현재 난이도
+     * @return : 선택된 블록의 index
+     */
     public static int RWS(Tetris.difficulty dif){
         double[] fitnesses = null;
         switch (dif) {
@@ -120,7 +125,10 @@ public class TetrisBoardController {
         //여기 꼭 수정할것!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
-
+    /**
+     * soft drop - 1초에 한칸 내려가기
+     * @param tb : 현재 움직이고 있는 블록
+     */
     public static void softDrop(TetrominoBase tb) {
         eraseMesh(tb);
         tb.pos[0]++;
@@ -144,15 +152,21 @@ public class TetrisBoardController {
 
     }
 
-    //무게추가 좌우 고정이 되어야하는지 확인만을 위한 함수
-    public static boolean isClearBelow(Weight tb) {
-        if (canMoveDown(tb, 0)) {
+    /**
+     * 무게추가 좌우 고정이 되어야하는지 확인만을 위한 함수
+     * @param w: 무게추블록
+     */
+    public static boolean isClearBelow(Weight w) {
+        if (canMoveDown(w, 0)) {
             return true;
         }
         return false;
     }
 
-
+    /**
+     * 키다운 드롭 - 한번에 끝까지 내려가기
+     * @param tb : 현재 조종중인 블록
+     */
     public static void hardDrop(TetrominoBase tb) {
         eraseMesh(tb);
         int dropHeight = 0;

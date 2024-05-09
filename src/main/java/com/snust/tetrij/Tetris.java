@@ -69,9 +69,6 @@ public class Tetris extends Application {
         pane = new Pane();  // Pane 재정의
 
         scene = new Scene(pane, 1200, 800); // 기본 해상도 설정
-        stage.setScene(scene);  // Stage에 Scene 설정
-
-        stage.show();
         newGameScene(stage, Tetris.difficulty.EASY);  // 새 게임 시작
     }
 
@@ -249,6 +246,11 @@ public class Tetris extends Application {
         }
     }
 
+    /**
+     * 그리드 초기화 + stackpane 등록
+     * stackpane 자식으로 text, rectangle 등록
+     * @return
+     */
     public static int init_mesh() {
         int childrens_witout_blocks = pane.getChildren().size();
         Platform.runLater(() ->  {
@@ -271,6 +273,10 @@ public class Tetris extends Application {
         return childrens_witout_blocks;
     }
 
+    /**
+     * 칠하기
+     * @param start_pos : stackpane은 scene의 몇번째 child부터 시작하는지 나타내는 변수
+     */
     public static void color_mesh(int start_pos) {
         Platform.runLater(() ->  {
             for (int y = 0; y < HEIGHT; y++) {

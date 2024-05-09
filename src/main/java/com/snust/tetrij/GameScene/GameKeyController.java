@@ -15,6 +15,9 @@ import java.nio.file.Paths;
 
 import static com.snust.tetrij.Tetris.*;
 
+/**
+ * 키 이벤트 컨트롤을 위한 클래스
+ */
 public class GameKeyController {
     public static String rightKey = loadKeySetting("right");
     public static String leftKey = loadKeySetting("left");
@@ -36,6 +39,10 @@ public class GameKeyController {
         return null;
     }
 
+    /**
+     * 테트리스 scene에 event listener 등록
+     * @param scene : tetris.scene
+     */
     public static void addListener(Scene scene) {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() { // 키 이벤트
             @Override
@@ -50,6 +57,10 @@ public class GameKeyController {
         });
     }
 
+    /**
+     * 발생한 이벤트를 처리하기 위한 함수
+     * @param scene : tetris.scene
+     */
     public static void gameProc(Scene scene) {
         scene.setOnKeyPressed(e->{
             javafx.scene.input.KeyCode code = e.getCode();
