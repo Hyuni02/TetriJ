@@ -180,7 +180,7 @@ public class Tetris extends Application {
                         switch (dif) {
                             case EASY -> finalFreq = freq - speedLevel * (int) (boost * 0.8f);
                             case HARD -> finalFreq = freq - speedLevel * (int) (boost * 1.2f);
-                            default -> finalFreq = freq - speedLevel * boost;
+                            default -> finalFreq = freq - speedLevel * boost; //normal or item
                         }
                         Thread.sleep(finalFreq);
 
@@ -197,8 +197,8 @@ public class Tetris extends Application {
                         e.printStackTrace();
                     }
 
-                    TetrisBoardController.softDrop(TetrisBoardController.bag.get(0));
-                    color_mesh(childrens_without_blocks);
+                    TetrisBoardController.softDrop(TetrisBoardController.bag.get(0)); //한칸 드랍
+                    color_mesh(childrens_without_blocks); //색칠
 
                     //다음블럭 그리기
                     Platform.runLater(
@@ -249,6 +249,11 @@ public class Tetris extends Application {
         }
     }
 
+    /**
+     * tetris.mesh 초기화
+     * scene에 stackpane, rectangle 등록
+     * @return
+     */
     public static int init_mesh() {
         int childrens_witout_blocks = pane.getChildren().size();
         Platform.runLater(() ->  {
@@ -271,6 +276,10 @@ public class Tetris extends Application {
         return childrens_witout_blocks;
     }
 
+    /**
+     * tetris.mesh의 정보에 따라 색칠
+     * @param start_pos
+     */
     public static void color_mesh(int start_pos) {
         Platform.runLater(() ->  {
             for (int y = 0; y < HEIGHT; y++) {

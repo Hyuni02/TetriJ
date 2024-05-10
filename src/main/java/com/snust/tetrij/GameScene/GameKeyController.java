@@ -50,6 +50,10 @@ public class GameKeyController {
         });
     }
 
+    /**
+     * key event 처리
+     * @param scene
+     */
     public static void gameProc(Scene scene) {
         scene.setOnKeyPressed(e->{
             javafx.scene.input.KeyCode code = e.getCode();
