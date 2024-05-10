@@ -86,7 +86,6 @@ public class TetrisBoardController {
                     case 8 -> t = new BigBomb();
                     case 9 -> t = new VerticalBomb();
                 }
-//                t = new VerticalBomb();
             } else {
                 switch (idx) {
                     case 0 -> t = new Z(false);
@@ -250,6 +249,7 @@ public class TetrisBoardController {
             eraseThread.start();
         }
     }
+
 
     public static void hardDrop(TetrominoBase tb) {
         eraseMesh(tb);
