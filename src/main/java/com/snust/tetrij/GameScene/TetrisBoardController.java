@@ -278,12 +278,12 @@ public class TetrisBoardController {
     public static void eraseMesh(TetrominoBase tb) {
         for (int y = tb.pos[0]; y < tb.pos[0] + 4; y++) {
             for (int x = tb.pos[1]; x < tb.pos[1] + 4; x++) {
-                if (y >= Tetris.HEIGHT)
+                if (y >= Tetris.HEIGHT || y < 0)
                     continue;
-                if (x >= Tetris.WIDTH)
+                if (x >= Tetris.WIDTH || x < 0)
                     continue;
 
-                if (tb.mesh[y-tb.pos[0]][x-tb.pos[1]] == 1)
+                if (tb.mesh[y-tb.pos[0]][x-tb.pos[1]] != 0)
                     Tetris.MESH[y][x] = '0';
             }
         }

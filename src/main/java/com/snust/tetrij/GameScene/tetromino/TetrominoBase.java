@@ -18,17 +18,17 @@ public class TetrominoBase {
         this.can_move = true;
     }
 
+    /**
+     * 아이템모드에서 블럭에 'L'을 추가해주는 함수
+     */
     protected void genItem() {
         int block_count = (int)(Math.random()*4);
-        for (int rotate = 0; rotate < 4; rotate++) {
-            int n = block_count;
-            for (int y = 0; y < 4; y++) {
-                for (int x = 0; x < 4; x++) {
-                    if (mesh[y][x] == 1) {
-                        n--;
-                        if (n == 0)
-                            mesh[y][x] = 2;
-                    }
+        for (int y = 0; y < 4; y++) {
+            for (int x = 0; x < 4; x++) {
+                if (mesh[y][x] == 1) {
+                    block_count--;
+                    if (block_count == 0)
+                        mesh[y][x] = 2;
                 }
             }
         }
@@ -39,6 +39,7 @@ public class TetrominoBase {
             for (int x = 0; x < 4; x++) {
                 if (pos[0]+y < 0)
                     continue;
+
                 if (this.mesh[y][x] == 1)
                     Tetris.MESH[y+pos[0]][x+pos[1]] = this.name;
                 else if (this.mesh[y][x] == 2)

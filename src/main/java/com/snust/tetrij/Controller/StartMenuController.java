@@ -15,8 +15,6 @@ import java.net.URL;
 
 import javafx.scene.control.Alert;
 
-import static com.snust.tetrij.Controller.SelectModeController.*;
-
 public class StartMenuController {
     private final GameManager instance = GameManager.getInstance();
     private MediaPlayer mediaPlayer;
@@ -25,7 +23,7 @@ public class StartMenuController {
 
     @FXML
     protected void startTetris() throws Exception{// 모드 선택 창을 열기 위한 FXMLLoader
-        selectMode();
+        SelectModeController.getInstance().selectMode();
     }
 //    @FXML
 //    public void switchToStartMenu(ActionEvent event) throws IOException {
