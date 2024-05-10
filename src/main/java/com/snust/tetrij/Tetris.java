@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Mesh;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -42,7 +43,7 @@ public class Tetris extends Application {
     // fx items
     private static Pane pane = new Pane(); // 기존 Pane 사용
     private static Scene scene = new Scene(pane, XMAX + 150, YMAX);
-    public static char [][] MESH = new char[HEIGHT][WIDTH]; // 블록위치를 char 배열로 저장
+    public static char [][] MESH = new char[HEIGHT][WIDTH];
     public static Rectangle[][] rectMesh = new Rectangle[HEIGHT][WIDTH];    //애니메이션용..
     public static int childrens_without_blocks;
 
@@ -72,14 +73,14 @@ public class Tetris extends Application {
         stage.setScene(scene);  // Stage에 Scene 설정
 
         stage.show();
-        startTetris(stage, Tetris.difficulty.EASY);  // 새 게임 시작
+        newGameScene(stage, difficulty.ITEM);  // 새 게임 시작
     }
 
     public static void main(String[] args) {
         launch();
     }
 
-    public static void startTetris(Stage stage, difficulty dif) throws IOException {
+    public static void newGameScene(Stage stage, difficulty dif) throws IOException {
         if(curWidth == 600 && curHeight == 400) {
             SIZE = 18;
             offset = 0;
@@ -109,7 +110,7 @@ public class Tetris extends Application {
         isGameOver = false;
         childrens_without_blocks = 0;
 
-        addListenerPause(scene); //GameScene.GameKeyController.addListener
+        addListener(scene); //GameScene.GameKeyController.addListener
 
         for(char[] a:MESH){
             Arrays.fill(a, '0');
@@ -156,11 +157,11 @@ public class Tetris extends Application {
         stage.setTitle("TETRIS");
         stage.show();
         childrens_without_blocks = init_mesh();
-        addListenerGameControl(scene); //GameScene.GameKeyController.gameProc - setting event listener
+        gameProc(scene); //GameScene.GameKeyController.gameProc - setting event listener
 
         TetrisBoardController.generateTetromino();
         TetrisBoardController.generateTetromino();
-        TetrisBoardController.bag.get(0).update_mesh(-1);
+        TetrisBoardController.bag.get(0).update_mesh();
         color_mesh(childrens_without_blocks);
 
         Thread thread;
@@ -290,6 +291,9 @@ public class Tetris extends Application {
                     Text t = (Text)sp.getChildren().get(1);
                     if (MESH[y][x] == 'L'){
                         t.setText("L");
+                    }
+                    else if(MESH[y][x] == 'B'){
+                        t.setText("B");
                     }
                     else{
                         t.setText(" ");

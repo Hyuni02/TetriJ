@@ -1,11 +1,8 @@
 package com.snust.tetrij.GameScene.tetromino;
 
 import com.snust.tetrij.GameScene.TetrisBoardController;
-import com.snust.tetrij.GameSceneMulti.MultiTetrisModel;
 import com.snust.tetrij.Tetris;
 import javafx.scene.paint.Color;
-
-import static com.snust.tetrij.GameSceneMulti.MultiTetrisModel.*;
 
 
 public class TetrominoBase {
@@ -37,50 +34,20 @@ public class TetrominoBase {
         }
     }
 
-    public void update_mesh(int player) {
-        switch (player) {
-            case -1:
-                for (int y = 0; y < 4; y++) {
-                    for (int x = 0; x < 4; x++) {
-                        if (pos[0]+y < 0)
-                            continue;
+    public void update_mesh() {
+        for (int y = 0; y < 4; y++) {
+            for (int x = 0; x < 4; x++) {
+                if (pos[0]+y < 0)
+                    continue;
 
-                        if (this.mesh[y][x] == 1)
-                            Tetris.MESH[y+pos[0]][x+pos[1]] = this.name;
-                        else if (this.mesh[y][x] == 2)
-                            Tetris.MESH[y+pos[0]][x+pos[1]] = 'L'; // item mode - Line clear
-                    }
-                }
-                break;
-            case 0:
-                for (int y = 0; y < 4; y++) {
-                    for (int x = 0; x < 4; x++) {
-                        if (pos[0]+y < 0)
-                            continue;
-
-                        if (this.mesh[y][x] == 1)
-                            MESH1[y+pos[0]][x+pos[1]] = this.name;
-                        else if (this.mesh[y][x] == 2)
-                            MESH1[y+pos[0]][x+pos[1]] = 'L'; // item mode - Line clear
-                    }
-                }
-                break;
-            case 1:
-                for (int y = 0; y < 4; y++) {
-                    for (int x = 0; x < 4; x++) {
-                        if (pos[0]+y < 0)
-                            continue;
-
-                        if (this.mesh[y][x] == 1)
-                            MESH2[y+pos[0]][x+pos[1]] = this.name;
-                        else if (this.mesh[y][x] == 2)
-                            MESH2[y+pos[0]][x+pos[1]] = 'L'; // item mode - Line clear
-                    }
-                }
-                break;
-
+                if (this.mesh[y][x] == 1)
+                    Tetris.MESH[y+pos[0]][x+pos[1]] = this.name;
+                else if (this.mesh[y][x] == 2)
+                    Tetris.MESH[y+pos[0]][x+pos[1]] = 'L'; // item mode - Line clear
+                else if (this.mesh[y][x] == 3)
+                    Tetris.MESH[y+pos[0]][x+pos[1]] = 'B'; // item mode - boom
+            }
         }
-
     }
 
     public static Color getColor(char name) {
@@ -113,6 +80,9 @@ public class TetrominoBase {
                 }
                 case 'L' -> {
                     return getColor(TetrisBoardController.bag.get(0).name);
+                }
+                case 'B' -> {
+                    return Color.LIGHTGREY;
                 }
             };
         }
@@ -147,6 +117,9 @@ public class TetrominoBase {
                 }
                 case 'L' -> {
                     return getColor(TetrisBoardController.bag.get(0).name);
+                }
+                case 'B' -> {
+                    return Color.LIGHTGREY;
                 }
             };
         }
