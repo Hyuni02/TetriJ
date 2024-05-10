@@ -44,6 +44,8 @@ public class TetrominoBase {
                     Tetris.MESH[y+pos[0]][x+pos[1]] = this.name;
                 else if (this.mesh[y][x] == 2)
                     Tetris.MESH[y+pos[0]][x+pos[1]] = 'L'; // item mode - Line clear
+                else if (this.mesh[y][x] == 3)
+                    Tetris.MESH[y+pos[0]][x+pos[1]] = 'B'; // item mode - boom
             }
         }
     }
@@ -79,6 +81,9 @@ public class TetrominoBase {
                 case 'L' -> {
                     return getColor(TetrisBoardController.bag.get(0).name);
                 }
+                case 'B' -> {
+                    return Color.LIGHTGREY;
+                }
             };
         }
         else {
@@ -112,6 +117,9 @@ public class TetrominoBase {
                 }
                 case 'L' -> {
                     return getColor(TetrisBoardController.bag.get(0).name);
+                }
+                case 'B' -> {
+                    return Color.LIGHTGREY;
                 }
             };
         }

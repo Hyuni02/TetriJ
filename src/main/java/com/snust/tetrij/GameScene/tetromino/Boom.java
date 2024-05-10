@@ -3,19 +3,28 @@ package com.snust.tetrij.GameScene.tetromino;
 import javafx.scene.paint.Color;
 
 public class Boom extends TetrominoBase {
-    public Boom(boolean gen_item) {
-        super(gen_item);
+    public Boom() {
+        super(false);
         super.name = 'B';
         super.color = Color.GREY;
-        super.mesh = super.mesh = new int[][] {
-                {0,0,0,0},
-                {0,1,1,0},
-                {0,1,1,0},
-                {0,0,0,0}
+        super.mesh = super.mesh = new int[][]{
+                {0, 0, 0, 0},
+                {0, 1, 1, 0},
+                {0, 1, 1, 0},
+                {0, 0, 0, 0}
         };
-        super.pos = new int[] { 0, (int)(Math.random()*8) };
-//        if (gen_item) {
-//            genItem();
-//        }
+        super.pos = new int[]{0, (int) (Math.random() * 8)};
+        genItem();
+    }
+
+    @Override
+    protected void genItem() {
+        for (int y = 0; y < 4; y++) {
+            for (int x = 0; x < 4; x++) {
+                if (mesh[y][x] == 1) {
+                    mesh[y][x] = 3;
+                }
+            }
+        }
     }
 }
