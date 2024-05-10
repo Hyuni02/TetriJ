@@ -14,16 +14,17 @@ import java.util.*;
 public class TetrisBoardController {
     public static List<TetrominoBase> bag = new Vector<TetrominoBase>();
 
-    public TetrisBoardController() { }
+    public TetrisBoardController() {
+    }
 
-    public static int RWS(Tetris.difficulty dif){
+    public static int RWS(Tetris.difficulty dif) {
         double[] fitnesses = null;
         switch (dif) {
             case EASY -> {
-                fitnesses = new double[] {1,1,1,1.2,1,1,1};  //easy난이도에서는 L블럭 20퍼센트 더 많이
+                fitnesses = new double[]{1, 1, 1, 1.2, 1, 1, 1};  //easy난이도에서는 L블럭 20퍼센트 더 많이
             }
             case HARD -> {
-                fitnesses = new double[] {1,1,1,0.8,1,1,1};
+                fitnesses = new double[]{1, 1, 1, 0.8, 1, 1, 1};
             }
             default -> {
                 // normal 혹은 item
@@ -58,7 +59,7 @@ public class TetrisBoardController {
         TetrominoBase t = new TetrominoBase(false);
         int idx = RWS(Tetris.cur_dif);
         if (Tetris.cur_dif != Tetris.difficulty.ITEM) {
-            switch(idx) {
+            switch (idx) {
                 case 0 -> t = new Z(false);
                 case 1 -> t = new I(false);
                 case 2 -> t = new J(false);
@@ -67,12 +68,11 @@ public class TetrisBoardController {
                 case 5 -> t = new S(false);
                 case 6 -> t = new T(false);
             }
-        }
-        else {
+        } else {
             if (Tetris.deleted_lines <= 2) {
                 Tetris.deleted_lines = 0;
-                switch(idx) {
-                    case 0 -> t = new Z(true);
+                switch (idx) {
+                    case 0 -> t = new Boom();
                     case 1 -> t = new I(true);
                     case 2 -> t = new J(true);
                     case 3 -> t = new L(true);
@@ -80,9 +80,8 @@ public class TetrisBoardController {
                     case 5 -> t = new S(true);
                     case 6 -> t = new Weight();
                 }
-            }
-            else {
-                switch(idx) {
+            } else {
+                switch (idx) {
                     case 0 -> t = new Z(false);
                     case 1 -> t = new I(false);
                     case 2 -> t = new J(false);
@@ -103,7 +102,7 @@ public class TetrisBoardController {
         bag.add(t);
 
         int start_pos_y = 0;
-        for (int[] y: t.mesh) {
+        for (int[] y : t.mesh) {
             boolean is_empty = true;
             for (int x : y) {
                 if (x != 0)
@@ -128,20 +127,18 @@ public class TetrisBoardController {
             updateTop(tb);
             tb.update_mesh();
             eraseLine();
+            if (tb.name == 'B') explosion(tb);
+
             TetrisBoardController.bag.remove(0);
             generateTetromino();
             return;
         }
         if (tb.name == 'w') {
-            if (!isClearBelow((Weight)tb)) {
+            if (!isClearBelow((Weight) tb)) {
                 tb.can_move = false;
             }
         }
-        if(tb.name == 'B'){
-
-        }
         tb.update_mesh();
-
     }
 
     //무게추가 좌우 고정이 되어야하는지 확인만을 위한 함수
@@ -152,6 +149,39 @@ public class TetrisBoardController {
         return false;
     }
 
+    //Boom이 바닥에 닿았을 때 4x4를 지우는 함수
+    public static void explosion(TetrominoBase tb) {
+        int left = tb.pos[1];
+        int top = tb.pos[0];
+        for (int y = top; y < top + 4; y++) {
+            if (y > Tetris.HEIGHT - 1 || y < 0) {
+                continue;
+            }
+            for (int x = left; x < left + 4; x++) {
+                if (x < 0 || x > Tetris.WIDTH - 1) {
+                    continue;
+                }
+                Tetris.MESH[y][x] = '0';
+
+                //리스트에 저장된 블록들을 지움
+                int finalX = x;
+                int finalY = y;
+                Task<Void> eraseTask = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        Platform.runLater(() -> {
+                            highlightBlock(finalX, finalY); //삭제되는 블록색 바꾸기
+                        });
+                        return null;
+                    }
+                };
+                Thread eraseThread = new Thread(eraseTask);
+                eraseThread.setDaemon(true);
+                eraseThread.start();
+            }
+        }
+
+    }
 
     public static void hardDrop(TetrominoBase tb) {
         eraseMesh(tb);
@@ -164,6 +194,7 @@ public class TetrisBoardController {
         tb.update_mesh();
         updateTop(tb);
         eraseLine();
+        if (tb.name == 'B') explosion(tb);
         TetrisBoardController.bag.remove(0);
         generateTetromino();
     }
@@ -220,7 +251,7 @@ public class TetrisBoardController {
                     continue; // 빈 공간은 확인하지 않음
                 }
                 // Tetromino의 블록이 밖으로 나가는지 확인
-                if (x + tb.pos[1] + distance < 0 || x + tb.pos[1] + distance >= Tetris.WIDTH  ) {
+                if (x + tb.pos[1] + distance < 0 || x + tb.pos[1] + distance >= Tetris.WIDTH) {
                     return false;
                 }
                 // Tetromino의 블록이 측면으로 이동할 때 충돌 여부 확인
@@ -252,7 +283,7 @@ public class TetrisBoardController {
                         return null;
                     }
                     // 회전 후의 위치에 이미 다른 블록이 있는 경우
-                    if (Tetris.MESH[y+tb.pos[0]][x+tb.pos[1]] == 1) {
+                    if (Tetris.MESH[y + tb.pos[0]][x + tb.pos[1]] == 1) {
                         return null;
                     }
                 }
@@ -269,7 +300,7 @@ public class TetrisBoardController {
                 if (x >= Tetris.WIDTH || x < 0)
                     continue;
 
-                if (tb.mesh[y-tb.pos[0]][x-tb.pos[1]] != 0)
+                if (tb.mesh[y - tb.pos[0]][x - tb.pos[1]] != 0)
                     Tetris.MESH[y][x] = '0';
             }
         }
@@ -282,8 +313,8 @@ public class TetrisBoardController {
             boolean is_full = true;
             for (int x = 0; x < Tetris.WIDTH; x++) {
                 if (Tetris.MESH[y][x] == 'L') {
-                is_full = true;
-                break;
+                    is_full = true;
+                    break;
                 }
                 if (Tetris.MESH[y][x] == '0') {
                     is_full = false;
@@ -309,7 +340,7 @@ public class TetrisBoardController {
                     Platform.runLater(() -> {
                         // 라인 지우기
                         for (int l = line; l > 2; l--) {
-                            Tetris.MESH[l] = Tetris.MESH[l-1];  //블록 당기기
+                            Tetris.MESH[l] = Tetris.MESH[l - 1];  //블록 당기기
                         }
                         Tetris.MESH[2] = new char[Tetris.WIDTH];
                         Arrays.fill(Tetris.MESH[2], '0');
@@ -369,7 +400,7 @@ public class TetrisBoardController {
     }
      */
 
-    public static void highlightLine(int line){
+    public static void highlightLine(int line) {
         for (int x = 0; x < Tetris.WIDTH; x++) {
             Rectangle r = Tetris.rectMesh[line][x]; // rectMesh 배열에서 Rectangle 객체를 가져옴
             if (r != null) {
@@ -382,6 +413,17 @@ public class TetrisBoardController {
         wait.play();
     }
 
+    public static void highlightBlock(int x, int y) {
+        //todo 주어진 배열의 블록을 빨간색으로 칠하기 구현
+        Rectangle r = Tetris.rectMesh[y][x];
+        if(r != null){
+            r.setFill(Color.RED);
+        }
+
+        // 0.3초동안 빨간색 유지
+        PauseTransition wait = new PauseTransition(Duration.millis(300));
+        wait.play();
+    }
 
 
     private static void updateTop(TetrominoBase tb) {

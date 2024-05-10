@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Mesh;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -72,7 +73,7 @@ public class Tetris extends Application {
         stage.setScene(scene);  // Stage에 Scene 설정
 
         stage.show();
-        newGameScene(stage, Tetris.difficulty.EASY);  // 새 게임 시작
+        newGameScene(stage, difficulty.ITEM);  // 새 게임 시작
     }
 
     public static void main(String[] args) {
@@ -290,6 +291,9 @@ public class Tetris extends Application {
                     Text t = (Text)sp.getChildren().get(1);
                     if (MESH[y][x] == 'L'){
                         t.setText("L");
+                    }
+                    else if(MESH[y][x] == 'B'){
+                        t.setText("B");
                     }
                     else{
                         t.setText(" ");
