@@ -224,7 +224,7 @@ public class TetrisBoardController {
             eraseThread.start();
         }
     }
-    
+
     public static void verticalExplosion(TetrominoBase tb) {
         int left = tb.pos[1] + 1;
         int right = tb.pos[1] + 2;
