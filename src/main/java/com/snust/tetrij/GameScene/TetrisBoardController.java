@@ -76,7 +76,7 @@ public class TetrisBoardController {
                     case 1 -> t = new I(true);
                     case 2 -> t = new J(true);
                     case 3 -> t = new L(true);
-                    case 4 -> t = new O(true);
+                    case 4 -> t = new BigBomb();
                     case 5 -> t = new S(true);
                     case 6 -> t = new VerticalBomb();
                 }
@@ -128,8 +128,9 @@ public class TetrisBoardController {
             updateTop(tb);
             tb.update_mesh();
             eraseLine();
-            if (tb.name == 'B') explosion(tb);
+            if (tb.name == 'b') explosion(tb);
             if (tb.name == 'V') verticalExplosion(tb);
+            if (tb.name == 'B') bigExplosion(tb);
 
             TetrisBoardController.bag.remove(0);
             generateTetromino();
@@ -184,6 +185,42 @@ public class TetrisBoardController {
         }
     }
 
+    public static void bigExplosion(TetrominoBase tb) {
+        List<Integer> l = new Vector<>();
+        for (int y = 0; y < Tetris.HEIGHT; y++) {
+            for (int x = 0; x < Tetris.WIDTH; x++) {
+                if(Tetris.MESH[y][x] != '0'){
+                    l.add(y);
+            }
+        }
+
+        Task<Void> eraseTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                for (int line : l) {
+                    Platform.runLater(() -> {
+                        highlightLine(line); //삭제되는 블록색 바꾸기
+                    });
+                    Platform.runLater(() -> {
+                        // 라인 지우기
+                        for (int l = line; l > 2; l--) {
+                            Tetris.MESH[l] = Tetris.MESH[l - 1];  //블록 당기기
+                        }
+                        Tetris.MESH[2] = new char[Tetris.WIDTH];
+                        Arrays.fill(Tetris.MESH[2], '0');
+                        Tetris.changeSpeed();
+                    });
+                }
+                return null;
+            }
+        };
+        Thread eraseThread = new Thread(eraseTask);
+        eraseThread.setDaemon(true);
+        eraseThread.start();
+    }
+
+}
+
     public static void verticalExplosion(TetrominoBase tb) {
         int left = tb.pos[1] + 1;
         int right = tb.pos[1] + 2;
@@ -220,8 +257,9 @@ public class TetrisBoardController {
         tb.update_mesh();
         updateTop(tb);
         eraseLine();
-        if (tb.name == 'B') explosion(tb);
+        if (tb.name == 'b') explosion(tb);
         if (tb.name == 'V') verticalExplosion(tb);
+        if (tb.name == 'B') bigExplosion(tb);
         TetrisBoardController.bag.remove(0);
         generateTetromino();
     }
