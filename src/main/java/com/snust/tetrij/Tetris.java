@@ -295,6 +295,9 @@ public class Tetris extends Application {
                     else if(MESH[y][x] == 'B'){
                         t.setText("B");
                     }
+                    else if(MESH[y][x] == 'V'){
+                        t.setText("V");
+                    }
                     else{
                         t.setText(" ");
                     }

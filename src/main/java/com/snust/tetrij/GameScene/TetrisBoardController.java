@@ -78,8 +78,9 @@ public class TetrisBoardController {
                     case 3 -> t = new L(true);
                     case 4 -> t = new O(true);
                     case 5 -> t = new S(true);
-                    case 6 -> t = new Weight();
+                    case 6 -> t = new VerticalBomb();
                 }
+//                t = new VerticalBomb();
             } else {
                 switch (idx) {
                     case 0 -> t = new Z(false);
@@ -128,6 +129,7 @@ public class TetrisBoardController {
             tb.update_mesh();
             eraseLine();
             if (tb.name == 'B') explosion(tb);
+            if (tb.name == 'V') verticalExplosion(tb);
 
             TetrisBoardController.bag.remove(0);
             generateTetromino();
@@ -180,7 +182,31 @@ public class TetrisBoardController {
                 eraseThread.start();
             }
         }
+    }
 
+    public static void verticalExplosion(TetrominoBase tb) {
+        int left = tb.pos[1] + 1;
+        int right = tb.pos[1] + 2;
+        for (int y = 0; y < Tetris.HEIGHT; y++) {
+            Tetris.MESH[y][left] = '0';
+            Tetris.MESH[y][right] = '0';
+
+            //리스트에 저장된 블록들을 지움
+            int finalY = y;
+            Task<Void> eraseTask = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    Platform.runLater(() -> {
+                        highlightBlock(left, finalY); //삭제되는 블록색 바꾸기
+                        highlightBlock(right, finalY);
+                    });
+                    return null;
+                }
+            };
+            Thread eraseThread = new Thread(eraseTask);
+            eraseThread.setDaemon(true);
+            eraseThread.start();
+        }
     }
 
     public static void hardDrop(TetrominoBase tb) {
@@ -195,6 +221,7 @@ public class TetrisBoardController {
         updateTop(tb);
         eraseLine();
         if (tb.name == 'B') explosion(tb);
+        if (tb.name == 'V') verticalExplosion(tb);
         TetrisBoardController.bag.remove(0);
         generateTetromino();
     }
@@ -416,7 +443,7 @@ public class TetrisBoardController {
     public static void highlightBlock(int x, int y) {
         //todo 주어진 배열의 블록을 빨간색으로 칠하기 구현
         Rectangle r = Tetris.rectMesh[y][x];
-        if(r != null){
+        if (r != null) {
             r.setFill(Color.RED);
         }
 
