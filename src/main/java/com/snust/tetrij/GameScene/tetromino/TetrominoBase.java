@@ -83,7 +83,7 @@ public class TetrominoBase {
                 case 'L' -> {
                     return getColor(TetrisBoardController.bag.get(0).name);
                 }
-                case 'B', 'V' -> {
+                case 'B', 'V', 'b' -> {
                     return Color.LIGHTGREY;
                 }
             };
@@ -120,7 +120,7 @@ public class TetrominoBase {
                 case 'L' -> {
                     return getColor(TetrisBoardController.bag.get(0).name);
                 }
-                case 'B', 'V' -> {
+                case 'B', 'V', 'b' -> {
                     return Color.LIGHTGREY;
                 }
             };

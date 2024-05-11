@@ -292,7 +292,7 @@ public class Tetris extends Application {
                     if (MESH[y][x] == 'L'){
                         t.setText("L");
                     }
-                    else if(MESH[y][x] == 'B'){
+                    else if(MESH[y][x] == 'b' || MESH[y][x] == 'B'){
                         t.setText("B");
                     }
                     else if(MESH[y][x] == 'V'){
