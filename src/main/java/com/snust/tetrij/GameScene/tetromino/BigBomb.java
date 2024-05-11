@@ -2,16 +2,16 @@ package com.snust.tetrij.GameScene.tetromino;
 
 import javafx.scene.paint.Color;
 
-public class Boom extends TetrominoBase {
-    public Boom() {
+public class BigBomb extends TetrominoBase{
+    public BigBomb() {
         super(false);
-        super.name = 'b';
+        super.name = 'B';
         super.color = Color.GREY;
         super.mesh = super.mesh = new int[][]{
-                {0, 0, 0, 0},
                 {0, 1, 1, 0},
-                {0, 1, 1, 0},
-                {0, 0, 0, 0}
+                {1, 1, 1, 1},
+                {1, 1, 1, 1},
+                {0, 1, 1, 0}
         };
         super.pos = new int[]{0, (int) (Math.random() * 8)};
         genItem();
