@@ -79,7 +79,7 @@ public class TetrisBoardController {
                     case 1 -> t = new I(true);
                     case 2 -> t = new J(true);
                     case 3 -> t = new L(true);
-                    case 4 -> t = new O(true);
+                    case 4 -> t = new BigBomb();
                     case 5 -> t = new S(true);
                     case 6 -> t = new T(true);
                     case 7 -> t = new Boom();
@@ -223,7 +223,8 @@ public class TetrisBoardController {
             eraseThread.setDaemon(true);
             eraseThread.start();
         }
-
+    }
+    
     public static void verticalExplosion(TetrominoBase tb) {
         int left = tb.pos[1] + 1;
         int right = tb.pos[1] + 2;
