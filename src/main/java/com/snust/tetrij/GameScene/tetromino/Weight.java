@@ -7,7 +7,7 @@ public class Weight extends TetrominoBase {
         super(false);
         super.name = 'w';
         super.color = Color.BLACK;
-        super.mesh = new int[][] {
+        super.mesh = super.mesh = new int[][] {
                 {0,0,0,0},
                 {0,1,1,0},
                 {1,1,1,1},

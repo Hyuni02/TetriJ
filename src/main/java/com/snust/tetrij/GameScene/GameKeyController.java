@@ -27,7 +27,16 @@ public class GameKeyController {
     public static KeyCode downKeyCode = getKeyCodeFromString(downKey);
     public static KeyCode dropKeyCode = getKeyCodeFromString(dropKey);
 
-    public static void addListenerPause(Scene scene) {
+    public static KeyCode getKeyCodeFromString(String keyName) {    //json -> KeyCode로 변경
+        for (KeyCode kc : KeyCode.values()) {
+            if (kc.getName().equalsIgnoreCase(keyName)) {
+                return kc;
+            }
+        }
+        return null;
+    }
+
+    public static void addListener(Scene scene) {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() { // 키 이벤트
             @Override
             public void handle(KeyEvent event) {
@@ -45,7 +54,7 @@ public class GameKeyController {
      * key event 처리
      * @param scene
      */
-    public static void addListenerGameControl(Scene scene) {
+    public static void gameProc(Scene scene) {
         scene.setOnKeyPressed(e->{
             javafx.scene.input.KeyCode code = e.getCode();
             if (TetrisBoardController.bag.isEmpty())
@@ -78,15 +87,6 @@ public class GameKeyController {
             }
         });
 
-    }
-
-    public static KeyCode getKeyCodeFromString(String keyName) {    //json -> KeyCode로 변경
-        for (KeyCode kc : KeyCode.values()) {
-            if (kc.getName().equalsIgnoreCase(keyName)) {
-                return kc;
-            }
-        }
-        return null;
     }
 
     private static String loadKeySetting(String key) {
