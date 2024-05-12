@@ -132,7 +132,7 @@ public class TetrisBoardController {
         tb.pos[0]++;
         if (!canMoveDown(tb, 1)) {
             updateTop(tb);
-            tb.update_mesh();
+            tb.update_mesh(-1);
             eraseLine();
             if (tb.name == 'b') explosion(tb);
             if (tb.name == 'V') verticalExplosion(tb);
@@ -147,7 +147,7 @@ public class TetrisBoardController {
                 tb.can_move = false;
             }
         }
-        tb.update_mesh();
+        tb.update_mesh(-1);
     }
 
     //무게추가 좌우 고정이 되어야하는지 확인만을 위한 함수
@@ -223,7 +223,6 @@ public class TetrisBoardController {
             eraseThread.setDaemon(true);
             eraseThread.start();
         }
-
     }
 
     public static void verticalExplosion(TetrominoBase tb) {
@@ -251,6 +250,7 @@ public class TetrisBoardController {
         }
     }
 
+
     public static void hardDrop(TetrominoBase tb) {
         eraseMesh(tb);
         int dropHeight = 0;
@@ -259,7 +259,7 @@ public class TetrisBoardController {
         }
 
         tb.pos[0] += dropHeight;
-        tb.update_mesh();
+        tb.update_mesh(-1);
         updateTop(tb);
         eraseLine();
         if (tb.name == 'b') explosion(tb);
@@ -274,7 +274,7 @@ public class TetrisBoardController {
         if (canMoveSideWays(tb, 1) && tb.can_move) {
             tb.pos[1]++;
         }
-        tb.update_mesh();
+        tb.update_mesh(-1);
     }
 
     public static void moveLeftOnKeyPress(TetrominoBase tb) {
@@ -282,7 +282,7 @@ public class TetrisBoardController {
         if (canMoveSideWays(tb, -1) && tb.can_move) {
             tb.pos[1]--;
         }
-        tb.update_mesh();
+        tb.update_mesh(-1);
     }
 
     public static void rotateClockWise(TetrominoBase tb) {
@@ -291,7 +291,7 @@ public class TetrisBoardController {
         if (rotated != null) {
             tb.mesh = rotated;
         }
-        tb.update_mesh();
+        tb.update_mesh(-1);
     }
 
     public static boolean canMoveDown(TetrominoBase tb, int distance) {

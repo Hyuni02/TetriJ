@@ -73,14 +73,14 @@ public class Tetris extends Application {
         stage.setScene(scene);  // Stage에 Scene 설정
 
         stage.show();
-        newGameScene(stage, difficulty.ITEM);  // 새 게임 시작
+        startTetris(stage, difficulty.ITEM);  // 새 게임 시작
     }
 
     public static void main(String[] args) {
         launch();
     }
 
-    public static void newGameScene(Stage stage, difficulty dif) throws IOException {
+    public static void startTetris(Stage stage, difficulty dif) throws IOException {
         if(curWidth == 600 && curHeight == 400) {
             SIZE = 18;
             offset = 0;
@@ -110,7 +110,7 @@ public class Tetris extends Application {
         isGameOver = false;
         childrens_without_blocks = 0;
 
-        addListener(scene); //GameScene.GameKeyController.addListener
+        addListenerPause(scene); //GameScene.GameKeyController.addListener
 
         for(char[] a:MESH){
             Arrays.fill(a, '0');
@@ -157,11 +157,11 @@ public class Tetris extends Application {
         stage.setTitle("TETRIS");
         stage.show();
         childrens_without_blocks = init_mesh();
-        gameProc(scene); //GameScene.GameKeyController.gameProc - setting event listener
+        addListenerGameControl(scene); //GameScene.GameKeyController.gameProc - setting event listener
 
         TetrisBoardController.generateTetromino();
         TetrisBoardController.generateTetromino();
-        TetrisBoardController.bag.get(0).update_mesh();
+        TetrisBoardController.bag.get(0).update_mesh(-1);
         color_mesh(childrens_without_blocks);
 
         Thread thread;
