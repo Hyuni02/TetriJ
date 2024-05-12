@@ -26,6 +26,9 @@ public class TetrisBoardController {
             case HARD -> {
                 fitnesses = new double[]{1, 1, 1, 0.8, 1, 1, 1};
             }
+            case ITEM -> {
+                fitnesses = new double[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+            }
             default -> {
                 // normal 혹은 item
                 fitnesses = new double[]{1, 1, 1, 1, 1, 1, 1};
@@ -72,13 +75,16 @@ public class TetrisBoardController {
             if (Tetris.deleted_lines <= 2) {
                 Tetris.deleted_lines = 0;
                 switch (idx) {
-                    case 0 -> t = new Boom();
+                    case 0 -> t = new Z(true);
                     case 1 -> t = new I(true);
                     case 2 -> t = new J(true);
                     case 3 -> t = new L(true);
-                    case 4 -> t = new BigBomb();
+                    case 4 -> t = new O(true);
                     case 5 -> t = new S(true);
-                    case 6 -> t = new VerticalBomb();
+                    case 6 -> t = new T(true);
+                    case 7 -> t = new Boom();
+                    case 8 -> t = new BigBomb();
+                    case 9 -> t = new VerticalBomb();
                 }
 //                t = new VerticalBomb();
             } else {
@@ -189,36 +195,36 @@ public class TetrisBoardController {
         List<Integer> l = new Vector<>();
         for (int y = 0; y < Tetris.HEIGHT; y++) {
             for (int x = 0; x < Tetris.WIDTH; x++) {
-                if(Tetris.MESH[y][x] != '0'){
+                if (Tetris.MESH[y][x] != '0') {
                     l.add(y);
+                }
             }
+
+            Task<Void> eraseTask = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    for (int line : l) {
+                        Platform.runLater(() -> {
+                            highlightLine(line); //삭제되는 블록색 바꾸기
+                        });
+                        Platform.runLater(() -> {
+                            // 라인 지우기
+                            for (int l = line; l > 2; l--) {
+                                Tetris.MESH[l] = Tetris.MESH[l - 1];  //블록 당기기
+                            }
+                            Tetris.MESH[2] = new char[Tetris.WIDTH];
+                            Arrays.fill(Tetris.MESH[2], '0');
+                        });
+                    }
+                    return null;
+                }
+            };
+            Thread eraseThread = new Thread(eraseTask);
+            eraseThread.setDaemon(true);
+            eraseThread.start();
         }
 
-        Task<Void> eraseTask = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                for (int line : l) {
-                    Platform.runLater(() -> {
-                        highlightLine(line); //삭제되는 블록색 바꾸기
-                    });
-                    Platform.runLater(() -> {
-                        // 라인 지우기
-                        for (int l = line; l > 2; l--) {
-                            Tetris.MESH[l] = Tetris.MESH[l - 1];  //블록 당기기
-                        }
-                        Tetris.MESH[2] = new char[Tetris.WIDTH];
-                        Arrays.fill(Tetris.MESH[2], '0');
-                    });
-                }
-                return null;
-            }
-        };
-        Thread eraseThread = new Thread(eraseTask);
-        eraseThread.setDaemon(true);
-        eraseThread.start();
     }
-
-}
 
     public static void verticalExplosion(TetrominoBase tb) {
         int left = tb.pos[1] + 1;
