@@ -45,9 +45,11 @@ public class TetrominoBase {
                 else if (this.mesh[y][x] == 2)
                     Tetris.MESH[y+pos[0]][x+pos[1]] = 'L'; // item mode - Line clear
                 else if (this.mesh[y][x] == 3)
-                    Tetris.MESH[y+pos[0]][x+pos[1]] = 'B'; // item mode - boom
+                    Tetris.MESH[y+pos[0]][x+pos[1]] = 'b'; // item mode - boom
                 else if (this.mesh[y][x] == 4)
                     Tetris.MESH[y+pos[0]][x+pos[1]] = 'V'; // item mode - Vertical Bomb
+                else if(this.mesh[y][x] == 5)
+                    Tetris.MESH[y+pos[0]][x+pos[1]] = 'B'; // item mode - Big bomb
             }
         }
     }

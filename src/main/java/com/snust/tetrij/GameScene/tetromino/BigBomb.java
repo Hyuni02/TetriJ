@@ -22,7 +22,7 @@ public class BigBomb extends TetrominoBase{
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
                 if (mesh[y][x] == 1) {
-                    mesh[y][x] = 3;
+                    mesh[y][x] = 5;
                 }
             }
         }
