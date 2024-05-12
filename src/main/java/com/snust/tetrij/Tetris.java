@@ -110,7 +110,7 @@ public class Tetris extends Application {
         isGameOver = false;
         childrens_without_blocks = 0;
 
-        addListenerPause(scene); //GameScene.GameKeyController.addListener
+        addListener(scene); //GameScene.GameKeyController.addListener
 
         for(char[] a:MESH){
             Arrays.fill(a, '0');
@@ -157,7 +157,7 @@ public class Tetris extends Application {
         stage.setTitle("TETRIS");
         stage.show();
         childrens_without_blocks = init_mesh();
-        addListenerGameControl(scene); //GameScene.GameKeyController.gameProc - setting event listener
+        gameProc(scene); //GameScene.GameKeyController.gameProc - setting event listener
 
         TetrisBoardController.generateTetromino();
         TetrisBoardController.generateTetromino();
