@@ -56,16 +56,16 @@ public class MainMenu extends Application {
 
     public static void playTetrij(String difficulty) throws Exception {
         if(difficulty == "EASY") {
-            Tetris.newGameScene(instance.getPrimaryStage(), Tetris.difficulty.EASY);
+            Tetris.startTetris(instance.getPrimaryStage(), Tetris.difficulty.EASY);
         }
         if(difficulty == "NORMAL") {
-            Tetris.newGameScene(instance.getPrimaryStage(), Tetris.difficulty.NORMAL);
+            Tetris.startTetris(instance.getPrimaryStage(), Tetris.difficulty.NORMAL);
         }
         if(difficulty == "HARD"){
-            Tetris.newGameScene(instance.getPrimaryStage(), Tetris.difficulty.HARD);
+            Tetris.startTetris(instance.getPrimaryStage(), Tetris.difficulty.HARD);
         }
         if(difficulty == "ITEM") {
-            Tetris.newGameScene(instance.getPrimaryStage(), Tetris.difficulty.ITEM);
+            Tetris.startTetris(instance.getPrimaryStage(), Tetris.difficulty.ITEM);
         }
         System.out.println("게임 시작");
     }

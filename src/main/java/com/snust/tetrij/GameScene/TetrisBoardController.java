@@ -223,7 +223,6 @@ public class TetrisBoardController {
             eraseThread.setDaemon(true);
             eraseThread.start();
         }
-
     }
 
     public static void verticalExplosion(TetrominoBase tb) {
