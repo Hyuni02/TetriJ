@@ -1,6 +1,7 @@
 package com.snust.tetrij.GameScene.tetromino;
 
 import com.snust.tetrij.GameScene.TetrisBoardController;
+import com.snust.tetrij.GameSceneMulti.MultiTetrisModel;
 import com.snust.tetrij.Tetris;
 import javafx.scene.paint.Color;
 
@@ -35,23 +36,47 @@ public class TetrominoBase {
     }
 
     public void update_mesh(int player) {
-        for (int y = 0; y < 4; y++) {
-            for (int x = 0; x < 4; x++) {
-                if (pos[0] + y < 0)
-                    continue;
+        switch(player) {
+            case -1:
+                for (int y = 0; y < 4; y++) {
+                    for (int x = 0; x < 4; x++) {
+                        if (pos[0] + y < 0)
+                            continue;
 
-                if (this.mesh[y][x] == 1)
-                    Tetris.MESH[y + pos[0]][x + pos[1]] = this.name;
-                else if (this.mesh[y][x] == 2)
-                    Tetris.MESH[y + pos[0]][x + pos[1]] = 'L'; // item mode - Line clear
-                else if (this.mesh[y][x] == 3)
-                    Tetris.MESH[y + pos[0]][x + pos[1]] = 'b'; // item mode - boom
-                else if (this.mesh[y][x] == 4)
-                    Tetris.MESH[y + pos[0]][x + pos[1]] = 'V'; // item mode - Vertical Bomb
-                else if (this.mesh[y][x] == 5)
-                    Tetris.MESH[y + pos[0]][x + pos[1]] = 'B'; // item mode - Big bomb
-            }
+                        if (this.mesh[y][x] == 1)
+                            Tetris.MESH[y + pos[0]][x + pos[1]] = this.name;
+                        else if (this.mesh[y][x] == 2)
+                            Tetris.MESH[y + pos[0]][x + pos[1]] = 'L'; // item mode - Line clear
+                        else if (this.mesh[y][x] == 3)
+                            Tetris.MESH[y + pos[0]][x + pos[1]] = 'b'; // item mode - boom
+                        else if (this.mesh[y][x] == 4)
+                            Tetris.MESH[y + pos[0]][x + pos[1]] = 'V'; // item mode - Vertical Bomb
+                        else if (this.mesh[y][x] == 5)
+                            Tetris.MESH[y + pos[0]][x + pos[1]] = 'B'; // item mode - Big bomb
+                    }
+                }
+                break;
+            default:
+                for (int y = 0; y < 4; y++) {
+                    for (int x = 0; x < 4; x++) {
+                        if (pos[0] + y < 0)
+                            continue;
+
+                        if (this.mesh[y][x] == 1)
+                            MultiTetrisModel.MESH[player][y + pos[0]][x + pos[1]] = this.name;
+                        else if (this.mesh[y][x] == 2)
+                            MultiTetrisModel.MESH[player][y + pos[0]][x + pos[1]] = 'L'; // item mode - Line clear
+                        else if (this.mesh[y][x] == 3)
+                            MultiTetrisModel.MESH[player][y + pos[0]][x + pos[1]] = 'b'; // item mode - boom
+                        else if (this.mesh[y][x] == 4)
+                            MultiTetrisModel.MESH[player][y + pos[0]][x + pos[1]] = 'V'; // item mode - Vertical Bomb
+                        else if (this.mesh[y][x] == 5)
+                            MultiTetrisModel.MESH[player][y + pos[0]][x + pos[1]] = 'B'; // item mode - Big bomb
+                    }
+                }
+                break;
         }
+
     }
 
     public static Color getColor(char name) {
