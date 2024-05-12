@@ -6,7 +6,7 @@ public class Boom extends TetrominoBase {
     public Boom() {
         super(false);
         super.name = 'b';
-        super.color = Color.GREY;
+        super.color = Color.DARKGREY;
         super.mesh = super.mesh = new int[][]{
                 {0, 0, 0, 0},
                 {0, 1, 1, 0},

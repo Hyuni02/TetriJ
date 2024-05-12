@@ -6,7 +6,7 @@ public class BigBomb extends TetrominoBase{
     public BigBomb() {
         super(false);
         super.name = 'B';
-        super.color = Color.GREY;
+        super.color = Color.LIGHTGREY;
         super.mesh = super.mesh = new int[][]{
                 {0, 1, 1, 0},
                 {1, 1, 1, 1},

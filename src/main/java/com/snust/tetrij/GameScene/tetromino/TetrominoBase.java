@@ -14,7 +14,7 @@ public class TetrominoBase {
     public boolean can_move;
 
     public TetrominoBase(boolean gen_item) {
-        this.color = new Color(0,0,0,0);
+        this.color = new Color(0, 0, 0, 0);
         this.can_move = true;
     }
 
@@ -22,7 +22,7 @@ public class TetrominoBase {
      * 아이템모드에서 블럭에 'L'을 추가해주는 함수
      */
     protected void genItem() {
-        int block_count = (int)(Math.random()*4);
+        int block_count = (int) (Math.random() * 4);
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
                 if (mesh[y][x] == 1) {
@@ -37,19 +37,19 @@ public class TetrominoBase {
     public void update_mesh() {
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
-                if (pos[0]+y < 0)
+                if (pos[0] + y < 0)
                     continue;
 
                 if (this.mesh[y][x] == 1)
-                    Tetris.MESH[y+pos[0]][x+pos[1]] = this.name;
+                    Tetris.MESH[y + pos[0]][x + pos[1]] = this.name;
                 else if (this.mesh[y][x] == 2)
-                    Tetris.MESH[y+pos[0]][x+pos[1]] = 'L'; // item mode - Line clear
+                    Tetris.MESH[y + pos[0]][x + pos[1]] = 'L'; // item mode - Line clear
                 else if (this.mesh[y][x] == 3)
-                    Tetris.MESH[y+pos[0]][x+pos[1]] = 'b'; // item mode - boom
+                    Tetris.MESH[y + pos[0]][x + pos[1]] = 'b'; // item mode - boom
                 else if (this.mesh[y][x] == 4)
-                    Tetris.MESH[y+pos[0]][x+pos[1]] = 'V'; // item mode - Vertical Bomb
-                else if(this.mesh[y][x] == 5)
-                    Tetris.MESH[y+pos[0]][x+pos[1]] = 'B'; // item mode - Big bomb
+                    Tetris.MESH[y + pos[0]][x + pos[1]] = 'V'; // item mode - Vertical Bomb
+                else if (this.mesh[y][x] == 5)
+                    Tetris.MESH[y + pos[0]][x + pos[1]] = 'B'; // item mode - Big bomb
             }
         }
     }
@@ -85,12 +85,18 @@ public class TetrominoBase {
                 case 'L' -> {
                     return getColor(TetrisBoardController.bag.get(0).name);
                 }
-                case 'B', 'V', 'b' -> {
+                case 'B' -> {
                     return Color.LIGHTGREY;
                 }
-            };
-        }
-        else {
+                case 'V' -> {
+                    return Color.GREY;
+                }
+                case 'b' -> {
+                    return Color.DARKGREY;
+                }
+            }
+            ;
+        } else {
             //색약모드
             switch (name) {
                 case 'i' -> {
@@ -98,7 +104,7 @@ public class TetrominoBase {
                 }
                 case 'j' -> {
                     // turquise, 청록
-                    return new Color(217.0/256.0, 56.0/256.0, 30.0/256.0, 1);
+                    return new Color(217.0 / 256.0, 56.0 / 256.0, 30.0 / 256.0, 1);
                 }
                 case 'l' -> {
                     return Color.ORANGE;
@@ -114,7 +120,7 @@ public class TetrominoBase {
                 }
                 case 'z' -> {
                     //red purple
-                    return new Color(149.0/256.0, 53.0/256.0, 83.0/256.0, 1);
+                    return new Color(149.0 / 256.0, 53.0 / 256.0, 83.0 / 256.0, 1);
                 }
                 case 'w' -> {
                     return Color.BLACK;
@@ -122,10 +128,17 @@ public class TetrominoBase {
                 case 'L' -> {
                     return getColor(TetrisBoardController.bag.get(0).name);
                 }
-                case 'B', 'V', 'b' -> {
+                case 'B' -> {
                     return Color.LIGHTGREY;
                 }
-            };
+                case 'V' -> {
+                    return Color.GREY;
+                }
+                case 'b' -> {
+                    return Color.DARKGREY;
+                }
+            }
+            ;
         }
         return Color.WHITE;
     }
