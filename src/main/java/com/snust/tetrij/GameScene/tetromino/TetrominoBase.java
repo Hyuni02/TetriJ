@@ -34,7 +34,7 @@ public class TetrominoBase {
         }
     }
 
-    public void update_mesh() {
+    public void update_mesh(int player) {
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
                 if (pos[0] + y < 0)
