@@ -27,7 +27,7 @@ public class TetrisBoardController {
                 fitnesses = new double[]{1, 1, 1, 0.8, 1, 1, 1};
             }
             case ITEM -> {
-                fitnesses = new double[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+                fitnesses = new double[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
             }
             default -> {
                 // normal 혹은 item
@@ -85,8 +85,8 @@ public class TetrisBoardController {
                     case 7 -> t = new Boom();
                     case 8 -> t = new BigBomb();
                     case 9 -> t = new VerticalBomb();
+                    case 10 -> t = new Weight();
                 }
-//                t = new VerticalBomb();
             } else {
                 switch (idx) {
                     case 0 -> t = new Z(false);
@@ -483,7 +483,6 @@ public class TetrisBoardController {
     }
 
     public static void highlightBlock(int x, int y) {
-        //todo 주어진 배열의 블록을 빨간색으로 칠하기 구현
         Rectangle r = Tetris.rectMesh[y][x];
         if (r != null) {
             r.setFill(Color.RED);
