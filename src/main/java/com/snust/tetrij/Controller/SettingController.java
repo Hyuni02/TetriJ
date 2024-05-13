@@ -82,6 +82,12 @@ public class SettingController {
             currentSettings.put("rotate", "UP");
             currentSettings.put("down", "DOWN");
             currentSettings.put("drop", "SPACE");
+            //플레이어2
+            currentSettings.put("p2Right", "D");
+            currentSettings.put("p2Left", "A");
+            currentSettings.put("p2Rotate", "W");
+            currentSettings.put("p2Down", "S");
+            currentSettings.put("p2Drop", "SHIFT");
 
             try (FileWriter fileWriter = new FileWriter(file)) {
                 fileWriter.write(currentSettings.toString());
@@ -154,7 +160,7 @@ public class SettingController {
 
 
 
-
+    //시작 메뉴로 가기
     public void switchToStartMenu(ActionEvent event) throws IOException {
         resolutionInitialize();
         saveSettingsToFile();

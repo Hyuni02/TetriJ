@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.Controller.KeySettingController">
     <VBox layoutX="20.0" layoutY="324.0" spacing="10">
-        <Label text="뒤로 가기" />
+        <Label text="플레이어1" />
         <Button fx:id="BackButton" onAction="#switchToSetting" text="뒤로 가기" />
     </VBox>
 
@@ -38,6 +38,36 @@
     <VBox layoutX="20.0" layoutY="264.0" spacing="10">
         <Label text="블록 드롭 버튼 설정" />
         <Button fx:id="dropKeyButton" onAction="#handleDropInput" text="블록 왼쪽 이동 버튼 설정" />
+    </VBox>
+
+
+    <VBox layoutX="300.0" layoutY="324.0" spacing="10">
+        <Label text="플레이어2" />
+    </VBox>
+
+    <VBox layoutX="300.0" layoutY="14.0" spacing="10">
+        <Label text="블록 왼쪽 이동 버튼 설정" />
+        <Button fx:id="p2LeftButton" onAction="#handleP2LeftKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+    </VBox>
+
+    <VBox layoutX="300.0" layoutY="77.0" spacing="10">
+        <Label text="블록 오른쪽 이동 버튼 설정" />
+        <Button fx:id="p2RightButton" onAction="#handleP2RightKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+    </VBox>
+
+    <VBox layoutX="300.0" layoutY="140.0" spacing="10">
+        <Label text="블록 회전 버튼 설정" />
+        <Button fx:id="p2RotateButton" onAction="#handleP2RotateKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+    </VBox>
+
+    <VBox layoutX="300.0" layoutY="202.0" spacing="10">
+        <Label text="블록 아래 이동 버튼 설정" />
+        <Button fx:id="p2DownButton" onAction="#handleP2DownKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+    </VBox>
+
+    <VBox layoutX="300.0" layoutY="264.0" spacing="10">
+        <Label text="블록 드롭 버튼 설정" />
+        <Button fx:id="p2DropButton" onAction="#handleP2DropInput" text="블록 왼쪽 이동 버튼 설정" />
     </VBox>
 
 </AnchorPane>
