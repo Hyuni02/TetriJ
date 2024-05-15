@@ -63,15 +63,15 @@ public class TetrominoBase {
                             continue;
 
                         if (this.mesh[y][x] == 1)
-                            MultiTetrisModel.MESH[player][y + pos[0]][x + pos[1]] = this.name;
+                            MultiTetrisModel.model.MESH[player][y + pos[0]][x + pos[1]] = this.name;
                         else if (this.mesh[y][x] == 2)
-                            MultiTetrisModel.MESH[player][y + pos[0]][x + pos[1]] = 'L'; // item mode - Line clear
+                            MultiTetrisModel.model.MESH[player][y + pos[0]][x + pos[1]] = 'L'; // item mode - Line clear
                         else if (this.mesh[y][x] == 3)
-                            MultiTetrisModel.MESH[player][y + pos[0]][x + pos[1]] = 'b'; // item mode - boom
+                            MultiTetrisModel.model.MESH[player][y + pos[0]][x + pos[1]] = 'b'; // item mode - boom
                         else if (this.mesh[y][x] == 4)
-                            MultiTetrisModel.MESH[player][y + pos[0]][x + pos[1]] = 'V'; // item mode - Vertical Bomb
+                            MultiTetrisModel.model.MESH[player][y + pos[0]][x + pos[1]] = 'V'; // item mode - Vertical Bomb
                         else if (this.mesh[y][x] == 5)
-                            MultiTetrisModel.MESH[player][y + pos[0]][x + pos[1]] = 'B'; // item mode - Big bomb
+                            MultiTetrisModel.model.MESH[player][y + pos[0]][x + pos[1]] = 'B'; // item mode - Big bomb
                     }
                 }
                 break;

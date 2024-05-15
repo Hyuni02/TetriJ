@@ -14,11 +14,9 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static com.snust.tetrij.GameSceneMulti.MultiBoardController.*;
+import static com.snust.tetrij.GameSceneMulti.MultiTetrisView.view;
 
 public class MultiTetrisController {
-    public MultiTetrisModel model;
-    public MultiTetrisView view;
     public final static MultiTetrisController controller = new MultiTetrisController();
 
     public String rightKey;
@@ -36,9 +34,6 @@ public class MultiTetrisController {
     public boolean isGameOver = false;
 
     public MultiTetrisController() {
-        model = new MultiTetrisModel();
-        view = new MultiTetrisView();
-
         rightKey = loadKeySetting("right");
         leftKey = loadKeySetting("left");
         rotateKey = loadKeySetting("rotate");
@@ -51,6 +46,10 @@ public class MultiTetrisController {
         dropKeyCode = getKeyCodeFromString(dropKey);
     }
 
+    /**
+     * 퍼즈 이벤트 핸들러 등록
+     * @param scene : game Scene
+     */
     public void addListener(Scene scene) {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() { // 키 이벤트
             @Override
@@ -67,6 +66,10 @@ public class MultiTetrisController {
         handleKeyInput(scene);
     }
 
+    /**
+     * 테트로미노 조작 이벤트 핸들러 등록
+     * @param scene : game Scene
+     */
     public void handleKeyInput(Scene scene) {
 
     }
@@ -75,57 +78,17 @@ public class MultiTetrisController {
     public void runGame(Stage stage) {
         view.setScene(stage);
 
-        Thread thread1 = new Thread(() -> {});
-        Thread finalThread = thread1;
-        Runnable task = new Runnable() {
-            public void run() {
-                while (!controller.isGameOver) {
-                    if (controller.isPaused)
-                        continue;
+        PlayerThread p1 = new PlayerThread(0, "p1");
+        PlayerThread p2 = new PlayerThread(0, "p2");
+        p1.start();
+        p2.start();
+        try {
+            p1.join();
+            p2.join();
+        } catch (InterruptedException e) {
+            System.out.println("Fatal Error: " + e.getMessage());
+        }
 
-                    MultiBoardController.generateTetromino(0);
-                    MultiBoardController.generateTetromino(0);
-                    view.color_mesh(0);
-
-                    try {
-                        finalThread.sleep(100);
-                    } catch (InterruptedException e) {
-
-                    }
-                    softDrop((TetrominoBase) model.bags[0].get(0), 0);
-
-
-                }
-            }
-        };
-        thread1 = new Thread(task);
-        thread1.start();
-
-        Thread thread2 = new Thread(() -> {});
-        Thread finalThread2 = thread1;
-        Runnable task2 = new Runnable() {
-            public void run() {
-                while (!controller.isGameOver) {
-                    if (controller.isPaused)
-                        continue;
-
-                    MultiBoardController.generateTetromino(1);
-                    MultiBoardController.generateTetromino(1);
-                    view.color_mesh(1);
-
-                    try {
-                        finalThread2.sleep(1000);
-                    } catch (InterruptedException e) {
-
-                    }
-                    softDrop((TetrominoBase) model.bags[1].get(0), 1);
-
-
-                }
-            }
-        };
-        thread2 = new Thread(task2);
-        thread2.start();
     }
 
     public KeyCode getKeyCodeFromString(String keyName) {    //json -> KeyCode로 변경

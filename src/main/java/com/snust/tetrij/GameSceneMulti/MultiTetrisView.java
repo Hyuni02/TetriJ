@@ -18,7 +18,7 @@ import static com.snust.tetrij.GameSceneMulti.MultiTetrisController.controller;
 import static com.snust.tetrij.GameSceneMulti.MultiTetrisModel.*;
 
 public class MultiTetrisView {
-    public static MultiTetrisView view = new MultiTetrisView();
+    public final static MultiTetrisView view = new MultiTetrisView();
 
     private Scene scene;
     private static Pane pane;
@@ -34,7 +34,7 @@ public class MultiTetrisView {
     private int ymax;
     private final int offset = 320;
 
-    public MultiTetrisView() {
+    private MultiTetrisView() {
         pane = new Pane();
         scene = new Scene(pane,1200, 800);
 
@@ -140,9 +140,9 @@ public class MultiTetrisView {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     Rectangle r = (Rectangle)rect[player][y][x].getChildren().get(0);
-                    r.setFill(TetrominoBase.getColor(MESH[player][y][x]));
+                    r.setFill(TetrominoBase.getColor(model.MESH[player][y][x]));
                     Text t = (Text)rect[player][y][x].getChildren().get(1);
-                    if (MESH[player][y][x] == 'L'){
+                    if (model.MESH[player][y][x] == 'L'){
                         t.setText("L");
                     }
                     else{

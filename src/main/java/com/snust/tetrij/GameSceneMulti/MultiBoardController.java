@@ -1,13 +1,12 @@
 package com.snust.tetrij.GameSceneMulti;
 
-import com.snust.tetrij.GameScene.TetrisBoardController;
 import com.snust.tetrij.GameScene.tetromino.*;
 import com.snust.tetrij.Tetris;
-import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 
 import static com.snust.tetrij.GameSceneMulti.MultiTetrisModel.*;
+import static com.snust.tetrij.GameSceneMulti.MultiTetrisView.view;
 import static com.snust.tetrij.Tetris.difficulty.EASY;
 
 import java.util.Arrays;
@@ -95,7 +94,7 @@ public class MultiBoardController {
             }
 
         }
-        bags[player].add(t);
+        model.bags[player].add(t);
 
         int start_pos_y = 0;
         for (int[] y: t.mesh) {
@@ -121,8 +120,8 @@ public class MultiBoardController {
             updateTop(tb, player);
             tb.update_mesh(player);
             eraseLine(player);
-            bags[player].remove(0);
-            bags[player].remove(0);
+            model.bags[player].remove(0);
+            model.bags[player].remove(0);
             generateTetromino(player);
             return;
         }
@@ -145,7 +144,7 @@ public class MultiBoardController {
         tb.update_mesh(player);
         updateTop(tb, player);
         eraseLine(player);
-        bags[player].remove(0);
+        model.bags[player].remove(0);
         generateTetromino(player);
     }
 
@@ -186,7 +185,7 @@ public class MultiBoardController {
                     return false;
                 }
                 // 다른 블록과 충돌 - 무게추와 일반 블록 구분 필요
-                if (MESH[player][y + tb.pos[0] + distance][x + tb.pos[1]] != '0') {
+                if (model.MESH[player][y + tb.pos[0] + distance][x + tb.pos[1]] != '0') {
                     if (tb.name == 'w'){
                         tb.can_move = false;
                         return true;
@@ -211,7 +210,7 @@ public class MultiBoardController {
                     return false;
                 }
                 // Tetromino의 블록이 측면으로 이동할 때 충돌 여부 확인
-                if (MESH[player][tb.pos[0] + y][tb.pos[1] + x + distance] != '0') {
+                if (model.MESH[player][tb.pos[0] + y][tb.pos[1] + x + distance] != '0') {
                     return false;
                 }
             }
@@ -239,7 +238,7 @@ public class MultiBoardController {
                         return null;
                     }
                     // 회전 후의 위치에 이미 다른 블록이 있는 경우
-                    if (MESH[player][y+tb.pos[0]][x+tb.pos[1]] == 1) {
+                    if (model.MESH[player][y+tb.pos[0]][x+tb.pos[1]] == 1) {
                         return null;
                     }
                 }
@@ -256,8 +255,8 @@ public class MultiBoardController {
                 if (x >= Tetris.WIDTH || x < 0)
                     continue;
 
-                if (tb.mesh[y-tb.pos[0]][x-tb.pos[1]] != 0)
-                    MESH[player][y][x] = '0';
+                if (model.MESH[player][y-tb.pos[0]][x-tb.pos[1]] != 0)
+                    model.MESH[player][y][x] = '0';
             }
         }
     }
@@ -268,11 +267,11 @@ public class MultiBoardController {
         for (int y = 2; y < Tetris.HEIGHT; y++) {
             boolean is_full = true;
             for (int x = 0; x < Tetris.WIDTH; x++) {
-                if (MESH[player][y][x] == 'L') {
+                if (model.MESH[player][y][x] == 'L') {
                     is_full = true;
                     break;
                 }
-                if (MESH[player][y][x] == '0') {
+                if (model.MESH[player][y][x] == '0') {
                     is_full = false;
                 }
             }
@@ -294,10 +293,10 @@ public class MultiBoardController {
                     Platform.runLater(() -> {
                         // 라인 지우기
                         for (int l = line; l > 2; l--) {
-                            MESH[player][l] = MESH[player][l-1];  //블록 당기기
+                            model.MESH[player][l] = model.MESH[player][l-1];  //블록 당기기
                         }
-                        MESH[player][2] = new char[Tetris.WIDTH];
-                        Arrays.fill(MESH[player][2], '0');
+                        model.MESH[player][2] = new char[Tetris.WIDTH];
+                        Arrays.fill(model.MESH[player][2], '0');
 
                     });
                 }
