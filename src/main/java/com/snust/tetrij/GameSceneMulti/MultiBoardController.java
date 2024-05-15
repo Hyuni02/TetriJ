@@ -1,12 +1,11 @@
 package com.snust.tetrij.GameSceneMulti;
 
-import com.snust.tetrij.GameScene.tetromino.*;
 import com.snust.tetrij.Tetris;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import com.snust.tetrij.tetromino.*;
 
 import static com.snust.tetrij.GameSceneMulti.MultiTetrisModel.*;
-import static com.snust.tetrij.GameSceneMulti.MultiTetrisView.view;
 import static com.snust.tetrij.Tetris.difficulty.EASY;
 
 import java.util.Arrays;
@@ -255,7 +254,7 @@ public class MultiBoardController {
                 if (x >= Tetris.WIDTH || x < 0)
                     continue;
 
-                if (model.MESH[player][y-tb.pos[0]][x-tb.pos[1]] != 0)
+                if (tb.mesh[y-tb.pos[0]][x-tb.pos[1]] != 0)
                     model.MESH[player][y][x] = '0';
             }
         }

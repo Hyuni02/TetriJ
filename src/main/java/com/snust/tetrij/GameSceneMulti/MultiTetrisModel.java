@@ -1,6 +1,6 @@
 package com.snust.tetrij.GameSceneMulti;
 
-import com.snust.tetrij.GameScene.tetromino.TetrominoBase;
+import com.snust.tetrij.tetromino.TetrominoBase;
 
 import javax.swing.*;
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package com.snust.tetrij.GameSceneMulti;
 
-import com.snust.tetrij.GameScene.tetromino.TetrominoBase;
+import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -79,15 +79,15 @@ public class MultiTetrisController {
         view.setScene(stage);
 
         PlayerThread p1 = new PlayerThread(0, "p1");
-        PlayerThread p2 = new PlayerThread(0, "p2");
+        PlayerThread p2 = new PlayerThread(1, "p2");
         p1.start();
         p2.start();
-        try {
-            p1.join();
-            p2.join();
-        } catch (InterruptedException e) {
-            System.out.println("Fatal Error: " + e.getMessage());
-        }
+//      try {
+//            p1.join();
+//            p2.join();
+//        } catch (InterruptedException e) {
+//            System.out.println("Fatal Error: " + e.getMessage());
+//        }
 
     }
 

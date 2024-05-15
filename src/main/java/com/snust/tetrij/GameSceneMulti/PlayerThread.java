@@ -1,6 +1,6 @@
 package com.snust.tetrij.GameSceneMulti;
 
-import com.snust.tetrij.GameScene.tetromino.TetrominoBase;
+import com.snust.tetrij.tetromino.TetrominoBase;
 
 import static com.snust.tetrij.GameSceneMulti.MultiBoardController.softDrop;
 import static com.snust.tetrij.GameSceneMulti.MultiTetrisController.controller;

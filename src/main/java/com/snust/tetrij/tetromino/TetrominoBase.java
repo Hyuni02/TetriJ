@@ -1,4 +1,4 @@
-package com.snust.tetrij.GameScene.tetromino;
+package com.snust.tetrij.tetromino;
 
 import com.snust.tetrij.GameScene.TetrisBoardController;
 import com.snust.tetrij.GameSceneMulti.MultiTetrisModel;

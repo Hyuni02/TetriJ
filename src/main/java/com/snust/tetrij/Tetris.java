@@ -2,7 +2,7 @@ package com.snust.tetrij;
 
 
 import com.snust.tetrij.GameScene.TetrisBoardController;
-import com.snust.tetrij.GameScene.tetromino.TetrominoBase;
+import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
