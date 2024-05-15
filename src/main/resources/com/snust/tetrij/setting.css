@@ -1,0 +1,49 @@
+.button {
+    -fx-background-color: #ffff00;
+    -fx-text-fill: black;
+    -fx-font-family: "KenVector Future";
+    -fx-font-size: 12px;
+}
+
+.button .text {
+    -fx-font-size: 12px !important;
+}
+
+.button:hover {
+    -fx-background-color: #cccc40;
+}
+
+.button:pressed {
+    -fx-background-color: #9a9a75;
+}
+
+.smallButton {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: black;
+    -fx-font-family: "KenVector Future";
+    -fx-font-size: 1px;
+}
+
+.titleText {
+    -fx-font-family: "KenVector Future";
+    -fx-text-fill: white;
+    -fx-font-size: 42px;
+}
+
+.text {
+    -fx-font-family: "KenVector Future";
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+}
+
+.smallButton .text {
+    -fx-font-size: 8px !important;
+}
+
+.smallButton:hover {
+    -fx-background-color: #cecdcd;
+}
+
+.smallButton:pressed {
+    -fx-background-color: #929394;
+}

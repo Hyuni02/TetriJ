@@ -1,0 +1,30 @@
+.button {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: black;
+    -fx-font-family: "KenVector Future";
+    -fx-font-size: 12px;
+}
+
+.button:hover {
+    -fx-background-color: #cecdcd;
+}
+
+.button:pressed {
+    -fx-background-color: #929394;
+}
+
+.titleText {
+    -fx-font-family: "KenVector Future";
+    -fx-fill: white;
+    -fx-font-size: 42px;
+}
+
+.labelText { /* 클래스 이름 변경 */
+    -fx-font-family: "KenVector Future";
+    -fx-text-fill: #ffefba; /* 텍스트 요소에 사용되는 속성 */
+    -fx-font-size: 12px;
+}
+
+.button .labelText { /* Button 내부의 라벨을 위한 스타일 */
+    -fx-text-fill: black;
+}

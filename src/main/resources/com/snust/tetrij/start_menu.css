@@ -1,0 +1,31 @@
+.button {
+    -fx-background-color: #ffffff;
+    -fx-fill: black;
+    -fx-font-family: "KenVector Future";
+    -fx-font-size: 15px;
+}
+
+.button:hover {
+    -fx-background-color: #cecdcd;
+}
+
+.button:pressed {
+    -fx-background-color: #929394;
+}
+
+.titleText {
+    -fx-font-family: "KenVector Future";
+    -fx-fill: #ffffff;
+    -fx-font-size: 42px;
+}
+
+.text {
+    -fx-font-family: "KenVector Future";
+    -fx-fill: #fff93f;
+    -fx-font-size: 15px;
+}
+
+.button .text {
+    -fx-font-size: 15px !important;
+    -fx-fill: #000000;
+}

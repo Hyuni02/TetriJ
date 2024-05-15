@@ -2,42 +2,37 @@
 
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.Controller.StartMenuController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #000000;" stylesheets="@start_menu.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.Controller.StartMenuController">
    <children>
-      <ImageView fx:id="Tetrij" cache="true" fitHeight="77.0" fitWidth="198.0" layoutX="201.3333282470703" layoutY="74.0" pickOnBounds="true" preserveRatio="true" smooth="false">
-         <image>
-            <Image url="@image/TetriJ.bmp" />
-         </image>
-      </ImageView>
-      <Button fx:id="startBtn1" layoutX="195.3333282470703" layoutY="130.6666717529297" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#startTetris" onKeyPressed="#onButtonSound" onMouseEntered="#onButtonSound" prefHeight="40.0" prefWidth="200.0" text="Game Start" textAlignment="CENTER">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button fx:id="startBtn2" layoutX="195.3333282470703" layoutY="172.6666717529297" mnemonicParsing="false" onAction="#switchToSetting" onKeyPressed="#onButtonSound" onMouseEntered="#onButtonSound" prefHeight="40.0" prefWidth="200.0" text="Setting" textAlignment="CENTER">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button fx:id="startBtn3" layoutX="195.3333282470703" layoutY="214.6666717529297" mnemonicParsing="false" onAction="#switchToScoreBoard" onKeyPressed="#onButtonSound" onMouseEntered="#onButtonSound" prefHeight="40.0" prefWidth="200.0" text="Score Board" textAlignment="CENTER">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button fx:id="startBtn4" layoutX="195.3333282470703" layoutY="256.6666564941406" mnemonicParsing="false" onAction="#exitGame" onKeyPressed="#onButtonSound" onMouseEntered="#onButtonSound" prefHeight="40.0" prefWidth="200.0" text="Exit">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Text fx:id="upText" layoutX="274.0" layoutY="309.5299377441406" strokeType="OUTSIDE" strokeWidth="0.0" text="위 메뉴: ↑" translateX="250.0" translateY="50.0">
+      <Text fx:id="tetrijTitle" fill="WHITE" layoutX="196.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="titleText" text="TETRIJ">
          <font>
-            <Font name="Arial" size="12.0" />
+            <Font size="40.0" />
          </font>
       </Text>
-      <Text fx:id="downText" layoutX="268.6666564941406" layoutY="323.6666564941406" strokeType="OUTSIDE" strokeWidth="0.0" text="아래 메뉴: ↓" translateX="250.0" translateY="55.0" />
+      <Button fx:id="startBtn1" layoutX="185.0" layoutY="119.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#startTetris" onKeyPressed="#onButtonSound" onMouseEntered="#onButtonSound" prefHeight="40.0" prefWidth="200.0" styleClass="button" text="Game Start" textAlignment="CENTER">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="startBtn2" layoutX="185.0" layoutY="180.0" mnemonicParsing="false" onAction="#switchToSetting" onKeyPressed="#onButtonSound" onMouseEntered="#onButtonSound" prefHeight="40.0" prefWidth="200.0" styleClass="button" text="Setting" textAlignment="CENTER">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="startBtn3" layoutX="185.0" layoutY="241.0" mnemonicParsing="false" onAction="#switchToScoreBoard" onKeyPressed="#onButtonSound" onMouseEntered="#onButtonSound" prefHeight="40.0" prefWidth="200.0" styleClass="button" text="Score Board" textAlignment="CENTER">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="startBtn4" layoutX="185.0" layoutY="301.0" mnemonicParsing="false" onAction="#exitGame" onKeyPressed="#onButtonSound" onMouseEntered="#onButtonSound" prefHeight="40.0" prefWidth="200.0" styleClass="button" text="Exit">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Text fx:id="upText" fill="WHITE" layoutX="198.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Up Menu : ↑" translateX="250.0" translateY="50.0" />
+      <Text fx:id="downText" fill="WHITE" layoutX="190.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Down Menu : ↓" translateX="250.0" translateY="55.0" />
    </children>
 </AnchorPane>
