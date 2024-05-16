@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.Controller.SettingController">
-     <Label fx:id="text1" layoutX="39.0" layoutY="107.0" text="해상도" />
-     <ComboBox fx:id="sizeComboBox" layoutX="39.0" layoutY="121.0" onAction="#handleSize" promptText="게임 화면 크기 선택">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #000000;" stylesheets="@setting.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.Controller.SettingController">
+     <Label fx:id="text1" layoutX="20.0" layoutY="107.0" styleClass="text" text="Resolution" textFill="WHITE" />
+     <ComboBox fx:id="sizeComboBox" layoutX="14.0" layoutY="131.0" onAction="#handleSize" prefHeight="30.0" prefWidth="171.0" promptText="Select game resolution" styleClass="button">
          <items>
              <FXCollections fx:factory="observableArrayList">
                  <String fx:value="600x400" />
@@ -17,16 +17,19 @@
              </FXCollections>
          </items>
      </ComboBox>
-     <Label fx:id="text2" layoutX="253.0" layoutY="107.0" text="게임 조작 키 설정" />
-     <Button fx:id="KeySettingButton" layoutX="253.0" layoutY="131.0" onAction="#handleKeySetting" text="키 설정 열기" />
-     <Button fx:id="exitButton" layoutX="475.0" layoutY="336.0" onAction="#switchToStartMenu" text="나가기" />
-     <Button fx:id="scoreBoardInitButton" layoutX="428.0" layoutY="220.0" onAction="#deleteScores" text="스코어 보드 기록 초기화" />
-     <Button fx:id="defaultButton" layoutX="430.0" layoutY="250.0" onAction="#defaultSetting" text="기본 설정으로 되돌리기" />
-     <Button fx:id="saveButton" layoutX="430.0" layoutY="280.0" onAction="#saveSetting" text="저장하기" />
-     <CheckBox fx:id="colorBlindModeCheckBox" layoutX="438.0" layoutY="122.0" onAction="#colorBlindMode" text="색맹 모드" />
-   <Text fx:id="settingTitle" layoutX="216.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="환경설정">
+     <Label fx:id="text2" layoutX="203.0" layoutY="107.0" styleClass="text" text="Adjust game keys" textFill="WHITE" />
+     <Button fx:id="KeySettingButton" layoutX="203.0" layoutY="131.0" onAction="#handleKeySetting" prefHeight="30.0" prefWidth="162.0" text="Open Key Setting" />
+     <Button fx:id="exitButton" layoutX="398.0" layoutY="326.0" onAction="#switchToStartMenu" prefHeight="30.0" prefWidth="171.0" styleClass="smallButton" text="Exit" />
+     <Button fx:id="scoreBoardInitButton" layoutX="398.0" layoutY="185.0" onAction="#deleteScores" prefHeight="30.0" prefWidth="171.0" styleClass="smallButton" text="Initialize Scoreboard">
       <font>
-         <Font size="42.0" />
+         <Font size="8.0" />
+      </font></Button>
+     <Button fx:id="defaultButton" layoutX="396.0" layoutY="233.0" onAction="#defaultSetting" prefHeight="30.0" prefWidth="171.0" styleClass="smallButton" text="Return to default settings" />
+     <Button fx:id="saveButton" layoutX="398.0" layoutY="279.0" onAction="#saveSetting" prefHeight="30.0" prefWidth="171.0" styleClass="smallButton" text="Save" />
+     <CheckBox fx:id="colorBlindModeCheckBox" layoutX="384.0" layoutY="131.0" onAction="#colorBlindMode" prefHeight="30.0" prefWidth="186.0" styleClass="button" text="Colorblind mode" />
+   <Text fx:id="settingTitle" fill="WHITE" layoutX="185.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="titleText" text="Setting">
+      <font>
+         <Font size="25.0" />
       </font>
    </Text>
 </AnchorPane>

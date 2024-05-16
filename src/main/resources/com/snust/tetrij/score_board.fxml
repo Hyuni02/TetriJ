@@ -4,65 +4,21 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.Controller.ScoreBoardController">
-    <children>
-        <Button fx:id="exitButton" layoutX="507.0" layoutY="341.0" mnemonicParsing="false" onAction="#switchToStartMenu" text="나가기" />
-        <Text fx:id="scoreBoardTitle" layoutX="200.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="스코어보드">
-            <font>
-                <Font name="Agency FB Bold" size="36.0" />
-            </font>
-        </Text>
-        <Label fx:id="score1" layoutX="170.0" layoutY="80.0" textAlignment="CENTER">
-            <font>
-                <Font size="15.0" />
-            </font>
-        </Label>
-        <Label fx:id="score2" layoutX="170.0" layoutY="110.0" textAlignment="CENTER">
-            <font>
-                <Font size="15.0" />
-            </font>
-        </Label>
-        <Label fx:id="score3" layoutX="170.0" layoutY="140.0" textAlignment="CENTER">
-            <font>
-                <Font size="15.0" />
-            </font>
-        </Label>
-        <Label fx:id="score4" layoutX="170.0" layoutY="170.0" textAlignment="CENTER">
-            <font>
-                <Font size="15.0" />
-            </font>
-        </Label>
-        <Label fx:id="score5" layoutX="170.0" layoutY="200.0" textAlignment="CENTER">
-            <font>
-                <Font size="15.0" />
-            </font>
-        </Label>
-        <Label fx:id="score6" layoutX="170.0" layoutY="230.0" textAlignment="CENTER">
-            <font>
-                <Font size="15.0" />
-            </font>
-        </Label>
-        <Label fx:id="score7" layoutX="170.0" layoutY="260.0" textAlignment="CENTER">
-            <font>
-                <Font size="15.0" />
-            </font>
-        </Label>
-        <Label fx:id="score8" layoutX="170.0" layoutY="290.0" textAlignment="CENTER">
-            <font>
-                <Font size="15.0" />
-            </font>
-        </Label>
-        <Label fx:id="score9" layoutX="170.0" layoutY="320.0" textAlignment="CENTER">
-            <font>
-                <Font size="15.0" />
-            </font>
-        </Label>
-        <Label fx:id="score10" layoutX="170.0" layoutY="350.0" textAlignment="CENTER">
-            <font>
-                <Font size="15.0" />
-            </font>
-        </Label>
-      <ComboBox fx:id="difficultyComboBox" layoutX="48.0" layoutY="50.0" prefHeight="22.0" prefWidth="91.0" promptText="-" />
-      <Text fx:id="diffText" layoutX="76.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="난이도" />
-    </children>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #000000;" stylesheets="@score_board.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.Controller.ScoreBoardController">
+  <children>
+    <Text fx:id="scoreBoardTitle" layoutX="111.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="titleText" text="score board" />
+    <Button fx:id="exitButton" layoutX="499.0" layoutY="315.0" mnemonicParsing="false" onAction="#switchToStartMenu" prefHeight="30.0" prefWidth="51.0" styleClass="button" text="Exit" />
+    <Label fx:id="score1" layoutX="140.0" layoutY="60.0" styleClass="labelText" textAlignment="CENTER" />
+    <Label fx:id="score2" layoutX="140.0" layoutY="90.0" styleClass="labelText" textAlignment="CENTER" />
+    <Label fx:id="score3" layoutX="140.0" layoutY="120.0" styleClass="labelText" textAlignment="CENTER" />
+    <Label fx:id="score4" layoutX="140.0" layoutY="150.0" styleClass="labelText" textAlignment="CENTER" />
+    <Label fx:id="score5" layoutX="140.0" layoutY="180.0" styleClass="labelText" textAlignment="CENTER" />
+    <Label fx:id="score6" layoutX="140.0" layoutY="210.0" styleClass="labelText" textAlignment="CENTER" />
+    <Label fx:id="score7" layoutX="140.0" layoutY="240.0" styleClass="labelText" textAlignment="CENTER" />
+    <Label fx:id="score8" layoutX="140.0" layoutY="270.0" styleClass="labelText" textAlignment="CENTER" />
+    <Label fx:id="score9" layoutX="140.0" layoutY="300.0" styleClass="labelText" textAlignment="CENTER" />
+    <Label fx:id="score10" layoutX="140.0" layoutY="330.0" styleClass="labelText" textAlignment="CENTER" />
+    <ComboBox fx:id="difficultyComboBox" layoutX="10.0" layoutY="63.0" prefHeight="22.0" prefWidth="110.0" promptText="-" styleClass="button" />
+    <Text fx:id="diffText" layoutX="38.0" layoutY="41.0" styleClass="labelText" text="Level" />
+  </children>
 </AnchorPane>

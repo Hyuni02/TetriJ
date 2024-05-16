@@ -59,7 +59,7 @@ public class SettingController {
         try {
             String content = new String(Files.readAllBytes(Paths.get(file.toURI())), "UTF-8");
             JSONObject currentSettings = new JSONObject(content);
-            currentSettings.put("screenSize", "400x600");
+            currentSettings.put("screenSize", "600x400");
             currentSettings.put("isColorBlind", false);
 
             try (FileWriter fileWriter = new FileWriter(file)) {

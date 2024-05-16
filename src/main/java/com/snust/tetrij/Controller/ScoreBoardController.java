@@ -56,6 +56,7 @@ public class ScoreBoardController {
 
     @FXML
     public void switchToStartMenu(ActionEvent event) throws IOException {
+        scoreId = "";
         instance.switchToScene("start_menu.fxml");
 
     }
@@ -79,6 +80,7 @@ public class ScoreBoardController {
         difficultyComboBox.setOnAction(event -> {
             String selectedDifficulty = difficultyComboBox.getValue();
             loadScores(selectedDifficulty);
+
         });
 
         // 초기 스코어 로드
@@ -110,31 +112,36 @@ public class ScoreBoardController {
             // 상위 10개 레이블 업데이트
             List<Label> scoreLabels = List.of(score1, score2, score3, score4, score5, score6, score7, score8, score9, score10);
             for (int i = 0; i < Math.min(10, filteredScores.size()); i++) {
-
                 String[] scoreData = filteredScores.get(i);
 
-
-                if(currentScoreId.equals(scoreData[4])) {
-                    System.out.println("성공!");
-                    scoreLabels.get(i).setStyle("-fx-text-fill: blue; -fx-font-weight: bold;");
-                    scoreId = "";
+                // 콤보 박스 바꿨을 때도 글씨 크기 유지하기 위해서...
+                String style = "-fx-font-size: 12pt;";
+                if(instance.getPrimaryStage().getWidth() == 900 && instance.getPrimaryStage().getHeight() == 600){
+                    style = "-fx-font-size: 20pt;";
                 }
-                else scoreLabels.get(i).setStyle("");
-                    scoreLabels.get(i).setText(formatScore(scoreData));
-                System.out.println(scoreData[4]);
-                System.out.println(scoreId);
-                System.out.println();
+                else if(instance.getPrimaryStage().getWidth() == 1200 && instance.getPrimaryStage().getHeight() == 800) {
+                    style = "-fx-font-size: 22pt;"; // 기본 스타일 설정
+                }
+                //
+
+                if (currentScoreId.equals(scoreData[4])) {
+                    System.out.println("성공!");
+                    style += "-fx-text-fill: #ff8989; -fx-font-weight: bold;"; // 현재 점수 스타일 변경
+                }
+                scoreLabels.get(i).setStyle(style);
+                scoreLabels.get(i).setText(formatScore(scoreData));
             }
 
             // 남은 레이블은 빈 텍스트로 초기화
             for (int i = filteredScores.size(); i < scoreLabels.size(); i++) {
                 scoreLabels.get(i).setText("");
+                scoreLabels.get(i).setStyle("");
             }
         } catch (IOException e) {
-//            e.printStackTrace();
             loadScores_build(difficulty);
         }
     }
+
 
     private void loadScores_build(String difficulty) {
         try {
@@ -190,6 +197,6 @@ public class ScoreBoardController {
         String score = scoreData[1];
         String date = scoreData[2];
         String difficulty = scoreData[3];
-        return name + ": " + score + "점 (날짜: " + date + ", 난이도: " + difficulty + ")";
+        return name + ": " + score + " p      (" + date + ") (" + difficulty + ")";
     }
 }

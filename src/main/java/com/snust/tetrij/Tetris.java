@@ -315,7 +315,7 @@ public class Tetris extends Application {
                 // Pause 버튼을 눌렀을 때 퍼즈 메뉴 창 띄우기
                 try {
                     onPauseButton = true; // 퍼즈 버튼 눌러서 true (퍼즈 창이 떠 있는 상태)
-                    FXMLLoader fxmlLoader = new FXMLLoader(InGame.class.getResource("pause_menu.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(Tetris.class.getResource("pause_menu.fxml"));
                     Parent root = fxmlLoader.load();
                     Stage pauseStage = new Stage();
                     pauseStage.setScene(new Scene(root));

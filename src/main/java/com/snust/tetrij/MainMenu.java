@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import java.io.*;
 
@@ -25,6 +26,7 @@ public class MainMenu extends Application {
     private static MediaPlayer mediaPlayer;
     @Override
     public void start(Stage stage) throws IOException {
+        Font.loadFont(MainMenu.class.getResource("/com/snust/tetrij/Font/kenvector_future.ttf").toExternalForm(), 10);
         Parent root = FXMLLoader.load(getClass().getResource("start_menu.fxml"));
         Scene scene = new Scene(root);
         instance.setPrimaryStage(stage);
