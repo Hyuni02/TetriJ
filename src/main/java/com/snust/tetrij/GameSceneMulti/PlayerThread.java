@@ -2,10 +2,8 @@ package com.snust.tetrij.GameSceneMulti;
 
 import com.snust.tetrij.tetromino.TetrominoBase;
 
-import static com.snust.tetrij.GameSceneMulti.MultiBoardController.softDrop;
+import static com.snust.tetrij.GameSceneMulti.MultiBoardController.boardController;
 import static com.snust.tetrij.GameSceneMulti.MultiTetrisController.controller;
-import static com.snust.tetrij.GameSceneMulti.MultiTetrisView.view;
-import static com.snust.tetrij.GameSceneMulti.MultiTetrisModel.*;
 
 public class PlayerThread extends Thread {
     int player_num;
@@ -23,16 +21,16 @@ public class PlayerThread extends Thread {
             if (controller.isPaused)
                 continue;
 
-            MultiBoardController.generateTetromino(player_num);
-            MultiBoardController.generateTetromino(player_num);
-            view.color_mesh(player_num);
+            boardController.generateTetromino(player_num);
+            boardController.generateTetromino(player_num);
+            MultiTetrisView.view.color_mesh(player_num);
 
             try {
-                this.sleep(100);
+                this.sleep(1000);
             } catch (InterruptedException e) {
 
             }
-            softDrop((TetrominoBase) model.bags[player_num].get(0), player_num);
+            boardController.softDrop((TetrominoBase) MultiTetrisModel.model.bags[player_num].get(0), player_num);
 
 
         }

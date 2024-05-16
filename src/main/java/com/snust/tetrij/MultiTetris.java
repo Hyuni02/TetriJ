@@ -1,9 +1,6 @@
 package com.snust.tetrij;
 
-import com.snust.tetrij.GameSceneMulti.MultiTetrisController;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import static com.snust.tetrij.GameSceneMulti.MultiTetrisController.controller;

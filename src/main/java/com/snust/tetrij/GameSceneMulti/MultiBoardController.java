@@ -5,7 +5,7 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import com.snust.tetrij.tetromino.*;
 
-import static com.snust.tetrij.GameSceneMulti.MultiTetrisModel.*;
+import static com.snust.tetrij.GameSceneMulti.MultiTetrisModel.model;
 import static com.snust.tetrij.Tetris.difficulty.EASY;
 
 import java.util.Arrays;
@@ -14,8 +14,11 @@ import java.util.Random;
 import java.util.Vector;
 
 public class MultiBoardController {
+    public final static MultiBoardController boardController = new MultiBoardController();
 
-    public static int RWS(Tetris.difficulty dif){
+    private MultiBoardController() { }
+
+    public int RWS(Tetris.difficulty dif){
         double[] fitnesses = null;
         switch (EASY) {
             case EASY -> {
@@ -53,7 +56,7 @@ public class MultiBoardController {
         return fitnesses.length - 1;
     }
 
-    public static void generateTetromino(int player) {
+    public void generateTetromino(int player) {
         TetrominoBase t = new TetrominoBase(false);
         int idx = RWS(Tetris.cur_dif);
         if (Tetris.cur_dif != Tetris.difficulty.ITEM) {
@@ -112,7 +115,7 @@ public class MultiBoardController {
         t.pos[0] -= start_pos_y;
     }
 
-    public static void softDrop(TetrominoBase tb, int player) {
+    public void softDrop(TetrominoBase tb, int player) {
         eraseMesh(tb, player);
         tb.pos[0]++;
         if (!canMoveDown(tb, 1, player)) {
@@ -132,7 +135,7 @@ public class MultiBoardController {
      * 키다운 드롭 - 한번에 끝까지 내려가기
      * @param tb : 현재 조종중인 블록
      */
-    public static void hardDrop(TetrominoBase tb, int player) {
+    public void hardDrop(TetrominoBase tb, int player) {
         eraseMesh(tb, player);
         int dropHeight = 0;
         while (canMoveDown(tb, dropHeight + 1, player)) {
@@ -147,7 +150,7 @@ public class MultiBoardController {
         generateTetromino(player);
     }
 
-    public static void moveRightOnKeyPress(TetrominoBase tb, int player) {
+    public void moveRightOnKeyPress(TetrominoBase tb, int player) {
         eraseMesh(tb, player);
         if (canMoveSideWays(tb, 1, player) && tb.can_move) {
             tb.pos[1]++;
@@ -155,7 +158,7 @@ public class MultiBoardController {
         tb.update_mesh(player);
     }
 
-    public static void moveLeftOnKeyPress(TetrominoBase tb, int player) {
+    public void moveLeftOnKeyPress(TetrominoBase tb, int player) {
         eraseMesh(tb, player);
         if (canMoveSideWays(tb, -1, player) && tb.can_move) {
             tb.pos[1]--;
@@ -163,7 +166,7 @@ public class MultiBoardController {
         tb.update_mesh(player);
     }
 
-    public static void rotateClockWise(TetrominoBase tb,int player) {
+    public void rotateClockWise(TetrominoBase tb,int player) {
         eraseMesh(tb, player);
         int[][] rotated = canRotateClockwise(tb, player);
         if (rotated != null) {
@@ -172,7 +175,7 @@ public class MultiBoardController {
         tb.update_mesh(player);
     }
 
-    public static boolean canMoveDown(TetrominoBase tb, int distance, int player) {
+    public boolean canMoveDown(TetrominoBase tb, int distance, int player) {
         // 블록의 아래쪽에 다른 블록이 있는지 확인
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
@@ -197,7 +200,7 @@ public class MultiBoardController {
         return true;
     }
 
-    public static boolean canMoveSideWays(TetrominoBase tb, int distance, int player) {
+    public boolean canMoveSideWays(TetrominoBase tb, int distance, int player) {
         // Tetromino의 각 블록이 아래로 이동할 때 다른 블록과 겹치는지 확인
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
@@ -217,7 +220,7 @@ public class MultiBoardController {
         return true; // 아래로 이동 가능
     }
 
-    public static int[][] canRotateClockwise(TetrominoBase tb,int player) {
+    public int[][] canRotateClockwise(TetrominoBase tb,int player) {
         // 회전 후의 상태를 가상으로 생성하여 유효성을 검사
         int[][] rotatedShape = new int[4][4];
 
@@ -246,7 +249,7 @@ public class MultiBoardController {
         return rotatedShape;
     }
 
-    public static void eraseMesh(TetrominoBase tb, int player) {
+    public void eraseMesh(TetrominoBase tb, int player) {
         for (int y = tb.pos[0]; y < tb.pos[0] + 4; y++) {
             for (int x = tb.pos[1]; x < tb.pos[1] + 4; x++) {
                 if (y >= Tetris.HEIGHT || y < 0)
@@ -260,7 +263,7 @@ public class MultiBoardController {
         }
     }
 
-    public static void eraseLine(int player) {
+    public void eraseLine(int player) {
         //리스트에 가득 찬 라인을 저장
         List<Integer> l = new Vector<>();
         for (int y = 2; y < Tetris.HEIGHT; y++) {
@@ -322,7 +325,7 @@ public class MultiBoardController {
 
 
 
-    private static void updateTop(TetrominoBase tb, int player) {
+    private void updateTop(TetrominoBase tb, int player) {
         Tetris.top = Math.max(Tetris.HEIGHT - tb.pos[0], Tetris.top);
     }
 }

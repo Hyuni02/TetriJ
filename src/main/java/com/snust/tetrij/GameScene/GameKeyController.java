@@ -21,21 +21,11 @@ public class GameKeyController {
     public static String rotateKey = loadKeySetting("rotate");
     public static String downKey = loadKeySetting("down");
     public static String dropKey = loadKeySetting("drop");
-    public static String p2RightKey = loadKeySetting("p2Right");
-    public static String p2LeftKey = loadKeySetting("p2Left");
-    public static String p2RotateKey = loadKeySetting("p2Rotate");
-    public static String p2DownKey = loadKeySetting("p2Down");
-    public static String p2DropKey = loadKeySetting("p2Drop");
     public static KeyCode rightKeyCode = getKeyCodeFromString(rightKey);
     public static KeyCode leftKeyCode = getKeyCodeFromString(leftKey);
     public static KeyCode rotateKeyCode = getKeyCodeFromString(rotateKey);
     public static KeyCode downKeyCode = getKeyCodeFromString(downKey);
     public static KeyCode dropKeyCode = getKeyCodeFromString(dropKey);
-    public static KeyCode p2RightKeyCode = getKeyCodeFromString(p2RightKey);
-    public static KeyCode p2LeftKeyCode = getKeyCodeFromString(p2LeftKey);
-    public static KeyCode p2RotateKeyCode = getKeyCodeFromString(p2RotateKey);
-    public static KeyCode p2DownKeyCode = getKeyCodeFromString(p2DownKey);
-    public static KeyCode p2DropKeyCode = getKeyCodeFromString(p2DropKey);
 
     public static void addListenerPause(Scene scene) {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() { // 키 이벤트
