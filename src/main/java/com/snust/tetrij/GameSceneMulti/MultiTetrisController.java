@@ -24,11 +24,21 @@ public class MultiTetrisController {
     public String rotateKey;
     public String downKey;
     public String dropKey;
+    public String p2RightKey;
+    public String p2LeftKey;
+    public String p2RotateKey;
+    public String p2DownKey;
+    public String p2DropKey;
     public KeyCode rightKeyCode;
     public KeyCode leftKeyCode;
     public KeyCode rotateKeyCode;
     public KeyCode downKeyCode;
     public KeyCode dropKeyCode;
+    public KeyCode p2RightKeyCode;
+    public KeyCode p2LeftKeyCode;
+    public KeyCode p2RotateKeyCode;
+    public KeyCode p2DownKeyCode;
+    public KeyCode p2DropKeyCode;
 
     public boolean isPaused = false;
     public boolean isGameOver = false;
@@ -39,11 +49,22 @@ public class MultiTetrisController {
         rotateKey = loadKeySetting("rotate");
         downKey = loadKeySetting("down");
         dropKey = loadKeySetting("drop");
+        p2RightKey = loadKeySetting("p2Right");
+        p2LeftKey = loadKeySetting("p2Left");
+        p2RotateKey = loadKeySetting("p2Rotate");
+        p2DownKey = loadKeySetting("p2Down");
+        p2DropKey = loadKeySetting("p2Drop");
+
         rightKeyCode = getKeyCodeFromString(rightKey);
         leftKeyCode = getKeyCodeFromString(leftKey);
         rotateKeyCode = getKeyCodeFromString(rotateKey);
         downKeyCode = getKeyCodeFromString(downKey);
         dropKeyCode = getKeyCodeFromString(dropKey);
+        p2RightKeyCode = getKeyCodeFromString(p2RightKey);
+        p2LeftKeyCode = getKeyCodeFromString(p2LeftKey);
+        p2RotateKeyCode = getKeyCodeFromString(p2RotateKey);
+        p2DownKeyCode = getKeyCodeFromString(p2DownKey);
+        p2DropKeyCode = getKeyCodeFromString(p2DropKey);
     }
 
     /**
