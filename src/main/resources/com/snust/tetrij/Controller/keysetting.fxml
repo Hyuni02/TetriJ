@@ -9,35 +9,35 @@
 <!--            prefHeight="400.0" prefWidth="600.0">-->
 <!--</AnchorPane>-->
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.Controller.KeySettingController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #000000;" stylesheets="@keysetting.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.Controller.KeySettingController">
     <VBox layoutX="20.0" layoutY="324.0" spacing="10">
-        <Label text="뒤로 가기" />
-        <Button fx:id="BackButton" onAction="#switchToSetting" text="뒤로 가기" />
+        <Label styleClass="label" text="Back" />
+        <Button fx:id="BackButton" onAction="#switchToSetting" text="Back" />
     </VBox>
 
     <VBox layoutX="20.0" layoutY="14.0" spacing="10">
-        <Label text="블록 왼쪽 이동 버튼 설정" />
-        <Button fx:id="leftMoveKeyButton" onAction="#handleLeftKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+        <Label styleClass="label" text="Block Left Shift Button Setting" />
+        <Button fx:id="leftMoveKeyButton" onAction="#handleLeftKeyInput" text="Block Left Shift Button" />
     </VBox>
 
     <VBox layoutX="20.0" layoutY="77.0" spacing="10">
-        <Label text="블록 오른쪽 이동 버튼 설정" />
-        <Button fx:id="rightMoveKeyButton" onAction="#handleRightKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+        <Label styleClass="label" text="Block Right Shift Button Setting" />
+        <Button fx:id="rightMoveKeyButton" onAction="#handleRightKeyInput" text="Block Right Shift Button" />
     </VBox>
 
     <VBox layoutX="20.0" layoutY="140.0" spacing="10">
-        <Label text="블록 회전 버튼 설정" />
-        <Button fx:id="rotateMoveKeyButton" onAction="#handleRotateKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+        <Label styleClass="label" text="Block Rotate Button Setting" />
+        <Button fx:id="rotateMoveKeyButton" onAction="#handleRotateKeyInput" text="Block Rotate Button" />
     </VBox>
 
     <VBox layoutX="20.0" layoutY="202.0" spacing="10">
-        <Label text="블록 아래 이동 버튼 설정" />
-        <Button fx:id="downMoveKeyButton" onAction="#handleDownKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+        <Label styleClass="label" text="Block Down Shift Button Setting" />
+        <Button fx:id="downMoveKeyButton" onAction="#handleDownKeyInput" text="Block Down Shift Button" />
     </VBox>
 
     <VBox layoutX="20.0" layoutY="264.0" spacing="10">
-        <Label text="블록 드롭 버튼 설정" />
-        <Button fx:id="dropKeyButton" onAction="#handleDropInput" text="블록 왼쪽 이동 버튼 설정" />
+        <Label styleClass="label" text="Block Drop Button Setting" />
+        <Button fx:id="dropKeyButton" onAction="#handleDropInput" text="Block Drop Button" />
     </VBox>
 
 </AnchorPane>
