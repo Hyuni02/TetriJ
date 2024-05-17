@@ -21,6 +21,7 @@ public class MultiTetrisView {
 
     public Scene scene;
     private static Pane pane;
+    private Stage stage;
 
     private StackPane[][] rect1 = new StackPane[20][10];
     private StackPane[][] rect2 = new StackPane[20][10];
@@ -36,6 +37,7 @@ public class MultiTetrisView {
     private MultiTetrisView() {
         pane = new Pane();
         scene = new Scene(pane,1200, 800);
+        stage = new Stage();
 
         Line line = new Line(xmax+ offset,0,xmax + offset, ymax + + offset);
         Text scoretext = new Text("Score: ");
@@ -91,7 +93,7 @@ public class MultiTetrisView {
             Arrays.fill(sp, new StackPane());
     }
 
-    public void setScene(Stage stage) {
+    public void setScene() {
         Platform.runLater(() ->  {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {

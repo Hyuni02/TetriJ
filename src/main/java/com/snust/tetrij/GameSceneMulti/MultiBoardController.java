@@ -5,8 +5,8 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import com.snust.tetrij.tetromino.*;
 
+import static com.snust.tetrij.GameSceneMulti.MultiTetrisController.controller;
 import static com.snust.tetrij.GameSceneMulti.MultiTetrisModel.model;
-import static com.snust.tetrij.Tetris.difficulty.EASY;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +20,7 @@ public class MultiBoardController {
 
     public int RWS(Tetris.difficulty dif){
         double[] fitnesses = null;
-        switch (EASY) {
+        switch (controller.currentDifficulty) {
             case EASY -> {
                 fitnesses = new double[] {1,1,1,1.2,1,1,1};  //easy난이도에서는 L블럭 20퍼센트 더 많이
             }

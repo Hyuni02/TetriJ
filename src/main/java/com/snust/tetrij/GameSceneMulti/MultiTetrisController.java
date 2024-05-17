@@ -21,12 +21,15 @@ public class MultiTetrisController {
 
     public boolean isPaused = false;
     public boolean isGameOver = false;
+    public enum difficulty {EASY, NORMAL, HARD, ITEM};
+    public difficulty currentDifficulty;
 
     public MultiTetrisController() { }
 
 
-    public void runGame(Stage stage) {
-        view.setScene(stage);
+    public void runGame(difficulty difficulty) {
+        view.setScene();
+        currentDifficulty = difficulty;
 
         PlayerThread p1 = new PlayerThread(0, "p1");
         PlayerThread p2 = new PlayerThread(1, "p2");

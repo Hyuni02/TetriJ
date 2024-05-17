@@ -1,6 +1,8 @@
 package com.snust.tetrij.Controller;
 
 import com.snust.tetrij.GameManager;
+import com.snust.tetrij.GameSceneMulti.MultiTetrisController;
+import com.snust.tetrij.MultiTetris;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,6 +11,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
+import static com.snust.tetrij.GameSceneMulti.MultiTetrisController.controller;
 
 public class SelectModeController {
 
@@ -98,6 +102,26 @@ public class SelectModeController {
     private void selectItem() throws Exception {
         GameManager.getInstance().startGame("ITEM");
         closeStage();
+    }
+
+    @FXML
+    private void selectBattleEasy() {
+        controller.runGame(MultiTetrisController.difficulty.EASY);
+    }
+
+    @FXML
+    private void selectBattleNormal() {
+        controller.runGame(MultiTetrisController.difficulty.NORMAL);
+    }
+
+    @FXML
+    private void selectBattleHard() {
+        controller.runGame(MultiTetrisController.difficulty.HARD);
+    }
+
+    @FXML
+    private void selectBattleItem() {
+        controller.runGame(MultiTetrisController.difficulty.ITEM);
     }
 
     private void closeStage() {

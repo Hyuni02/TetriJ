@@ -1,8 +1,10 @@
 package com.snust.tetrij;
 
+import com.snust.tetrij.GameSceneMulti.MultiTetrisView;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import com.snust.tetrij.GameSceneMulti.MultiTetrisController;
 import static com.snust.tetrij.GameSceneMulti.MultiTetrisController.controller;
 
 /**
@@ -11,10 +13,10 @@ import static com.snust.tetrij.GameSceneMulti.MultiTetrisController.controller;
 public class MultiTetris extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        controller.runGame(stage);
+        controller.runGame(MultiTetrisController.difficulty.EASY);
     }
 
-    public static void main(String[] args) {
+    public static void main(String args) {
         launch();
     }
 }
