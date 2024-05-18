@@ -1,5 +1,6 @@
 package com.snust.tetrij.GameSceneMulti;
 
+import com.snust.tetrij.GameManager;
 import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -17,6 +18,7 @@ import java.util.Arrays;
 import static com.snust.tetrij.GameSceneMulti.MultiKeyController.keyController;
 
 public class MultiTetrisView {
+    private final static GameManager instance = GameManager.getInstance();
     public final static MultiTetrisView view = new MultiTetrisView();
 
     public Scene scene;
@@ -130,10 +132,10 @@ public class MultiTetrisView {
             }
         });
 
-        stage.setScene(scene);
-        stage.setTitle("TETRIS");
+        instance.getPrimaryStage().setScene(scene);
+        instance.getPrimaryStage().setTitle("TETRIS");
         keyController.gameProc(scene);
-        stage.show();
+        instance.getPrimaryStage().show();
     }
 
     public void color_mesh(int player) {

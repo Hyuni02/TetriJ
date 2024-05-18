@@ -63,7 +63,7 @@ public class MainMenu extends Application {
         if(difficulty == "NORMAL") {
             Tetris.startTetris(instance.getPrimaryStage(), Tetris.difficulty.NORMAL);
         }
-        if(difficulty == "HARD"){
+        if(difficulty == "HARD") {
             Tetris.startTetris(instance.getPrimaryStage(), Tetris.difficulty.HARD);
         }
         if(difficulty == "ITEM") {

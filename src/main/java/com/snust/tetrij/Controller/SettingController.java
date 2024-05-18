@@ -30,8 +30,6 @@ public class SettingController {
     private Scene scene;
     GameManager instance = GameManager.getInstance();
     @FXML
-    private ComboBox<String> resolutionComboBox;        //이건 어디에 쓰는거조??
-    @FXML
     private ComboBox<String> sizeComboBox;
     @FXML
     private CheckBox colorBlindModeCheckBox;

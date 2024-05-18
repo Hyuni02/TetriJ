@@ -4,14 +4,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: #000000;" stylesheets="@mode.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.Controller.SelectModeController">
+<AnchorPane prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: #000000;" stylesheets="@mode.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.Controller.SelectModeController">
     <children>
-        <Button layoutX="111.66" layoutY="80.0" mnemonicParsing="false" onAction="#selectSingle" prefHeight="80.0" prefWidth="80.0" text="Single" />
-        <Button layoutX="208.33" layoutY="80.0" mnemonicParsing="false" onAction="#selectBattle" prefHeight="80.0" prefWidth="80.0" text="Battle" />
+        <Button layoutX="111.66" layoutY="80.0" mnemonicParsing="false" onAction="#selectSingle" prefHeight="80.0" prefWidth="80.0" text="SINGLE" />
+        <Button layoutX="208.33" layoutY="80.0" mnemonicParsing="false" onAction="#selectBattle" prefHeight="80.0" prefWidth="80.0" text="BATTLE" />
         <Text layoutX="59.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="titleText" text="Select Mode">
             <font>
                 <Font size="25.0" />
             </font>
         </Text>
+      <Button layoutX="325.0" layoutY="150.0" mnemonicParsing="false" onAction="#exitSelectMode" prefHeight="30.0" prefWidth="60.0" text="EXIT" />
     </children>
 </AnchorPane>
