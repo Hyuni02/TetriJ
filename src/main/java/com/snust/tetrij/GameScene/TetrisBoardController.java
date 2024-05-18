@@ -6,6 +6,7 @@ import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Mesh;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
@@ -294,19 +295,22 @@ public class TetrisBoardController {
     }
 
     public static boolean canMoveDown(TetrominoBase tb, int distance) {
-        if (tb.name == 'w')
-            return true;
-
         // 블록의 아래쪽에 다른 블록이 있는지 확인
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
                 if (tb.mesh[y][x] == 0) {
                     continue;
                 }
-                if (y + tb.pos[0] + distance >= Tetris.HEIGHT
-                        || Tetris.MESH[y + tb.pos[0] + distance][x + tb.pos[1]] != '0') {
+                if (y + tb.pos[0] + distance >= Tetris.HEIGHT) {
                     return false;
                 }
+                if (Tetris.MESH[y + tb.pos[0] + distance][x + tb.pos[1]] != '0') {
+                    if (tb.name == 'w')
+                        continue;
+                    else
+                        return false;
+                }
+
             }
         }
         return true;
@@ -495,7 +499,14 @@ public class TetrisBoardController {
 
 
     private static void updateTop(TetrominoBase tb) {
-        Tetris.top = Math.max(Tetris.HEIGHT - tb.pos[0], Tetris.top);
+        Tetris.top = 0;
+        for (char[] line : Tetris.MESH) {
+            for (char c : line) {
+                if (c != '0')
+                    return;
+            }
+            Tetris.top++;
+        }
     }
 }
 
