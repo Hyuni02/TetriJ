@@ -41,5 +41,4 @@ public class MultiTetrisModel {
         attackBuffer[0] = attackBuffer1;
         attackBuffer[1] = attackBuffer2;
     }
-
 }

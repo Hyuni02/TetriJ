@@ -127,6 +127,17 @@ public class SelectModeController {
         closeStage();
     }
 
+    @FXML
+    private void selectBattleTime() { // 수정 부탁
+        controller.runGame(MultiTetrisController.difficulty.ITEM);
+        closeStage();
+    }
+
+    @FXML
+    private void exitSelectMode() {
+        closeStage();
+    }
+
     private void closeStage() {
         if (thisStage != null) {
             thisStage.close();

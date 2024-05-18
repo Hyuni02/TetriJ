@@ -20,7 +20,7 @@ import static com.snust.tetrij.Controller.ResolutionManager.curWidth;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiKeyController.keyController;
 
 public class MultiTetrisView {
-    public final static GameManager instance = GameManager.getInstance();
+    private final static GameManager instance = GameManager.getInstance();
     public final static MultiTetrisView view = new MultiTetrisView();
 
     public Scene scene;
