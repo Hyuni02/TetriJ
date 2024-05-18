@@ -28,5 +28,4 @@ public class MultiTetrisModel {
         bags[0] = bag1;
         bags[1] = bag2;
     }
-
 }

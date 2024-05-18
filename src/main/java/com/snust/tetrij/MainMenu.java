@@ -64,8 +64,8 @@ public class MainMenu extends Application {
         if(difficulty == "NORMAL") {
             controller_s.runGame(instance.getPrimaryStage(), GameControllerBase.difficulty.NORMAL);
         }
-        if(difficulty == "HARD"){
-            controller_s.runGame(instance.getPrimaryStage(), GameControllerBase.difficulty.HARD);
+        if(difficulty == "HARD") {
+            Tetris.startTetris(instance.getPrimaryStage(), Tetris.difficulty.HARD);
         }
         if(difficulty == "ITEM") {
             controller_s.runGame(instance.getPrimaryStage(), GameControllerBase.difficulty.ITEM);
