@@ -284,6 +284,8 @@ public class MultiBoardController {
         if (l.isEmpty())
             return;
 
+        int erased_lines_count = l.toArray().length;
+
         //리스트에 저장된 라인들을 지움
         Task<Void> eraseTask = new Task<Void>() {
             @Override
