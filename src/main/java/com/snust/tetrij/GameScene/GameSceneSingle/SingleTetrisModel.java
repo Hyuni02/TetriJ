@@ -1,4 +1,4 @@
-package com.snust.tetrij.GameSceneSingle;
+package com.snust.tetrij.GameScene.GameSceneSingle;
 
 import com.snust.tetrij.tetromino.TetrominoBase;
 

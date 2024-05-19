@@ -1,11 +1,10 @@
 package com.snust.tetrij;
 
-import com.snust.tetrij.GameSceneMulti.MultiTetrisView;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import com.snust.tetrij.GameSceneMulti.MultiTetrisController;
-import static com.snust.tetrij.GameSceneMulti.MultiTetrisController.controller;
+import com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
 
 /**
  * 멀티모드의 wrapper 클래스

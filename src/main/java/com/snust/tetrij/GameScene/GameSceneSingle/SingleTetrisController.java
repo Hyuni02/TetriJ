@@ -1,19 +1,12 @@
-package com.snust.tetrij.GameSceneSingle;
+package com.snust.tetrij.GameScene.GameSceneSingle;
 
-import com.snust.tetrij.GameControllerBase;
-import com.snust.tetrij.GameScene.TetrisBoardController;
-import com.snust.tetrij.GameSceneMulti.MultiTetrisController;
+import com.snust.tetrij.GameScene.GameControllerBase;
+import com.snust.tetrij.GameScene.GameSceneSingle.Control.GameKeyController;
+import com.snust.tetrij.GameScene.GameSceneSingle.Control.TetrisBoardController;
 import com.snust.tetrij.Tetris;
-import com.snust.tetrij.tetromino.TetrominoBase;
-import javafx.application.Platform;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
-import static com.snust.tetrij.Controller.GameOverController.switchToGameOver;
-import static com.snust.tetrij.GameSceneMulti.MultiBoardController.boardController;
-import static com.snust.tetrij.GameSceneMulti.MultiTetrisController.controller;
-import static com.snust.tetrij.GameSceneMulti.MultiTetrisView.view;
-import static com.snust.tetrij.GameSceneSingle.SingleTetrisView.view_s;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s;
 
 public class SingleTetrisController extends GameControllerBase {
     public final static SingleTetrisController controller_s = new SingleTetrisController();
@@ -23,9 +16,15 @@ public class SingleTetrisController extends GameControllerBase {
     }
 
 
-    public void runGame(MultiTetrisController.difficulty difficulty) {
+    public void runGame(Stage stage, difficulty difficulty) {
         view_s.setScene();
+        view_s.stage = stage;
         currentDifficulty = difficulty;
+
+        Thread thread = null;
+        Thread finalThread = thread;
+
+        GameKeyController.addListenerGameControl(view_s.scene);
 
         Runnable task = new Runnable() {
             public void run() {
@@ -67,8 +66,8 @@ public class SingleTetrisController extends GameControllerBase {
                     view_s.color_mesh(); //색칠
 
                     //게임오바
-                    if (Tetris.top >= Tetris.HEIGHT - 1) {
-                        Thread.interrupt();
+                    if (controller_s.top > 19) {
+                        finalThread.interrupt();
                     }
                 }
                 // GameOver(stage, dif);

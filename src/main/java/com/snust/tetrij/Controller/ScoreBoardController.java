@@ -16,6 +16,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import static com.snust.tetrij.Controller.GameOverController.scoreId;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
 
 public class ScoreBoardController {
     GameManager instance = GameManager.getInstance();
@@ -84,7 +85,7 @@ public class ScoreBoardController {
         });
 
         // 초기 스코어 로드
-        loadScores(Tetris.cur_dif.toString());
+        loadScores(controller_s.currentDifficulty.toString());
     }
     private void loadScores(String difficulty) {
         String filePath = "src/main/resources/com/snust/tetrij/score.txt";

@@ -1,6 +1,7 @@
 package com.snust.tetrij;
 
-import com.snust.tetrij.GameScene.TetrisBoardController;
+import com.snust.tetrij.GameScene.GameControllerBase;
+import com.snust.tetrij.GameScene.GameSceneSingle.Control.TetrisBoardController;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -19,7 +20,7 @@ public class BlockTest {
 
         int totalSelections = 1000;
         for (int i = 0; i < totalSelections; i++) {
-            field.add(TetrisBoardController.RWS(Tetris.difficulty.EASY));
+            field.add(TetrisBoardController.RWS(GameControllerBase.difficulty.EASY));
         }
         for (int i : field){
             int selectedBlock = i;
@@ -49,7 +50,7 @@ public class BlockTest {
         // 200번 이상 블록 선택 반복 -> 블록 14400개는 만들어짐 ㅎㅎ
         int totalSelections = 1000;
         for (int i = 0; i < totalSelections; i++) {
-            field.add(TetrisBoardController.RWS(Tetris.difficulty.HARD));
+            field.add(TetrisBoardController.RWS(GameControllerBase.difficulty.HARD));
         }
         for (int i : field){
             int selectedBlock = i;

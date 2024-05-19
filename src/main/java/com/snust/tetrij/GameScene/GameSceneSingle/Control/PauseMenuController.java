@@ -1,4 +1,4 @@
-package com.snust.tetrij.GameScene;
+package com.snust.tetrij.GameScene.GameSceneSingle.Control;
 import com.snust.tetrij.GameManager;
 import com.snust.tetrij.Tetris;
 import javafx.event.ActionEvent;
@@ -7,6 +7,8 @@ import javafx.scene.Node;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
 
 public class PauseMenuController extends Tetris {
     private final static GameManager instance = GameManager.getInstance();
@@ -18,8 +20,8 @@ public class PauseMenuController extends Tetris {
     @FXML
     public void continue_game(ActionEvent event) {
         // 현재 게임 일시정지 -> isPaused를 false로 설정하여 게임이 계속될 수 있도록 함
-        Tetris.isPaused = false;
-        Tetris.onPauseButton = false;
+        controller_s.isPaused = false;
+        controller_s.onPauseButton = false;
 //        System.out.println("test"+ Tetris.isPaused);
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.close();
@@ -28,8 +30,8 @@ public class PauseMenuController extends Tetris {
     public void switchToStartMenu(ActionEvent event) throws IOException {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.close();
-        Tetris.isPaused = false;
-        Tetris.onPauseButton = false;
+        controller_s.isPaused = false;
+        controller_s.onPauseButton = false;
 
         instance.switchToScene("start_menu.fxml");
     }

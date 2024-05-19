@@ -1,4 +1,4 @@
-package com.snust.tetrij.GameSceneMulti;
+package com.snust.tetrij.GameScene.GameSceneMulti;
 
 import com.snust.tetrij.Tetris;
 import com.snust.tetrij.tetromino.TetrominoBase;
@@ -12,9 +12,10 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static com.snust.tetrij.GameSceneMulti.MultiTetrisModel.model;
-import static com.snust.tetrij.GameSceneMulti.MultiBoardController.boardController;
-import static com.snust.tetrij.GameSceneMulti.MultiTetrisView.view;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiBoardController.boardController;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
 
 
 public class MultiKeyController {
@@ -126,7 +127,7 @@ public class MultiKeyController {
             if(code == KeyCode.NONCONVERT);
             else if(code == KeyCode.ESCAPE){
                 System.out.println("esc");
-                Tetris.game = !Tetris.game;
+                controller.isPaused = !controller.isPaused;
             }
             else if(code == leftKeyCode){
                 System.out.println("left");

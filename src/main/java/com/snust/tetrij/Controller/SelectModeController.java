@@ -1,8 +1,7 @@
 package com.snust.tetrij.Controller;
 
 import com.snust.tetrij.GameManager;
-import com.snust.tetrij.GameSceneMulti.MultiTetrisController;
-import com.snust.tetrij.MultiTetris;
+import com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,7 +11,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import static com.snust.tetrij.GameSceneMulti.MultiTetrisController.controller;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
 
 public class SelectModeController {
 

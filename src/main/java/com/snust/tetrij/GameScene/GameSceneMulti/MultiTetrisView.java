@@ -1,9 +1,5 @@
-package com.snust.tetrij.GameSceneSingle;
+package com.snust.tetrij.GameScene.GameSceneMulti;
 
-import com.snust.tetrij.GameScene.TetrisBoardController;
-import com.snust.tetrij.GameSceneMulti.MultiTetrisModel;
-import com.snust.tetrij.GameSceneMulti.MultiTetrisView;
-import com.snust.tetrij.Tetris;
 import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -18,29 +14,27 @@ import javafx.stage.Stage;
 
 import java.util.Arrays;
 
-import static com.snust.tetrij.GameSceneMulti.MultiKeyController.keyController;
-import static com.snust.tetrij.GameSceneSingle.SingleTetrisModel.model_s;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiKeyController.keyController;
 
-public class SingleTetrisView {
-    public final static SingleTetrisView view_s = new SingleTetrisView();
+public class MultiTetrisView {
+    public final static MultiTetrisView view = new MultiTetrisView();
 
     public Scene scene;
     private static Pane pane;
     private Stage stage;
 
-    private StackPane[][] rect = new StackPane[20][10];
+    private StackPane[][] rect1 = new StackPane[20][10];
+    private StackPane[][] rect2 = new StackPane[20][10];
+    private StackPane[][][] rect = new StackPane[][][] {rect1, rect2};
 
-    private final int WIDTH = 10;
-    private final int  HEIGHT = 20;
+    public final int WIDTH = 10;
+    public final int  HEIGHT = 20;
     private final int size = 30;
     private int xmax;
     private int ymax;
     private final int offset = 320;
 
-    public Text scoreText;
-    public Text level;
-
-    private SingleTetrisView() {
+    private MultiTetrisView() {
         pane = new Pane();
         scene = new Scene(pane,1200, 800);
         stage = new Stage();
@@ -92,7 +86,10 @@ public class SingleTetrisView {
 //        pauseButton2.setFocusTraversable(false);
         pane.getChildren().addAll(scoretext2, line2, lines2);
 
-        for (StackPane[] sp: rect)
+        for (StackPane[] sp: rect1)
+            Arrays.fill(sp, new StackPane());
+
+        for (StackPane[] sp: rect2)
             Arrays.fill(sp, new StackPane());
     }
 
@@ -110,7 +107,25 @@ public class SingleTetrisView {
                     sp.setLayoutY(y*size);
                     sp.getChildren().addAll(r, t);
                     pane.getChildren().add(sp);
-                    rect[y][x] = sp;
+                    rect1[y][x] = sp;
+                }
+            }
+        });
+
+        Platform.runLater(() ->  {
+            for (int y = 0; y < HEIGHT; y++) {
+                for (int x = 0; x < WIDTH; x++) {
+                    Rectangle r = new Rectangle(x* size, y*size, size, size);
+                    r.setFill(Color.WHITE);
+                    r.setStrokeWidth(0.5);
+                    r.setStroke(Color.BLACK);
+                    Text t = new Text(" ");
+                    StackPane sp = new StackPane();
+                    sp.setLayoutX(x*size + 500);
+                    sp.setLayoutY(y*size);
+                    sp.getChildren().addAll(r, t);
+                    pane.getChildren().add(sp);
+                    rect2[y][x] = sp;
                 }
             }
         });
@@ -121,14 +136,14 @@ public class SingleTetrisView {
         stage.show();
     }
 
-    public void color_mesh() {
+    public void color_mesh(int player) {
         Platform.runLater(() ->  {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
-                    Rectangle r = (Rectangle)rect[y][x].getChildren().get(0);
-                    r.setFill(TetrominoBase.getColor(model_s.MESH[y][x]));
-                    Text t = (Text)rect[y][x].getChildren().get(1);
-                    if (model_s.MESH[y][x] == 'L'){
+                    Rectangle r = (Rectangle)rect[player][y][x].getChildren().get(0);
+                    r.setFill(TetrominoBase.getColor(MultiTetrisModel.model.MESH[player][y][x]));
+                    Text t = (Text)rect[player][y][x].getChildren().get(1);
+                    if (MultiTetrisModel.model.MESH[player][y][x] == 'L'){
                         t.setText("L");
                     }
                     else{
@@ -137,22 +152,5 @@ public class SingleTetrisView {
                 }
             }
         });
-
-        Platform.runLater(
-                () -> {
-                    TetrominoBase next = TetrisBoardController.bag.get(1);
-                    for (int y = 0; y < 4; y++) {
-                        for (int x = 0; x < 4; x++) {
-                            Rectangle r = new Rectangle(XMAX + 10 + x * Tetris.SIZE + offset, 200 + y * Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
-                            if (next.mesh[y][x] == 0) {
-                                r.setFill(Color.WHITE);
-                            } else {
-                                r.setFill(TetrominoBase.getColor(TetrisBoardController.bag.get(1).name));
-                            }
-                            pane.getChildren().add(r);
-                        }
-                    }
-                }
-        );
     }
 }

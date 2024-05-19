@@ -1,6 +1,7 @@
 package com.snust.tetrij;
 
 import com.snust.tetrij.Controller.ResolutionManager;
+import com.snust.tetrij.GameScene.GameControllerBase;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +21,7 @@ import java.io.File;
 import static com.snust.tetrij.Controller.ResolutionManager.resolutionInitialize;
 import static com.snust.tetrij.Controller.ResolutionManager.curHeight;
 import static com.snust.tetrij.Controller.ResolutionManager.curWidth;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
 
 public class MainMenu extends Application {
     private final static GameManager instance = GameManager.getInstance();
@@ -53,21 +55,20 @@ public class MainMenu extends Application {
         //playSound("src/main/resources/com/snust/tetrij/sound/startMenuBGM.wav");
         //mediaPlayer.setVolume(0.3);
 
-        Tetris.cur_dif = Tetris.difficulty.EASY;
     }
 
     public static void playTetrij(String difficulty) throws Exception {
         if(difficulty == "EASY") {
-            Tetris.startTetris(instance.getPrimaryStage(), Tetris.difficulty.EASY);
+            controller_s.runGame(instance.getPrimaryStage(), GameControllerBase.difficulty.EASY);
         }
         if(difficulty == "NORMAL") {
-            Tetris.startTetris(instance.getPrimaryStage(), Tetris.difficulty.NORMAL);
+            controller_s.runGame(instance.getPrimaryStage(), GameControllerBase.difficulty.NORMAL);
         }
         if(difficulty == "HARD"){
-            Tetris.startTetris(instance.getPrimaryStage(), Tetris.difficulty.HARD);
+            controller_s.runGame(instance.getPrimaryStage(), GameControllerBase.difficulty.HARD);
         }
         if(difficulty == "ITEM") {
-            Tetris.startTetris(instance.getPrimaryStage(), Tetris.difficulty.ITEM);
+            controller_s.runGame(instance.getPrimaryStage(), GameControllerBase.difficulty.ITEM);
         }
         System.out.println("게임 시작");
     }

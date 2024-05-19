@@ -1,13 +1,13 @@
-package com.snust.tetrij.GameSceneMulti;
+package com.snust.tetrij.GameScene.GameSceneMulti;
 
 import com.snust.tetrij.Tetris;
 import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.application.Platform;
 
 import static com.snust.tetrij.Controller.GameOverController.switchToGameOver;
-import static com.snust.tetrij.GameSceneMulti.MultiBoardController.boardController;
-import static com.snust.tetrij.GameSceneMulti.MultiTetrisController.controller;
-import static com.snust.tetrij.GameSceneMulti.MultiTetrisView.view;;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiBoardController.boardController;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;;
 
 public class PlayerThread extends Thread {
     int player_num;
@@ -69,7 +69,7 @@ public class PlayerThread extends Thread {
             boardController.softDrop((TetrominoBase) MultiTetrisModel.model.bags[player_num].get(0), player_num);
             view.color_mesh(player_num);
 
-            if (Tetris.top >= Tetris.HEIGHT - 1) {
+            if (controller.top >= view.HEIGHT - 1) {
                 controller.isGameOver = true;
             }
         }

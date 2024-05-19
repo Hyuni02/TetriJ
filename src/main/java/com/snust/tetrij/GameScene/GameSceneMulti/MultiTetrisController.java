@@ -1,9 +1,8 @@
-package com.snust.tetrij.GameSceneMulti;
+package com.snust.tetrij.GameScene.GameSceneMulti;
 
-import com.snust.tetrij.GameControllerBase;
+import com.snust.tetrij.GameScene.GameControllerBase;
 
-import static com.snust.tetrij.GameControllerBase.difficulty;
-import static com.snust.tetrij.GameSceneMulti.MultiTetrisView.view;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
 
 public class MultiTetrisController extends GameControllerBase {
     public final static MultiTetrisController controller = new MultiTetrisController();
