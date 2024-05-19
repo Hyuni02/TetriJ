@@ -1,7 +1,9 @@
 package com.snust.tetrij.GameSceneSingle;
 
+import com.snust.tetrij.GameScene.TetrisBoardController;
 import com.snust.tetrij.GameSceneMulti.MultiTetrisModel;
 import com.snust.tetrij.GameSceneMulti.MultiTetrisView;
+import com.snust.tetrij.Tetris;
 import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -34,6 +36,9 @@ public class SingleTetrisView {
     private int xmax;
     private int ymax;
     private final int offset = 320;
+
+    public Text scoreText;
+    public Text level;
 
     private SingleTetrisView() {
         pane = new Pane();
@@ -132,5 +137,22 @@ public class SingleTetrisView {
                 }
             }
         });
+
+        Platform.runLater(
+                () -> {
+                    TetrominoBase next = TetrisBoardController.bag.get(1);
+                    for (int y = 0; y < 4; y++) {
+                        for (int x = 0; x < 4; x++) {
+                            Rectangle r = new Rectangle(XMAX + 10 + x * Tetris.SIZE + offset, 200 + y * Tetris.SIZE, Tetris.SIZE, Tetris.SIZE);
+                            if (next.mesh[y][x] == 0) {
+                                r.setFill(Color.WHITE);
+                            } else {
+                                r.setFill(TetrominoBase.getColor(TetrisBoardController.bag.get(1).name));
+                            }
+                            pane.getChildren().add(r);
+                        }
+                    }
+                }
+        );
     }
 }

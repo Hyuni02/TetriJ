@@ -1,9 +1,13 @@
 package com.snust.tetrij.GameSceneMulti;
 
+import com.snust.tetrij.Tetris;
 import com.snust.tetrij.tetromino.TetrominoBase;
+import javafx.application.Platform;
 
+import static com.snust.tetrij.Controller.GameOverController.switchToGameOver;
 import static com.snust.tetrij.GameSceneMulti.MultiBoardController.boardController;
 import static com.snust.tetrij.GameSceneMulti.MultiTetrisController.controller;
+import static com.snust.tetrij.GameSceneMulti.MultiTetrisView.view;;
 
 public class PlayerThread extends Thread {
     int player_num;
@@ -15,24 +19,63 @@ public class PlayerThread extends Thread {
         this.thread_name = thread_name;
     }
 
+
     @Override
     public void run() {
-        while (!this.isInterrupted()) {
+        boardController.generateTetromino(player_num);
+        boardController.generateTetromino(player_num);
+        view.color_mesh(player_num);
+
+        int speedLevel = 0;
+        while (!controller.isGameOver) {
             if (controller.isPaused)
                 continue;
 
-            boardController.generateTetromino(player_num);
-            boardController.generateTetromino(player_num);
-            MultiTetrisView.view.color_mesh(player_num);
-
+            //속도 조절
+            int finalFreq;
+            int boost = 30;
+            int freq = 300;
+            switch (controller.currentDifficulty) {
+                case EASY -> finalFreq = freq - speedLevel * (int) (boost * 0.8f);
+                case HARD -> finalFreq = freq - speedLevel * (int) (boost * 1.2f);
+                default -> finalFreq = freq - speedLevel * boost; //normal or item
+            }
             try {
-                this.sleep(1000);
+                this.sleep(finalFreq);
             } catch (InterruptedException e) {
 
             }
+
+            //점수 증가
+            if (speedLevel == 0)
+                controller.score++;
+            else if (speedLevel == 1)
+                controller.score += 2;
+            else if (speedLevel == 2)
+                controller.score += 3;
+
+            //속도조절
+            if(controller.linesNo <= 5){
+                speedLevel = 0;
+            }
+            else if(controller.linesNo <= 10){
+                speedLevel = 1;
+            }
+            else {
+                speedLevel = 2;
+            }
+
+            //한칸 드랍하고 색칠
             boardController.softDrop((TetrominoBase) MultiTetrisModel.model.bags[player_num].get(0), player_num);
+            view.color_mesh(player_num);
 
-
+            if (Tetris.top >= Tetris.HEIGHT - 1) {
+                controller.isGameOver = true;
+            }
         }
+        this.interrupt();
+        Platform.runLater(()-> {
+            switchToGameOver(controller.score, controller.currentDifficulty);
+        });
     }
 }

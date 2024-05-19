@@ -123,12 +123,10 @@ public class MultiBoardController {
             tb.update_mesh(player);
             eraseLine(player);
             model.bags[player].remove(0);
-            model.bags[player].remove(0);
             generateTetromino(player);
             return;
         }
         tb.update_mesh(player);
-
     }
 
     /**

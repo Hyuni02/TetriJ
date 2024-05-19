@@ -233,7 +233,7 @@ public class Tetris extends Application {
     @FXML
     public static void GameOver(Stage stage, difficulty dif){
         Platform.runLater(()-> {
-            switchToGameOver(score, dif);
+            //switchToGameOver(score, dif);
         });
     }
 
