@@ -1,8 +1,7 @@
 package com.snust.tetrij.tetromino;
 
-import com.snust.tetrij.GameScene.GameSceneSingle.Control.TetrisBoardController;
+import com.snust.tetrij.GameScene.GameSceneSingle.SingleBoardController;
 import com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel;
-import com.snust.tetrij.Tetris;
 import javafx.scene.paint.Color;
 
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
@@ -111,7 +110,7 @@ public class TetrominoBase {
                     return Color.BLACK;
                 }
                 case 'L' -> {
-                    return getColor(TetrisBoardController.bag.get(0).name);
+                    return getColor(SingleBoardController.bag.get(0).name);
                 }
                 case 'B' -> {
                     return Color.LIGHTGREY;
@@ -154,7 +153,7 @@ public class TetrominoBase {
                     return Color.BLACK;
                 }
                 case 'L' -> {
-                    return getColor(TetrisBoardController.bag.get(0).name);
+                    return getColor(SingleBoardController.bag.get(0).name);
                 }
                 case 'B' -> {
                     return Color.LIGHTGREY;

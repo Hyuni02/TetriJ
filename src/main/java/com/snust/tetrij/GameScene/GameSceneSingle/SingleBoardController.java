@@ -1,7 +1,6 @@
-package com.snust.tetrij.GameScene.GameSceneSingle.Control;
+package com.snust.tetrij.GameScene.GameSceneSingle;
 
 import com.snust.tetrij.GameScene.GameControllerBase;
-import com.snust.tetrij.Tetris;
 import com.snust.tetrij.tetromino.*;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
@@ -16,10 +15,10 @@ import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s;
 
-public class TetrisBoardController {
+public class SingleBoardController {
     public static List<TetrominoBase> bag = new Vector<TetrominoBase>();
 
-    public TetrisBoardController() {
+    public SingleBoardController() {
     }
 
     public static int RWS(GameControllerBase.difficulty dif) {
@@ -143,7 +142,7 @@ public class TetrisBoardController {
             if (tb.name == 'V') verticalExplosion(tb);
             if (tb.name == 'B') bigExplosion(tb);
 
-            TetrisBoardController.bag.remove(0);
+            SingleBoardController.bag.remove(0);
             generateTetromino();
             return;
         }
@@ -269,7 +268,7 @@ public class TetrisBoardController {
         if (tb.name == 'b') explosion(tb);
         if (tb.name == 'V') verticalExplosion(tb);
         if (tb.name == 'B') bigExplosion(tb);
-        TetrisBoardController.bag.remove(0);
+        SingleBoardController.bag.remove(0);
         generateTetromino();
     }
 

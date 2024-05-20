@@ -1,6 +1,6 @@
-package com.snust.tetrij.GameScene.GameSceneSingle.Control;
+package com.snust.tetrij.Controller;
 import com.snust.tetrij.GameManager;
-import com.snust.tetrij.Tetris;
+import com.snust.tetrij.SingleTetris;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
 
-public class PauseMenuController extends Tetris {
+public class PauseMenuController extends SingleTetris {
     private final static GameManager instance = GameManager.getInstance();
     @FXML
     public void exit_game() {

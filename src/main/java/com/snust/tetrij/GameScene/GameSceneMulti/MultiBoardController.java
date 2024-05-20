@@ -1,7 +1,6 @@
 package com.snust.tetrij.GameScene.GameSceneMulti;
 
 import com.snust.tetrij.GameScene.GameControllerBase;
-import com.snust.tetrij.Tetris;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import com.snust.tetrij.tetromino.*;

@@ -1,9 +1,6 @@
 package com.snust.tetrij.GameScene.GameSceneSingle;
 
 import com.snust.tetrij.GameScene.GameControllerBase;
-import com.snust.tetrij.GameScene.GameSceneSingle.Control.GameKeyController;
-import com.snust.tetrij.GameScene.GameSceneSingle.Control.TetrisBoardController;
-import com.snust.tetrij.Tetris;
 import javafx.stage.Stage;
 
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s;
@@ -24,12 +21,12 @@ public class SingleTetrisController extends GameControllerBase {
         Thread thread = null;
         Thread finalThread = thread;
 
-        GameKeyController.addListenerGameControl(view_s.scene);
+        SingleKeyController.addListenerGameControl(view_s.scene);
 
         Runnable task = new Runnable() {
             public void run() {
-                TetrisBoardController.generateTetromino();
-                TetrisBoardController.generateTetromino();
+                SingleBoardController.generateTetromino();
+                SingleBoardController.generateTetromino();
                 view_s.color_mesh();
 
                 int speedLevel = 0;
@@ -62,7 +59,7 @@ public class SingleTetrisController extends GameControllerBase {
                         e.printStackTrace();
                     }
 
-                    TetrisBoardController.softDrop(TetrisBoardController.bag.get(0)); //한칸 드랍
+                    SingleBoardController.softDrop(SingleBoardController.bag.get(0)); //한칸 드랍
                     view_s.color_mesh(); //색칠
 
                     //게임오바

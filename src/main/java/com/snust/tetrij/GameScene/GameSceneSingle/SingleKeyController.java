@@ -1,14 +1,7 @@
-package com.snust.tetrij.GameScene.GameSceneSingle.Control;
+package com.snust.tetrij.GameScene.GameSceneSingle;
 
-import com.snust.tetrij.Tetris;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -19,9 +12,8 @@ import java.nio.file.Paths;
 
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s;
-import static com.snust.tetrij.Tetris.*;
 
-public class GameKeyController {
+public class SingleKeyController {
     public static String rightKey = loadKeySetting("right");
     public static String leftKey = loadKeySetting("left");
     public static String rotateKey = loadKeySetting("rotate");
@@ -44,7 +36,7 @@ public class GameKeyController {
     public static void addListenerGameControl(Scene scene) {
         scene.setOnKeyPressed(e->{
             javafx.scene.input.KeyCode code = e.getCode();
-            if (TetrisBoardController.bag.isEmpty())
+            if (SingleBoardController.bag.isEmpty())
                 code = KeyCode.NONCONVERT;
 
             if(code == KeyCode.NONCONVERT);
@@ -53,23 +45,23 @@ public class GameKeyController {
                 controller_s.isPaused = !controller_s.isPaused;
             }
             else if(code == leftKeyCode){
-                TetrisBoardController.moveLeftOnKeyPress(TetrisBoardController.bag.get(0));
+                SingleBoardController.moveLeftOnKeyPress(SingleBoardController.bag.get(0));
                 view_s.color_mesh();
             }
             else if(code == rightKeyCode){
-                TetrisBoardController.moveRightOnKeyPress(TetrisBoardController.bag.get(0));
+                SingleBoardController.moveRightOnKeyPress(SingleBoardController.bag.get(0));
                 view_s.color_mesh();
             }
             else if(code == rotateKeyCode){
-                TetrisBoardController.rotateClockWise(TetrisBoardController.bag.get(0));
+                SingleBoardController.rotateClockWise(SingleBoardController.bag.get(0));
                 view_s.color_mesh();
             }
             else if(code == downKeyCode){
-                TetrisBoardController.softDrop(TetrisBoardController.bag.get(0));
+                SingleBoardController.softDrop(SingleBoardController.bag.get(0));
                 view_s.color_mesh();
             }
             else if(code == dropKeyCode){
-                TetrisBoardController.hardDrop(TetrisBoardController.bag.get(0));
+                SingleBoardController.hardDrop(SingleBoardController.bag.get(0));
                 view_s.color_mesh();
             }
         });

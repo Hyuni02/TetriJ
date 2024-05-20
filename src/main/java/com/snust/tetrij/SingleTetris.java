@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
 
-public class Tetris extends Application {
+public class SingleTetris extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         controller_s.runGame(stage, MultiTetrisController.difficulty.EASY);

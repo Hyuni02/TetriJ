@@ -1,7 +1,6 @@
 package com.snust.tetrij.Controller;
 
 import com.snust.tetrij.GameManager;
-import com.snust.tetrij.Tetris;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;

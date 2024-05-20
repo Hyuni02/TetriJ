@@ -1,7 +1,6 @@
 package com.snust.tetrij.GameScene.GameSceneSingle;
 
-import com.snust.tetrij.GameScene.GameSceneSingle.Control.TetrisBoardController;
-import com.snust.tetrij.Tetris;
+import com.snust.tetrij.SingleTetris;
 import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +15,6 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.w3c.dom.css.Rect;
 
 import java.util.Arrays;
 
@@ -78,7 +76,7 @@ public class SingleTetrisView {
                             // Pause 버튼을 눌렀을 때 퍼즈 메뉴 창 띄우기
                             try {
                                 controller_s.onPauseButton = true; // 퍼즈 버튼 눌러서 true (퍼즈 창이 떠 있는 상태)
-                                FXMLLoader fxmlLoader = new FXMLLoader(Tetris.class.getResource("pause_menu.fxml"));
+                                FXMLLoader fxmlLoader = new FXMLLoader(SingleTetris.class.getResource("pause_menu.fxml"));
                                 Parent root = fxmlLoader.load();
                                 Stage pauseStage = new Stage();
                                 pauseStage.setScene(new Scene(root));
@@ -180,14 +178,14 @@ public class SingleTetrisView {
         //다음블럭 그리기
         Platform.runLater(
                 () -> {
-                    TetrominoBase next = TetrisBoardController.bag.get(1);
+                    TetrominoBase next = SingleBoardController.bag.get(1);
                     for (int y = 0; y < 4; y++) {
                         for (int x = 0; x < 4; x++) {
                             Rectangle r = new Rectangle(200 + 10 + x * view_s.size + offset, 200 + y * view_s.size, view_s.size, view_s.size);
                             if (next.mesh[y][x] == 0) {
                                 r.setFill(Color.WHITE);
                             } else {
-                                r.setFill(TetrominoBase.getColor(TetrisBoardController.bag.get(1).name));
+                                r.setFill(TetrominoBase.getColor(SingleBoardController.bag.get(1).name));
                             }
                             pane.getChildren().add(r);
                         }
