@@ -18,8 +18,6 @@ module com.snust.tetrij {
     opens com.snust.tetrij.GameScene to javafx.fxml;
     exports com.snust.tetrij.Controller;
     opens com.snust.tetrij.Controller to javafx.fxml;
-    exports com.snust.tetrij.GameScene.GameSceneSingle.Control;
-    opens com.snust.tetrij.GameScene.GameSceneSingle.Control to javafx.fxml;
     exports com.snust.tetrij.GameScene.GameSceneSingle;
     opens com.snust.tetrij.GameScene.GameSceneSingle to javafx.fxml;
 
