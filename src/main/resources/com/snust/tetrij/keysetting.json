@@ -1,2 +1,1 @@
-{"drop":"SPACE","rotate":"UP","left":"LEFT","right":"RIGHT","down":"DOWN",
-  "p2Rotate":"E","p2Left":"B","p2Right":"G","p2Down":"R","p2Drop":"Z"}
+{"drop":"SPACE","rotate":"UP","left":"LEFT","p2Rotate":"W","p2Left":"A","right":"RIGHT","p2Right":"D","p2Down":"S","down":"DOWN","p2Drop":"SHIFT"}

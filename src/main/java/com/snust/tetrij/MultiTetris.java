@@ -5,6 +5,8 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import com.snust.tetrij.GameSceneMulti.MultiTetrisController;
+
+import static com.snust.tetrij.GameScene.GameKeyController.addListenerPause;
 import static com.snust.tetrij.GameSceneMulti.MultiTetrisController.controller;
 
 /**
@@ -13,10 +15,12 @@ import static com.snust.tetrij.GameSceneMulti.MultiTetrisController.controller;
 public class MultiTetris extends Application {
     @Override
     public void start(Stage stage) throws Exception {
+
         controller.runGame(MultiTetrisController.difficulty.EASY);
     }
 
     public static void main(String args) {
+
         launch();
     }
 }

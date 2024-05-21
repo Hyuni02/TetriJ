@@ -9,6 +9,10 @@
     -fx-background-color: #cecdcd;
 }
 
+.button:focused {
+    -fx-border-color: #ff0000;
+}
+
 .button:pressed {
     -fx-background-color: #929394;
 }
@@ -17,6 +21,12 @@
     -fx-font-family: "KenVector Future";
     -fx-text-fill: #ffffff;
     -fx-font-size: 15px;
+}
+
+.labelTitle {
+    -fx-font-family: "KenVector Future";
+    -fx-text-fill: #ffefba;
+    -fx-font-size: 16px;
 }
 
 .button .text {

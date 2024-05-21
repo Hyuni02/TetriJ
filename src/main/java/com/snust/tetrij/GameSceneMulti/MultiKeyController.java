@@ -2,8 +2,10 @@ package com.snust.tetrij.GameSceneMulti;
 
 import com.snust.tetrij.Tetris;
 import com.snust.tetrij.tetromino.TetrominoBase;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -15,6 +17,7 @@ import java.nio.file.Paths;
 import static com.snust.tetrij.GameSceneMulti.MultiTetrisModel.model;
 import static com.snust.tetrij.GameSceneMulti.MultiBoardController.boardController;
 import static com.snust.tetrij.GameSceneMulti.MultiTetrisView.view;
+import static com.snust.tetrij.Tetris.togglePause;
 
 
 public class MultiKeyController {
@@ -172,4 +175,5 @@ public class MultiKeyController {
             }
         });
     }
+
 }

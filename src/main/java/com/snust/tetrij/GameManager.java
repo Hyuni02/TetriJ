@@ -79,6 +79,11 @@ public class GameManager {
                     (int) stage.getHeight(),
                     (int) stage.getWidth());
         }
+        else if(fxml == "keysetting.fxml"){
+            ResolutionManager.setKeySettingMenuResolution(stage.getScene().getRoot(),
+                    (int) stage.getHeight(),
+                    (int) stage.getWidth());
+        }
         else {
             System.out.println("해상도 설정 오류 발생");
         }
