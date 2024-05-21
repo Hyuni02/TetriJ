@@ -6,8 +6,8 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #000000;" stylesheets="@score_board.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.Controller.ScoreBoardController">
   <children>
-    <Text fx:id="scoreBoardTitle" layoutX="111.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="titleText" text="score board" />
-    <Button fx:id="exitButton" layoutX="499.0" layoutY="315.0" mnemonicParsing="false" onAction="#switchToStartMenu" prefHeight="30.0" prefWidth="51.0" styleClass="button" text="Exit" />
+    <Text fx:id="scoreBoardTitle" layoutX="111.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="titleText" text="Score Board" />
+    <Button fx:id="exitButton" layoutX="488.0" layoutY="315.0" mnemonicParsing="false" onAction="#switchToStartMenu" prefHeight="30.0" prefWidth="76.0" styleClass="button" text="Exit" />
     <Label fx:id="score1" layoutX="140.0" layoutY="60.0" styleClass="labelText" textAlignment="CENTER" />
     <Label fx:id="score2" layoutX="140.0" layoutY="90.0" styleClass="labelText" textAlignment="CENTER" />
     <Label fx:id="score3" layoutX="140.0" layoutY="120.0" styleClass="labelText" textAlignment="CENTER" />

@@ -3,7 +3,6 @@ import com.snust.tetrij.GameManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,10 +12,10 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
 
 import java.io.*;
 
+import javafx.stage.Stage;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
@@ -27,8 +26,8 @@ import java.util.stream.Collectors;
 import static com.snust.tetrij.Controller.ResolutionManager.*;
 
 public class SettingController {
-    private Stage stage;
-    private Scene scene;
+    Stage stage;
+    Scene scene;
     GameManager instance = GameManager.getInstance();
     @FXML
     private ComboBox<String> sizeComboBox;
@@ -257,15 +256,11 @@ public class SettingController {
         });
 
     }
-    public void handleKeySetting(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("keysetting.fxml"));
-            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            currentStage.getScene().setRoot(root);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void switchToKeySetting() throws IOException {
+//            Parent root = FXMLLoader.load(getClass().getResource("keysetting.fxml"));
+//            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//            currentStage.getScene().setRoot(root);
+            instance.switchToScene("keysetting.fxml");
     }
 
         private void loadSettings() {

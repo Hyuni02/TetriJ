@@ -18,7 +18,7 @@
          </items>
      </ComboBox>
      <Label fx:id="text2" layoutX="203.0" layoutY="107.0" styleClass="text" text="Adjust game keys" textFill="WHITE" />
-     <Button fx:id="KeySettingButton" layoutX="203.0" layoutY="131.0" onAction="#handleKeySetting" prefHeight="30.0" prefWidth="162.0" text="Open Key Setting" />
+     <Button fx:id="KeySettingButton" layoutX="203.0" layoutY="131.0" onAction="#switchToKeySetting" prefHeight="30.0" prefWidth="162.0" text="Open Key Setting" />
      <Button fx:id="exitButton" layoutX="398.0" layoutY="326.0" onAction="#switchToStartMenu" prefHeight="30.0" prefWidth="171.0" styleClass="smallButton" text="Exit" />
      <Button fx:id="scoreBoardInitButton" layoutX="398.0" layoutY="185.0" onAction="#deleteScores" prefHeight="30.0" prefWidth="171.0" styleClass="smallButton" text="Initialize Scoreboard">
       <font>
