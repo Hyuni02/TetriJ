@@ -70,7 +70,7 @@ public class MainMenu extends Application {
         if(difficulty == "ITEM") {
             controller_s.runGame(instance.getPrimaryStage(), GameControllerBase.difficulty.ITEM);
         }
-        System.out.println("게임 시작");
+        System.out.println("싱글(" + difficulty + ")");
     }
 
     private void playSound(String fileName) {

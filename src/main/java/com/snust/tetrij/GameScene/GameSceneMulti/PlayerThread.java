@@ -6,7 +6,7 @@ import javafx.application.Platform;
 import static com.snust.tetrij.Controller.GameOverController.switchToGameOver;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiBoardController.boardController;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
-import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
 
 public class PlayerThread extends Thread {
     int player_num;
@@ -74,7 +74,8 @@ public class PlayerThread extends Thread {
         }
         this.interrupt();
         Platform.runLater(()-> {
-            switchToGameOver(controller.score, controller.currentDifficulty);
+//            switchToGameOver(controller.score, controller.currentDifficulty);
+            System.out.println("승자 표시 미구현");
         });
     }
 }

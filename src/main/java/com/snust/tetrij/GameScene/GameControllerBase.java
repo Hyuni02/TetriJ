@@ -4,7 +4,7 @@ package com.snust.tetrij.GameScene;
 public class GameControllerBase {
     public boolean isPaused;
     public boolean isGameOver;
-    public enum difficulty {EASY, NORMAL, HARD, ITEM};
+    public enum difficulty {EASY, NORMAL, HARD, ITEM, TIME};
     public difficulty currentDifficulty;
     public int score;
     public int linesNo;
