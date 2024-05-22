@@ -9,7 +9,7 @@ import java.io.FileReader;
 public class GameControllerBase {
     public boolean isPaused;
     public boolean isGameOver;
-    public enum difficulty {EASY, NORMAL, HARD, ITEM};
+    public enum difficulty {EASY, NORMAL, HARD, ITEM, TIME};
     public difficulty currentDifficulty;
     public int score;
     public int linesNo; //총 지운 줄 갯수

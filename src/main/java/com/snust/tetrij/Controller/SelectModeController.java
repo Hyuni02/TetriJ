@@ -128,8 +128,8 @@ public class SelectModeController {
     }
 
     @FXML
-    private void selectBattleTime() { // 수정 부탁
-        controller.runGame(MultiTetrisController.difficulty.ITEM);
+    private void selectBattleTime() {
+        controller.runGame(MultiTetrisController.difficulty.TIME);
         closeStage();
     }
 

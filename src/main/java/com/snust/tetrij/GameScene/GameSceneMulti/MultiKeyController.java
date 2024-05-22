@@ -129,7 +129,6 @@ public class MultiKeyController {
                 controller.isPaused = !controller.isPaused;
             }
             else if(code == leftKeyCode){
-                System.out.println("left");
                 boardController.moveLeftOnKeyPress((TetrominoBase)model.bags[0].get(0), 0);
                 view.color_mesh(0);
             }

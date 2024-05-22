@@ -24,6 +24,12 @@ public class MultiTetrisController extends GameControllerBase {
         PlayerThread p2 = new PlayerThread(1, "p2");
         p1.start();
         p2.start();
+
+        System.out.println("배틀("+difficulty.toString() + ")");
+        if(difficulty == GameControllerBase.difficulty.TIME){
+            TimerThread timer = new TimerThread();
+            timer.start();
+        }
 //      try {
 //            p1.join();
 //            p2.join();
