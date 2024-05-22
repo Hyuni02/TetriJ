@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.stream.Collectors;
 
 import static com.snust.tetrij.Controller.ResolutionManager.*;
 
@@ -52,10 +53,63 @@ public class SettingController {
         screenSize = sizeComboBox.getSelectionModel().getSelectedItem();
     }
     public void defaultSetting(){
+        try{
+            // 개발 환경
+            File file = new File("src/main/resources/com/snust/tetrij/setting.json");
+            try {
+                String content = new String(Files.readAllBytes(Paths.get(file.toURI())), "UTF-8");
+                JSONObject currentSettings = new JSONObject(content);
+                currentSettings.put("screenSize", "600x400");
+                currentSettings.put("isColorBlind", false);
+
+                try (FileWriter fileWriter = new FileWriter(file)) {
+                    fileWriter.write(currentSettings.toString());
+                    fileWriter.flush();
+                    loadSettings();
+                    colorBlindModeCheckBox.setSelected(isColorBlind);
+                    sizeComboBox.getSelectionModel().select(screenSize);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            file = new File("src/main/resources/com/snust/tetrij/keysetting.json");
+            try {
+                String content = new String(Files.readAllBytes(Paths.get(file.toURI())), "UTF-8");
+                JSONObject currentSettings = new JSONObject(content);
+                currentSettings.put("right", "RIGHT");
+                currentSettings.put("left", "LEFT");
+                currentSettings.put("rotate", "UP");
+                currentSettings.put("down", "DOWN");
+                currentSettings.put("drop", "SPACE");
+                //플레이어2
+                currentSettings.put("p2Right", "D");
+                currentSettings.put("p2Left", "A");
+                currentSettings.put("p2Rotate", "W");
+                currentSettings.put("p2Down", "S");
+                currentSettings.put("p2Drop", "SHIFT");
+
+                try (FileWriter fileWriter = new FileWriter(file)) {
+                    fileWriter.write(currentSettings.toString());
+                    fileWriter.flush();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        catch (Exception e){
+            // 빌드 환경
+            defaultSetting_build();
+        }
+    }
+    public void defaultSetting_build(){
         File file = new File("src/main/resources/com/snust/tetrij/setting.json");
         try {
-            String content = new String(Files.readAllBytes(Paths.get(file.toURI())), "UTF-8");
+            //셋팅 파일 디폴트로 바꾸기
+            InputStream is = getClass().getClassLoader().getResourceAsStream("com/snust/tetrij/setting.json");
+            String content = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
             JSONObject currentSettings = new JSONObject(content);
+
             currentSettings.put("screenSize", "600x400");
             currentSettings.put("isColorBlind", false);
 
@@ -70,10 +124,15 @@ public class SettingController {
             e.printStackTrace();
         }
 
+        //셋팅파일 디폴트로 바꾸기
         file = new File("src/main/resources/com/snust/tetrij/keysetting.json");
+
+        InputStream is = getClass().getClassLoader().getResourceAsStream("com/snust/tetrij/keysetting.json");
+
+        String content = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
+        JSONObject currentSettings = new JSONObject(content);
+
         try {
-            String content = new String(Files.readAllBytes(Paths.get(file.toURI())), "UTF-8");
-            JSONObject currentSettings = new JSONObject(content);
             currentSettings.put("right", "RIGHT");
             currentSettings.put("left", "LEFT");
             currentSettings.put("rotate", "UP");
@@ -93,8 +152,6 @@ public class SettingController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     public void colorBlindMode(){
@@ -106,7 +163,8 @@ public class SettingController {
         saveSettingsToFile();
     }
 
-    private void saveSettingsToFile() {   //json 파일로 저장
+    private void saveSettingsToFile() {
+        // 개발 환경에서 셋팅파일을 json 파일로 저장
         File file = new File("src/main/resources/com/snust/tetrij/setting.json");
         try {
             String content = new String(Files.readAllBytes(Paths.get(file.toURI())), "UTF-8");
@@ -126,8 +184,8 @@ public class SettingController {
     }
 
     private void saveSettingsToFile_build() {
+        // 빌드 환경에서 셋팅파일을 저장
         try {
-            // 클래스 로더를 사용하여 리소스 파일 읽기
             InputStream inputStream = this.getClass().getResourceAsStream("com/snust/tetrij/setting.json");
             if (inputStream == null) {
                 System.err.println("설정 파일을 찾을 수 없습니다.");
@@ -135,15 +193,13 @@ public class SettingController {
             }
             byte[] bytes = inputStream.readAllBytes();
 
-            // 파일 읽기
+            //읽기
             String content = new String(bytes, StandardCharsets.UTF_8);
             JSONObject currentSettings = new JSONObject(content);
-
-            // 설정 값 업데이트
+            //쓰기
             currentSettings.put("screenSize", screenSize);
             currentSettings.put("isColorBlind", isColorBlind);
 
-            // 파일 쓰기
             File file = new File(getClass().getResource("/com/snust/tetrij/setting.json").getFile());
             try (FileWriter fileWriter = new FileWriter(file)) {
                 fileWriter.write(currentSettings.toString());
@@ -207,37 +263,38 @@ public class SettingController {
             instance.switchToScene("keysetting.fxml");
     }
 
-    private void loadSettings() {    //셋팅 파일 읽어옴
-        try {
-            File file = new File("src/main/resources/com/snust/tetrij/setting.json");
-            FileReader fileReader = new FileReader(file);
-            StringBuilder stringBuilder = new StringBuilder();
-            int i;
-            while ((i = fileReader.read()) != -1) {
-                stringBuilder.append((char) i);
+        private void loadSettings() {
+        // 개발 환경에서 셋팅 파일 읽어옴
+            try {
+                File file = new File("src/main/resources/com/snust/tetrij/setting.json");
+                FileReader fileReader = new FileReader(file);
+                StringBuilder stringBuilder = new StringBuilder();
+                int i;
+                while ((i = fileReader.read()) != -1) {
+                    stringBuilder.append((char) i);
+                }
+                fileReader.close();
+
+                JSONObject setting = new JSONObject(stringBuilder.toString());
+                screenSize = setting.getString("screenSize");
+                isColorBlind = setting.getBoolean("isColorBlind");
+
+            } catch (Exception e) {
+    //            e.printStackTrace();
+                loadSettings_build();
             }
-            fileReader.close();
-
-            JSONObject setting = new JSONObject(stringBuilder.toString());
-            screenSize = setting.getString("screenSize");
-            isColorBlind = setting.getBoolean("isColorBlind");
-
-        } catch (Exception e) {
-//            e.printStackTrace();
-            loadSettings_build();
-        }
     }
 
     private static void loadSettings_build() {
+        // 빌드 환경에서 셋팅 파일 읽어옴
         try {
-            // 클래스 로더를 사용하여 리소스 파일 읽기
+            //읽기
             InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("com/snust/tetrij/setting.json");
             if (inputStream == null) {
-                System.err.println("설정 파일을 찾을 수 없습니다.");
+                System.err.println("셋팅파일이 없네요??");
                 return;
             }
 
-            // 입력 스트림을 문자열로 변환
             StringBuilder stringBuilder = new StringBuilder();
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
                 String line;
@@ -246,13 +303,12 @@ public class SettingController {
                 }
             }
 
-            // JSON 객체 생성
             JSONObject setting = new JSONObject(stringBuilder.toString());
             curResolution = setting.getString("screenSize");
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("No setting.json");
+            System.out.println("setting.json이 없네요??");
         }
     }
 }
