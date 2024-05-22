@@ -13,10 +13,8 @@ import javafx.scene.control.Button;
 import org.json.JSONTokener;
 
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -106,7 +104,8 @@ public class KeySettingController{
         setupKeyButton(p2DropButton, "p2Drop");
     }
 
-    private void loadKeySettings() {    //키셋팅 파일 읽어옴
+    private void loadKeySettings() {
+        // 개발 환경에서 키셋팅 파일 읽어옴
         try {
             File file = new File("src/main/resources/com/snust/tetrij/keysetting.json");            FileReader fileReader = new FileReader(file);
             StringBuilder stringBuilder = new StringBuilder();
@@ -129,9 +128,43 @@ public class KeySettingController{
             p2DownButton.setText(keySettings.getString("p2Down"));
             p2DropButton.setText(keySettings.getString("p2Drop"));
         } catch (Exception e) {
+            loadKeySettings_build();
+        }
+    }
+
+    private void loadKeySettings_build() {
+        // 빌드 환경에서 키셋팅 파일 읽어옴
+        try {
+            InputStream is = getClass().getClassLoader().getResourceAsStream("com/snust/tetrij/keysetting.json");
+            if (is == null) {
+                throw new FileNotFoundException("keysetting.json 파일을 찾을 수 없습니다.");
+            }
+            //읽기
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line).append("\n");
+            }
+            reader.close();
+
+            JSONObject keySettings = new JSONObject(stringBuilder.toString());
+            leftMoveKeyButton.setText(keySettings.getString("left"));
+            rightMoveKeyButton.setText(keySettings.getString("right"));
+            rotateMoveKeyButton.setText(keySettings.getString("rotate"));
+            downMoveKeyButton.setText(keySettings.getString("down"));
+            dropKeyButton.setText(keySettings.getString("drop"));
+
+            p2LeftButton.setText(keySettings.getString("p2Left"));
+            p2RightButton.setText(keySettings.getString("p2Right"));
+            p2RotateButton.setText(keySettings.getString("p2Rotate"));
+            p2DownButton.setText(keySettings.getString("p2Down"));
+            p2DropButton.setText(keySettings.getString("p2Drop"));
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     private void setupKeyButton(Button button, String direction) {  //키 입력 받을 준비함
         removeCurrentKeyEventHandler(); // 이전에 설정된 키 이벤트 핸들러를 제거
         currentKeyEventHandler = keyEvent -> handleKeyPressed(keyEvent, direction, button); //이벤트 핸들러에 추가시킴(한번에 2개씩 바뀌는 버그 방지용)
@@ -141,7 +174,7 @@ public class KeySettingController{
     private void handleKeyPressed(KeyEvent keyEvent, String direction, Button button) { //키 누른거 json형으로 변환
         String keyName = keyEvent.getCode().toString();
         JSONObject keySettings = new JSONObject();
-        if(keyName == "CONTROL"){
+        if(keyName == "CONTROL" || keyName == "ESCAPE" || keyName == "P"){
             javafx.application.Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("등록 불가능한 키");
@@ -176,13 +209,29 @@ public class KeySettingController{
 
     private JSONObject readKeySettingsFromFile() {  // json 저장되어있는것 가져오는 용도
         JSONObject keySettings = new JSONObject();
+        // 개발 환경에서 키셋팅 파일 가져옴
         try (FileReader reader = new FileReader("src/main/resources/com/snust/tetrij/keysetting.json")) {
             keySettings = new JSONObject(new JSONTokener(reader));
+        } catch (IOException e) {
+            readKeySettingsFromFile_build();
+        }
+        return keySettings;
+    }
+
+    private JSONObject readKeySettingsFromFile_build(){
+        // 빌드 환경에서 키셋팅 파일 가져옴
+        JSONObject keySettings = new JSONObject();
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream("com/snust/tetrij/keysetting.json")) {
+            if (is == null) {
+                throw new FileNotFoundException("keysetting.json 파일을 찾을 수 없습니다.");
+            }
+            keySettings = new JSONObject(new JSONTokener(new InputStreamReader(is, StandardCharsets.UTF_8)));
         } catch (IOException e) {
             e.printStackTrace();
         }
         return keySettings;
     }
+
     private boolean isKeyAlreadyRegistered(String direction, String keyName) {  //중복키 검사
         JSONObject keySettings = readKeySettingsFromFile();
 
