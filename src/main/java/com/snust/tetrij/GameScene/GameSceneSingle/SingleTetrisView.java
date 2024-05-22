@@ -77,36 +77,7 @@ public class SingleTetrisView {
             pauseButton.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; fx-font-size: 20px;");
             pauseButton.setFocusTraversable(false);
             pauseButton.setOnAction(
-                    e -> {
-                        if(!controller_s.onPauseButton){
-                            controller_s.isPaused = !controller_s.isPaused;
-                            if (controller_s.isPaused) {
-                                // Pause 버튼을 눌렀을 때 퍼즈 메뉴 창 띄우기
-                                try {
-                                    controller_s.onPauseButton = true; // 퍼즈 버튼 눌러서 true (퍼즈 창이 떠 있는 상태)
-                                    FXMLLoader fxmlLoader = new FXMLLoader(SingleTetris.class.getResource("pause_menu.fxml"));
-                                    Parent root = fxmlLoader.load();
-                                    Stage pauseStage = new Stage();
-                                    pauseStage.setScene(new Scene(root));
-                                    pauseStage.setTitle("Pause");
-                                    pauseStage.setOnCloseRequest(event -> {
-                                        // Pause 창이 닫힐 때 isPaused와 onPauseButton을 false로 변경
-                                        controller_s.isPaused = false; //퍼즈 해제
-                                        controller_s.onPauseButton = false; // 창 꺼짐
-                                    });
-                                    pauseStage.getScene().setOnKeyPressed(event -> {
-                                        if (event.getCode() == KeyCode.ESCAPE) {
-                                            pauseStage.close();
-                                            Platform.exit();
-                                        }
-                                    });
-                                    pauseStage.showAndWait();
-                                } catch (Exception exception) {
-                                    exception.printStackTrace();
-                                }
-                            }
-                        }
-                    }
+                    e -> controller_s.togglePause()
             );
             pane.getChildren().addAll(line, scoretext, lines, pauseButton);
             for (int y = 0; y < HEIGHT; y++) {
