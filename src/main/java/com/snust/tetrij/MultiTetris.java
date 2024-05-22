@@ -3,7 +3,8 @@ package com.snust.tetrij;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import com.snust.tetrij.GameSceneMulti.MultiTetrisController;
+import com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
 
 import static com.snust.tetrij.GameScene.GameKeyController.addListenerPause;
 import static com.snust.tetrij.GameSceneMulti.MultiTetrisController.controller;
