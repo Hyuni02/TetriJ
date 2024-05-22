@@ -78,7 +78,6 @@ public class TetrominoBase {
                 }
                 break;
         }
-
     }
 
     public static Color getColor(char name) {

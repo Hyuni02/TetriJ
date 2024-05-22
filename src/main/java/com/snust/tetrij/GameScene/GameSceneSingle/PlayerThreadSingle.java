@@ -43,13 +43,11 @@ public class PlayerThreadSingle extends Thread {
                 controller_s.score += 2;
             else if (speedLevel == 2)
                 controller_s.score += 3;
-            view_s.scoreText.setText("Score: " + Integer.toString(controller_s.score));
+            view_s.scoretext.setText("Score: " + Integer.toString(controller_s.score));
             view_s.level.setText("Lines: " + Integer.toString(controller_s.linesNo));
 
             //게임오바
-            if (controller_s.top > 19) {
-                break;
-            }
+
         }
     }
 }

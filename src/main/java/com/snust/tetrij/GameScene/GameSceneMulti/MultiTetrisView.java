@@ -30,8 +30,6 @@ public class MultiTetrisView {
     public final int WIDTH = 10;
     public final int  HEIGHT = 20;
     private final int size = 30;
-    private int xmax;
-    private int ymax;
     private final int offset = 320;
 
     private MultiTetrisView() {
@@ -39,34 +37,34 @@ public class MultiTetrisView {
         scene = new Scene(pane,1200, 800);
         stage = new Stage();
 
-        Line line = new Line(xmax+ offset,0,xmax + offset, ymax + + offset);
+        Line line = new Line(offset,0, offset, offset);
         Text scoretext = new Text("Score: ");
         scoretext.setStyle("-fx-font: 20 arial;");
         scoretext.setY(50);
-        scoretext.setX(xmax + 5 + offset);
+        scoretext.setX(5 + offset);
         Text lines = new Text("Lines: ");
         lines.setStyle("-fx-font: 20 arial;");
         lines.setY(100);
-        lines.setX(xmax + 5 + offset);
+        lines.setX(5 + offset);
         lines.setFill(Color.GREEN);
 
         Button pauseButton = new Button("Pause");
         pauseButton.setLayoutY(150);
-        pauseButton.setLayoutX(xmax + 5 + offset);
+        pauseButton.setLayoutX(5 + offset);
         pauseButton.setPrefWidth(50);
         pauseButton.setPrefHeight(25);
         pauseButton.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; fx-font-size: 20px;");
         pauseButton.setFocusTraversable(false);
 
-//        Text keyText = new Text("왼쪽 이동: "+ MultiTetrisController.controller.leftKeyCode+"\n오른쪽 이동: "+ MultiTetrisController.controller.rightKeyCode
-//                + "\n아래 이동: "+ MultiTetrisController.controller.downKeyCode + "\n회전: "+ MultiTetrisController.controller.rotateKeyCode
-//                + "\n드롭 버튼: "+ MultiTetrisController.controller.dropKeyCode);
-//        keyText.setStyle("-fx-font: 10 arial;");
-//        keyText.setY(300 + offset/5);
-//        keyText.setX(xmax + 5 + offset);
-//        pane.getChildren().addAll(scoretext, line, lines, pauseButton);
+        Text keyText = new Text("왼쪽 이동: "+ keyController.leftKeyCode+"\n오른쪽 이동: "+ keyController.rightKeyCode
+                + "\n아래 이동: "+ keyController.downKeyCode + "\n회전: "+ keyController.rotateKeyCode
+                + "\n드롭 버튼: "+ keyController.dropKeyCode);
+        keyText.setStyle("-fx-font: 10 arial;");
+        keyText.setY(300 + offset/5);
+        keyText.setX(5 + offset);
+        pane.getChildren().addAll(scoretext, line, lines, pauseButton);
 
-        Line line2 = new Line(810,0,810, ymax + offset);
+        Line line2 = new Line(810,0,810, offset);
         Text scoretext2 = new Text("Score: ");
         scoretext2.setStyle("-fx-font: 20 arial;");
         scoretext2.setY(50);
@@ -77,13 +75,13 @@ public class MultiTetrisView {
         lines2.setX(815);
         lines2.setFill(Color.GREEN);
 
-//        Button pauseButton2 = new Button("Pause");
-//        pauseButton2.setLayoutY(150);
-//        pauseButton2.setLayoutX(xmax + 5 + offset);
-//        pauseButton2.setPrefWidth(50);
-//        pauseButton2.setPrefHeight(25);
-//        pauseButton2.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; fx-font-size: 20px;");
-//        pauseButton2.setFocusTraversable(false);
+        Button pauseButton2 = new Button("Pause");
+        pauseButton2.setLayoutY(150);
+        pauseButton2.setLayoutX(5 + offset);
+        pauseButton2.setPrefWidth(50);
+        pauseButton2.setPrefHeight(25);
+        pauseButton2.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; fx-font-size: 20px;");
+        pauseButton2.setFocusTraversable(false);
         pane.getChildren().addAll(scoretext2, line2, lines2);
 
         for (StackPane[] sp: rect1)

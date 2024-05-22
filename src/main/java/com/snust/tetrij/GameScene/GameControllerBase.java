@@ -12,7 +12,7 @@ public class GameControllerBase {
     public enum difficulty {EASY, NORMAL, HARD, ITEM};
     public difficulty currentDifficulty;
     public int score;
-    public int linesNo;
+    public int linesNo; //총 지운 줄 갯수
     public int top;
     public int deleted_lines;
 
