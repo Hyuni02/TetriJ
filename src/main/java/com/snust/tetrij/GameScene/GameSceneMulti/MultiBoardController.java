@@ -5,6 +5,8 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import com.snust.tetrij.tetromino.*;
 
+import javax.xml.stream.events.EntityReference;
+
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
@@ -286,6 +288,7 @@ public class MultiBoardController {
         // 공격
         if (l.toArray().length > 1) {
             eraseMesh(tb, player);
+            System.out.println("공격 미구현");
 
             for (int i = 0; i < l.toArray().length; i++) {
                 int enemy = player % 2;
@@ -298,7 +301,6 @@ public class MultiBoardController {
                 }
             }
         }
-
         //리스트에 저장된 라인들을 지움
         Task<Void> eraseTask = new Task<Void>() {
             @Override
