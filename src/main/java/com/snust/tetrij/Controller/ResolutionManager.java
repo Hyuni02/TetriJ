@@ -5,7 +5,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import org.json.JSONObject;
 
@@ -51,6 +50,14 @@ public class ResolutionManager {
             setSettingMenu900x600(root);
         } else if (height == 800 && width == 1200) {
             setSettingMenu1200x800(root);
+        }
+    }
+
+    public static void setKeySettingMenuResolution(Parent root, int height, int width) {
+        if (height == 600 && width == 900) {
+            setKeySetting900x600(root);
+        } else if (height == 800 && width == 1200) {
+            setKeySetting1200x800(root);
         }
     }
 
@@ -191,6 +198,90 @@ public class ResolutionManager {
 
         setCheckBoxLayout(root, "#colorBlindModeCheckBox", 800.0, 170.0,settingWidth, settingHeight, "-fx-font-size: 13pt;");
     }
+
+    /*
+    키 설정 메뉴 해상도 설정
+    */
+
+    private static void setKeySetting900x600(Parent root) {
+        final int X1 = 170;
+        final int X2 = 470;
+        final int labelY = 54;
+        final int offset = 100;
+        final int buttonY = 84;
+        final String css = "-fx-font-size: 14pt;";
+        final int buttonWidth = 200;
+        final int buttonHeight =50;
+        // 플레이어 1 레이아웃
+        setLabelLayout(root, "#player1Label", X1, 10, "-fx-font-size: 18pt; -fx-text-fill: #ffefba; -fx-font-weight: bold;");
+        setLabelLayout(root, "#leftMoveButton1", X1, labelY, css);
+        setButtonLayout(root, "#leftMoveKeyButton", X1, buttonY, buttonWidth, buttonHeight, css);
+        setLabelLayout(root, "#rightMoveButton1", X1, labelY+offset, css);
+        setButtonLayout(root, "#rightMoveKeyButton", X1, buttonY+offset, buttonWidth, buttonHeight, css);
+        setLabelLayout(root, "#rotateButton1", X1, labelY+2*offset, css);
+        setButtonLayout(root, "#rotateMoveKeyButton", X1, buttonY+2*offset, buttonWidth, buttonHeight, css);
+        setLabelLayout(root, "#downMoveButton1", X1, labelY+3*offset, css);
+        setButtonLayout(root, "#downMoveKeyButton", X1, buttonY+3*offset, buttonWidth, buttonHeight, css);
+        setLabelLayout(root, "#dropButton1", X1, labelY+4*offset, css);
+        setButtonLayout(root, "#dropKeyButton", X1, buttonY+4*offset, buttonWidth, buttonHeight, css);
+
+        // 플레이어 2 레이아웃
+        setLabelLayout(root, "#player2Label", X2, 10, "-fx-font-size: 18pt; -fx-text-fill: #ffefba; -fx-font-weight: bold;");
+        setLabelLayout(root, "#leftMoveButton2", X2, labelY, css);
+        setButtonLayout(root, "#p2LeftButton", X2, buttonY, buttonWidth, buttonHeight, css);
+        setLabelLayout(root, "#rightMoveButton2", X2, labelY+offset, css);
+        setButtonLayout(root, "#p2RightButton", X2, buttonY+offset, buttonWidth, buttonHeight, css);
+        setLabelLayout(root, "#rotateButton2", X2, labelY+2*offset, css);
+        setButtonLayout(root, "#p2RotateButton", X2, buttonY+2*offset, buttonWidth, buttonHeight, css);
+        setLabelLayout(root, "#downMoveButton2", X2, labelY+3*offset, css);
+        setButtonLayout(root, "#p2DownButton", X2, buttonY+3*offset, buttonWidth, buttonHeight, css);
+        setLabelLayout(root, "#dropButton2", X2, labelY+4*offset, css);
+        setButtonLayout(root, "#p2DropButton", X2, buttonY+4*offset, buttonWidth, buttonHeight, css);
+
+        setButtonLayout(root, "#backButton", 740, buttonY+4*offset+20, 100, 20, css);
+    }
+
+
+    private static void setKeySetting1200x800(Parent root) {
+        final int X1 = 280;
+        final int X2 = 630;
+        final int labelY = 54;
+        final int offset = 135;
+        final int buttonY = 84;
+        final String css = "-fx-font-size: 18pt;";
+        final int buttonWidth = 250;
+        final int buttonHeight =60;
+        // 플레이어 1 레이아웃
+        setLabelLayout(root, "#player1Label", X1, 10, "-fx-font-size: 22pt; -fx-text-fill: #ffefba; -fx-font-weight: bold;");
+        setLabelLayout(root, "#leftMoveButton1", X1, labelY, css);
+        setButtonLayout(root, "#leftMoveKeyButton", X1, buttonY, buttonWidth, buttonHeight, css);
+        setLabelLayout(root, "#rightMoveButton1", X1, labelY+offset, css);
+        setButtonLayout(root, "#rightMoveKeyButton", X1, buttonY+offset, buttonWidth, buttonHeight, css);
+        setLabelLayout(root, "#rotateButton1", X1, labelY+2*offset, css);
+        setButtonLayout(root, "#rotateMoveKeyButton", X1, buttonY+2*offset, buttonWidth, buttonHeight, css);
+        setLabelLayout(root, "#downMoveButton1", X1, labelY+3*offset, css);
+        setButtonLayout(root, "#downMoveKeyButton", X1, buttonY+3*offset, buttonWidth, buttonHeight, css);
+        setLabelLayout(root, "#dropButton1", X1, labelY+4*offset, css);
+        setButtonLayout(root, "#dropKeyButton", X1, buttonY+4*offset, buttonWidth, buttonHeight, css);
+
+        // 플레이어 2 레이아웃
+        setLabelLayout(root, "#player2Label", X2, 10, "-fx-font-size: 22pt; -fx-text-fill: #ffefba; -fx-font-weight: bold;");
+        setLabelLayout(root, "#leftMoveButton2", X2, labelY, css);
+        setButtonLayout(root, "#p2LeftButton", X2, buttonY, buttonWidth, buttonHeight, css);
+        setLabelLayout(root, "#rightMoveButton2", X2, labelY+offset, css);
+        setButtonLayout(root, "#p2RightButton", X2, buttonY+offset, buttonWidth, buttonHeight, css);
+        setLabelLayout(root, "#rotateButton2", X2, labelY+2*offset, css);
+        setButtonLayout(root, "#p2RotateButton", X2, buttonY+2*offset, buttonWidth, buttonHeight, css);
+        setLabelLayout(root, "#downMoveButton2", X2, labelY+3*offset, css);
+        setButtonLayout(root, "#p2DownButton", X2, buttonY+3*offset, buttonWidth, buttonHeight, css);
+        setLabelLayout(root, "#dropButton2", X2, labelY+4*offset, css);
+        setButtonLayout(root, "#p2DropButton", X2, buttonY+4*offset, buttonWidth, buttonHeight, css);
+
+        setButtonLayout(root, "#backButton", 940, buttonY+4*offset+20, 150, 40, css);
+    }
+
+
+
     /*
     레이아웃 설정 관련 함수
      */
@@ -240,14 +331,6 @@ public class ResolutionManager {
             comboBox.setStyle(css);
         }
     }
-    private static void setCheckBoxLayout(Parent root, String id, double layoutX, double layoutY, String css) {
-        CheckBox checkBox = (CheckBox) root.lookup(id);
-        if (checkBox != null) {
-            checkBox.setLayoutX(layoutX);
-            checkBox.setLayoutY(layoutY);
-            checkBox.setStyle(css);
-        }
-    }
 
     private static void setCheckBoxLayout(Parent root, String id, double layoutX, double layoutY, double prefWidth, double prefHeight, String css) {
         CheckBox checkBox = (CheckBox) root.lookup(id);
@@ -258,10 +341,6 @@ public class ResolutionManager {
             checkBox.setPrefHeight(prefHeight);
             checkBox.setStyle(css);
         }
-    }
-
-    private static void getCurrentScoreTxt() {
-
     }
 
     private static void loadSettings() {    //셋팅 파일 읽어옴

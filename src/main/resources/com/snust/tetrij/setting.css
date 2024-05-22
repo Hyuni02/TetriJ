@@ -13,6 +13,10 @@
     -fx-background-color: #cccc40;
 }
 
+.button:focused {
+    -fx-border-color: #ff0000;
+}
+
 .button:pressed {
     -fx-background-color: #9a9a75;
 }

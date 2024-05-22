@@ -176,6 +176,7 @@ public class ScoreBoardController {
 
                 // 상위 10개 레이블 업데이트
                 List<Label> scoreLabels = List.of(score1, score2, score3, score4, score5, score6, score7, score8, score9, score10);
+
                 for (int i = 0; i < Math.min(10, filteredScores.size()); i++) {
                     String[] scoreData = filteredScores.get(i);
                     scoreLabels.get(i).setText(formatScore(scoreData));

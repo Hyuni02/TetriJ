@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 
 import com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
+import com.snust.tetrij.GameSceneMulti.MultiTetrisController;
 
 /**
  * 멀티모드의 wrapper 클래스
@@ -12,10 +13,12 @@ import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.co
 public class MultiTetris extends Application {
     @Override
     public void start(Stage stage) throws Exception {
+
         controller.runGame(MultiTetrisController.difficulty.EASY);
     }
 
     public static void main(String args) {
+
         launch();
     }
 }
