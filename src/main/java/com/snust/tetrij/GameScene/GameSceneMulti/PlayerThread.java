@@ -54,13 +54,11 @@ public class PlayerThread extends Thread {
                 controller.score += 3;
 
             //속도조절
-            if(controller.linesNo <= 5){
+            if (controller.linesNo <= 5) {
                 speedLevel = 0;
-            }
-            else if(controller.linesNo <= 10){
+            } else if (controller.linesNo <= 10) {
                 speedLevel = 1;
-            }
-            else {
+            } else {
                 speedLevel = 2;
             }
 
@@ -70,12 +68,14 @@ public class PlayerThread extends Thread {
 
             if (controller.top >= view.HEIGHT - 1) {
                 controller.isGameOver = true;
+                controller.loser = player_num;
             }
         }
         this.interrupt();
-        Platform.runLater(()-> {
-//            switchToGameOver(controller.score, controller.currentDifficulty);
-            System.out.println("승자 표시 미구현");
+        Platform.runLater(() -> {
+            if(thread_name == "p1") {
+                controller.ShowWinner();
+            }
         });
     }
 }

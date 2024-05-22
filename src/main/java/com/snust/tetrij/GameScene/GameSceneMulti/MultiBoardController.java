@@ -5,6 +5,8 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import com.snust.tetrij.tetromino.*;
 
+import javax.xml.stream.events.EntityReference;
+
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
@@ -284,7 +286,10 @@ public class MultiBoardController {
             return;
 
         int erased_lines_count = l.toArray().length;
-
+        System.out.println(erased_lines_count);
+        if (erased_lines_count > 1){
+            System.out.println("공격 미구현");
+        }
         //리스트에 저장된 라인들을 지움
         Task<Void> eraseTask = new Task<Void>() {
             @Override

@@ -25,11 +25,10 @@ public class TimerThread extends Thread{
 
             }
         }
+        if(!controller.isGameOver) {
+            controller.CheckWinner();
+        }
         controller.isGameOver = true;
         this.interrupt();
-        Platform.runLater(()->{
-            System.out.println("승자 표시 미구현");
-            System.out.println("메인메뉴로 돌아가기 미구현");
-        });
     }
 }
