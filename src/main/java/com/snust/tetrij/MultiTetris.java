@@ -5,7 +5,6 @@ import javafx.stage.Stage;
 
 import com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
-import com.snust.tetrij.GameSceneMulti.MultiTetrisController;
 
 /**
  * 멀티모드의 wrapper 클래스

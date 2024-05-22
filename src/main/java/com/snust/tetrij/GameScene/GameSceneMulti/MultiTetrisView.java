@@ -1,7 +1,7 @@
 package com.snust.tetrij.GameScene.GameSceneMulti;
 
 import com.snust.tetrij.GameManager;
-import com.snust.tetrij.Tetris;
+import com.snust.tetrij.MultiTetris;
 import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -17,14 +17,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiKeyController.keyController;
 import static com.snust.tetrij.Controller.ResolutionManager.curHeight;
 import static com.snust.tetrij.Controller.ResolutionManager.curWidth;
-import static com.snust.tetrij.GameScene.GameKeyController.addListenerPause;
-import static com.snust.tetrij.GameSceneMulti.MultiKeyController.keyController;
 
 public class MultiTetrisView {
     private final static GameManager instance = GameManager.getInstance();
@@ -40,7 +37,7 @@ public class MultiTetrisView {
 
     public final int WIDTH = 10;
     public final int  HEIGHT = 20;
-    private final int size = 30;
+    private int size;
     private int xmax;
     private int ymax;
     private int offset = 820;
@@ -75,7 +72,7 @@ public class MultiTetrisView {
         scene = new Scene(pane,1200, 800);
         pane.setStyle("-fx-background-color: #f3f3f3;");
         stage = new Stage();
-        addListenerPause(scene);
+        keyController.gameProc(scene);
 
         Button pauseButton = new Button("Pause");
         pauseButton.setLayoutY(150);
@@ -182,7 +179,7 @@ public class MultiTetrisView {
                 // Pause 버튼을 눌렀을 때 퍼즈 메뉴 창 띄우기
                 try {
                     onPauseButton = true; // 퍼즈 버튼 눌러서 true (퍼즈 창이 떠 있는 상태)
-                    FXMLLoader fxmlLoader = new FXMLLoader(Tetris.class.getResource("pause_menu.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(MultiTetris.class.getResource("pause_menu.fxml"));
                     Parent root = fxmlLoader.load();
                     Stage pauseStage = new Stage();
                     pauseStage.setScene(new Scene(root));
