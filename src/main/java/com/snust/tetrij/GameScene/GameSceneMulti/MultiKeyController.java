@@ -1,6 +1,5 @@
-package com.snust.tetrij.GameSceneMulti;
+package com.snust.tetrij.GameScene.GameSceneMulti;
 
-import com.snust.tetrij.Tetris;
 import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -12,9 +11,10 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static com.snust.tetrij.GameSceneMulti.MultiTetrisModel.model;
-import static com.snust.tetrij.GameSceneMulti.MultiBoardController.boardController;
-import static com.snust.tetrij.GameSceneMulti.MultiTetrisView.view;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiBoardController.boardController;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
 
 
 public class MultiKeyController {
@@ -126,10 +126,9 @@ public class MultiKeyController {
             if(code == KeyCode.NONCONVERT);
             else if(code == KeyCode.ESCAPE){
                 System.out.println("esc");
-                Tetris.game = !Tetris.game;
+                controller.isPaused = !controller.isPaused;
             }
             else if(code == leftKeyCode){
-                System.out.println("left");
                 boardController.moveLeftOnKeyPress((TetrominoBase)model.bags[0].get(0), 0);
                 view.color_mesh(0);
             }
@@ -172,4 +171,5 @@ public class MultiKeyController {
             }
         });
     }
+
 }

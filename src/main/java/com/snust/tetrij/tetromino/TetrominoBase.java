@@ -1,9 +1,11 @@
 package com.snust.tetrij.tetromino;
 
-import com.snust.tetrij.GameScene.TetrisBoardController;
-import com.snust.tetrij.GameSceneMulti.MultiTetrisModel;
-import com.snust.tetrij.Tetris;
+import com.snust.tetrij.GameScene.GameSceneSingle.SingleBoardController;
+import com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel;
 import javafx.scene.paint.Color;
+
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
 
 
 public class TetrominoBase {
@@ -44,15 +46,15 @@ public class TetrominoBase {
                             continue;
 
                         if (this.mesh[y][x] == 1)
-                            Tetris.MESH[y + pos[0]][x + pos[1]] = this.name;
+                            model_s.MESH[y + pos[0]][x + pos[1]] = this.name;
                         else if (this.mesh[y][x] == 2)
-                            Tetris.MESH[y + pos[0]][x + pos[1]] = 'L'; // item mode - Line clear
+                            model_s.MESH[y + pos[0]][x + pos[1]] = 'L'; // item mode - Line clear
                         else if (this.mesh[y][x] == 3)
-                            Tetris.MESH[y + pos[0]][x + pos[1]] = 'b'; // item mode - boom
+                            model_s.MESH[y + pos[0]][x + pos[1]] = 'b'; // item mode - boom
                         else if (this.mesh[y][x] == 4)
-                            Tetris.MESH[y + pos[0]][x + pos[1]] = 'V'; // item mode - Vertical Bomb
+                            model_s.MESH[y + pos[0]][x + pos[1]] = 'V'; // item mode - Vertical Bomb
                         else if (this.mesh[y][x] == 5)
-                            Tetris.MESH[y + pos[0]][x + pos[1]] = 'B'; // item mode - Big bomb
+                            model_s.MESH[y + pos[0]][x + pos[1]] = 'B'; // item mode - Big bomb
                     }
                 }
                 break;
@@ -80,7 +82,7 @@ public class TetrominoBase {
     }
 
     public static Color getColor(char name) {
-        if (!Tetris.color_weakness) {
+        if (!controller_s.color_weakness) {
             //기본모드
             switch (name) {
                 case 'i' -> {
@@ -108,7 +110,7 @@ public class TetrominoBase {
                     return Color.BLACK;
                 }
                 case 'L' -> {
-                    return getColor(TetrisBoardController.bag.get(0).name);
+                    return getColor(SingleBoardController.bag.get(0).name);
                 }
                 case 'B' -> {
                     return Color.LIGHTGREY;
@@ -151,7 +153,7 @@ public class TetrominoBase {
                     return Color.BLACK;
                 }
                 case 'L' -> {
-                    return getColor(TetrisBoardController.bag.get(0).name);
+                    return getColor(SingleBoardController.bag.get(0).name);
                 }
                 case 'B' -> {
                     return Color.LIGHTGREY;

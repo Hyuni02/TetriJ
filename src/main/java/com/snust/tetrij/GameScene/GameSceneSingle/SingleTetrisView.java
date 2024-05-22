@@ -1,9 +1,13 @@
-package com.snust.tetrij.GameSceneMulti;
+package com.snust.tetrij.GameScene.GameSceneSingle;
 
+import com.snust.tetrij.SingleTetris;
 import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -14,28 +18,37 @@ import javafx.stage.Stage;
 
 import java.util.Arrays;
 
-import static com.snust.tetrij.GameSceneMulti.MultiKeyController.keyController;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiKeyController.keyController;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
 
-public class MultiTetrisView {
-    public final static MultiTetrisView view = new MultiTetrisView();
+public class SingleTetrisView {
+    public final static SingleTetrisView view_s = new SingleTetrisView();
 
     public Scene scene;
     private static Pane pane;
+    public Stage stage;
 
-    private StackPane[][] rect1 = new StackPane[20][10];
-    private StackPane[][] rect2 = new StackPane[20][10];
-    private StackPane[][][] rect = new StackPane[][][] {rect1, rect2};
+    private StackPane[][] rect = new StackPane[20][10];
+    public Rectangle[][] rectMesh = new Rectangle[20][10];
 
-    private final int WIDTH = 10;
-    private final int  HEIGHT = 20;
+    public final int WIDTH = 10;
+    public final int  HEIGHT = 20;
     private final int size = 30;
     private int xmax;
     private int ymax;
     private final int offset = 320;
 
-    private MultiTetrisView() {
+    public Text scoreText;
+    public Text level;
+
+    private SingleTetrisView() {
         pane = new Pane();
         scene = new Scene(pane,1200, 800);
+        stage = new Stage();
+
+        scoreText = new Text();
+        level = new Text();
 
         Line line = new Line(xmax+ offset,0,xmax + offset, ymax + + offset);
         Text scoretext = new Text("Score: ");
@@ -55,6 +68,38 @@ public class MultiTetrisView {
         pauseButton.setPrefHeight(25);
         pauseButton.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; fx-font-size: 20px;");
         pauseButton.setFocusTraversable(false);
+        pauseButton.setOnAction(
+                e -> {
+                    if(!controller_s.onPauseButton){
+                        controller_s.isPaused = !controller_s.isPaused;
+                        if (controller_s.isPaused) {
+                            // Pause 버튼을 눌렀을 때 퍼즈 메뉴 창 띄우기
+                            try {
+                                controller_s.onPauseButton = true; // 퍼즈 버튼 눌러서 true (퍼즈 창이 떠 있는 상태)
+                                FXMLLoader fxmlLoader = new FXMLLoader(SingleTetris.class.getResource("pause_menu.fxml"));
+                                Parent root = fxmlLoader.load();
+                                Stage pauseStage = new Stage();
+                                pauseStage.setScene(new Scene(root));
+                                pauseStage.setTitle("Pause");
+                                pauseStage.setOnCloseRequest(event -> {
+                                    // Pause 창이 닫힐 때 isPaused와 onPauseButton을 false로 변경
+                                    controller_s.isPaused = false; //퍼즈 해제
+                                    controller_s.onPauseButton = false; // 창 꺼짐
+                                });
+                                pauseStage.getScene().setOnKeyPressed(event -> {
+                                    if (event.getCode() == KeyCode.ESCAPE) {
+                                        pauseStage.close();
+                                        Platform.exit();
+                                    }
+                                });
+                                pauseStage.showAndWait();
+                            } catch (Exception exception) {
+                                exception.printStackTrace();
+                            }
+                        }
+                    }
+                }
+        );
 
 //        Text keyText = new Text("왼쪽 이동: "+ MultiTetrisController.controller.leftKeyCode+"\n오른쪽 이동: "+ MultiTetrisController.controller.rightKeyCode
 //                + "\n아래 이동: "+ MultiTetrisController.controller.downKeyCode + "\n회전: "+ MultiTetrisController.controller.rotateKeyCode
@@ -84,14 +129,11 @@ public class MultiTetrisView {
 //        pauseButton2.setFocusTraversable(false);
         pane.getChildren().addAll(scoretext2, line2, lines2);
 
-        for (StackPane[] sp: rect1)
-            Arrays.fill(sp, new StackPane());
-
-        for (StackPane[] sp: rect2)
+        for (StackPane[] sp: rect)
             Arrays.fill(sp, new StackPane());
     }
 
-    public void setScene(Stage stage) {
+    public void setScene() {
         Platform.runLater(() ->  {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
@@ -105,25 +147,7 @@ public class MultiTetrisView {
                     sp.setLayoutY(y*size);
                     sp.getChildren().addAll(r, t);
                     pane.getChildren().add(sp);
-                    rect1[y][x] = sp;
-                }
-            }
-        });
-
-        Platform.runLater(() ->  {
-            for (int y = 0; y < HEIGHT; y++) {
-                for (int x = 0; x < WIDTH; x++) {
-                    Rectangle r = new Rectangle(x* size, y*size, size, size);
-                    r.setFill(Color.WHITE);
-                    r.setStrokeWidth(0.5);
-                    r.setStroke(Color.BLACK);
-                    Text t = new Text(" ");
-                    StackPane sp = new StackPane();
-                    sp.setLayoutX(x*size + 500);
-                    sp.setLayoutY(y*size);
-                    sp.getChildren().addAll(r, t);
-                    pane.getChildren().add(sp);
-                    rect2[y][x] = sp;
+                    rect[y][x] = sp;
                 }
             }
         });
@@ -134,14 +158,14 @@ public class MultiTetrisView {
         stage.show();
     }
 
-    public void color_mesh(int player) {
+    public void color_mesh() {
         Platform.runLater(() ->  {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
-                    Rectangle r = (Rectangle)rect[player][y][x].getChildren().get(0);
-                    r.setFill(TetrominoBase.getColor(MultiTetrisModel.model.MESH[player][y][x]));
-                    Text t = (Text)rect[player][y][x].getChildren().get(1);
-                    if (MultiTetrisModel.model.MESH[player][y][x] == 'L'){
+                    Rectangle r = (Rectangle)rect[y][x].getChildren().get(0);
+                    r.setFill(TetrominoBase.getColor(model_s.MESH[y][x]));
+                    Text t = (Text)rect[y][x].getChildren().get(1);
+                    if (model_s.MESH[y][x] == 'L'){
                         t.setText("L");
                     }
                     else{
@@ -150,5 +174,23 @@ public class MultiTetrisView {
                 }
             }
         });
+
+        //다음블럭 그리기
+        Platform.runLater(
+                () -> {
+                    TetrominoBase next = SingleBoardController.bag.get(1);
+                    for (int y = 0; y < 4; y++) {
+                        for (int x = 0; x < 4; x++) {
+                            Rectangle r = new Rectangle(200 + 10 + x * view_s.size + offset, 200 + y * view_s.size, view_s.size, view_s.size);
+                            if (next.mesh[y][x] == 0) {
+                                r.setFill(Color.WHITE);
+                            } else {
+                                r.setFill(TetrominoBase.getColor(SingleBoardController.bag.get(1).name));
+                            }
+                            pane.getChildren().add(r);
+                        }
+                    }
+                }
+        );
     }
 }

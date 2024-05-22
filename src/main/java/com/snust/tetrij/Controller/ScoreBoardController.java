@@ -1,7 +1,6 @@
 package com.snust.tetrij.Controller;
 
 import com.snust.tetrij.GameManager;
-import com.snust.tetrij.Tetris;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -16,6 +15,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import static com.snust.tetrij.Controller.GameOverController.scoreId;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
 
 public class ScoreBoardController {
     GameManager instance = GameManager.getInstance();
@@ -84,7 +84,7 @@ public class ScoreBoardController {
         });
 
         // 초기 스코어 로드
-        loadScores(Tetris.cur_dif.toString());
+        loadScores(controller_s.currentDifficulty.toString());
     }
     private void loadScores(String difficulty) {
         String filePath = "src/main/resources/com/snust/tetrij/score.txt";
@@ -176,6 +176,7 @@ public class ScoreBoardController {
 
                 // 상위 10개 레이블 업데이트
                 List<Label> scoreLabels = List.of(score1, score2, score3, score4, score5, score6, score7, score8, score9, score10);
+
                 for (int i = 0; i < Math.min(10, filteredScores.size()); i++) {
                     String[] scoreData = filteredScores.get(i);
                     scoreLabels.get(i).setText(formatScore(scoreData));

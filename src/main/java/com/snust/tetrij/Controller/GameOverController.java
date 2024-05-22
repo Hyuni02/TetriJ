@@ -1,7 +1,7 @@
 package com.snust.tetrij.Controller;
 
+import com.snust.tetrij.GameScene.GameControllerBase;
 import com.snust.tetrij.GameManager;
-import com.snust.tetrij.Tetris;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,7 +50,7 @@ public class GameOverController {
         stage.close(); // 종료하면 setOnHidden 이벤트 핸들러 작동
     }
 
-    public static void switchToGameOver(int score, Tetris.difficulty difficulty) {
+    public static void switchToGameOver(int score, GameControllerBase.difficulty difficulty) {
 
         resultScore = score;
         diff = difficulty.name();

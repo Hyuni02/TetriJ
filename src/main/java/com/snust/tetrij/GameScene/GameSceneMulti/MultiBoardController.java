@@ -1,12 +1,15 @@
-package com.snust.tetrij.GameSceneMulti;
+package com.snust.tetrij.GameScene.GameSceneMulti;
 
-import com.snust.tetrij.Tetris;
+import com.snust.tetrij.GameScene.GameControllerBase;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import com.snust.tetrij.tetromino.*;
 
-import static com.snust.tetrij.GameSceneMulti.MultiTetrisModel.model;
-import static com.snust.tetrij.Tetris.difficulty.EASY;
+import javax.xml.stream.events.EntityReference;
+
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,9 +21,9 @@ public class MultiBoardController {
 
     private MultiBoardController() { }
 
-    public int RWS(Tetris.difficulty dif){
+    public int RWS(GameControllerBase.difficulty dif){
         double[] fitnesses = null;
-        switch (EASY) {
+        switch (controller.currentDifficulty) {
             case EASY -> {
                 fitnesses = new double[] {1,1,1,1.2,1,1,1};  //easy난이도에서는 L블럭 20퍼센트 더 많이
             }
@@ -58,8 +61,8 @@ public class MultiBoardController {
 
     public void generateTetromino(int player) {
         TetrominoBase t = new TetrominoBase(false);
-        int idx = RWS(Tetris.cur_dif);
-        if (Tetris.cur_dif != Tetris.difficulty.ITEM) {
+        int idx = RWS(controller.currentDifficulty);
+        if (controller.currentDifficulty != GameControllerBase.difficulty.ITEM) {
             switch(idx) {
                 case 0 -> t = new Z(false);
                 case 1 -> t = new I(false);
@@ -71,8 +74,8 @@ public class MultiBoardController {
             }
         }
         else {
-            if (Tetris.deleted_lines <= 2) {
-                Tetris.deleted_lines = 0;
+            if (controller.deleted_lines <= 2) {
+                controller.deleted_lines = 0;
                 switch(idx) {
                     case 0 -> t = new Z(true);
                     case 1 -> t = new I(true);
@@ -123,12 +126,10 @@ public class MultiBoardController {
             tb.update_mesh(player);
             eraseLine(player);
             model.bags[player].remove(0);
-            model.bags[player].remove(0);
             generateTetromino(player);
             return;
         }
         tb.update_mesh(player);
-
     }
 
     /**
@@ -183,7 +184,7 @@ public class MultiBoardController {
                     continue;
                 }
                 //바닥에 닿음
-                if (y + tb.pos[0] + distance >= Tetris.HEIGHT) {
+                if (y + tb.pos[0] + distance >= view.HEIGHT) {
                     return false;
                 }
                 // 다른 블록과 충돌 - 무게추와 일반 블록 구분 필요
@@ -208,7 +209,7 @@ public class MultiBoardController {
                     continue; // 빈 공간은 확인하지 않음
                 }
                 // Tetromino의 블록이 밖으로 나가는지 확인
-                if (x + tb.pos[1] + distance < 0 || x + tb.pos[1] + distance >= Tetris.WIDTH) {
+                if (x + tb.pos[1] + distance < 0 || x + tb.pos[1] + distance >= view.WIDTH) {
                     return false;
                 }
                 // Tetromino의 블록이 측면으로 이동할 때 충돌 여부 확인
@@ -236,7 +237,7 @@ public class MultiBoardController {
             for (int x = 0; x < 4; x++) {
                 if (rotatedShape[y][x] == 1) {
                     // 회전 후의 위치가 보드를 벗어나는 경우
-                    if (y >= Tetris.HEIGHT || x >= Tetris.WIDTH) {
+                    if (y >= view.HEIGHT || x >= view.WIDTH) {
                         return null;
                     }
                     // 회전 후의 위치에 이미 다른 블록이 있는 경우
@@ -252,9 +253,9 @@ public class MultiBoardController {
     public void eraseMesh(TetrominoBase tb, int player) {
         for (int y = tb.pos[0]; y < tb.pos[0] + 4; y++) {
             for (int x = tb.pos[1]; x < tb.pos[1] + 4; x++) {
-                if (y >= Tetris.HEIGHT || y < 0)
+                if (y >= view.HEIGHT || y < 0)
                     continue;
-                if (x >= Tetris.WIDTH || x < 0)
+                if (x >= view.WIDTH || x < 0)
                     continue;
 
                 if (tb.mesh[y-tb.pos[0]][x-tb.pos[1]] != 0)
@@ -266,9 +267,9 @@ public class MultiBoardController {
     public void eraseLine(int player) {
         //리스트에 가득 찬 라인을 저장
         List<Integer> l = new Vector<>();
-        for (int y = 2; y < Tetris.HEIGHT; y++) {
+        for (int y = 2; y < view.HEIGHT; y++) {
             boolean is_full = true;
-            for (int x = 0; x < Tetris.WIDTH; x++) {
+            for (int x = 0; x < view.WIDTH; x++) {
                 if (model.MESH[player][y][x] == 'L') {
                     is_full = true;
                     break;
@@ -284,6 +285,11 @@ public class MultiBoardController {
         if (l.isEmpty())
             return;
 
+        int erased_lines_count = l.toArray().length;
+        System.out.println(erased_lines_count);
+        if (erased_lines_count > 1){
+            System.out.println("공격 미구현");
+        }
         //리스트에 저장된 라인들을 지움
         Task<Void> eraseTask = new Task<Void>() {
             @Override
@@ -297,7 +303,7 @@ public class MultiBoardController {
                         for (int l = line; l > 2; l--) {
                             model.MESH[player][l] = model.MESH[player][l-1];  //블록 당기기
                         }
-                        model.MESH[player][2] = new char[Tetris.WIDTH];
+                        model.MESH[player][2] = new char[view.WIDTH];
                         Arrays.fill(model.MESH[player][2], '0');
 
                     });
@@ -326,6 +332,6 @@ public class MultiBoardController {
 
 
     private void updateTop(TetrominoBase tb, int player) {
-        Tetris.top = Math.max(Tetris.HEIGHT - tb.pos[0], Tetris.top);
+        controller.top = 1;
     }
 }

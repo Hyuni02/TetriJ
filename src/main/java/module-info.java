@@ -7,6 +7,7 @@ module com.snust.tetrij {
     requires javafx.media;
     requires org.json;
     requires junit;
+    requires jdk.xml.dom;
 
 
     opens com.snust.tetrij to javafx.fxml;
@@ -17,5 +18,7 @@ module com.snust.tetrij {
     opens com.snust.tetrij.GameScene to javafx.fxml;
     exports com.snust.tetrij.Controller;
     opens com.snust.tetrij.Controller to javafx.fxml;
+    exports com.snust.tetrij.GameScene.GameSceneSingle;
+    opens com.snust.tetrij.GameScene.GameSceneSingle to javafx.fxml;
 
 }

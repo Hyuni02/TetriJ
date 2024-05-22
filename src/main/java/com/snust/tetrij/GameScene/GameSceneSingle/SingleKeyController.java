@@ -1,10 +1,7 @@
-package com.snust.tetrij.GameScene;
+package com.snust.tetrij.GameScene.GameSceneSingle;
 
-import com.snust.tetrij.Tetris;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -13,9 +10,10 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static com.snust.tetrij.Tetris.*;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s;
 
-public class GameKeyController {
+public class SingleKeyController {
     public static String rightKey = loadKeySetting("right");
     public static String leftKey = loadKeySetting("left");
     public static String rotateKey = loadKeySetting("rotate");
@@ -28,17 +26,7 @@ public class GameKeyController {
     public static KeyCode dropKeyCode = getKeyCodeFromString(dropKey);
 
     public static void addListenerPause(Scene scene) {
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() { // 키 이벤트
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.P) {
-                    togglePause(); // P 누르면 퍼즈
-                }
-                if (event.getCode() == KeyCode.ESCAPE) {
-                    System.exit(0); // ESC 누르면 창 닫기
-                }
-            }
-        });
+
     }
 
     /**
@@ -48,33 +36,33 @@ public class GameKeyController {
     public static void addListenerGameControl(Scene scene) {
         scene.setOnKeyPressed(e->{
             javafx.scene.input.KeyCode code = e.getCode();
-            if (TetrisBoardController.bag.isEmpty())
+            if (SingleBoardController.bag.isEmpty())
                 code = KeyCode.NONCONVERT;
 
             if(code == KeyCode.NONCONVERT);
             else if(code == KeyCode.ESCAPE){
                 System.out.println("esc");
-                Tetris.game = !Tetris.game;
+                controller_s.isPaused = !controller_s.isPaused;
             }
             else if(code == leftKeyCode){
-                TetrisBoardController.moveLeftOnKeyPress(TetrisBoardController.bag.get(0));
-                color_mesh(childrens_without_blocks);
+                SingleBoardController.moveLeftOnKeyPress(SingleBoardController.bag.get(0));
+                view_s.color_mesh();
             }
             else if(code == rightKeyCode){
-                TetrisBoardController.moveRightOnKeyPress(TetrisBoardController.bag.get(0));
-                color_mesh(childrens_without_blocks);
+                SingleBoardController.moveRightOnKeyPress(SingleBoardController.bag.get(0));
+                view_s.color_mesh();
             }
             else if(code == rotateKeyCode){
-                TetrisBoardController.rotateClockWise(TetrisBoardController.bag.get(0));
-                color_mesh(childrens_without_blocks);
+                SingleBoardController.rotateClockWise(SingleBoardController.bag.get(0));
+                view_s.color_mesh();
             }
             else if(code == downKeyCode){
-                TetrisBoardController.softDrop(TetrisBoardController.bag.get(0));
-                color_mesh(childrens_without_blocks);
+                SingleBoardController.softDrop(SingleBoardController.bag.get(0));
+                view_s.color_mesh();
             }
             else if(code == dropKeyCode){
-                TetrisBoardController.hardDrop(TetrisBoardController.bag.get(0));
-                color_mesh(childrens_without_blocks);
+                SingleBoardController.hardDrop(SingleBoardController.bag.get(0));
+                view_s.color_mesh();
             }
         });
 

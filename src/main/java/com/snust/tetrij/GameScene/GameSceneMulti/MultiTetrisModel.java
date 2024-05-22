@@ -1,4 +1,4 @@
-package com.snust.tetrij.GameSceneMulti;
+package com.snust.tetrij.GameScene.GameSceneMulti;
 
 import com.snust.tetrij.tetromino.TetrominoBase;
 
@@ -28,5 +28,4 @@ public class MultiTetrisModel {
         bags[0] = bag1;
         bags[1] = bag2;
     }
-
 }

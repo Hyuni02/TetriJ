@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--<AnchorPane xmlns="http://javafx.com/javafx"-->
+<!--            xmlns:fx="http://javafx.com/fxml"-->
+<!--            fx:controller="com.snust.tetrij.Keysetting"-->
+<!--            prefHeight="400.0" prefWidth="600.0">-->
+<!--</AnchorPane>-->
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #000000;" stylesheets="@keysetting.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.Controller.KeySettingController">
+     <Label fx:id="player2Label" layoutX="300.0" layoutY="4.0" styleClass="labelTitle" text="Player2" />
+     <Label fx:id="player1Label" layoutX="20.0" layoutY="4.0" styleClass="labelTitle" text="Player1" />
+     <Button fx:id="backButton" layoutX="486.0" layoutY="299.0" onAction="#switchToSetting" prefHeight="27.0" prefWidth="67.0" text="Back" />
+     <Label fx:id="leftMoveButton1" layoutX="20.0" layoutY="24.0" text="Left Move Button1" />
+     <Button fx:id="leftMoveKeyButton" layoutX="20.0" layoutY="53.333335876464844" onAction="#handleLeftKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+     <Label fx:id="rightMoveButton1" layoutX="20.0" layoutY="87.0" text="Right Move Button1" />
+     <Button fx:id="rightMoveKeyButton" layoutX="20.0" layoutY="116.33333587646484" onAction="#handleRightKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+     <Label fx:id="rotateButton1" layoutX="20.0" layoutY="150.0" text="Rotate Button1" />
+     <Button fx:id="rotateMoveKeyButton" layoutX="20.0" layoutY="179.3333282470703" onAction="#handleRotateKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+     <Label fx:id="downMoveButton1" layoutX="20.0" layoutY="212.0" text="Down Move Button1" />
+     <Button fx:id="downMoveKeyButton" layoutX="20.0" layoutY="241.3333282470703" onAction="#handleDownKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+     <Label fx:id="dropButton1" layoutX="24.0" layoutY="274.0" text="Drop Button1" />
+     <Button fx:id="dropKeyButton" layoutX="20.0" layoutY="303.3333435058594" onAction="#handleDropInput" text="블록 왼쪽 이동 버튼 설정" />
+     <Label fx:id="leftMoveButton2" layoutX="300.0" layoutY="24.0" text="Left Move Button2" />
+     <Button fx:id="p2LeftButton" layoutX="300.0" layoutY="53.333335876464844" onAction="#handleP2LeftKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+     <Label fx:id="rightMoveButton2" layoutX="300.0" layoutY="87.0" text="Right Move Button2" />
+     <Button fx:id="p2RightButton" layoutX="300.0" layoutY="116.33333587646484" onAction="#handleP2RightKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+     <Label fx:id="rotateButton2" layoutX="300.0" layoutY="150.0" text="Rotate Button2" />
+     <Button fx:id="p2RotateButton" layoutX="300.0" layoutY="179.3333282470703" onAction="#handleP2RotateKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+     <Label fx:id="downMoveButton2" layoutX="300.0" layoutY="212.0" text="Down Move Button2" />
+     <Button fx:id="p2DownButton" layoutX="300.0" layoutY="241.3333282470703" onAction="#handleP2DownKeyInput" text="블록 왼쪽 이동 버튼 설정" />
+     <Label fx:id="dropButton2" layoutX="300.0" layoutY="274.0" text="Drop Button2" />
+     <Button fx:id="p2DropButton" layoutX="300.0" layoutY="303.3333435058594" onAction="#handleP2DropInput" text="블록 왼쪽 이동 버튼 설정" />
+
+</AnchorPane>
