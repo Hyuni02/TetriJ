@@ -10,9 +10,7 @@ public class MultiTetrisController extends GameControllerBase {
     public final static MultiTetrisController controller = new MultiTetrisController();
 
     public int loser = 0;
-    PlayerThread p1;
-    PlayerThread p2;
-
+    public int[] tops = {0, 0};
     public MultiTetrisController() {
         super();
     }
@@ -25,8 +23,8 @@ public class MultiTetrisController extends GameControllerBase {
         view.setScene();
         currentDifficulty = difficulty;
 
-        p1 = new PlayerThread(0, "p1");
-        p2 = new PlayerThread(1, "p2");
+        PlayerThread p1 = new PlayerThread(0, "p1");
+        PlayerThread p2 = new PlayerThread(1, "p2");
         p1.start();
         p2.start();
 
@@ -58,5 +56,7 @@ public class MultiTetrisController extends GameControllerBase {
         if(loser == 2){
             System.out.printf("플레이어1 승리");
         }
+        
+        //todo 승리자 fxml 띄우기
     }
 }
