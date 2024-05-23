@@ -1,5 +1,6 @@
 package com.snust.tetrij.GameScene.GameSceneMulti;
 
+import com.snust.tetrij.GameManager;
 import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -15,9 +16,11 @@ import javafx.stage.Stage;
 import java.util.Arrays;
 
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiKeyController.keyController;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
 
 public class MultiTetrisView {
+    public final static GameManager instance = GameManager.getInstance();
     public final static MultiTetrisView view = new MultiTetrisView();
 
     public Scene scene;
@@ -34,7 +37,7 @@ public class MultiTetrisView {
     private final int offset = 320;
 
     private MultiTetrisView() {
-        view.initView();
+        initView();
     }
 
     public void initView() {
@@ -133,10 +136,10 @@ public class MultiTetrisView {
             }
         });
 
-        stage.setScene(scene);
-        stage.setTitle("TETRIS");
+        instance.getPrimaryStage().setScene(scene);
+        instance.getPrimaryStage().setTitle("TETRIS");
         keyController.gameProc(scene);
-        stage.show();
+        instance.getPrimaryStage().show();
     }
 
     public void color_mesh(int player) {
@@ -144,7 +147,7 @@ public class MultiTetrisView {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     Rectangle r = (Rectangle)rect[player][y][x].getChildren().get(0);
-                    r.setFill(TetrominoBase.getColor(MultiTetrisModel.model.MESH[player][y][x]));
+                    r.setFill(TetrominoBase.getColor(model.MESH[player][y][x]));
                     Text t = (Text)rect[player][y][x].getChildren().get(1);
                     if (model_s.MESH[y][x] == 'L'){
                         t.setText("L");

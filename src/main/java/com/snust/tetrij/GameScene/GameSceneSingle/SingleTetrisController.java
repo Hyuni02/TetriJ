@@ -9,10 +9,12 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s;
 
 public class SingleTetrisController extends GameControllerBase {
     public final static SingleTetrisController controller_s = new SingleTetrisController();
+    private PlayerThreadSingle playerThread;
 
     public SingleTetrisController() {
         super();
@@ -20,13 +22,25 @@ public class SingleTetrisController extends GameControllerBase {
 
 
     public void runGame(Stage stage, difficulty difficulty) {
+        view_s.initView();
+        model_s.initModel();
+        controller_s.initController();
+        SingleBoardController.bag.clear();
+
+        view_s.stage.setOnCloseRequest(
+                event -> {
+                    //게임 창이 닫힐 때 쓰레드를 종료시켜 완전하게 게임을 종료시킴
+                    controller_s.playerThread.interrupt();
+                }
+        );
+
         view_s.setScene();
         view_s.stage = stage;
         currentDifficulty = difficulty;
 
         SingleKeyController.addListenerGameControl(view_s.scene);
 
-        PlayerThreadSingle playerThread = new PlayerThreadSingle("Single Play");
+        playerThread = new PlayerThreadSingle("Single Play");
         playerThread.start();
     }
 
@@ -51,12 +65,6 @@ public class SingleTetrisController extends GameControllerBase {
                                     controller_s.onPauseButton = false;
                                 }
                         );
-                        pauseStage.getScene().setOnKeyPressed(event -> {
-                            if (event.getCode() == KeyCode.ESCAPE) {
-                                pauseStage.close();
-                                Platform.exit();
-                            }
-                        });
                         pauseStage.showAndWait();
                     } catch (Exception exception) {
                         exception.printStackTrace();
@@ -65,5 +73,16 @@ public class SingleTetrisController extends GameControllerBase {
             }
         });
 
+    }
+
+    public void initController() {
+        onPauseButton = false;
+        isPaused = false;
+        isGameOver = false;
+        score = 0;
+        linesNo = 0;
+        top = 0;
+        deleted_lines = 0;
+        isGameOver = false;
     }
 }

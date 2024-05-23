@@ -105,15 +105,10 @@ public class SingleBoardController {
 
         }
 
-        if (!canMoveDown(t, 0)) {
-            controller_s.isPaused = true;
-            return;
-        }
-
         bag.add(t);
 
         int start_pos_y = 0;
-        for (int[] y : t.mesh) {
+        for (int[] y: t.mesh) {
             boolean is_empty = true;
             for (int x : y) {
                 if (x != 0)
@@ -127,16 +122,14 @@ public class SingleBoardController {
         }
 
         t.pos[0] -= start_pos_y;
-        //여기 꼭 수정할것!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
-
 
     public static void softDrop(TetrominoBase tb) {
         eraseMesh(tb);
         tb.pos[0]++;
         if (!canMoveDown(tb, 1)) {
-            updateTop(tb);
             tb.update_mesh(-1);
+            updateTop();
             eraseLine();
             if (tb.name == 'b') explosion(tb);
             if (tb.name == 'V') verticalExplosion(tb);
@@ -262,8 +255,16 @@ public class SingleBoardController {
         }
 
         tb.pos[0] += dropHeight;
+        if (tb.name == 'w') {
+            for (int y = 0; y < view_s.HEIGHT; y++) {
+                for (int x = tb.pos[1]; x < 4 + tb.pos[1]; x++) {
+                    model_s.MESH[y][x] = '0';
+                }
+            }
+        }
+
         tb.update_mesh(-1);
-        updateTop(tb);
+        updateTop();
         eraseLine();
         if (tb.name == 'b') explosion(tb);
         if (tb.name == 'V') verticalExplosion(tb);
@@ -500,15 +501,16 @@ public class SingleBoardController {
     }
 
 
-    private static void updateTop(TetrominoBase tb) {
-        controller_s.top = 0;
+    private static void updateTop() {
+        controller_s.top = 19;
         for (char[] line : model_s.MESH) {
             for (char c : line) {
                 if (c != '0')
                     return;
             }
-            controller_s.top++;
+            controller_s.top--;
         }
+        System.out.println(controller_s.top);
     }
 }
 

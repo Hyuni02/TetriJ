@@ -106,21 +106,25 @@ public class SelectModeController {
     @FXML
     private void selectBattleEasy() {
         controller.runGame(MultiTetrisController.difficulty.EASY);
+        closeStage();
     }
 
     @FXML
     private void selectBattleNormal() {
         controller.runGame(MultiTetrisController.difficulty.NORMAL);
+        closeStage();
     }
 
     @FXML
     private void selectBattleHard() {
         controller.runGame(MultiTetrisController.difficulty.HARD);
+        closeStage();
     }
 
     @FXML
     private void selectBattleItem() {
         controller.runGame(MultiTetrisController.difficulty.ITEM);
+        closeStage();
     }
 
     private void closeStage() {

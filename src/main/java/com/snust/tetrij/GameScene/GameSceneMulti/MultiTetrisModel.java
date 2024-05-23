@@ -20,13 +20,20 @@ public class MultiTetrisModel {
     public List[] bags = new List[2];
     
     private MultiTetrisModel() {
+
+    }
+
+    public void initModel() {
         for (char[] row : MESH1)
             Arrays.fill(row, '0');
         for (char[] row : MESH2)
             Arrays.fill(row, '0');
 
+        bag1.clear();
+        bag2.clear();
+
         bags[0] = bag1;
         bags[1] = bag2;
-    }
 
+    }
 }

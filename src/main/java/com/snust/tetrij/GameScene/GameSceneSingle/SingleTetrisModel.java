@@ -14,9 +14,14 @@ public class SingleTetrisModel {
     public char [][] MESH = new char[HEIGHT][WIDTH];
 
     public List<TetrominoBase> bag = new Vector<TetrominoBase>();
+
     private SingleTetrisModel() {
-        for (char[] row : MESH)
-            Arrays.fill(row, '0');
+        initModel();
     }
 
+    public void initModel() {
+        for (char[] row : MESH)
+            Arrays.fill(row, '0');
+        bag.clear();
+    }
 }

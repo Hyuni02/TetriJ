@@ -1,5 +1,6 @@
 package com.snust.tetrij.GameScene.GameSceneSingle;
 
+import com.snust.tetrij.GameManager;
 import com.snust.tetrij.SingleTetris;
 import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.application.Platform;
@@ -23,6 +24,7 @@ import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
 
 public class SingleTetrisView {
+    private final static GameManager instance = GameManager.getInstance();
     public final static SingleTetrisView view_s = new SingleTetrisView();
 
     public Scene scene;
@@ -116,10 +118,10 @@ public class SingleTetrisView {
             }
         });
 
-        stage.setScene(scene);
-        stage.setTitle("TETRIS");
+        instance.getPrimaryStage().setScene(scene);
+        instance.getPrimaryStage().setTitle("TETRIS");
         keyController.gameProc(scene);
-        stage.show();
+        instance.getPrimaryStage().show();
     }
 
     public void color_mesh() {

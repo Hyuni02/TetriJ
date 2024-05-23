@@ -13,7 +13,7 @@ public class Weight extends TetrominoBase {
                 {1,1,1,1},
                 {0,0,0,0}
         };
-        super.pos = new int[] { 0, 3 };
+        super.pos = new int[] { -1, 3 };
 
     }
 }
