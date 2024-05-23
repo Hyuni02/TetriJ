@@ -65,7 +65,7 @@ public class PlayerThread extends Thread {
             //한칸 드랍하고 색칠
             boardController.softDrop((TetrominoBase) MultiTetrisModel.model.bags[player_num].get(0), player_num);
             view.color_mesh(player_num);
-
+            controller.tops[player_num] = controller.top;
             if (controller.top >= view.HEIGHT - 1) {
                 controller.isGameOver = true;
                 controller.loser = player_num;

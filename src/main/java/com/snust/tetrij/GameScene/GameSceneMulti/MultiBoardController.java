@@ -333,5 +333,6 @@ public class MultiBoardController {
 
     private void updateTop(TetrominoBase tb, int player) {
         controller.top = 1;
+        System.out.println(controller.tops[0] + " : " + controller.tops[1]);
     }
 }
