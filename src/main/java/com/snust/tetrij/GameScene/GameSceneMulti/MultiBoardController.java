@@ -342,6 +342,7 @@ public class MultiBoardController {
 
     private void updateTop(TetrominoBase tb, int player) {
         controller.top = 1;
+        System.out.println(controller.tops[0] + " : " + controller.tops[1]);
     }
 
     private void attack(int player, List<Integer> erased_lines, TetrominoBase tb) {
