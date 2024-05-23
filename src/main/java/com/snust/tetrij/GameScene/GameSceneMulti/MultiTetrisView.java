@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import java.util.Arrays;
 
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiKeyController.keyController;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
 
 public class MultiTetrisView {
     public final static MultiTetrisView view = new MultiTetrisView();
@@ -33,10 +34,22 @@ public class MultiTetrisView {
     private final int offset = 320;
 
     private MultiTetrisView() {
+        view.initView();
+    }
+
+    public void initView() {
         pane = new Pane();
         scene = new Scene(pane,1200, 800);
         stage = new Stage();
 
+        for (StackPane[] sp: rect1)
+            Arrays.fill(sp, new StackPane());
+
+        for (StackPane[] sp: rect2)
+            Arrays.fill(sp, new StackPane());
+    }
+
+    public void setScene() {
         Line line = new Line(offset,0, offset, offset);
         Text scoretext = new Text("Score: ");
         scoretext.setStyle("-fx-font: 20 arial;");
@@ -84,14 +97,6 @@ public class MultiTetrisView {
         pauseButton2.setFocusTraversable(false);
         pane.getChildren().addAll(scoretext2, line2, lines2);
 
-        for (StackPane[] sp: rect1)
-            Arrays.fill(sp, new StackPane());
-
-        for (StackPane[] sp: rect2)
-            Arrays.fill(sp, new StackPane());
-    }
-
-    public void setScene() {
         Platform.runLater(() ->  {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
@@ -141,8 +146,17 @@ public class MultiTetrisView {
                     Rectangle r = (Rectangle)rect[player][y][x].getChildren().get(0);
                     r.setFill(TetrominoBase.getColor(MultiTetrisModel.model.MESH[player][y][x]));
                     Text t = (Text)rect[player][y][x].getChildren().get(1);
-                    if (MultiTetrisModel.model.MESH[player][y][x] == 'L'){
+                    if (model_s.MESH[y][x] == 'L'){
                         t.setText("L");
+                    }
+                    else if (model_s.MESH[y][x] == 'b'){
+                        t.setText("b");
+                    }
+                    else if (model_s.MESH[y][x] == 'B') {
+                        t.setText("B");
+                    }
+                    else if (model_s.MESH[y][x] == 'V') {
+                        t.setText("V");
                     }
                     else{
                         t.setText(" ");

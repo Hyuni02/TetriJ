@@ -43,6 +43,10 @@ public class SingleTetrisView {
     public Text lines;
 
     private SingleTetrisView() {
+        initView();
+    }
+
+    public void initView() {
         pane = new Pane();
         scene = new Scene(pane,500, 800);
         stage = new Stage();
@@ -119,6 +123,7 @@ public class SingleTetrisView {
     }
 
     public void color_mesh() {
+        //현재블럭 그리기
         Platform.runLater(() ->  {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
@@ -127,6 +132,15 @@ public class SingleTetrisView {
                     Text t = (Text)rect[y][x].getChildren().get(1);
                     if (model_s.MESH[y][x] == 'L'){
                         t.setText("L");
+                    }
+                    else if (model_s.MESH[y][x] == 'b'){
+                        t.setText("b");
+                    }
+                    else if (model_s.MESH[y][x] == 'B') {
+                        t.setText("B");
+                    }
+                    else if (model_s.MESH[y][x] == 'V') {
+                        t.setText("V");
                     }
                     else{
                         t.setText(" ");
@@ -150,6 +164,15 @@ public class SingleTetrisView {
                             Text t = (Text)rect[y][x].getChildren().get(1);
                             if (model_s.MESH[y][x] == 'L'){
                                 t.setText("L");
+                            }
+                            else if (model_s.MESH[y][x] == 'b'){
+                                t.setText("b");
+                            }
+                            else if (model_s.MESH[y][x] == 'B') {
+                                t.setText("B");
+                            }
+                            else if (model_s.MESH[y][x] == 'V') {
+                                t.setText("V");
                             }
                             else{
                                 t.setText(" ");
