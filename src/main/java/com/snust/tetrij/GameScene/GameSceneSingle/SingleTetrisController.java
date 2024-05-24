@@ -9,10 +9,12 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s;
 
 public class SingleTetrisController extends GameControllerBase {
     public final static SingleTetrisController controller_s = new SingleTetrisController();
+    PlayerThreadSingle playerThread;
 
     public SingleTetrisController() {
         super();
@@ -20,13 +22,21 @@ public class SingleTetrisController extends GameControllerBase {
 
 
     public void runGame(Stage stage, difficulty difficulty) {
+        view_s.initView();
+        model_s.initModel();
+
         view_s.setScene();
         view_s.stage = stage;
         currentDifficulty = difficulty;
 
+        view_s.stage.setOnCloseRequest(event->{
+            controller_s.playerThread.interrupt();
+        });
+
+
         SingleKeyController.addListenerGameControl(view_s.scene);
 
-        PlayerThreadSingle playerThread = new PlayerThreadSingle("Single Play");
+        playerThread = new PlayerThreadSingle("Single Play");
         playerThread.start();
     }
 

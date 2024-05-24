@@ -15,6 +15,10 @@ public class SingleTetrisModel {
 
     public List<TetrominoBase> bag = new Vector<TetrominoBase>();
     private SingleTetrisModel() {
+        initModel();
+    }
+
+    public void initModel() {
         for (char[] row : MESH)
             Arrays.fill(row, '0');
     }

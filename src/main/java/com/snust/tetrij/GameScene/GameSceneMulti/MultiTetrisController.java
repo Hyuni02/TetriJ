@@ -2,6 +2,7 @@ package com.snust.tetrij.GameScene.GameSceneMulti;
 
 import com.snust.tetrij.GameScene.GameControllerBase;
 
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
 
 public class MultiTetrisController extends GameControllerBase {
@@ -13,6 +14,9 @@ public class MultiTetrisController extends GameControllerBase {
 
 
     public void runGame(difficulty difficulty) {
+        view.initView();
+        model.initModel();
+
         view.setScene();
         currentDifficulty = difficulty;
 

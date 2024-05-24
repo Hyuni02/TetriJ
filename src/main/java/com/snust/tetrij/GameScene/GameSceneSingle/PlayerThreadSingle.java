@@ -1,4 +1,7 @@
 package com.snust.tetrij.GameScene.GameSceneSingle;
+import javafx.application.Platform;
+
+import static com.snust.tetrij.Controller.GameOverController.switchToGameOver;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s;
 
@@ -15,6 +18,7 @@ public class PlayerThreadSingle extends Thread {
     public void run() {
         SingleBoardController.generateTetromino();
         SingleBoardController.generateTetromino();
+        SingleBoardController.bag.get(0).update_mesh(-1);
 
         int speedLevel = 0;
         while (!controller_s.isGameOver) {
@@ -46,8 +50,12 @@ public class PlayerThreadSingle extends Thread {
             view_s.scoretext.setText("Score: " + Integer.toString(controller_s.score));
             view_s.level.setText("Lines: " + Integer.toString(controller_s.linesNo));
 
-            //게임오바
-
+            if (controller_s.top >= 19)
+                controller_s.isGameOver = true;
         }
+
+        Platform.runLater(()->{
+            switchToGameOver(controller_s.score, controller_s.currentDifficulty);
+        });
     }
 }
