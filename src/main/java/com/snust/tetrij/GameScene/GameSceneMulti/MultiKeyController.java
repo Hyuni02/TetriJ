@@ -119,7 +119,11 @@ public class MultiKeyController {
 
     public void gameProc(Scene scene) {
         scene.setOnKeyPressed(e->{
+            if(MultiTetrisView.isPaused)
+                return;
+
             javafx.scene.input.KeyCode code = e.getCode();
+
             if (model.bags[0].isEmpty() || model.bags[1].isEmpty())
                 code = KeyCode.NONCONVERT;
 

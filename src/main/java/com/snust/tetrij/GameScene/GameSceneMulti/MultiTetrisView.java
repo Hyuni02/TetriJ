@@ -47,7 +47,7 @@ public class MultiTetrisView {
     private int panelOffset = 500;
 
     private int lineX = 810;
-    private boolean isPaused;
+    public static boolean isPaused;
     private boolean onPauseButton;
 
     private MultiTetrisView() {
@@ -94,6 +94,7 @@ public class MultiTetrisView {
         pauseButton.setPrefHeight(25);
         pauseButton.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; fx-font-size: 20px;");
         pauseButton.setFocusTraversable(false);
+        pauseButton.setOnAction(event -> togglePause());
 
         Line line = new Line(xmax+ offset,0,xmax + offset, ymax + offset);
         Text scoretext = new Text("Score: ");
@@ -136,6 +137,9 @@ public class MultiTetrisView {
 
 
         Platform.runLater(() ->  {
+            System.out.println(isPaused);
+            if(isPaused)
+                return;
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     Rectangle r = new Rectangle(x* size, y*size, size, size);
@@ -154,6 +158,8 @@ public class MultiTetrisView {
         });
 
         Platform.runLater(() ->  {
+            if(isPaused)
+                return;
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     Rectangle r = new Rectangle(x* size, y*size, size, size);
@@ -210,6 +216,8 @@ public class MultiTetrisView {
 
     public void color_mesh(int player) {
         Platform.runLater(() ->  {
+            if(isPaused)
+                return;
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     Rectangle r = (Rectangle)rect[player][y][x].getChildren().get(0);
