@@ -479,7 +479,7 @@ public class SingleBoardController {
 
     public static void highlightLine(int line) {
         for (int x = 0; x < view_s.WIDTH; x++) {
-            Rectangle r = view_s.rectMesh[line][x]; // rectMesh 배열에서 Rectangle 객체를 가져옴
+            Rectangle r = (Rectangle) view_s.rect[line][x].getChildren().get(0); // rectMesh 배열에서 Rectangle 객체를 가져옴
             if (r != null) {
                 r.setFill(Color.RED); // 색상을 빨간색으로 변경
             }
@@ -491,7 +491,7 @@ public class SingleBoardController {
     }
 
     public static void highlightBlock(int x, int y) {
-        Rectangle r = view_s.rectMesh[y][x];
+        Rectangle r = (Rectangle) view_s.rect[y][x].getChildren().get(0);
         if (r != null) {
             r.setFill(Color.RED);
         }

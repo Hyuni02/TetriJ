@@ -33,7 +33,7 @@ public class SingleTetrisView {
     private static Pane pane;
     public Stage stage;
 
-    private StackPane[][] rect = new StackPane[20][10];
+    public StackPane[][] rect = new StackPane[20][10];
     public Rectangle[][] rectMesh = new Rectangle[20][10];
     private StackPane[][] nextRect = new StackPane[4][4];
 
