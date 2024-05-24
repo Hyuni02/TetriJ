@@ -19,6 +19,8 @@ import javafx.stage.Stage;
 
 import java.util.Arrays;
 
+import static com.snust.tetrij.Controller.ResolutionManager.curHeight;
+import static com.snust.tetrij.Controller.ResolutionManager.curWidth;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiKeyController.keyController;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
@@ -37,8 +39,10 @@ public class SingleTetrisView {
 
     public final int WIDTH = 10;
     public final int  HEIGHT = 20;
-    private final int size = 30;
-    private final int offset = 320;
+    private int size;
+    private int offset;
+    private int lineX;
+    private int panelOffset;
 
     public Text scoretext;
     public Text level;
@@ -49,8 +53,27 @@ public class SingleTetrisView {
     }
 
     public void initView() {
+        if(curWidth == 600 && curHeight == 400) {
+            lineX = 410;
+            panelOffset = 200;
+            size = 17;
+
+        }
+        if(curWidth == 900 && curHeight == 600){
+            lineX = 610;
+            panelOffset =300;
+            size = 25;
+
+        }
+        if(curWidth == 1200 && curHeight == 800) {
+            lineX = 910;
+            panelOffset =500;
+            size = 30;
+
+        }
+
         pane = new Pane();
-        scene = new Scene(pane,500, 800);
+        scene = new Scene(pane,curWidth, curHeight);
         stage = new Stage();
 
         scoretext = new Text();
