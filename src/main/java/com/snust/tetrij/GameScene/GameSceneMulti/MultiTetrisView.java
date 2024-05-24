@@ -22,6 +22,7 @@ import java.util.Arrays;
 import static com.snust.tetrij.Controller.ResolutionManager.curHeight;
 import static com.snust.tetrij.Controller.ResolutionManager.curWidth;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiKeyController.keyController;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
 
 public class MultiTetrisView {
 
@@ -216,6 +217,15 @@ public class MultiTetrisView {
                     Text t = (Text)rect[player][y][x].getChildren().get(1);
                     if (MultiTetrisModel.model.MESH[player][y][x] == 'L'){
                         t.setText("L");
+                    }
+                    else if (MultiTetrisModel.model.MESH[player][y][x] == 'b'){
+                        t.setText("b");
+                    }
+                    else if (MultiTetrisModel.model.MESH[player][y][x] == 'V'){
+                        t.setText("V");
+                    }
+                    else if (MultiTetrisModel.model.MESH[player][y][x] == 'B'){
+                        t.setText("B");
                     }
                     else{
                         t.setText(" ");

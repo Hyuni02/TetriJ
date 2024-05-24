@@ -44,10 +44,10 @@ public class MultiTetrisController extends GameControllerBase {
 
     public void CheckWinner(){
         System.out.println("점수를 비교해 승리한 플레이어 판단");
-        if(tops[0]<tops[1]){
+        if(tops[0]>tops[1]){
             loser = 1;
         }
-        else if(tops[0]>tops[1]){
+        else if(tops[0]<tops[1]){
             loser = 0;
         }
         else{
