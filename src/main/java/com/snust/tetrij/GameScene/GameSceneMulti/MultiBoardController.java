@@ -11,6 +11,8 @@ import javafx.util.Duration;
 
 import javax.xml.stream.events.EntityReference;
 
+import javax.xml.stream.events.EntityReference;
+
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
