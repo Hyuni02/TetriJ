@@ -14,7 +14,7 @@ public class T extends TetrominoBase {
                 {0,0,1,0},
                 {0,0,0,0}
         };
-        super.pos = new int[] { 0, (int)(Math.random()*7) };
+        super.pos = new int[] { -1, 3 };
         if (gen_item) {
             genItem();
         }

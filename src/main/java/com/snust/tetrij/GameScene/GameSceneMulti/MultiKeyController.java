@@ -126,7 +126,7 @@ public class MultiKeyController {
             if(code == KeyCode.NONCONVERT);
             else if(code == KeyCode.ESCAPE){
                 System.out.println("esc");
-                controller.isPaused = !controller.isPaused;
+                controller.isGameOver = true;
             }
             else if(code == leftKeyCode){
                 System.out.println("left");

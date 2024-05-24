@@ -13,7 +13,7 @@ public class BigBomb extends TetrominoBase{
                 {1, 1, 1, 1},
                 {0, 1, 1, 0}
         };
-        super.pos = new int[]{0, (int) (Math.random() * 8)};
+        super.pos = new int[]{0, 3};
         genItem();
     }
 

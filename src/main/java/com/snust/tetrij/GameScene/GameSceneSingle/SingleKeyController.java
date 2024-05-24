@@ -30,10 +30,6 @@ public class SingleKeyController {
     public static KeyCode downKeyCode = getKeyCodeFromString(downKey);
     public static KeyCode dropKeyCode = getKeyCodeFromString(dropKey);
 
-    public static void addListenerPause(Scene scene) {
-
-    }
-
     /**
      * key event 처리
      * @param scene
@@ -47,7 +43,8 @@ public class SingleKeyController {
             if(code == KeyCode.NONCONVERT);
             else if(code == KeyCode.ESCAPE){
                 System.out.println("esc");
-                controller_s.isPaused = !controller_s.isPaused;
+                controller_s.isGameOver = true;
+
                 Platform.exit();
             }
             else if(code == leftKeyCode){
