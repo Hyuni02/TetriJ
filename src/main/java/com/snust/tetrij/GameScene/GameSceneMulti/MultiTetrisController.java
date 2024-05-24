@@ -23,8 +23,8 @@ public class MultiTetrisController extends GameControllerBase {
         view.setScene();
         currentDifficulty = difficulty;
 
-        p1 = new PlayerThread(0, "p1");
-        p2 = new PlayerThread(1, "p2");
+        PlayerThread p1 = new PlayerThread(0, "p1");
+        PlayerThread p2 = new PlayerThread(1, "p2");
         p1.start();
         p2.start();
 
