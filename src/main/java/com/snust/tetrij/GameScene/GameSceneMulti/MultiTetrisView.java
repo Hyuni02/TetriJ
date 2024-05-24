@@ -21,8 +21,10 @@ import java.util.Arrays;
 
 import static com.snust.tetrij.Controller.ResolutionManager.curHeight;
 import static com.snust.tetrij.Controller.ResolutionManager.curWidth;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiKeyController.keyController;
 
 public class MultiTetrisView {
+
     private final static GameManager instance = GameManager.getInstance();
     public final static MultiTetrisView view = new MultiTetrisView();
 
@@ -49,24 +51,27 @@ public class MultiTetrisView {
 
     private MultiTetrisView() {
 
-            if(curWidth == 600 && curHeight == 400) {
-                lineX = 410;
-                panelOffset = 200;
-                size = 17;
+    }
 
-            }
-            if(curWidth == 900 && curHeight == 600){
-                lineX = 610;
-                panelOffset =300;
-                size = 25;
+    public void initView() {
+        if(curWidth == 600 && curHeight == 400) {
+            lineX = 410;
+            panelOffset = 200;
+            size = 17;
 
-            }
-            if(curWidth == 1200 && curHeight == 800) {
-                lineX = 910;
-                panelOffset =500;
-                size = 30;
+        }
+        if(curWidth == 900 && curHeight == 600){
+            lineX = 610;
+            panelOffset =300;
+            size = 25;
 
-            }
+        }
+        if(curWidth == 1200 && curHeight == 800) {
+            lineX = 910;
+            panelOffset =500;
+            size = 30;
+
+        }
         pane = new Pane();
         scene = new Scene(pane,1200, 800);
         pane.setStyle("-fx-background-color: #f3f3f3;");

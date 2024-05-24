@@ -40,7 +40,6 @@ public class SingleTetrisView {
     public final int WIDTH = 10;
     public final int  HEIGHT = 20;
     private int size;
-    private int offset;
     private int lineX;
     private int panelOffset;
 
@@ -87,20 +86,20 @@ public class SingleTetrisView {
 
     public void setScene() {
         Platform.runLater(() ->  {
-            Line line = new Line(offset,0, offset, offset);
+            Line line = new Line(panelOffset,0, panelOffset, panelOffset);
             scoretext = new Text("Score: ");
             scoretext.setStyle("-fx-font: 20 arial;");
             scoretext.setY(50);
-            scoretext.setX(5 + offset);
+            scoretext.setX(5 + panelOffset);
             lines = new Text("Lines: ");
             lines.setStyle("-fx-font: 20 arial;");
             lines.setY(100);
-            lines.setX(5 + offset);
+            lines.setX(5 + panelOffset);
             lines.setFill(Color.GREEN);
 
             Button pauseButton = new Button("Pause");
             pauseButton.setLayoutY(150);
-            pauseButton.setLayoutX(5 + offset);
+            pauseButton.setLayoutX(5 + panelOffset);
             pauseButton.setPrefWidth(50);
             pauseButton.setPrefHeight(25);
             pauseButton.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; fx-font-size: 20px;");
@@ -126,13 +125,13 @@ public class SingleTetrisView {
             }
             for (int y = 0; y < 4; y++) {
                 for (int x = 0; x < 4; x++) {
-                    Rectangle r = new Rectangle(x * view_s.size + offset, 200 + y * view_s.size, view_s.size, view_s.size);
+                    Rectangle r = new Rectangle(x * view_s.size + panelOffset, 200 + y * view_s.size, view_s.size, view_s.size);
                     r.setFill(Color.WHITE);
                     r.setStrokeWidth(0.5);
                     r.setStroke(Color.BLACK);
                     Text t = new Text(" ");
                     StackPane sp = new StackPane();
-                    sp.setLayoutX(x * view_s.size + offset);
+                    sp.setLayoutX(x * view_s.size + panelOffset);
                     sp.setLayoutY(200 + y * view_s.size);
                     sp.getChildren().addAll(r, t);
                     pane.getChildren().add(sp);
