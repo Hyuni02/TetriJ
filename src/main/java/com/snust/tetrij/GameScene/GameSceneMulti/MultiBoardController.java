@@ -253,20 +253,20 @@ public class MultiBoardController {
                 model.MESH[player][y][x] = '0';
 
                 //리스트에 저장된 블록들을 지움
-                int finalX = x;
-                int finalY = y;
-                Task<Void> eraseTask = new Task<Void>() {
-                    @Override
-                    protected Void call() throws Exception {
-                        Platform.runLater(() -> {
-                            highlightBlock(finalX, finalY, player); //삭제되는 블록색 바꾸기
-                        });
-                        return null;
-                    }
-                };
-                Thread eraseThread = new Thread(eraseTask);
-                eraseThread.setDaemon(true);
-                eraseThread.start();
+//                int finalX = x;
+//                int finalY = y;
+//                Task<Void> eraseTask = new Task<Void>() {
+//                    @Override
+//                    protected Void call() throws Exception {
+//                        Platform.runLater(() -> {
+//                            highlightBlock(finalX, finalY, player); //삭제되는 블록색 바꾸기
+//                        });
+//                        return null;
+//                    }
+//                };
+//                Thread eraseThread = new Thread(eraseTask);
+//                eraseThread.setDaemon(true);
+//                eraseThread.start();
             }
         }
     }
@@ -279,29 +279,40 @@ public class MultiBoardController {
                     l.add(y);
                 }
             }
-
-            Task<Void> eraseTask = new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    for (int line : l) {
-                        Platform.runLater(() -> {
-                            highlightLine(line, player); //삭제되는 블록색 바꾸기
-                        });
-                        Platform.runLater(() -> {
-                            // 라인 지우기
-                            for (int l = line; l > 2; l--) {
-                                model.MESH[player][l] = model.MESH[player][l - 1];  //블록 당기기
-                            }
-                            model.MESH[player][2] = new char[view.WIDTH];
-                            Arrays.fill(model.MESH[player][2], '0');
-                        });
+            Platform.runLater(() -> {
+                for (int line : l) {
+                    // 라인 지우기
+                    for (int j = line; j > 2; j--) {
+                        model.MESH[player][j] = model.MESH[player][j - 1];  //블록 당기기
                     }
-                    return null;
+                    model.MESH[player][2] = new char[view.WIDTH];
+                    Arrays.fill(model.MESH[player][0], '0');
                 }
-            };
-            Thread eraseThread = new Thread(eraseTask);
-            eraseThread.setDaemon(true);
-            eraseThread.start();
+            });
+
+
+//            Task<Void> eraseTask = new Task<Void>() {
+//                @Override
+//                protected Void call() throws Exception {
+//                    for (int line : l) {
+//                        Platform.runLater(() -> {
+//                            highlightLine(line, player); //삭제되는 블록색 바꾸기
+//                        });
+//                        Platform.runLater(() -> {
+//                            // 라인 지우기
+//                            for (int l = line; l > 2; l--) {
+//                                model.MESH[player][l] = model.MESH[player][l - 1];  //블록 당기기
+//                            }
+//                            model.MESH[player][2] = new char[view.WIDTH];
+//                            Arrays.fill(model.MESH[player][0], '0');
+//                        });
+//                    }
+//                    return null;
+//                }
+//            };
+//            Thread eraseThread = new Thread(eraseTask);
+//            eraseThread.setDaemon(true);
+//            eraseThread.start();
         }
     }
 
@@ -313,20 +324,20 @@ public class MultiBoardController {
             model.MESH[player][y][right] = '0';
 
             //리스트에 저장된 블록들을 지움
-            int finalY = y;
-            Task<Void> eraseTask = new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    Platform.runLater(() -> {
-                        highlightBlock(left, finalY, player); //삭제되는 블록색 바꾸기
-                        highlightBlock(right, finalY, player);
-                    });
-                    return null;
-                }
-            };
-            Thread eraseThread = new Thread(eraseTask);
-            eraseThread.setDaemon(true);
-            eraseThread.start();
+//            int finalY = y;
+//            Task<Void> eraseTask = new Task<Void>() {
+//                @Override
+//                protected Void call() throws Exception {
+//                    Platform.runLater(() -> {
+//                        highlightBlock(left, finalY, player); //삭제되는 블록색 바꾸기
+//                        highlightBlock(right, finalY, player);
+//                    });
+//                    return null;
+//                }
+//            };
+//            Thread eraseThread = new Thread(eraseTask);
+//            eraseThread.setDaemon(true);
+//            eraseThread.start();
         }
     }
 
@@ -418,7 +429,7 @@ public class MultiBoardController {
                     model.MESH[player][j] = model.MESH[player][j - 1];  //블록 내리기
                 }
                 model.MESH[player][0] = new char[view.WIDTH];
-                Arrays.fill(model.MESH[player][2], '0');
+                Arrays.fill(model.MESH[player][0], '0');
             }
         });
 
@@ -436,7 +447,7 @@ public class MultiBoardController {
 //                            model.MESH[player][l] = model.MESH[player][l-1];  //블록 내리기
 //                        }
 //                        model.MESH[player][0] = new char[view.WIDTH];
-//                        Arrays.fill(model.MESH[player][2], '0');
+//                        Arrays.fill(model.MESH[player][0], '0');
 //                    });
 //                }
 //                return null;
