@@ -11,8 +11,8 @@ public class MultiTetrisModel {
 
     public int HEIGHT = 20;
     public int WIDTH = 10;
-    public char [][] MESH1 = new char[HEIGHT][WIDTH];
-    public char [][] MESH2 = new char[HEIGHT][WIDTH];
+    private char [][] MESH1 = new char[HEIGHT][WIDTH];
+    private char [][] MESH2 = new char[HEIGHT][WIDTH];
     public char [][][] MESH = new char[][][] {MESH1, MESH2};
     private char [][] attackBuffer1 = new char[4][WIDTH];
     private char [][] attackBuffer2 = new char[4][WIDTH];

@@ -503,14 +503,13 @@ public class SingleBoardController {
 
 
     private static void updateTop(TetrominoBase tb) {
-        System.out.println(controller_s.top);
-        controller_s.top = 20;
+        controller_s.top = 0;
         for (char[] line : model_s.MESH) {
             for (char c : line) {
                 if (c != '0')
                     return;
             }
-            controller_s.top--;
+            controller_s.top++;
         }
     }
 }
