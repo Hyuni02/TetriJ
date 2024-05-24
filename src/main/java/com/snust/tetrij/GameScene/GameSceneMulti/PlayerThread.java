@@ -21,12 +21,13 @@ public class PlayerThread extends Thread {
 
     @Override
     public void run() {
+
         boardController.generateTetromino(player_num);
         boardController.generateTetromino(player_num);
-        view.color_mesh(player_num);
 
         int speedLevel = 0;
         while (!controller.isGameOver) {
+//            System.out.println(" ");
             if (controller.isPaused)
                 continue;
 
@@ -39,6 +40,7 @@ public class PlayerThread extends Thread {
                 case HARD -> finalFreq = freq - speedLevel * (int) (boost * 1.2f);
                 default -> finalFreq = freq - speedLevel * boost; //normal or item
             }
+            view.color_mesh(player_num);
             try {
                 this.sleep(finalFreq);
             } catch (InterruptedException e) {
@@ -65,8 +67,7 @@ public class PlayerThread extends Thread {
             //한칸 드랍하고 색칠
             boardController.softDrop((TetrominoBase) MultiTetrisModel.model.bags[player_num].get(0), player_num);
             view.color_mesh(player_num);
-            controller.tops[player_num] = controller.top;
-            if (controller.top >= view.HEIGHT - 1) {
+            if (controller.tops[player_num] >= view.HEIGHT - 1) {
                 controller.isGameOver = true;
                 controller.loser = player_num;
             }
