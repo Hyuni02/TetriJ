@@ -30,7 +30,7 @@ public class SingleTetrisController extends GameControllerBase {
         currentDifficulty = difficulty;
 
         view_s.stage.setOnCloseRequest(event->{
-            controller_s.playerThread.interrupt();
+            controller_s.isGameOver = true;
         });
 
 

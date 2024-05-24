@@ -129,7 +129,7 @@ public class SingleTetrisView {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     Rectangle r = (Rectangle)rect[y][x].getChildren().get(0);
-                    r.setFill(TetrominoBase.getColor(model_s.MESH[y][x]));
+                    r.setFill(TetrominoBase.getColor(model_s.MESH[y][x], -1));
                     Text t = (Text)rect[y][x].getChildren().get(1);
                     if (model_s.MESH[y][x] == 'L'){
                         t.setText("L");
@@ -151,7 +151,7 @@ public class SingleTetrisView {
                             if (next.mesh[y][x] == 0) {
                                 r.setFill(Color.WHITE);
                             } else {
-                                r.setFill(TetrominoBase.getColor(SingleBoardController.bag.get(1).name));
+                                r.setFill(TetrominoBase.getColor(SingleBoardController.bag.get(1).name, -1));
                             }
                             Text t = (Text)rect[y][x].getChildren().get(1);
                             if (model_s.MESH[y][x] == 'L'){

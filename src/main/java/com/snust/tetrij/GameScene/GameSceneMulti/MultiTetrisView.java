@@ -146,7 +146,7 @@ public class MultiTetrisView {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     Rectangle r = (Rectangle)rect[player][y][x].getChildren().get(0);
-                    r.setFill(TetrominoBase.getColor(MultiTetrisModel.model.MESH[player][y][x]));
+                    r.setFill(TetrominoBase.getColor(MultiTetrisModel.model.MESH[player][y][x], player));
                     Text t = (Text)rect[player][y][x].getChildren().get(1);
                     if (MultiTetrisModel.model.MESH[player][y][x] == 'L'){
                         t.setText("L");
