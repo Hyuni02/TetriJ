@@ -34,7 +34,7 @@ public class MultiTetrisView {
 
     private StackPane[][] rect1 = new StackPane[20][10];
     private StackPane[][] rect2 = new StackPane[20][10];
-    private StackPane[][][] rect = new StackPane[][][] {rect1, rect2};
+    public StackPane[][][] rect = new StackPane[][][] {rect1, rect2};
 
     public final int WIDTH = 10;
     public final int HEIGHT = 20;

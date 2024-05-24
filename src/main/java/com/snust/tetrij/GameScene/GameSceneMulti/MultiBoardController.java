@@ -1,15 +1,20 @@
 package com.snust.tetrij.GameScene.GameSceneMulti;
 
 import com.snust.tetrij.GameScene.GameControllerBase;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import com.snust.tetrij.tetromino.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 import javax.xml.stream.events.EntityReference;
 
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s;
 
 import java.util.Arrays;
 import java.util.List;
@@ -307,7 +312,7 @@ public class MultiBoardController {
             protected Void call() throws Exception {
                 for (int line : l) {
                     Platform.runLater(() -> {
-                        // highlightLine(line, player); //삭제되는 블록색 바꾸기
+                        highlightLine(line, player); //삭제되는 블록색 바꾸기
                     });
                     Platform.runLater(() -> {
                         // 라인 지우기
@@ -327,9 +332,9 @@ public class MultiBoardController {
         eraseThread.start();
     }
 
-/*    public static void highlightLine(int line, int player){
-        for (int x = 0; x < Tetris.WIDTH; x++) {
-            Rectangle r = Tetris.rectMesh[line][x]; // rectMesh 배열에서 Rectangle 객체를 가져옴
+    public static void highlightLine(int line, int player){
+        for (int x = 0; x < view.WIDTH; x++) {
+            Rectangle r = (Rectangle) view.rect[player][line][x].getChildren().get(0); // rectMesh 배열에서 Rectangle 객체를 가져옴
             if (r != null) {
                 r.setFill(Color.RED); // 색상을 빨간색으로 변경
             }
@@ -338,7 +343,18 @@ public class MultiBoardController {
         // 0.3초동안 빨간색 유지
         PauseTransition wait = new PauseTransition(Duration.millis(300));
         wait.play();
-    }*/
+    }
+
+    public static void highlightBlock(int x, int y, int player){
+        Rectangle r = (Rectangle) view.rect[player][y][x].getChildren().get(0);
+        if (r != null) {
+            r.setFill(Color.RED);
+        }
+
+        // 0.3초동안 빨간색 유지
+        PauseTransition wait = new PauseTransition(Duration.millis(300));
+        wait.play();
+    }
 
     private void updateTop(TetrominoBase tb, int player) {
         controller.top = 1;
