@@ -50,7 +50,7 @@ public class PlayerThreadSingle extends Thread {
             view_s.scoretext.setText("Score: " + Integer.toString(controller_s.score));
             view_s.level.setText("Lines: " + Integer.toString(controller_s.linesNo));
 
-            if (controller_s.top >= 19)
+            if (controller_s.top >= view_s.HEIGHT - 1)
                 controller_s.isGameOver = true;
         }
 
