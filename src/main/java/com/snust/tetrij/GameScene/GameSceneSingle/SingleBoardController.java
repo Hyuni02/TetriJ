@@ -110,6 +110,7 @@ public class SingleBoardController {
             return;
         }
 
+        t.pos[1] = 3;
         bag.add(t);
 
         int start_pos_y = 0;
@@ -308,8 +309,10 @@ public class SingleBoardController {
                     return false;
                 }
                 if (model_s.MESH[y + tb.pos[0] + distance][x + tb.pos[1]] != '0') {
-                    if (tb.name == 'w')
+                    if (tb.name == 'w') {
+                        tb.can_move = false;
                         continue;
+                    }
                     else
                         return false;
                 }
@@ -405,31 +408,48 @@ public class SingleBoardController {
         if (l.isEmpty())
             return;
 
-        //리스트에 저장된 라인들을 지움
-        Task<Void> eraseTask = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                for (int line : l) {
-                    Platform.runLater(() -> {
-                        highlightLine(line); //삭제되는 블록색 바꾸기
-                    });
-                    Platform.runLater(() -> {
+        Platform.runLater(() -> {
+                    for (int line : l) {
                         // 라인 지우기
-                        for (int l = line; l > 2; l--) {
-                            model_s.MESH[l] = model_s.MESH[l - 1];  //블록 당기기
+                        for (int j = line; j > 2; j--) {
+                            model_s.MESH[j] = model_s.MESH[j - 1];  //블록 당기기
                         }
                         model_s.MESH[2] = new char[view_s.WIDTH];
                         Arrays.fill(model_s.MESH[2], '0');
                         controller_s.score += 50;
                         controller_s.linesNo++;
-                    });
-                }
-                return null;
-            }
-        };
-        Thread eraseThread = new Thread(eraseTask);
-        eraseThread.setDaemon(true);
-        eraseThread.start();
+                    }});
+
+        //리스트에 저장된 라인들을 지움
+//        Task<Void> eraseTask = new Task<Void>() {
+//            @Override
+//            protected Void call() throws Exception {
+//                for (int line : l) {
+//                    Platform.runLater(() -> {
+//                        highlightLine(line); //삭제되는 블록색 바꾸기
+//                    });
+//                    Platform.runLater(() -> {
+//                        // 라인 지우기
+//                        for (int l = line; l > 2; l--) {
+//                            model_s.MESH[l] = model_s.MESH[l - 1];  //블록 당기기
+//                        }
+//                        model_s.MESH[2] = new char[view_s.WIDTH];
+//                        Arrays.fill(model_s.MESH[2], '0');
+//                        controller_s.score += 50;
+//                        controller_s.linesNo++;
+//                    });
+//                }
+//                return null;
+//            }
+//        };
+//        Thread eraseThread = new Thread(eraseTask);
+//        eraseThread.setDaemon(true);
+//        eraseThread.start();
+//        try{
+//            eraseThread.join();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
     }
 
     /*
@@ -477,7 +497,7 @@ public class SingleBoardController {
 
     public static void highlightLine(int line) {
         for (int x = 0; x < view_s.WIDTH; x++) {
-            Rectangle r = view_s.rectMesh[line][x]; // rectMesh 배열에서 Rectangle 객체를 가져옴
+            Rectangle r = (Rectangle) view_s.rect[line][x].getChildren().get(0); // rectMesh 배열에서 Rectangle 객체를 가져옴
             if (r != null) {
                 r.setFill(Color.RED); // 색상을 빨간색으로 변경
             }
@@ -489,7 +509,7 @@ public class SingleBoardController {
     }
 
     public static void highlightBlock(int x, int y) {
-        Rectangle r = view_s.rectMesh[y][x];
+        Rectangle r = (Rectangle) view_s.rect[y][x].getChildren().get(0);
         if (r != null) {
             r.setFill(Color.RED);
         }
@@ -501,14 +521,21 @@ public class SingleBoardController {
 
 
     private static void updateTop(TetrominoBase tb) {
-        controller_s.top = 0;
+        boolean fin = false;
+        controller_s.top = 20;
         for (char[] line : model_s.MESH) {
-            for (char c : line) {
-                if (c != '0')
-                    return;
+            if(fin) {
+                break;
             }
-            controller_s.top++;
+            for (char c : line){
+                if (c != '0') {
+                    fin = true;
+                    break;
+                }
+            }
+            controller_s.top--;
         }
+        System.out.println(controller_s.top);
     }
 }
 

@@ -84,7 +84,8 @@ public class ScoreBoardController {
         });
 
         // 초기 스코어 로드
-        loadScores(controller_s.currentDifficulty.toString());
+        String initialDifficulty = controller_s.currentDifficulty != null ? controller_s.currentDifficulty.toString() : "EASY";
+        loadScores(initialDifficulty);
     }
     private void loadScores(String difficulty) {
         String filePath = "src/main/resources/com/snust/tetrij/score.txt";

@@ -3,6 +3,7 @@ package com.snust.tetrij.GameScene.GameSceneMulti;
 import com.snust.tetrij.GameScene.GameControllerBase;
 import javafx.application.Platform;
 
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
 
 public class MultiTetrisController extends GameControllerBase {
@@ -16,6 +17,9 @@ public class MultiTetrisController extends GameControllerBase {
 
 
     public void runGame(difficulty difficulty) {
+        view.initView();
+        model.initModel();
+
         view.setScene();
         currentDifficulty = difficulty;
 
@@ -49,8 +53,6 @@ public class MultiTetrisController extends GameControllerBase {
         else{
             loser = -1;
         }
-        loser = 1; // 임시
-
         ShowWinner();
     }
 
