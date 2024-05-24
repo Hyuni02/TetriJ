@@ -308,8 +308,10 @@ public class SingleBoardController {
                     return false;
                 }
                 if (model_s.MESH[y + tb.pos[0] + distance][x + tb.pos[1]] != '0') {
-                    if (tb.name == 'w')
+                    if (tb.name == 'w') {
+                        tb.can_move = false;
                         continue;
+                    }
                     else
                         return false;
                 }
@@ -477,7 +479,7 @@ public class SingleBoardController {
 
     public static void highlightLine(int line) {
         for (int x = 0; x < view_s.WIDTH; x++) {
-            Rectangle r = view_s.rectMesh[line][x]; // rectMesh 배열에서 Rectangle 객체를 가져옴
+            Rectangle r = (Rectangle) view_s.rect[line][x].getChildren().get(0); // rectMesh 배열에서 Rectangle 객체를 가져옴
             if (r != null) {
                 r.setFill(Color.RED); // 색상을 빨간색으로 변경
             }
@@ -489,7 +491,7 @@ public class SingleBoardController {
     }
 
     public static void highlightBlock(int x, int y) {
-        Rectangle r = view_s.rectMesh[y][x];
+        Rectangle r = (Rectangle) view_s.rect[y][x].getChildren().get(0);
         if (r != null) {
             r.setFill(Color.RED);
         }
@@ -501,13 +503,14 @@ public class SingleBoardController {
 
 
     private static void updateTop(TetrominoBase tb) {
-        controller_s.top = 0;
+        System.out.println(controller_s.top);
+        controller_s.top = 20;
         for (char[] line : model_s.MESH) {
             for (char c : line) {
                 if (c != '0')
                     return;
             }
-            controller_s.top++;
+            controller_s.top--;
         }
     }
 }

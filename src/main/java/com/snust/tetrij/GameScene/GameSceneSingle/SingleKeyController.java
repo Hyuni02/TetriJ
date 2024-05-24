@@ -1,7 +1,12 @@
 package com.snust.tetrij.GameScene.GameSceneSingle;
 
+import com.snust.tetrij.MultiTetris;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.stage.Stage;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -43,6 +48,7 @@ public class SingleKeyController {
             else if(code == KeyCode.ESCAPE){
                 System.out.println("esc");
                 controller_s.isPaused = !controller_s.isPaused;
+                Platform.exit();
             }
             else if(code == leftKeyCode){
                 SingleBoardController.moveLeftOnKeyPress(SingleBoardController.bag.get(0));
@@ -63,6 +69,9 @@ public class SingleKeyController {
             else if(code == dropKeyCode){
                 SingleBoardController.hardDrop(SingleBoardController.bag.get(0));
                 view_s.color_mesh();
+            }
+            else if (code == KeyCode.P) {
+                controller_s.togglePause();
             }
         });
 

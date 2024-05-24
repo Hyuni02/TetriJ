@@ -19,6 +19,8 @@ import javafx.stage.Stage;
 
 import java.util.Arrays;
 
+import static com.snust.tetrij.Controller.ResolutionManager.curHeight;
+import static com.snust.tetrij.Controller.ResolutionManager.curWidth;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiKeyController.keyController;
 import static com.snust.tetrij.Controller.ResolutionManager.curHeight;
 import static com.snust.tetrij.Controller.ResolutionManager.curWidth;
@@ -33,7 +35,7 @@ public class MultiTetrisView {
 
     private StackPane[][] rect1 = new StackPane[20][10];
     private StackPane[][] rect2 = new StackPane[20][10];
-    private StackPane[][][] rect = new StackPane[][][] {rect1, rect2};
+    public StackPane[][][] rect = new StackPane[][][] {rect1, rect2};
 
     public final int WIDTH = 10;
     public final int HEIGHT = 20;
@@ -50,30 +52,41 @@ public class MultiTetrisView {
 
     private MultiTetrisView() {
 
-            if(curWidth == 600 && curHeight == 400) {
-                lineX = 410;
-                panelOffset = 200;
-                size = 17;
+    }
 
-            }
-            if(curWidth == 900 && curHeight == 600){
-                lineX = 610;
-                panelOffset =300;
-                size = 25;
+    public void initView() {
+        if(curWidth == 600 && curHeight == 400) {
+            lineX = 410;
+            panelOffset = 200;
+            size = 17;
 
-            }
-            if(curWidth == 1200 && curHeight == 800) {
-                lineX = 910;
-                panelOffset =500;
-                size = 30;
+        }
+        if(curWidth == 900 && curHeight == 600){
+            lineX = 610;
+            panelOffset =300;
+            size = 25;
 
-            }
+        }
+        if(curWidth == 1200 && curHeight == 800) {
+            lineX = 910;
+            panelOffset =500;
+            size = 30;
+
+        }
         pane = new Pane();
         scene = new Scene(pane,1200, 800);
         pane.setStyle("-fx-background-color: #f3f3f3;");
         stage = new Stage();
         keyController.gameProc(scene);
 
+        for (StackPane[] sp: rect1)
+            Arrays.fill(sp, new StackPane());
+
+        for (StackPane[] sp: rect2)
+            Arrays.fill(sp, new StackPane());
+    }
+
+    public void setScene() {
         Button pauseButton = new Button("Pause");
         pauseButton.setLayoutY(150);
         pauseButton.setLayoutX(xmax + 5 + offset);
@@ -86,11 +99,11 @@ public class MultiTetrisView {
         Text scoretext = new Text("Score: ");
         scoretext.setStyle("-fx-font: 20 arial;");
         scoretext.setY(50);
-        scoretext.setX(xmax + 5 + offset);
+        scoretext.setX(5 + offset);
         Text lines = new Text("Lines: ");
         lines.setStyle("-fx-font: 20 arial;");
         lines.setY(100);
-        lines.setX(xmax + 5 + offset);
+        lines.setX(5 + offset);
         lines.setFill(Color.GREEN);
 
 //        Text keyText = new Text("왼쪽 이동: "+ MultiTetrisController.controller.leftKeyCode+"\n오른쪽 이동: "+ MultiTetrisController.controller.rightKeyCode
@@ -121,15 +134,6 @@ public class MultiTetrisView {
 //        pauseButton2.setFocusTraversable(false);
         pane.getChildren().addAll(scoretext2, pauseButton, line2, lines2);
 
-
-        for (StackPane[] sp: rect1)
-            Arrays.fill(sp, new StackPane());
-
-        for (StackPane[] sp: rect2)
-            Arrays.fill(sp, new StackPane());
-    }
-
-    public void setScene() {
         Platform.runLater(() ->  {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
@@ -208,7 +212,7 @@ public class MultiTetrisView {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     Rectangle r = (Rectangle)rect[player][y][x].getChildren().get(0);
-                    r.setFill(TetrominoBase.getColor(MultiTetrisModel.model.MESH[player][y][x]));
+                    r.setFill(TetrominoBase.getColor(MultiTetrisModel.model.MESH[player][y][x], player));
                     Text t = (Text)rect[player][y][x].getChildren().get(1);
                     if (MultiTetrisModel.model.MESH[player][y][x] == 'L'){
                         t.setText("L");

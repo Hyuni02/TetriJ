@@ -3,21 +3,23 @@ package com.snust.tetrij.GameScene.GameSceneMulti;
 import com.snust.tetrij.GameScene.GameControllerBase;
 import javafx.application.Platform;
 
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
 
 public class MultiTetrisController extends GameControllerBase {
     public final static MultiTetrisController controller = new MultiTetrisController();
 
     public int loser = 0;
-    PlayerThread p1;
-    PlayerThread p2;
-
+    public int[] tops = {0, 0};
     public MultiTetrisController() {
         super();
     }
 
 
     public void runGame(difficulty difficulty) {
+        view.initView();
+        model.initModel();
+
         view.setScene();
         currentDifficulty = difficulty;
 
@@ -41,18 +43,30 @@ public class MultiTetrisController extends GameControllerBase {
     }
 
     public void CheckWinner(){
-        System.out.println("점수를 비교해 승리한 플레이거 판단");
-        loser = 2; // 임시
-
+        System.out.println("점수를 비교해 승리한 플레이어 판단");
+        if(tops[0]<tops[1]){
+            loser = 1;
+        }
+        else if(tops[0]>tops[1]){
+            loser = 0;
+        }
+        else{
+            loser = -1;
+        }
         ShowWinner();
     }
 
     public void ShowWinner(){
-        if(loser == 1){
+        if(loser == 0){
             System.out.println("플레이어2 승리");
         }
-        if(loser == 2){
+        if(loser == 1){
             System.out.printf("플레이어1 승리");
         }
+        if(loser == -1){
+            System.out.println("무승부");
+        }
+        
+        //todo 승리자 fxml 띄우기
     }
 }
