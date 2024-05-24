@@ -6,8 +6,7 @@ import javafx.application.Platform;
 import static com.snust.tetrij.Controller.GameOverController.switchToGameOver;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiBoardController.boardController;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
-import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
-import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;;
 
 public class PlayerThread extends Thread {
     int player_num;
@@ -27,7 +26,6 @@ public class PlayerThread extends Thread {
 
         int speedLevel = 0;
         while (!controller.isGameOver) {
-            System.out.println(" ");
             if (controller.isPaused)
                 continue;
 
@@ -66,15 +64,14 @@ public class PlayerThread extends Thread {
                 speedLevel = 2;
             }
 
-            //한칸 드랍
-            boardController.softDrop((TetrominoBase) model.bags[player_num].get(0), player_num);
+            //한칸 드랍하고 색칠
+            boardController.softDrop((TetrominoBase) MultiTetrisModel.model.bags[player_num].get(0), player_num);
 
             if (controller.top >= view.HEIGHT - 1) {
                 controller.isGameOver = true;
             }
         }
         this.interrupt();
-
         Platform.runLater(()-> {
             switchToGameOver(controller.score, controller.currentDifficulty);
         });

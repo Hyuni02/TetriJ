@@ -13,7 +13,7 @@ public class O extends TetrominoBase {
                 {0,1,1,0},
                 {0,0,0,0}
         };
-        super.pos = new int[] { -1, 3 };
+        super.pos = new int[] { 0, (int)(Math.random()*8) };
         if (gen_item) {
             genItem();
         }
