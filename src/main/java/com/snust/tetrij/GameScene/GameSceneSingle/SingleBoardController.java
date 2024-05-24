@@ -308,8 +308,10 @@ public class SingleBoardController {
                     return false;
                 }
                 if (model_s.MESH[y + tb.pos[0] + distance][x + tb.pos[1]] != '0') {
-                    if (tb.name == 'w')
+                    if (tb.name == 'w') {
+                        tb.can_move = false;
                         continue;
+                    }
                     else
                         return false;
                 }

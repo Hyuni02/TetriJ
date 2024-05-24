@@ -18,7 +18,6 @@ public class PlayerThreadSingle extends Thread {
     public void run() {
         SingleBoardController.generateTetromino();
         SingleBoardController.generateTetromino();
-        SingleBoardController.bag.get(0).update_mesh(-1);
 
         int speedLevel = 0;
         while (!controller_s.isGameOver) {
@@ -33,6 +32,7 @@ public class PlayerThreadSingle extends Thread {
                 case HARD -> finalFreq = freq - speedLevel * (int) (boost * 1.2f);
                 default -> finalFreq = freq - speedLevel * boost; //normal or item
             }
+            SingleBoardController.bag.get(0).update_mesh(-1);
             view_s.color_mesh();
             try {
                 this.sleep(finalFreq);

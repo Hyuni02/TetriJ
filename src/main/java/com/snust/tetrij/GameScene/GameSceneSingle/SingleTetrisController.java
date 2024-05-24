@@ -33,7 +33,6 @@ public class SingleTetrisController extends GameControllerBase {
             controller_s.isGameOver = true;
         });
 
-
         SingleKeyController.addListenerGameControl(view_s.scene);
 
         playerThread = new PlayerThreadSingle("Single Play");
