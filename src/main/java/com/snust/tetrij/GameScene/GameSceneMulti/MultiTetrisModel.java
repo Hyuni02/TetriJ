@@ -14,8 +14,8 @@ public class MultiTetrisModel {
     private char [][] MESH1 = new char[HEIGHT][WIDTH];
     private char [][] MESH2 = new char[HEIGHT][WIDTH];
     public char [][][] MESH = new char[][][] {MESH1, MESH2};
-    private char [][] attackBuffer1 = new char[10][WIDTH];
-    private char [][] attackBuffer2 = new char[10][WIDTH];
+    private char [][] attackBuffer1 = new char[4][WIDTH];
+    private char [][] attackBuffer2 = new char[4][WIDTH];
     public char [][][] attackBuffer = new char[][][] {attackBuffer1, attackBuffer2};
 
     public List<TetrominoBase> bag1 = new Vector<TetrominoBase>();

@@ -122,7 +122,7 @@ public class MultiBoardController {
         if (!canMoveDown(tb, 1, player)) {
             updateTop(tb, player);
             tb.update_mesh(player);
-            eraseLine(player);
+            eraseLine(player, tb);
             model.bags[player].remove(0);
             generateTetromino(player);
             return;
@@ -144,7 +144,7 @@ public class MultiBoardController {
         tb.pos[0] += dropHeight;
         tb.update_mesh(player);
         updateTop(tb, player);
-        eraseLine(player);
+        eraseLine(player, tb);
         model.bags[player].remove(0);
         generateTetromino(player);
     }
@@ -262,10 +262,10 @@ public class MultiBoardController {
         }
     }
 
-    public void eraseLine(int player) {
+    public void eraseLine(int player, TetrominoBase tb) {
         //리스트에 가득 찬 라인을 저장
         List<Integer> l = new Vector<>();
-        for (int y = 2; y < view.HEIGHT; y++) {
+        for (int y = view.HEIGHT-1; y > 0 ; y--) {
             boolean is_full = true;
             for (int x = 0; x < view.WIDTH; x++) {
                 if (model.MESH[player][y][x] == 'L') {
@@ -283,7 +283,21 @@ public class MultiBoardController {
         if (l.isEmpty())
             return;
 
-        int erased_num = l.toArray().length;
+        // 공격
+        if (l.toArray().length > 1) {
+            eraseMesh(tb, player);
+
+            for (int i = 0; i < l.toArray().length; i++) {
+                int enemy = player % 2;
+
+                for (int line : l) {
+                    for (int y = 19; y > 0; y--) {
+                        model.MESH[enemy][y-1] = model.MESH[enemy][y];  //블록 올리기
+                    }
+                    model.MESH[enemy][19] = model.MESH[player][line];
+                }
+            }
+        }
 
         //리스트에 저장된 라인들을 지움
         Task<Void> eraseTask = new Task<Void>() {
@@ -295,10 +309,10 @@ public class MultiBoardController {
                     });
                     Platform.runLater(() -> {
                         // 라인 지우기
-                        for (int l = line; l > 2; l--) {
-                            model.MESH[player][l] = model.MESH[player][l-1];  //블록 당기기
+                        for (int l = line; l > 0; l--) {
+                            model.MESH[player][l] = model.MESH[player][l-1];  //블록 내리기
                         }
-                        model.MESH[player][2] = new char[view.WIDTH];
+                        model.MESH[player][0] = new char[view.WIDTH];
                         Arrays.fill(model.MESH[player][2], '0');
 
                     });
@@ -324,9 +338,11 @@ public class MultiBoardController {
         wait.play();
     }*/
 
-
-
     private void updateTop(TetrominoBase tb, int player) {
         controller.top = 1;
+    }
+
+    private void attack(int player, List<Integer> erased_lines, TetrominoBase tb) {
+
     }
 }

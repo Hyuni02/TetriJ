@@ -134,7 +134,16 @@ public class SingleTetrisView {
                     if (model_s.MESH[y][x] == 'L'){
                         t.setText("L");
                     }
-                    else{
+                    else if (model_s.MESH[y][x] == 'b'){
+                        t.setText("b");
+                    }
+                    else if (model_s.MESH[y][x] == 'V'){
+                        t.setText("V");
+                    }
+                    else if (model_s.MESH[y][x] == 'B'){
+                        t.setText("B");
+                    }
+                    else {
                         t.setText(" ");
                     }
                 }
@@ -157,7 +166,16 @@ public class SingleTetrisView {
                             if (model_s.MESH[y][x] == 'L'){
                                 t.setText("L");
                             }
-                            else{
+                            else if (model_s.MESH[y][x] == 'b'){
+                                t.setText("b");
+                            }
+                            else if (model_s.MESH[y][x] == 'V'){
+                                t.setText("V");
+                            }
+                            else if (model_s.MESH[y][x] == 'B'){
+                                t.setText("B");
+                            }
+                            else {
                                 t.setText(" ");
                             }
                         }
