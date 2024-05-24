@@ -110,6 +110,7 @@ public class SingleBoardController {
             return;
         }
 
+        t.pos[1] = 3;
         bag.add(t);
 
         int start_pos_y = 0;
@@ -407,31 +408,48 @@ public class SingleBoardController {
         if (l.isEmpty())
             return;
 
-        //리스트에 저장된 라인들을 지움
-        Task<Void> eraseTask = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                for (int line : l) {
-                    Platform.runLater(() -> {
-                        highlightLine(line); //삭제되는 블록색 바꾸기
-                    });
-                    Platform.runLater(() -> {
+        Platform.runLater(() -> {
+                    for (int line : l) {
                         // 라인 지우기
-                        for (int l = line; l > 2; l--) {
-                            model_s.MESH[l] = model_s.MESH[l - 1];  //블록 당기기
+                        for (int j = line; j > 2; j--) {
+                            model_s.MESH[j] = model_s.MESH[j - 1];  //블록 당기기
                         }
                         model_s.MESH[2] = new char[view_s.WIDTH];
                         Arrays.fill(model_s.MESH[2], '0');
                         controller_s.score += 50;
                         controller_s.linesNo++;
-                    });
-                }
-                return null;
-            }
-        };
-        Thread eraseThread = new Thread(eraseTask);
-        eraseThread.setDaemon(true);
-        eraseThread.start();
+                    }});
+
+        //리스트에 저장된 라인들을 지움
+//        Task<Void> eraseTask = new Task<Void>() {
+//            @Override
+//            protected Void call() throws Exception {
+//                for (int line : l) {
+//                    Platform.runLater(() -> {
+//                        highlightLine(line); //삭제되는 블록색 바꾸기
+//                    });
+//                    Platform.runLater(() -> {
+//                        // 라인 지우기
+//                        for (int l = line; l > 2; l--) {
+//                            model_s.MESH[l] = model_s.MESH[l - 1];  //블록 당기기
+//                        }
+//                        model_s.MESH[2] = new char[view_s.WIDTH];
+//                        Arrays.fill(model_s.MESH[2], '0');
+//                        controller_s.score += 50;
+//                        controller_s.linesNo++;
+//                    });
+//                }
+//                return null;
+//            }
+//        };
+//        Thread eraseThread = new Thread(eraseTask);
+//        eraseThread.setDaemon(true);
+//        eraseThread.start();
+//        try{
+//            eraseThread.join();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
     }
 
     /*

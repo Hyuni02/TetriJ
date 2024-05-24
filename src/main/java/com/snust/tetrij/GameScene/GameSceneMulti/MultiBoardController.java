@@ -9,6 +9,7 @@ import com.snust.tetrij.tetromino.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import kotlin.internal.ProgressionUtilKt;
 
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
@@ -108,6 +109,7 @@ public class MultiBoardController {
             }
 
         }
+        t.pos[1] = 3;
         model.bags[player].add(t);
 
         int start_pos_y = 0;
@@ -408,29 +410,48 @@ public class MultiBoardController {
 //                }
 //            }
         }
-        //리스트에 저장된 라인들을 지움
-        Task<Void> eraseTask = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                for (int line : l) {
-                    Platform.runLater(() -> {
-                        highlightLine(line, player); //삭제되는 블록색 바꾸기
-                    });
-                    Platform.runLater(() -> {
-                        // 라인 지우기
-                        for (int l = line; l > 0; l--) {
-                            model.MESH[player][l] = model.MESH[player][l-1];  //블록 내리기
-                        }
-                        model.MESH[player][0] = new char[view.WIDTH];
-                        Arrays.fill(model.MESH[player][2], '0');
-                    });
+
+        Platform.runLater(() -> {
+            // 라인 지우기
+            for (int line : l) {
+                for (int j = line; j > 0; j--) {
+                    model.MESH[player][j] = model.MESH[player][j - 1];  //블록 내리기
                 }
-                return null;
+                model.MESH[player][0] = new char[view.WIDTH];
+                Arrays.fill(model.MESH[player][2], '0');
             }
-        };
-        Thread eraseThread = new Thread(eraseTask);
-        eraseThread.setDaemon(true);
-        eraseThread.start();
+        });
+
+        //리스트에 저장된 라인들을 지움
+//        Task<Void> eraseTask = new Task<Void>() {
+//            @Override
+//            protected Void call() throws Exception {
+//                for (int line : l) {
+//                    Platform.runLater(() -> {
+//                        highlightLine(line, player); //삭제되는 블록색 바꾸기
+//                    });
+//                    Platform.runLater(() -> {
+//                        // 라인 지우기
+//                        for (int l = line; l > 0; l--) {
+//                            model.MESH[player][l] = model.MESH[player][l-1];  //블록 내리기
+//                        }
+//                        model.MESH[player][0] = new char[view.WIDTH];
+//                        Arrays.fill(model.MESH[player][2], '0');
+//                    });
+//                }
+//                return null;
+//            }
+//        };
+//        Thread eraseThread = new Thread(eraseTask);
+//        eraseThread.setDaemon(true);
+//        eraseThread.start();
+//        try{
+//            eraseThread.join();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+
+        ShowP1Borad(player);
     }
 
     public static void highlightLine(int line, int player){
@@ -457,10 +478,21 @@ public class MultiBoardController {
         wait.play();
     }
 
+    public void ShowP1Borad(int player){
+        if(player != 0) return;
+        for (char[] line : model.MESH[player]) {
+            System.out.println();
+            for (char c : line) {
+                System.out.print(c);
+            }
+        }
+        System.out.println();
+    }
 
     private void updateTop(TetrominoBase tb, int player) {
         boolean fin = false;
         controller.tops[player] = 20;
+        ShowP1Borad(player);
         for (char[] line : model.MESH[player]) {
             if(fin) {
                 break;
