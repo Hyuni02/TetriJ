@@ -14,6 +14,8 @@ import javax.xml.stream.events.EntityReference;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s;
 
 import java.util.Arrays;
@@ -357,8 +359,15 @@ public class MultiBoardController {
     }
 
     private void updateTop(TetrominoBase tb, int player) {
-        controller.top = 1;
         System.out.println(controller.tops[0] + " : " + controller.tops[1]);
+        controller.tops[player] = 20;
+        for (char[] line : model.MESH[player]) {
+            for (char c : line) {
+                if (c != '0')
+                    return;
+            }
+            controller.tops[player]--;
+        }
     }
 
     private void attack(int player, List<Integer> erased_lines, TetrominoBase tb) {
