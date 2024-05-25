@@ -409,17 +409,13 @@ public class MultiBoardController {
         if (l.toArray().length > 1) {
             eraseMesh(tb, player);
             System.out.println("공격 미구현");
-
-//            for (int i = 0; i < l.toArray().length; i++) {
-//                int enemy = player % 2;
-//
-//                for (int line : l) {
-//                    for (int y = 19; y > 0; y--) {
-//                        model.MESH[enemy][y-1] = model.MESH[enemy][y];  //블록 올리기
-//                    }
-//                    model.MESH[enemy][19] = model.MESH[player][line];
-//                }
-//            }
+            int enemy = (player == 1) ? 0 : 1;
+            for (int i = 0; i < l.toArray().length; i++) {
+                for (int j = 0; j < 19; j++) {
+                    model.MESH[enemy][j] = model.MESH[enemy][j+1];  //블록 올리기
+                }
+                model.MESH[enemy][19] = model.MESH[player][l.get(i)]; //맨 밑에 블록 추가
+            }
         }
 
         Platform.runLater(() -> {
@@ -434,33 +430,33 @@ public class MultiBoardController {
         });
 
         //리스트에 저장된 라인들을 지움
-//        Task<Void> eraseTask = new Task<Void>() {
-//            @Override
-//            protected Void call() throws Exception {
-//                for (int line : l) {
-//                    Platform.runLater(() -> {
-//                        highlightLine(line, player); //삭제되는 블록색 바꾸기
-//                    });
-//                    Platform.runLater(() -> {
-//                        // 라인 지우기
-//                        for (int l = line; l > 0; l--) {
-//                            model.MESH[player][l] = model.MESH[player][l-1];  //블록 내리기
-//                        }
-//                        model.MESH[player][0] = new char[view.WIDTH];
-//                        Arrays.fill(model.MESH[player][0], '0');
-//                    });
-//                }
-//                return null;
-//            }
-//        };
-//        Thread eraseThread = new Thread(eraseTask);
-//        eraseThread.setDaemon(true);
-//        eraseThread.start();
-//        try{
-//            eraseThread.join();
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
+        Task<Void> eraseTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                for (int line : l) {
+                    Platform.runLater(() -> {
+                        highlightLine(line, player); //삭제되는 블록색 바꾸기
+                    });
+                    Platform.runLater(() -> {
+                        // 라인 지우기
+                        for (int l = line; l > 0; l--) {
+                            model.MESH[player][l] = model.MESH[player][l-1];  //블록 내리기
+                        }
+                        model.MESH[player][0] = new char[view.WIDTH];
+                        Arrays.fill(model.MESH[player][0], '0');
+                    });
+                }
+                return null;
+            }
+        };
+        Thread eraseThread = new Thread(eraseTask);
+        eraseThread.setDaemon(true);
+        eraseThread.start();
+        try{
+            eraseThread.join();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         ShowP1Borad(player);
     }
