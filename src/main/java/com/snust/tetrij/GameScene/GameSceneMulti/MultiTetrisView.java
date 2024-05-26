@@ -22,7 +22,7 @@ import java.util.Arrays;
 import static com.snust.tetrij.Controller.ResolutionManager.curHeight;
 import static com.snust.tetrij.Controller.ResolutionManager.curWidth;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiKeyController.keyController;
-import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
 
 public class MultiTetrisView {
 
@@ -94,6 +94,9 @@ public class MultiTetrisView {
         pauseButton.setPrefHeight(25);
         pauseButton.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; fx-font-size: 20px;");
         pauseButton.setFocusTraversable(false);
+        pauseButton.setOnAction(
+                e -> controller.togglePause()
+        );
 
         Line line = new Line(xmax+ offset,0,xmax + offset, ymax + offset);
         Text scoretext = new Text("Score: ");

@@ -10,11 +10,16 @@ import org.json.JSONObject;
 
 import java.io.*;
 
+import static com.snust.tetrij.Controller.ScoreBoardController.currentScoreId;
+import static com.snust.tetrij.Controller.ScoreBoardController.scoreData;
+import static com.snust.tetrij.Controller.ScoreBoardController.highlightIndex;
+
 public class ResolutionManager {
 
     static String curResolution;
     public static int curHeight;
     public static int curWidth;
+    private static boolean isHighlight = true;
 
     public static void resolutionInitialize() {
         loadSettings();  //json파일 읽어옴
@@ -107,6 +112,8 @@ public class ResolutionManager {
         setTextLayout(root, "#diffText", 50.0, 50.0, "-fx-font-size: 15pt;");
 
         String cssLabel = "-fx-font-size: 26px;";
+        String highlight = "-fx-text-fill: #ff8989; -fx-font-weight: bold;-fx-font-size: 26px;";
+
         double layoutX = 160.0;
         double layoutY = 100.0;
         double offset = 40.0;
@@ -122,6 +129,11 @@ public class ResolutionManager {
         setLabelLayout(root, "#score9", layoutX, layoutY + 8*offset, cssLabel);
         setLabelLayout(root, "#score10", layoutX, layoutY + 9*offset, cssLabel);
 
+        if(highlightIndex <= 10 && isHighlight) {
+            setLabelLayout(root, "#score" + Integer.toString(highlightIndex), layoutX, layoutY + (highlightIndex - 1) * offset, highlight);
+            isHighlight = false;
+        }
+
         setComboBoxLayout(root, "#difficultyComboBox", 10.0, 50.0, 140.0, 40.0, "-fx-font-size: 12pt;");
     }
 
@@ -131,6 +143,8 @@ public class ResolutionManager {
         setTextLayout(root, "#diffText", 90.0, 75.0, "-fx-font-size: 18pt;");
 
         String cssLabel = "-fx-font-size: 32px;";
+        String highlight = "-fx-text-fill: #ff8989; -fx-font-weight: bold;-fx-font-size: 26px;";
+
 
         double layoutX = 250;
         double layoutY = 150;
@@ -146,6 +160,11 @@ public class ResolutionManager {
         setLabelLayout(root, "#score8", layoutX, layoutY + 7*offset, cssLabel);
         setLabelLayout(root, "#score9", layoutX, layoutY + 8*offset, cssLabel);
         setLabelLayout(root, "#score10", layoutX, layoutY + 9*offset, cssLabel);
+
+        if(highlightIndex <= 10 && isHighlight) {
+            setLabelLayout(root, "#score" + Integer.toString(highlightIndex), layoutX, layoutY + (highlightIndex - 1) * offset, highlight);
+            isHighlight = false;
+        }
 
         setComboBoxLayout(root, "#difficultyComboBox", 70.0, 90.0, 130.0, 50.0, "-fx-font-size: 15pt;-fx-font-family: \"KenVector Future\";");
     }

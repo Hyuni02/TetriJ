@@ -23,7 +23,10 @@ public class ScoreBoardController {
     private ComboBox<String> difficultyComboBox; // 콤보박스 멤버 변수 추가
     private Stage stage;
     private Scene scene;
-
+    public static String currentScoreId;
+    public static String style;
+    public static String[] scoreData;
+    public static int highlightIndex;
     @FXML
     private Label score1;
 
@@ -86,6 +89,7 @@ public class ScoreBoardController {
         // 초기 스코어 로드
         String initialDifficulty = controller_s.currentDifficulty != null ? controller_s.currentDifficulty.toString() : "EASY";
         loadScores(initialDifficulty);
+        difficultyComboBox.setValue(initialDifficulty);
     }
     private void loadScores(String difficulty) {
         String filePath = "src/main/resources/com/snust/tetrij/score.txt";
@@ -109,14 +113,14 @@ public class ScoreBoardController {
             }
 
             filteredScores.sort((s1, s2) -> Integer.compare(Integer.parseInt(s2[1]), Integer.parseInt(s1[1])));
-            String currentScoreId = scoreId != null ? scoreId : ""; // NullPointerException 대비
+            currentScoreId = scoreId != null ? scoreId : ""; // NullPointerException 대비
             // 상위 10개 레이블 업데이트
             List<Label> scoreLabels = List.of(score1, score2, score3, score4, score5, score6, score7, score8, score9, score10);
             for (int i = 0; i < Math.min(10, filteredScores.size()); i++) {
-                String[] scoreData = filteredScores.get(i);
+                scoreData = filteredScores.get(i);
 
                 // 콤보 박스 바꿨을 때도 글씨 크기 유지하기 위해서...
-                String style = "-fx-font-size: 12pt;";
+                style = "-fx-font-size: 12pt;";
                 if(instance.getPrimaryStage().getWidth() == 900 && instance.getPrimaryStage().getHeight() == 600){
                     style = "-fx-font-size: 20pt;";
                 }
@@ -126,6 +130,7 @@ public class ScoreBoardController {
                 //
 
                 if (currentScoreId.equals(scoreData[4])) {
+                    highlightIndex = i + 1;
                     System.out.println("성공!");
                     style += "-fx-text-fill: #ff8989; -fx-font-weight: bold;"; // 현재 점수 스타일 변경
                 }

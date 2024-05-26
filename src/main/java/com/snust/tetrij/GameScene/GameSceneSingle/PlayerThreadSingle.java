@@ -53,9 +53,5 @@ public class PlayerThreadSingle extends Thread {
             if (controller_s.top >= view_s.HEIGHT - 1)
                 controller_s.isGameOver = true;
         }
-
-        Platform.runLater(()->{
-            switchToGameOver(controller_s.score, controller_s.currentDifficulty);
-        });
     }
 }

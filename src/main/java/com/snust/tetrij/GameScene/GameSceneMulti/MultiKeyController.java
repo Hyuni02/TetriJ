@@ -15,6 +15,7 @@ import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.co
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiBoardController.boardController;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
 
 
 public class MultiKeyController {
@@ -168,6 +169,9 @@ public class MultiKeyController {
             else if(code == dropKeyCode1){
                 boardController.hardDrop((TetrominoBase)model.bags[1].get(0), 1);
                 view.color_mesh(1);
+            }
+            else if (code == KeyCode.P) {
+                controller.togglePause();
             }
         });
     }
