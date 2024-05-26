@@ -35,7 +35,6 @@ public class PlayerThreadSingle extends Thread {
                 case HARD -> finalFreq = freq - speedLevel * (int) (boost * 1.2f);
                 default -> finalFreq = freq - speedLevel * boost; //normal or item
             }
-//            SingleBoardController.bag.get(0).update_mesh(-1);
             view_s.color_mesh();
             try {
                 this.sleep(finalFreq);
@@ -64,8 +63,11 @@ public class PlayerThreadSingle extends Thread {
             view_s.scoretext.setText("Score: " + controller_s.score);
             view_s.lines.setText("Lines: " + controller_s.linesNo);
 
-            if (controller_s.top >= view_s.HEIGHT - 2)
+            if (controller_s.top >= view_s.HEIGHT - 2) {
+                System.out.println("게임 종료");
                 controller_s.isGameOver = true;
+
+            }
         }
     }
 }

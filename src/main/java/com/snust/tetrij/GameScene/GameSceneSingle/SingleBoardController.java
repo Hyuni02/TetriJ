@@ -107,7 +107,7 @@ public class SingleBoardController {
 
         t.pos[1] = 3;
         model_s.bag.add(t);
-        
+
         int start_pos_y = 0;
         for (int[] y : t.mesh) {
             boolean is_empty = true;
@@ -246,6 +246,19 @@ public class SingleBoardController {
         }
     }
 
+    public static void weightHardDrop(TetrominoBase tb) {
+        int left = tb.pos[1];
+        int right = tb.pos[1] + 4;
+        int end = tb.pos[0] + 2;
+        for (int y = 0; y < end; y++) {
+            for (int x = left; x < right; x++) {
+                if (model_s.MESH[y][x] != 'w') {
+                    model_s.MESH[y][x] = '0';
+                }
+            }
+        }
+    }
+
     public static void hardDrop(TetrominoBase tb) {
         eraseMesh(tb);
         int dropHeight = 0;
@@ -260,7 +273,7 @@ public class SingleBoardController {
         if (tb.name == 'b') explosion(tb);
         if (tb.name == 'V') verticalExplosion(tb);
         if (tb.name == 'B') bigExplosion(tb);
-        if (tb.name == 'w') System.out.println("무게추 하드드롭 세로줄 없애기 구현 필요");
+        if (tb.name == 'w') weightHardDrop(tb);
         model_s.bag.remove(0);
         generateTetromino();
     }
@@ -282,7 +295,7 @@ public class SingleBoardController {
     }
 
     public static void rotateClockWise(TetrominoBase tb) {
-        if(tb.name == 'w'){
+        if (tb.name == 'w') {
             return;
         }
         eraseMesh(tb);
@@ -309,8 +322,7 @@ public class SingleBoardController {
                     if (tb.name == 'w') {
                         tb.can_move = false;
                         continue;
-                    }
-                    else
+                    } else
                         return false;
                 }
             }
@@ -520,10 +532,10 @@ public class SingleBoardController {
         boolean fin = false;
         controller_s.top = 20;
         for (char[] line : model_s.MESH) {
-            if(fin) {
+            if (fin) {
                 break;
             }
-            for (char c : line){
+            for (char c : line) {
                 if (c != '0') {
                     fin = true;
                     break;
