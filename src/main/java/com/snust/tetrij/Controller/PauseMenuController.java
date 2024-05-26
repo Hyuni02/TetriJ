@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
 
 public class PauseMenuController extends SingleTetris {
@@ -22,6 +23,8 @@ public class PauseMenuController extends SingleTetris {
         // 현재 게임 일시정지 -> isPaused를 false로 설정하여 게임이 계속될 수 있도록 함
         controller_s.isPaused = false;
         controller_s.onPauseButton = false;
+        controller.isPaused = false;
+        controller.onPauseButton = false;
 //        System.out.println("test"+ Tetris.isPaused);
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.close();
@@ -32,6 +35,8 @@ public class PauseMenuController extends SingleTetris {
         stage.close();
         controller_s.isPaused = false;
         controller_s.onPauseButton = false;
+        controller.isPaused = false;
+        controller.onPauseButton = false;
 
         instance.switchToScene("start_menu.fxml");
     }

@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 
 import java.util.Arrays;
 
+import static com.snust.tetrij.Controller.GameOverController.switchToGameOver;
 import static com.snust.tetrij.Controller.ResolutionManager.curHeight;
 import static com.snust.tetrij.Controller.ResolutionManager.curWidth;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiKeyController.keyController;
@@ -173,36 +174,41 @@ public class SingleTetrisView {
         });
 
         //다음블럭 그리기
+
         Platform.runLater(
                 () -> {
-                    TetrominoBase next = SingleBoardController.bag.get(1);
-                    for (int y = 0; y < 4; y++) {
-                        for (int x = 0; x < 4; x++) {
-                            Rectangle r = (Rectangle) nextRect[y][x].getChildren().get(0);
-                            if (next.mesh[y][x] == 0) {
-                                r.setFill(Color.WHITE);
-                            } else {
-                                r.setFill(TetrominoBase.getColor(SingleBoardController.bag.get(1).name, -1));
-                            }
-                            Text t = (Text)rect[y][x].getChildren().get(1);
-                            if (model_s.MESH[y][x] == 'L'){
-                                t.setText("L");
-                            }
-                            else if (model_s.MESH[y][x] == 'b'){
-                                t.setText("b");
-                            }
-                            else if (model_s.MESH[y][x] == 'V'){
-                                t.setText("V");
-                            }
-                            else if (model_s.MESH[y][x] == 'B'){
-                                t.setText("B");
-                            }
-                            else {
-                                t.setText(" ");
+                    if (SingleBoardController.bag.size() > 1) {
+                        TetrominoBase next = SingleBoardController.bag.get(1);
+                        for (int y = 0; y < 4; y++) {
+                            for (int x = 0; x < 4; x++) {
+                                Rectangle r = (Rectangle) nextRect[y][x].getChildren().get(0);
+                                if (next.mesh[y][x] == 0) {
+                                    r.setFill(Color.WHITE);
+                                } else {
+                                    r.setFill(TetrominoBase.getColor(SingleBoardController.bag.get(1).name, -1));
+                                }
+                                Text t = (Text) rect[y][x].getChildren().get(1);
+                                if (model_s.MESH[y][x] == 'L') {
+                                    t.setText("L");
+                                } else if (model_s.MESH[y][x] == 'b') {
+                                    t.setText("b");
+                                } else if (model_s.MESH[y][x] == 'V') {
+                                    t.setText("V");
+                                } else if (model_s.MESH[y][x] == 'B') {
+                                    t.setText("B");
+                                } else {
+                                    t.setText(" ");
+                                }
                             }
                         }
                     }
+                    else {
+                        switchToGameOver(controller_s.score, controller_s.currentDifficulty);
+                    }
+
+
                 }
+
         );
     }
 }

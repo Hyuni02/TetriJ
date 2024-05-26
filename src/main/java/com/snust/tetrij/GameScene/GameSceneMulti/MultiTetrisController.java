@@ -1,5 +1,7 @@
 package com.snust.tetrij.GameScene.GameSceneMulti;
 
+import com.snust.tetrij.Controller.SelectModeController;
+import com.snust.tetrij.Controller.showWinnerController;
 import com.snust.tetrij.GameScene.GameControllerBase;
 import com.snust.tetrij.MultiTetris;
 import javafx.application.Platform;
@@ -7,16 +9,32 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+
 import javafx.stage.Stage;
+
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
+import com.snust.tetrij.Controller.showWinnerController;
 
 public class MultiTetrisController extends GameControllerBase {
     public final static MultiTetrisController controller = new MultiTetrisController();
+    showWinnerController winnerController = new showWinnerController();
+
+    Stage thisStage;
+    Scene thisScene;
 
     public int loser = 0;
     public int[] tops = {0, 0};
+
     public MultiTetrisController() {
         super();
     }
@@ -67,13 +85,14 @@ public class MultiTetrisController extends GameControllerBase {
             System.out.println("플레이어2 승리");
         }
         if(loser == 1){
-            System.out.printf("플레이어1 승리");
+            System.out.println("플레이어1 승리");
         }
         if(loser == -1){
             System.out.println("무승부");
         }
         
         //todo 승리자 fxml 띄우기
+        winnerController.showWinnerFXML(loser);
     }
 
     public void togglePause() {

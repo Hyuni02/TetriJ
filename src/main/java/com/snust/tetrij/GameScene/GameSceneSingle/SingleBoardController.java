@@ -63,6 +63,7 @@ public class SingleBoardController {
     }
 
     public static void generateTetromino() {
+
         TetrominoBase t = new TetrominoBase(false);
         int idx = RWS(controller_s.currentDifficulty);
         if (controller_s.currentDifficulty != GameControllerBase.difficulty.ITEM) {

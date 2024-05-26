@@ -3,6 +3,8 @@ package com.snust.tetrij.GameScene.GameSceneMulti;
 import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.application.Platform;
 
+import java.io.IOException;
+
 import static com.snust.tetrij.Controller.GameOverController.switchToGameOver;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiBoardController.boardController;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
@@ -75,7 +77,7 @@ public class PlayerThread extends Thread {
         this.interrupt();
         Platform.runLater(() -> {
             if(thread_name == "p1") {
-                controller.ShowWinner();
+                    controller.ShowWinner();
             }
         });
     }
