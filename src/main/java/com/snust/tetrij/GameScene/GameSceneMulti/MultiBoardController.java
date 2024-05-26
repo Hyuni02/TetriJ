@@ -14,6 +14,7 @@ import kotlin.internal.ProgressionUtilKt;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
 
 import java.util.Arrays;
 import java.util.List;
@@ -81,7 +82,7 @@ public class MultiBoardController {
             }
         }
         else {
-            if (controller.deleted_lines <= 2) {
+            if (controller.deleted_lines <= 4) {
                 controller.deleted_lines = 0;
                 switch(idx) {
                     case 0 -> t = new Z(true);
@@ -164,6 +165,7 @@ public class MultiBoardController {
         if (tb.name == 'b') explosion(tb, player);
         if (tb.name == 'V') verticalExplosion(tb, player);
         if (tb.name == 'B') bigExplosion(tb, player);
+        if (tb.name == 'w') weightHardDrop(tb, player);
         model.bags[player].remove(0);
         generateTetromino(player);
     }
@@ -185,6 +187,9 @@ public class MultiBoardController {
     }
 
     public void rotateClockWise(TetrominoBase tb,int player) {
+        if(tb.name == 'w'){
+            return;
+        }
         eraseMesh(tb, player);
         int[][] rotated = canRotateClockwise(tb, player);
         if (rotated != null) {
@@ -338,6 +343,19 @@ public class MultiBoardController {
 //            Thread eraseThread = new Thread(eraseTask);
 //            eraseThread.setDaemon(true);
 //            eraseThread.start();
+        }
+    }
+
+    public static void weightHardDrop(TetrominoBase tb, int player) {
+        int left = tb.pos[1];
+        int right = tb.pos[1] + 4;
+        int end = tb.pos[0] + 2;
+        for (int y = 0; y < end; y++) {
+            for (int x = left; x < right; x++) {
+                if (model.MESH[player][y][x] != 'w') {
+                    model.MESH[player][y][x] = '0';
+                }
+            }
         }
     }
 

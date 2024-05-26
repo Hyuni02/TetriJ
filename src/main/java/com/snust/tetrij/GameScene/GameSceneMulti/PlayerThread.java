@@ -23,13 +23,11 @@ public class PlayerThread extends Thread {
 
     @Override
     public void run() {
-
         boardController.generateTetromino(player_num);
         boardController.generateTetromino(player_num);
 
         int speedLevel = 0;
         while (!controller.isGameOver) {
-//            System.out.println(" ");
             if (controller.isPaused)
                 continue;
 
