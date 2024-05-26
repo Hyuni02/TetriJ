@@ -420,6 +420,10 @@ public class MultiBoardController {
                 l.add(y);
         }
 
+//        if(tb.name == 'B' || tb.name == 'b' || tb.name == 'w' || tb.name == 'V'){
+//            l.clear();
+//        }
+
         if (l.isEmpty())
             return;
 
