@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s;
 
 public class SingleKeyController {
@@ -41,7 +42,7 @@ public class SingleKeyController {
     public static void addListenerGameControl(Scene scene) {
         scene.setOnKeyPressed(e->{
             javafx.scene.input.KeyCode code = e.getCode();
-            if (SingleBoardController.bag.isEmpty())
+            if (model_s.bag.isEmpty())
                 code = KeyCode.NONCONVERT;
 
             if(code == KeyCode.NONCONVERT);
@@ -51,23 +52,23 @@ public class SingleKeyController {
                 Platform.exit();
             }
             else if(code == leftKeyCode){
-                SingleBoardController.moveLeftOnKeyPress(SingleBoardController.bag.get(0));
+                SingleBoardController.moveLeftOnKeyPress(model_s.bag.get(0));
                 view_s.color_mesh();
             }
             else if(code == rightKeyCode){
-                SingleBoardController.moveRightOnKeyPress(SingleBoardController.bag.get(0));
+                SingleBoardController.moveRightOnKeyPress(model_s.bag.get(0));
                 view_s.color_mesh();
             }
             else if(code == rotateKeyCode){
-                SingleBoardController.rotateClockWise(SingleBoardController.bag.get(0));
+                SingleBoardController.rotateClockWise(model_s.bag.get(0));
                 view_s.color_mesh();
             }
             else if(code == downKeyCode){
-                SingleBoardController.softDrop(SingleBoardController.bag.get(0));
+                SingleBoardController.softDrop(model_s.bag.get(0));
                 view_s.color_mesh();
             }
             else if(code == dropKeyCode){
-                SingleBoardController.hardDrop(SingleBoardController.bag.get(0));
+                SingleBoardController.hardDrop(model_s.bag.get(0));
                 view_s.color_mesh();
             }
             else if (code == KeyCode.P) {

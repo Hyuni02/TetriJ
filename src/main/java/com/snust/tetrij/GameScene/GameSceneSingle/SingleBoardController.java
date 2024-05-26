@@ -16,8 +16,6 @@ import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s;
 
 public class SingleBoardController {
-    public static List<TetrominoBase> bag = new Vector<TetrominoBase>();
-
     public SingleBoardController() {
     }
 
@@ -111,7 +109,7 @@ public class SingleBoardController {
         }
 
         t.pos[1] = 3;
-        bag.add(t);
+        model_s.bag.add(t);
 
         int start_pos_y = 0;
         for (int[] y : t.mesh) {
@@ -143,7 +141,7 @@ public class SingleBoardController {
             if (tb.name == 'V') verticalExplosion(tb);
             if (tb.name == 'B') bigExplosion(tb);
 
-            SingleBoardController.bag.remove(0);
+            model_s.bag.remove(0);
             generateTetromino();
             return;
         }
@@ -279,7 +277,7 @@ public class SingleBoardController {
         if (tb.name == 'b') explosion(tb);
         if (tb.name == 'V') verticalExplosion(tb);
         if (tb.name == 'B') bigExplosion(tb);
-        SingleBoardController.bag.remove(0);
+        model_s.bag.remove(0);
         generateTetromino();
     }
 

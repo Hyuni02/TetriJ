@@ -175,26 +175,26 @@ public class SingleTetrisView {
         //다음블럭 그리기
         Platform.runLater(
                 () -> {
-                    TetrominoBase next = SingleBoardController.bag.get(1);
+                    TetrominoBase next = model_s.bag.get(1);
                     for (int y = 0; y < 4; y++) {
                         for (int x = 0; x < 4; x++) {
                             Rectangle r = (Rectangle) nextRect[y][x].getChildren().get(0);
                             if (next.mesh[y][x] == 0) {
                                 r.setFill(Color.WHITE);
                             } else {
-                                r.setFill(TetrominoBase.getColor(SingleBoardController.bag.get(1).name, -1));
+                                r.setFill(TetrominoBase.getColor(model_s.bag.get(1).name, -1));
                             }
                             Text t = (Text)rect[y][x].getChildren().get(1);
-                            if (model_s.MESH[y][x] == 'L'){
+                            if (next.mesh[y][x] == '2'){
                                 t.setText("L");
                             }
-                            else if (model_s.MESH[y][x] == 'b'){
+                            else if (next.mesh[y][x] == '3'){
                                 t.setText("b");
                             }
-                            else if (model_s.MESH[y][x] == 'V'){
+                            else if (next.mesh[y][x] == '4'){
                                 t.setText("V");
                             }
-                            else if (model_s.MESH[y][x] == 'B'){
+                            else if (next.mesh[y][x] == '5'){
                                 t.setText("B");
                             }
                             else {

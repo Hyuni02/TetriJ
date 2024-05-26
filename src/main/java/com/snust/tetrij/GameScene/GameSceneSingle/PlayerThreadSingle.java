@@ -3,6 +3,7 @@ import javafx.application.Platform;
 
 import static com.snust.tetrij.Controller.GameOverController.switchToGameOver;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s;
 
 public class PlayerThreadSingle extends Thread {
@@ -32,7 +33,7 @@ public class PlayerThreadSingle extends Thread {
                 case HARD -> finalFreq = freq - speedLevel * (int) (boost * 1.2f);
                 default -> finalFreq = freq - speedLevel * boost; //normal or item
             }
-            SingleBoardController.bag.get(0).update_mesh(-1);
+            model_s.bag.get(0).update_mesh(-1);
             view_s.color_mesh();
             try {
                 this.sleep(finalFreq);
@@ -40,7 +41,7 @@ public class PlayerThreadSingle extends Thread {
                 e.printStackTrace();
             }
 
-            SingleBoardController.softDrop(SingleBoardController.bag.get(0)); //한칸 드랍
+            SingleBoardController.softDrop(model_s.bag.get(0)); //한칸 드랍
             if (speedLevel == 0)
                 controller_s.score++;
             else if (speedLevel == 1)
