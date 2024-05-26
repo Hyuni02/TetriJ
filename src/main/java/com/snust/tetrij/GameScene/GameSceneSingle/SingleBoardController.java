@@ -4,7 +4,6 @@ import com.snust.tetrij.GameScene.GameControllerBase;
 import com.snust.tetrij.tetromino.*;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -16,7 +15,7 @@ import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s;
 
 public class SingleBoardController {
-    public static List<TetrominoBase> bag = new Vector<TetrominoBase>();
+    public final static SingleBoardController boardController_s = new SingleBoardController();
 
     public SingleBoardController() {
     }
@@ -77,7 +76,7 @@ public class SingleBoardController {
                 case 6 -> t = new T(false);
             }
         } else {
-            if (controller_s.deleted_lines <= 2) {
+            if (controller_s.deleted_lines <= 4) {
                 controller_s.deleted_lines = 0;
                 switch (idx) {
                     case 0 -> t = new Z(true);
@@ -106,13 +105,8 @@ public class SingleBoardController {
 
         }
 
-        if (!canMoveDown(t, 0)) {
-            controller_s.isPaused = true;
-            return;
-        }
-
         t.pos[1] = 3;
-        bag.add(t);
+        model_s.bag.add(t);
 
         int start_pos_y = 0;
         for (int[] y : t.mesh) {
@@ -129,7 +123,6 @@ public class SingleBoardController {
         }
 
         t.pos[0] -= start_pos_y;
-        //여기 꼭 수정할것!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
 
@@ -144,24 +137,11 @@ public class SingleBoardController {
             if (tb.name == 'V') verticalExplosion(tb);
             if (tb.name == 'B') bigExplosion(tb);
 
-            SingleBoardController.bag.remove(0);
+            model_s.bag.remove(0);
             generateTetromino();
             return;
         }
-        if (tb.name == 'w') {
-            if (!isClearBelow((Weight) tb)) {
-                tb.can_move = false;
-            }
-        }
         tb.update_mesh(-1);
-    }
-
-    //무게추가 좌우 고정이 되어야하는지 확인만을 위한 함수
-    public static boolean isClearBelow(Weight tb) {
-        if (canMoveDown(tb, 0)) {
-            return true;
-        }
-        return false;
     }
 
     //Boom이 바닥에 닿았을 때 4x4를 지우는 함수
@@ -266,6 +246,19 @@ public class SingleBoardController {
         }
     }
 
+    public static void weightHardDrop(TetrominoBase tb) {
+        int left = tb.pos[1];
+        int right = tb.pos[1] + 4;
+        int end = tb.pos[0] + 2;
+        for (int y = 0; y < end; y++) {
+            for (int x = left; x < right; x++) {
+                if (model_s.MESH[y][x] != 'w') {
+                    model_s.MESH[y][x] = '0';
+                }
+            }
+        }
+    }
+
     public static void hardDrop(TetrominoBase tb) {
         eraseMesh(tb);
         int dropHeight = 0;
@@ -280,7 +273,8 @@ public class SingleBoardController {
         if (tb.name == 'b') explosion(tb);
         if (tb.name == 'V') verticalExplosion(tb);
         if (tb.name == 'B') bigExplosion(tb);
-        SingleBoardController.bag.remove(0);
+        if (tb.name == 'w') weightHardDrop(tb);
+        model_s.bag.remove(0);
         generateTetromino();
     }
 
@@ -301,6 +295,9 @@ public class SingleBoardController {
     }
 
     public static void rotateClockWise(TetrominoBase tb) {
+        if (tb.name == 'w') {
+            return;
+        }
         eraseMesh(tb);
         int[][] rotated = canRotateClockwise(tb);
         if (rotated != null) {
@@ -316,15 +313,16 @@ public class SingleBoardController {
                 if (tb.mesh[y][x] == 0) {
                     continue;
                 }
+                //바닥에 닿음
                 if (y + tb.pos[0] + distance >= view_s.HEIGHT) {
                     return false;
                 }
+                // 다른 블록과 충돌 - 무게추와 일반 블록 구분 필요
                 if (model_s.MESH[y + tb.pos[0] + distance][x + tb.pos[1]] != '0') {
                     if (tb.name == 'w') {
                         tb.can_move = false;
                         continue;
-                    }
-                    else
+                    } else
                         return false;
                 }
             }
@@ -412,7 +410,6 @@ public class SingleBoardController {
             if (is_full)
                 l.add(y);
         }
-        controller_s.top -= l.size();
         controller_s.deleted_lines += l.size();
 
         if (l.isEmpty())
@@ -535,10 +532,10 @@ public class SingleBoardController {
         boolean fin = false;
         controller_s.top = 20;
         for (char[] line : model_s.MESH) {
-            if(fin) {
+            if (fin) {
                 break;
             }
-            for (char c : line){
+            for (char c : line) {
                 if (c != '0') {
                     fin = true;
                     break;
