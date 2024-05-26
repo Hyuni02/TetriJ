@@ -20,7 +20,7 @@ public class BlockTest {
 
         int totalSelections = 1000;
         for (int i = 0; i < totalSelections; i++) {
-            field.add(SingleBoardController.RWS(GameControllerBase.difficulty.EASY));
+            field.add(SingleBoardController.boardController_s.RWS(GameControllerBase.difficulty.EASY));
         }
         for (int i : field){
             int selectedBlock = i;
@@ -50,7 +50,7 @@ public class BlockTest {
         // 200번 이상 블록 선택 반복 -> 블록 14400개는 만들어짐 ㅎㅎ
         int totalSelections = 1000;
         for (int i = 0; i < totalSelections; i++) {
-            field.add(SingleBoardController.RWS(GameControllerBase.difficulty.HARD));
+            field.add(SingleBoardController.boardController_s.RWS(GameControllerBase.difficulty.HARD));
         }
         for (int i : field){
             int selectedBlock = i;

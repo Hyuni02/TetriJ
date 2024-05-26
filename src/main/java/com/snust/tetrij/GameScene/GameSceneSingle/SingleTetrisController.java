@@ -35,7 +35,7 @@ public class SingleTetrisController extends GameControllerBase {
             stopGame(); // 게임 창이 닫힐 때 쓰레드 정지
         });
 
-        SingleKeyController.addListenerGameControl(view_s.scene);
+//        SingleKeyController.addListenerGameControl(view_s.scene);
 
         startGame();
     }

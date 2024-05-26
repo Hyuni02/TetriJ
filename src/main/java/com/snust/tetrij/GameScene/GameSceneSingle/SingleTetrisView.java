@@ -1,14 +1,10 @@
 package com.snust.tetrij.GameScene.GameSceneSingle;
 
 import com.snust.tetrij.GameManager;
-import com.snust.tetrij.SingleTetris;
 import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -22,7 +18,8 @@ import java.util.Arrays;
 import static com.snust.tetrij.Controller.GameOverController.switchToGameOver;
 import static com.snust.tetrij.Controller.ResolutionManager.curHeight;
 import static com.snust.tetrij.Controller.ResolutionManager.curWidth;
-import static com.snust.tetrij.GameScene.GameSceneMulti.MultiKeyController.keyController;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleBoardController.boardController_s;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleKeyController.keyController_s;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
 
@@ -45,7 +42,6 @@ public class SingleTetrisView {
     private int panelOffset;
 
     public Text scoretext;
-    public Text level;
     public Text lines;
 
     private SingleTetrisView() {
@@ -57,27 +53,24 @@ public class SingleTetrisView {
             lineX = 410;
             panelOffset = 200;
             size = 17;
-
         }
         if(curWidth == 900 && curHeight == 600){
             lineX = 610;
             panelOffset =300;
             size = 25;
-
         }
         if(curWidth == 1200 && curHeight == 800) {
             lineX = 910;
             panelOffset =500;
             size = 30;
-
         }
-
         pane = new Pane();
         scene = new Scene(pane,curWidth, curHeight);
         stage = new Stage();
+        keyController_s.gameProc(scene);
 
         scoretext = new Text();
-        level = new Text();
+        lines = new Text();
 
         for (StackPane[] sp: rect)
             Arrays.fill(sp, new StackPane());
@@ -86,29 +79,30 @@ public class SingleTetrisView {
     }
 
     public void setScene() {
-        Platform.runLater(() ->  {
-            Line line = new Line(panelOffset,0, panelOffset, panelOffset);
-            scoretext = new Text("Score: ");
-            scoretext.setStyle("-fx-font: 20 arial;");
-            scoretext.setY(50);
-            scoretext.setX(5 + panelOffset);
-            lines = new Text("Lines: ");
-            lines.setStyle("-fx-font: 20 arial;");
-            lines.setY(100);
-            lines.setX(5 + panelOffset);
-            lines.setFill(Color.GREEN);
+        Line line = new Line(panelOffset,0, panelOffset, panelOffset);
+        scoretext = new Text("Score: ");
+        scoretext.setStyle("-fx-font: 20 arial;");
+        scoretext.setY(50);
+        scoretext.setX(5 + panelOffset);
+        lines = new Text("Lines: ");
+        lines.setStyle("-fx-font: 20 arial;");
+        lines.setY(100);
+        lines.setX(5 + panelOffset);
+        lines.setFill(Color.GREEN);
 
-            Button pauseButton = new Button("Pause");
-            pauseButton.setLayoutY(150);
-            pauseButton.setLayoutX(5 + panelOffset);
-            pauseButton.setPrefWidth(50);
-            pauseButton.setPrefHeight(25);
-            pauseButton.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; fx-font-size: 20px;");
-            pauseButton.setFocusTraversable(false);
-            pauseButton.setOnAction(
-                    e -> controller_s.togglePause()
-            );
-            pane.getChildren().addAll(line, scoretext, lines, pauseButton);
+        Button pauseButton = new Button("Pause");
+        pauseButton.setLayoutY(150);
+        pauseButton.setLayoutX(5 + panelOffset);
+        pauseButton.setPrefWidth(50);
+        pauseButton.setPrefHeight(25);
+        pauseButton.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; fx-font-size: 20px;");
+        pauseButton.setFocusTraversable(false);
+        pauseButton.setOnAction(
+                e -> controller_s.togglePause()
+        );
+        pane.getChildren().addAll(line, scoretext, lines, pauseButton);
+
+        Platform.runLater(() ->  {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     Rectangle r = new Rectangle(x* size, y*size, size, size);
@@ -124,6 +118,10 @@ public class SingleTetrisView {
                     rect[y][x] = sp;
                 }
             }
+
+        });
+
+        Platform.runLater(() -> {
             for (int y = 0; y < 4; y++) {
                 for (int x = 0; x < 4; x++) {
                     Rectangle r = new Rectangle(x * view_s.size + panelOffset, 200 + y * view_s.size, view_s.size, view_s.size);
@@ -143,7 +141,7 @@ public class SingleTetrisView {
 
         instance.getPrimaryStage().setScene(scene);
         instance.getPrimaryStage().setTitle("TETRIS");
-        keyController.gameProc(scene);
+        keyController_s.gameProc(scene);
         instance.getPrimaryStage().show();
     }
 
@@ -172,43 +170,39 @@ public class SingleTetrisView {
                 }
             }
         });
-
         //다음블럭 그리기
 
         Platform.runLater(
                 () -> {
-                    if (SingleBoardController.bag.size() > 1) {
-                        TetrominoBase next = SingleBoardController.bag.get(1);
-                        for (int y = 0; y < 4; y++) {
-                            for (int x = 0; x < 4; x++) {
-                                Rectangle r = (Rectangle) nextRect[y][x].getChildren().get(0);
-                                if (next.mesh[y][x] == 0) {
-                                    r.setFill(Color.WHITE);
-                                } else {
-                                    r.setFill(TetrominoBase.getColor(SingleBoardController.bag.get(1).name, -1));
-                                }
-                                Text t = (Text) rect[y][x].getChildren().get(1);
-                                if (model_s.MESH[y][x] == 'L') {
-                                    t.setText("L");
-                                } else if (model_s.MESH[y][x] == 'b') {
-                                    t.setText("b");
-                                } else if (model_s.MESH[y][x] == 'V') {
-                                    t.setText("V");
-                                } else if (model_s.MESH[y][x] == 'B') {
-                                    t.setText("B");
-                                } else {
-                                    t.setText(" ");
-                                }
+                    TetrominoBase next = model_s.bag.get(1);
+                    for (int y = 0; y < 4; y++) {
+                        for (int x = 0; x < 4; x++) {
+                            Rectangle r = (Rectangle) nextRect[y][x].getChildren().get(0);
+                            if (next.mesh[y][x] == 0) {
+                                r.setFill(Color.WHITE);
+                            } else {
+                                r.setFill(TetrominoBase.getColor(model_s.bag.get(1).name, -1));
+                            }
+                            Text t = (Text)rect[y][x].getChildren().get(1);
+                            if (model_s.MESH[y][x] == 'L'){
+                                t.setText("L");
+                            }
+                            else if (model_s.MESH[y][x] == 'b'){
+                                t.setText("b");
+                            }
+                            else if (model_s.MESH[y][x] == 'V'){
+                                t.setText("V");
+                            }
+                            else if (model_s.MESH[y][x] == 'B'){
+                                t.setText("B");
+                            }
+                            else {
+                                t.setText(" ");
+
                             }
                         }
                     }
-                    else {
-                        switchToGameOver(controller_s.score, controller_s.currentDifficulty);
-                    }
-
-
                 }
-
         );
     }
 }

@@ -1,6 +1,7 @@
 package com.snust.tetrij.GameScene.GameSceneSingle;
 
 import com.snust.tetrij.MultiTetris;
+import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,10 +16,18 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiBoardController.boardController;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleBoardController.boardController_s;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s;
 
 public class SingleKeyController {
+
+    public final static SingleKeyController keyController_s = new SingleKeyController();
     public static String rightKey = loadKeySetting("right");
     public static String leftKey = loadKeySetting("left");
     public static String rotateKey = loadKeySetting("rotate");
@@ -29,6 +38,9 @@ public class SingleKeyController {
     public static KeyCode rotateKeyCode = getKeyCodeFromString(rotateKey);
     public static KeyCode downKeyCode = getKeyCodeFromString(downKey);
     public static KeyCode dropKeyCode = getKeyCodeFromString(dropKey);
+
+    private SingleKeyController(){
+    }
 
     public static void addListenerPause(Scene scene) {
 
@@ -63,7 +75,7 @@ public class SingleKeyController {
                 view_s.color_mesh();
             }
             else if(code == downKeyCode){
-                SingleBoardController.softDrop(SingleBoardController.bag.get(0));
+                boardController_s.softDrop(SingleBoardController.bag.get(0));
                 view_s.color_mesh();
             }
             else if(code == dropKeyCode){
@@ -123,5 +135,39 @@ public class SingleKeyController {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void gameProc(Scene scene) {
+        scene.setOnKeyPressed(e->{
+            javafx.scene.input.KeyCode code = e.getCode();
+            if (model_s.bag.isEmpty())
+                code = KeyCode.NONCONVERT;
+
+            if(code == KeyCode.NONCONVERT);
+            else if(code == KeyCode.ESCAPE){
+                System.out.println("esc");
+                controller_s.isPaused = !controller_s.isPaused;
+            }
+            else if(code == leftKeyCode){
+                boardController_s.moveLeftOnKeyPress((TetrominoBase)model_s.bag.get(0));
+                view_s.color_mesh();
+            }
+            else if(code == rightKeyCode){
+                boardController_s.moveRightOnKeyPress((TetrominoBase)model_s.bag.get(0));
+                view_s.color_mesh();
+            }
+            else if(code == rotateKeyCode){
+                boardController_s.rotateClockWise((TetrominoBase)model_s.bag.get(0));
+                view_s.color_mesh();
+            }
+            else if(code == downKeyCode){
+                boardController_s.softDrop((TetrominoBase)model_s.bag.get(0));
+                view_s.color_mesh();
+            }
+            else if(code == dropKeyCode){
+                boardController_s.hardDrop((TetrominoBase)model_s.bag.get(0));
+                view_s.color_mesh();
+            }
+        });
     }
 }

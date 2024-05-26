@@ -81,7 +81,7 @@ public class MultiBoardController {
             }
         }
         else {
-            if (controller.deleted_lines <= 2) {
+            if (controller.deleted_lines <= 4) {
                 controller.deleted_lines = 0;
                 switch(idx) {
                     case 0 -> t = new Z(true);
@@ -164,6 +164,7 @@ public class MultiBoardController {
         if (tb.name == 'b') explosion(tb, player);
         if (tb.name == 'V') verticalExplosion(tb, player);
         if (tb.name == 'B') bigExplosion(tb, player);
+        if (tb.name == 'w') System.out.println("무게추 하드드롭 세로줄 없애기 구현 필요");
         model.bags[player].remove(0);
         generateTetromino(player);
     }
@@ -185,6 +186,9 @@ public class MultiBoardController {
     }
 
     public void rotateClockWise(TetrominoBase tb,int player) {
+        if(tb.name == 'w'){
+            return;
+        }
         eraseMesh(tb, player);
         int[][] rotated = canRotateClockwise(tb, player);
         if (rotated != null) {
