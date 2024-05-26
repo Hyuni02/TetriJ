@@ -1,7 +1,13 @@
 package com.snust.tetrij.GameScene.GameSceneMulti;
 
 import com.snust.tetrij.GameScene.GameControllerBase;
+import com.snust.tetrij.MultiTetris;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.stage.Stage;
 
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
@@ -68,5 +74,42 @@ public class MultiTetrisController extends GameControllerBase {
         }
         
         //todo 승리자 fxml 띄우기
+    }
+
+    public void togglePause() {
+        System.out.println("Pause");
+        Platform.runLater( () -> {
+            if (!controller.onPauseButton) {
+                controller.isPaused = true;
+                controller.onPauseButton = !controller.isPaused;
+                if (controller.isPaused) {
+                    try{
+                        controller.onPauseButton = true;
+                        FXMLLoader fxmlLoader = new FXMLLoader(MultiTetris.class.getResource("pause_menu.fxml"));
+                        Parent root = fxmlLoader.load();
+                        Stage pauseStage = new Stage();
+                        pauseStage.setScene(new Scene(root));
+                        pauseStage.setTitle("Pause");
+                        pauseStage.setOnCloseRequest(
+                                event -> {
+                                    //pause 창이 닫힐 때
+                                    controller.isPaused = false;
+                                    controller.onPauseButton = false;
+                                }
+                        );
+                        pauseStage.getScene().setOnKeyPressed(event -> {
+                            if (event.getCode() == KeyCode.ESCAPE) {
+                                pauseStage.close();
+                                Platform.exit();
+                            }
+                        });
+                        pauseStage.showAndWait();
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                    }
+                }
+            }
+        });
+
     }
 }
