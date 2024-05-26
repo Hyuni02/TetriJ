@@ -86,7 +86,6 @@ public class SingleKeyController {
                 controller_s.togglePause();
             }
         });
-
     }
 
     public static KeyCode getKeyCodeFromString(String keyName) {    //json -> KeyCode로 변경
