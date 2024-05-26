@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleBoardController.boardController_s;
+
 public class BlockTest {
     @Test
     public void EasyBlockTest() {
@@ -20,7 +22,7 @@ public class BlockTest {
 
         int totalSelections = 1000;
         for (int i = 0; i < totalSelections; i++) {
-            field.add(SingleBoardController.RWS(GameControllerBase.difficulty.EASY));
+            field.add(boardController_s.RWS(GameControllerBase.difficulty.EASY));
         }
         for (int i : field){
             int selectedBlock = i;
@@ -50,7 +52,7 @@ public class BlockTest {
         // 200번 이상 블록 선택 반복 -> 블록 14400개는 만들어짐 ㅎㅎ
         int totalSelections = 1000;
         for (int i = 0; i < totalSelections; i++) {
-            field.add(SingleBoardController.RWS(GameControllerBase.difficulty.HARD));
+            field.add(boardController_s.RWS(GameControllerBase.difficulty.HARD));
         }
         for (int i : field){
             int selectedBlock = i;
