@@ -29,12 +29,6 @@ public class SingleTetrisController extends GameControllerBase {
         view_s.stage = stage;
         currentDifficulty = difficulty;
 
-        view_s.stage.setOnCloseRequest(event->{
-            controller_s.isGameOver = true;
-        });
-
-        SingleKeyController.addListenerGameControl(view_s.scene);
-
         playerThread = new PlayerThreadSingle("Single Play");
         playerThread.start();
     }

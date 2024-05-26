@@ -112,7 +112,7 @@ public class TetrominoBase {
                         return Color.BLACK;
                     }
                     case 'L' -> {
-                        return getColor(SingleBoardController.bag.get(0).name, -1);
+                        return getColor(model_s.bag.get(0).name, -1);
                     }
                     case 'B' -> {
                         return Color.LIGHTGREY;
@@ -154,7 +154,7 @@ public class TetrominoBase {
                         return Color.BLACK;
                     }
                     case 'L' -> {
-                        return getColor(SingleBoardController.bag.get(0).name, -1);
+                        return getColor(model_s.bag.get(0).name, -1);
                     }
                     case 'B' -> {
                         return Color.LIGHTGREY;
