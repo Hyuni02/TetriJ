@@ -26,7 +26,7 @@ public class GameOverController {
     private TextField nameField;
     private static int resultScore;
     private static String diff;
-    public static String scoreId = "";
+    public static volatile String scoreId = "";
 
     @FXML
     private void initialize() {
@@ -35,7 +35,7 @@ public class GameOverController {
     }
 
     @FXML
-    private void saveScore(ActionEvent event) throws IOException {
+    private void saveScore(ActionEvent event) throws IOException, InterruptedException {
         String name = nameField.getText().replace(" ", "");
         scoreId = UUID.randomUUID().toString(); // 고유 식별자 생성
 
@@ -48,6 +48,8 @@ public class GameOverController {
         }
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close(); // 종료하면 setOnHidden 이벤트 핸들러 작동
+
+        instance.switchToScene("score_board.fxml");
     }
 
     public static void switchToGameOver(int score, GameControllerBase.difficulty difficulty) {
@@ -70,15 +72,15 @@ public class GameOverController {
             stage.show();
 
             // 게임 오버 창이 닫히면 테트리스 스코어보드로 넘어가도록 설정
-            stage.setOnHidden(event -> {
-                try {
-
-                    instance.switchToScene("score_board.fxml"); // 메인 스테이지를 스코어보드로 전환
-
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+//            stage.setOnHidden(event -> {
+//                try {
+//
+//                    instance.switchToScene("score_board.fxml"); // 메인 스테이지를 스코어보드로 전환
+//
+//                } catch (IOException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            });
 
     }
 }

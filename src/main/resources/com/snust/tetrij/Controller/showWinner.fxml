@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox fx:id="root" alignment="CENTER" prefHeight="200" prefWidth="300" spacing="10" style="-fx-background-color: #000000;" stylesheets="@show_winner.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.Controller.showWinnerController">
+    <Label styleClass="titleText" text="Winner">
+        <font>
+            <Font name="Cooper Black" size="30.0" />
+        </font></Label>
+   <Text fx:id="winnerText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="player" />
+   <Button mnemonicParsing="false" onAction="#exit" text="Exit" />
+</VBox>

@@ -81,7 +81,7 @@ public class MultiBoardController {
             }
         }
         else {
-            if (controller.deleted_lines <= 2) {
+            if (controller.deleted_lines <= 4) {
                 controller.deleted_lines = 0;
                 switch(idx) {
                     case 0 -> t = new Z(true);
@@ -164,6 +164,7 @@ public class MultiBoardController {
         if (tb.name == 'b') explosion(tb, player);
         if (tb.name == 'V') verticalExplosion(tb, player);
         if (tb.name == 'B') bigExplosion(tb, player);
+        if (tb.name == 'w') System.out.println("무게추 하드드롭 세로줄 없애기 구현 필요");
         model.bags[player].remove(0);
         generateTetromino(player);
     }
@@ -185,6 +186,9 @@ public class MultiBoardController {
     }
 
     public void rotateClockWise(TetrominoBase tb,int player) {
+        if(tb.name == 'w'){
+            return;
+        }
         eraseMesh(tb, player);
         int[][] rotated = canRotateClockwise(tb, player);
         if (rotated != null) {
@@ -430,33 +434,33 @@ public class MultiBoardController {
         });
 
         //리스트에 저장된 라인들을 지움
-        Task<Void> eraseTask = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                for (int line : l) {
-                    Platform.runLater(() -> {
-                        highlightLine(line, player); //삭제되는 블록색 바꾸기
-                    });
-                    Platform.runLater(() -> {
-                        // 라인 지우기
-                        for (int l = line; l > 0; l--) {
-                            model.MESH[player][l] = model.MESH[player][l-1];  //블록 내리기
-                        }
-                        model.MESH[player][0] = new char[view.WIDTH];
-                        Arrays.fill(model.MESH[player][0], '0');
-                    });
-                }
-                return null;
-            }
-        };
-        Thread eraseThread = new Thread(eraseTask);
-        eraseThread.setDaemon(true);
-        eraseThread.start();
-        try{
-            eraseThread.join();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+//        Task<Void> eraseTask = new Task<Void>() {
+//            @Override
+//            protected Void call() throws Exception {
+//                for (int line : l) {
+//                    Platform.runLater(() -> {
+//                        highlightLine(line, player); //삭제되는 블록색 바꾸기
+//                    });
+//                    Platform.runLater(() -> {
+//                        // 라인 지우기
+//                        for (int l = line; l > 0; l--) {
+//                            model.MESH[player][l] = model.MESH[player][l-1];  //블록 내리기
+//                        }
+//                        model.MESH[player][0] = new char[view.WIDTH];
+//                        Arrays.fill(model.MESH[player][0], '0');
+//                    });
+//                }
+//                return null;
+//            }
+//        };
+//        Thread eraseThread = new Thread(eraseTask);
+//        eraseThread.setDaemon(true);
+//        eraseThread.start();
+//        try{
+//            eraseThread.join();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
 
         ShowP1Borad(player);
     }
@@ -486,14 +490,14 @@ public class MultiBoardController {
     }
 
     public void ShowP1Borad(int player){
-        if(player != 0) return;
-        for (char[] line : model.MESH[player]) {
-            System.out.println();
-            for (char c : line) {
-                System.out.print(c);
-            }
-        }
-        System.out.println();
+//        if(player != 0) return;
+//        for (char[] line : model.MESH[player]) {
+//            System.out.println();
+//            for (char c : line) {
+//                System.out.print(c);
+//            }
+//        }
+//        System.out.println();
     }
 
     private void updateTop(TetrominoBase tb, int player) {

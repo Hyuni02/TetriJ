@@ -21,7 +21,6 @@ import static com.snust.tetrij.Controller.ResolutionManager.curWidth;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiKeyController.keyController;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
-import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
 
 public class MultiTetrisView {
 

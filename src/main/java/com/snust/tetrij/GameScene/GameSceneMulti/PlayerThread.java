@@ -3,6 +3,8 @@ package com.snust.tetrij.GameScene.GameSceneMulti;
 import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.application.Platform;
 
+import java.io.IOException;
+
 import static com.snust.tetrij.Controller.GameOverController.switchToGameOver;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiBoardController.boardController;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
@@ -21,13 +23,11 @@ public class PlayerThread extends Thread {
 
     @Override
     public void run() {
-
         boardController.generateTetromino(player_num);
         boardController.generateTetromino(player_num);
 
         int speedLevel = 0;
         while (!controller.isGameOver) {
-//            System.out.println(" ");
             if (controller.isPaused)
                 continue;
 
@@ -67,15 +67,18 @@ public class PlayerThread extends Thread {
             //한칸 드랍하고 색칠
             boardController.softDrop((TetrominoBase) MultiTetrisModel.model.bags[player_num].get(0), player_num);
             view.color_mesh(player_num);
-            if (controller.tops[player_num] >= view.HEIGHT - 1) {
+            if (controller.tops[player_num] >= view.HEIGHT - 2) {
                 controller.isGameOver = true;
                 controller.loser = player_num;
             }
         }
         this.interrupt();
         Platform.runLater(() -> {
+            if(controller.timeout){
+                return;
+            }
             if(thread_name == "p1") {
-                controller.ShowWinner();
+                    controller.ShowWinner();
             }
         });
     }

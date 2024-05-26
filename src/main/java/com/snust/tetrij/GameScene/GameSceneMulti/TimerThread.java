@@ -26,6 +26,7 @@ public class TimerThread extends Thread{
             }
         }
         if(!controller.isGameOver) {
+            controller.timeout = true;
             controller.CheckWinner();
         }
         controller.isGameOver = true;

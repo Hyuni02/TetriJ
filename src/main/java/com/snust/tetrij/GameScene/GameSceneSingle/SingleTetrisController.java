@@ -14,6 +14,7 @@ import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s
 
 public class SingleTetrisController extends GameControllerBase {
     public final static SingleTetrisController controller_s = new SingleTetrisController();
+    private volatile boolean running = false; // 쓰레드 실행 상태를 관리하는 플래그
     PlayerThreadSingle playerThread;
 
     public SingleTetrisController() {
@@ -31,12 +32,30 @@ public class SingleTetrisController extends GameControllerBase {
 
         view_s.stage.setOnCloseRequest(event->{
             controller_s.isGameOver = true;
+            stopGame(); // 게임 창이 닫힐 때 쓰레드 정지
         });
 
-        SingleKeyController.addListenerGameControl(view_s.scene);
+//        SingleKeyController.addListenerGameControl(view_s.scene);
 
+        startGame();
+    }
+
+    private void startGame() {
+        if (running) return; // 이미 게임이 실행 중이면 시작하지 않음
+        running = true;
         playerThread = new PlayerThreadSingle("Single Play");
         playerThread.start();
+    }
+
+    public void stopGame() {
+        if (!running) return; // 게임이 실행 중이 아니면 종료하지 않음
+        controller_s.isGameOver = true;
+        try {
+            playerThread.join(); // 쓰레드가 종료될 때까지 대기
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        running = false;
     }
 
     public void togglePause() {
