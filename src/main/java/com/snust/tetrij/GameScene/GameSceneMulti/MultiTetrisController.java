@@ -10,6 +10,7 @@ public class MultiTetrisController extends GameControllerBase {
     public final static MultiTetrisController controller = new MultiTetrisController();
 
     public int loser = 0;
+    public boolean timeout = false;
     public int[] tops = {0, 0};
     public MultiTetrisController() {
         super();
