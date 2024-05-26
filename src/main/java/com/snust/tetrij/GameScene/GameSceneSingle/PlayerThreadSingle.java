@@ -64,8 +64,11 @@ public class PlayerThreadSingle extends Thread {
             view_s.lines.setText("Lines: " + controller_s.linesNo);
 
             if (controller_s.top >= view_s.HEIGHT - 2) {
-                System.out.println("게임 종료");
+
                 controller_s.isGameOver = true;
+                Platform.runLater(() -> {
+                    switchToGameOver(controller_s.score, controller_s.currentDifficulty);
+                });
 
             }
         }
