@@ -43,10 +43,6 @@ public class MultiTetrisView {
     public final int WIDTH = 10;
     public final int HEIGHT = 20;
     private int size;
-    private int xmax;
-    private int ymax;
-    private int offset = 820;
-
     private int panelOffset = 500;
 
     private int lineX = 810;
@@ -94,7 +90,7 @@ public class MultiTetrisView {
     public void setScene() {
         Button pauseButton = new Button("Pause");
         pauseButton.setLayoutY(150);
-        pauseButton.setLayoutX(xmax + 5 + offset);
+        pauseButton.setLayoutX(curWidth/2-25);
         pauseButton.setPrefWidth(50);
         pauseButton.setPrefHeight(25);
         pauseButton.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; fx-font-size: 20px;");
@@ -106,17 +102,17 @@ public class MultiTetrisView {
         );
         pane.getChildren().addAll(pauseButton);
 
-
+        //p1 mesh
         Platform.runLater(() ->  {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
-                    Rectangle r = new Rectangle(x* size, y*size, size, size);
+                    Rectangle r = new Rectangle(size, size);
                     r.setFill(Color.WHITE);
                     r.setStrokeWidth(0.5);
                     r.setStroke(Color.BLACK);
                     Text t = new Text(" ");
                     StackPane sp = new StackPane();
-                    sp.setLayoutX(x*size);
+                    sp.setLayoutX(x*size + 10);
                     sp.setLayoutY(y*size);
                     sp.getChildren().addAll(r, t);
                     pane.getChildren().add(sp);
@@ -125,16 +121,19 @@ public class MultiTetrisView {
             }
         });
 
+        //p2 mesh
+        int start_pos = curWidth - size*WIDTH - size - 5;
         Platform.runLater(() ->  {
             for (int y = 0; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
-                    Rectangle r = new Rectangle(x* size, y*size, size, size);
+
+                    Rectangle r = new Rectangle(size, size);
                     r.setFill(Color.WHITE);
                     r.setStrokeWidth(0.5);
                     r.setStroke(Color.BLACK);
                     Text t = new Text(" ");
                     StackPane sp = new StackPane();
-                    sp.setLayoutX(x*size + panelOffset);
+                    sp.setLayoutX(start_pos + x*size);
                     sp.setLayoutY(y*size);
                     sp.getChildren().addAll(r, t);
                     pane.getChildren().add(sp);
@@ -143,20 +142,40 @@ public class MultiTetrisView {
             }
         });
 
+        // p1 다음블럭
         Platform.runLater(() ->  {
             for (int y = 0; y < 4; y++) {
                 for (int x = 0; x < 4; x++) {
-                    Rectangle r = new Rectangle(x* size + panelOffset * 2, y*size, size, size);
-                    r.setFill(Color.BLACK);
+                    Rectangle r = new Rectangle(size, size);
+                    r.setFill(Color.WHITE);
                     r.setStrokeWidth(0.5);
                     r.setStroke(Color.BLACK);
                     Text t = new Text(" ");
                     StackPane sp = new StackPane();
-                    sp.setLayoutX(x* size + panelOffset * 2);
+                    sp.setLayoutX(size*WIDTH + 20 + size*x);
                     sp.setLayoutY(y*size);
                     sp.getChildren().addAll(r, t);
                     pane.getChildren().add(sp);
                     nextRect1[y][x] = sp;
+                }
+            }
+        });
+
+        // p2 다음블럭
+        Platform.runLater(() ->  {
+            for (int y = 0; y < 4; y++) {
+                for (int x = 0; x < 4; x++) {
+                    Rectangle r = new Rectangle(size, size);
+                    r.setFill(Color.WHITE);
+                    r.setStrokeWidth(0.5);
+                    r.setStroke(Color.BLACK);
+                    Text t = new Text(" ");
+                    StackPane sp = new StackPane();
+                    sp.setLayoutX(start_pos - 10 - (4-x)*size);
+                    sp.setLayoutY(y*size);
+                    sp.getChildren().addAll(r, t);
+                    pane.getChildren().add(sp);
+                    nextRect2[y][x] = sp;
                 }
             }
         });
@@ -199,56 +218,29 @@ public class MultiTetrisView {
         //다음블럭 그리기
         Platform.runLater(
                 () -> {
-                    TetrominoBase next = (TetrominoBase)model.bags[player].get(1);
+                    TetrominoBase next = (TetrominoBase) model.bags[player].get(1);
                     for (int y = 0; y < 4; y++) {
                         for (int x = 0; x < 4; x++) {
-                            Rectangle r1 = (Rectangle) nextRect1[y][x].getChildren().get(0);
+                            Rectangle r1 = (Rectangle) nextRect[player][y][x].getChildren().get(0);
                             if (next.mesh[y][x] == 0) {
                                 r1.setFill(Color.WHITE);
                             } else {
-                                r1.setFill(TetrominoBase.getColor(((TetrominoBase)model.bags[player].get(1)).name, -1));
+                                r1.setFill(TetrominoBase.getColor(((TetrominoBase) model.bags[player].get(1)).name, -1));
                             }
-                            Text t1 = (Text)nextRect1[y][x].getChildren().get(1);
-                            if (next.mesh[y][x] == 2){
+                            Text t1 = (Text) nextRect[player][y][x].getChildren().get(1);
+                            if (next.mesh[y][x] == 2) {
                                 t1.setText("L");
-                            }
-                            else if (next.mesh[y][x] == 3){
+                            } else if (next.mesh[y][x] == 3) {
                                 t1.setText("b");
-                            }
-                            else if (next.mesh[y][x] == 4){
+                            } else if (next.mesh[y][x] == 4) {
                                 t1.setText("V");
-                            }
-                            else if (next.mesh[y][x] == 5){
+                            } else if (next.mesh[y][x] == 5) {
                                 t1.setText("B");
-                            }
-                            else if (next.mesh[y][x] == 6){
+                            } else if (next.mesh[y][x] == 6) {
                                 t1.setText("G");
-                            }
-                            else {
+                            } else {
                                 t1.setText(" ");
                             }
-//                            Rectangle r2 = (Rectangle) nextRect2[y][x].getChildren().get(0);
-//                            if (next.mesh[y][x] == 0) {
-//                                r2.setFill(Color.WHITE);
-//                            } else {
-//                                r2.setFill(TetrominoBase.getColor(((TetrominoBase)model.bags[player].get(1)).name, -1));
-//                            }
-//                            Text t2 = (Text)nextRect2[y][x].getChildren().get(1);
-//                            if (next.mesh[y][x] == 2){
-//                                t2.setText("L");
-//                            }
-//                            else if (next.mesh[y][x] == 3){
-//                                t2.setText("b");
-//                            }
-//                            else if (next.mesh[y][x] == 4){
-//                                t2.setText("V");
-//                            }
-//                            else if (next.mesh[y][x] == 5){
-//                                t2.setText("B");
-//                            }
-//                            else {
-//                                t2.setText(" ");
-//                            }
                         }
                     }
                 }
