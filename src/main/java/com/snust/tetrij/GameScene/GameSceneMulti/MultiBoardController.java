@@ -144,6 +144,7 @@ public class MultiBoardController {
             if (tb.name == 'V') verticalExplosion(tb, player);
             if (tb.name == 'B') bigExplosion(tb, player);
             model.bags[player].remove(0);
+            getFromBuffer(player);
             generateTetromino(player);
             return;
         }
@@ -205,6 +206,7 @@ public class MultiBoardController {
         if (tb.name == 'B') bigExplosion(tb, player);
         if (tb.name == 'w') weightHardDrop(tb, player);
         model.bags[player].remove(0);
+        getFromBuffer(player);
         generateTetromino(player);
     }
 
@@ -462,7 +464,7 @@ public class MultiBoardController {
             return;
 
         // 공격
-        if (l.toArray().length > 1) {
+        if (l.toArray().length >= 1) {
             eraseMesh(tb, player);
             int enemy = (player == 1) ? 0 : 1;
             for (int i = 0; i < l.toArray().length; i++) {
@@ -473,7 +475,9 @@ public class MultiBoardController {
 
                 for (int x = 0; i < 10; i++) {
                     model.buffer[enemy][9][x] = (model.buffer[enemy][9][x] == '0') ? '0' : 'a';
+                    System.out.print(model.buffer[enemy][9][x]);
                 }
+                System.out.println(' ');
             }
         }
 
@@ -518,6 +522,28 @@ public class MultiBoardController {
 //        }
 
         ShowP1Borad(player);
+    }
+
+    public static void getFromBuffer(int player) {
+        for (int y = 0; y < 10; y++) {
+            boolean is_empty = true;
+            for (int x = 0; x < 10; x++) {
+                if (model.buffer[player][y][x] != '0') {
+                    is_empty = false;
+                    break;
+                }
+            }
+
+            //비어있지 않은 버퍼줄에 대해 수행
+            if (!is_empty) {
+                for (int dy = 0; dy < 19; dy++) {
+                    model.MESH[player][dy] = model.MESH[player][dy+1];
+                }
+                model.MESH[player][19] = model.buffer[player][y];
+            }
+            model.buffer[player][y] = new char[view.WIDTH];
+            Arrays.fill(model.buffer[player][y], '0');
+        }
     }
 
     public static void highlightLine(int line, int player){
