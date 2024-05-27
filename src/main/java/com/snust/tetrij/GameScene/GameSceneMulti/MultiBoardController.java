@@ -113,6 +113,7 @@ public class MultiBoardController {
 
         }
         t.pos[1] = 3;
+        t = new I(false);
         model.bags[player].add(t);
 
         int start_pos_y = 0;
@@ -464,34 +465,30 @@ public class MultiBoardController {
             return;
 
         // 공격
-        if (l.toArray().length >= 1) {
+        if (l.toArray().length > 1) {
             eraseMesh(tb, player);
             int enemy = (player == 1) ? 0 : 1;
             for (int i = 0; i < l.toArray().length; i++) {
                 for (int j = 0; j < 9; j++) {
                     model.buffer[enemy][j] = model.buffer[enemy][j+1];  //블록 올리기
                 }
-                model.buffer[enemy][9] = model.MESH[player][l.get(i)]; //맨 밑에 블록 추가
+                model.buffer[enemy][9] = Arrays.copyOf(model.MESH[player][l.get(i)], 10); //맨 밑에 블록 추가
 
-                for (int x = 0; i < 10; i++) {
+                for (int x = 0; x < 10; x++) {
                     model.buffer[enemy][9][x] = (model.buffer[enemy][9][x] == '0') ? '0' : 'a';
-                    System.out.print(model.buffer[enemy][9][x]);
                 }
-                System.out.println(' ');
             }
         }
 
-        Platform.runLater(() -> {
-            // 라인 지우기
-            for (int line : l) {
-                for (int j = line; j > 0; j--) {
-                    model.MESH[player][j] = model.MESH[player][j - 1];  //블록 내리기
-                }
-                model.MESH[player][0] = new char[view.WIDTH];
-                Arrays.fill(model.MESH[player][0], '0');
-            }
-        });
 
+        // 라인 지우기
+        for (int line : l) {
+            for (int j = line; j > 0; j--) {
+                model.MESH[player][j] = model.MESH[player][j - 1];  //블록 내리기
+            }
+            model.MESH[player][0] = new char[view.WIDTH];
+            Arrays.fill(model.MESH[player][0], '0');
+        }
         //리스트에 저장된 라인들을 지움
 //        Task<Void> eraseTask = new Task<Void>() {
 //            @Override
