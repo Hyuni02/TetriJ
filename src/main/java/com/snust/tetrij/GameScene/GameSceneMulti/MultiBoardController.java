@@ -113,7 +113,6 @@ public class MultiBoardController {
 
         }
         t.pos[1] = 3;
-        t = new I(false);
         model.bags[player].add(t);
 
         int start_pos_y = 0;
@@ -481,14 +480,19 @@ public class MultiBoardController {
         }
 
 
-        // 라인 지우기
-        for (int line : l) {
-            for (int j = line; j > 0; j--) {
-                model.MESH[player][j] = model.MESH[player][j - 1];  //블록 내리기
-            }
-            model.MESH[player][0] = new char[view.WIDTH];
-            Arrays.fill(model.MESH[player][0], '0');
-        }
+        Platform.runLater(() -> {
+                    // 라인 지우기
+                    for (int line : l) {
+                        System.out.println(line);
+                        for (int j = line; j > 0; j--) {
+                            model.MESH[player][j] = model.MESH[player][j - 1];  //블록 내리기
+                        }
+                        model.MESH[player][0] = new char[view.WIDTH];
+                        Arrays.fill(model.MESH[player][0], '0');
+                    }
+                }
+        );
+
         //리스트에 저장된 라인들을 지움
 //        Task<Void> eraseTask = new Task<Void>() {
 //            @Override
