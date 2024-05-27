@@ -94,7 +94,7 @@ public class MultiBoardController {
                     case 6 -> t = new T(true);
                     case 7 -> t = new Boom();
 //                    case 8 -> t = new BigBomb();
-//                    case 9 -> t = new VerticalBomb();
+                    case 9 -> t = new VerticalBomb();
                     case 10 -> t = new Weight();
                     default -> t = new I(true);
                 }
@@ -422,9 +422,10 @@ public class MultiBoardController {
                 l.add(y);
         }
 
-//        if(tb.name == 'B' || tb.name == 'b' || tb.name == 'w' || tb.name == 'V'){
-//            l.clear();
-//        }
+        if(tb.name == 'B'){
+            l.clear();
+            System.out.println("Clear l");
+        }
 
         if (l.isEmpty())
             return;
