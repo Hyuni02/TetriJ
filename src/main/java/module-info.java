@@ -6,9 +6,8 @@ module com.snust.tetrij {
     requires java.desktop;
     requires javafx.media;
     requires org.json;
-    requires junit;
     requires jdk.xml.dom;
-    requires reflections;
+    requires org.reflections;
     requires org.junit.jupiter.api;
     requires org.junit.platform.commons;
     requires org.junit.platform.engine;
