@@ -462,7 +462,7 @@ public class MultiBoardController {
             return;
 
         // 공격
-        if (l.toArray().length >= 1) {
+        if (l.toArray().length > 1) {
             eraseMesh(tb, player);
             int enemy = (player == 1) ? 0 : 1;
             for (int i = 0; i < l.toArray().length; i++) {
@@ -470,6 +470,10 @@ public class MultiBoardController {
                     model.buffer[enemy][j] = model.buffer[enemy][j+1];  //블록 올리기
                 }
                 model.buffer[enemy][9] = model.MESH[player][l.get(i)]; //맨 밑에 블록 추가
+
+                for (int x = 0; i < 10; i++) {
+                    model.buffer[enemy][9][x] = (model.buffer[enemy][9][x] == '0') ? '0' : 'a';
+                }
             }
         }
 
