@@ -459,11 +459,6 @@ public class MultiBoardController {
                 l.add(y);
         }
 
-        if(tb.name == 'B'){
-            l.clear();
-            System.out.println("Clear l");
-        }
-
         if (l.isEmpty())
             return;
 
