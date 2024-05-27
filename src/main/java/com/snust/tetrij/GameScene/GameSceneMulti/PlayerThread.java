@@ -23,13 +23,15 @@ public class PlayerThread extends Thread {
 
     @Override
     public void run() {
+        System.out.println("run");
         boardController.generateTetromino(player_num);
         boardController.generateTetromino(player_num);
 
         int speedLevel = 0;
         while (!controller.isGameOver) {
-            if (controller.isPaused)
+            if (controller.isPaused) {
                 continue;
+            }
 
             //속도 조절
             int finalFreq;
@@ -70,16 +72,23 @@ public class PlayerThread extends Thread {
             if (controller.tops[player_num] >= view.HEIGHT - 2) {
                 controller.isGameOver = true;
                 controller.loser = player_num;
+                Platform.runLater(() -> {
+                    if(controller.timeout){
+                        return;
+                    }
+                    controller.ShowWinner();
+                });
             }
         }
-        this.interrupt();
-        Platform.runLater(() -> {
-            if(controller.timeout){
-                return;
-            }
-            if(thread_name == "p1") {
-                    controller.ShowWinner();
-            }
-        });
+//        this.interrupt();
+//        Platform.runLater(() -> {
+//            controller.stopGame();
+//            if(controller.timeout){
+//                return;
+//            }
+//            if(thread_name == "p1") {
+//                    controller.ShowWinner();
+//            }
+//        });
     }
 }

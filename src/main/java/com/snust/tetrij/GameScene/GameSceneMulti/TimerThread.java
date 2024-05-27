@@ -27,9 +27,11 @@ public class TimerThread extends Thread{
         }
         if(!controller.isGameOver) {
             controller.timeout = true;
-            controller.CheckWinner();
+            controller.isGameOver = true;
+            Platform.runLater(()->{
+                controller.CheckWinner();
+                controller.timeout = false;
+            });
         }
-        controller.isGameOver = true;
-        this.interrupt();
     }
 }

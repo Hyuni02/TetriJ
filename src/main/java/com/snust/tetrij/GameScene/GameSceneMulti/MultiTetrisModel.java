@@ -36,8 +36,15 @@ public class MultiTetrisModel {
         for (char[] row : attackBuffer2)
             Arrays.fill(row, '0');
 
+        bag1.clear();
+        bag2.clear();
+
         bags[0] = bag1;
         bags[1] = bag2;
+
+        attackBuffer1 = new char[4][WIDTH];
+        attackBuffer2 = new char[4][WIDTH];
+
         attackBuffer[0] = attackBuffer1;
         attackBuffer[1] = attackBuffer2;
     }

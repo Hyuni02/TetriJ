@@ -32,7 +32,13 @@ public class MultiTetrisController extends GameControllerBase {
     Stage thisStage;
     Scene thisScene;
 
-    public int loser = 0;
+    public PlayerThread p1;
+    public PlayerThread p2;
+    public TimerThread timer;
+
+    private volatile boolean running = false; // 쓰레드 실행 상태를 관리하는 플래그
+
+    public int loser = -2;
     public boolean timeout = false;
     public int[] tops = {0, 0};
 
@@ -44,27 +50,53 @@ public class MultiTetrisController extends GameControllerBase {
     public void runGame(difficulty difficulty) {
         view.initView();
         model.initModel();
-
+        controller.initController();
+        System.out.println("init");
         view.setScene();
         currentDifficulty = difficulty;
 
-        PlayerThread p1 = new PlayerThread(0, "p1");
-        PlayerThread p2 = new PlayerThread(1, "p2");
+        startGame(difficulty);
+    }
+
+    public void startGame(difficulty difficulty){
+        if(running) return;
+        System.out.println("start");
+        running = true;
+        loser = -2;
+        tops[0] = 0;
+        tops[1] = 0;
+        controller.isGameOver = false;
+
+        p1 = new PlayerThread(0, "p1");
+        p2 = new PlayerThread(1, "p2");
         p1.start();
         p2.start();
 
         System.out.println("배틀("+difficulty.toString() + ")");
         if(difficulty == GameControllerBase.difficulty.TIME){
-            TimerThread timer = new TimerThread();
+            timer = new TimerThread();
             timer.start();
         }
-//      try {
-//            p1.join();
-//            p2.join();
-//        } catch (InterruptedException e) {
-//            System.out.println("Fatal Error: " + e.getMessage());
-//        }
+    }
 
+    public void stopGame(){
+        if(!running) return;
+        System.out.println("stop");
+        controller.isGameOver = true;
+        try{
+            p1.join();
+            p2.join();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        try{
+            timer.join();
+        }
+        catch (Exception e){
+            System.out.println("타이머 스레드 없음");
+        }
+        running = false;
     }
 
     public void CheckWinner(){
@@ -76,6 +108,7 @@ public class MultiTetrisController extends GameControllerBase {
             loser = 0;
         }
         else{
+            System.out.println("게임 종료");
             loser = -1;
         }
         ShowWinner();
@@ -91,8 +124,10 @@ public class MultiTetrisController extends GameControllerBase {
         if(loser == -1){
             System.out.println("무승부");
         }
-        
-        //todo 승리자 fxml 띄우기
+        if(loser == -2){
+            return;
+        }
+        controller.stopGame();
         winnerController.showWinnerFXML(loser);
     }
 

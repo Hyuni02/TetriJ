@@ -131,6 +131,7 @@ public class MultiBoardController {
         }
 
         t.pos[0] -= start_pos_y;
+        System.out.println("gen : " + t.name);
     }
 
     public void softDrop(TetrominoBase tb, int player) {
