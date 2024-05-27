@@ -21,6 +21,7 @@ import static com.snust.tetrij.Controller.ResolutionManager.curWidth;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiKeyController.keyController;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
 
 public class MultiTetrisView {
 
@@ -185,6 +186,9 @@ public class MultiTetrisView {
                     else if (model.MESH[player][y][x] == 'B'){
                         t.setText("B");
                     }
+                    else if (model.MESH[player][y][x] == 'g'){
+                        t.setText("G");
+                    }
                     else{
                         t.setText(" ");
                     }
@@ -216,6 +220,9 @@ public class MultiTetrisView {
                             }
                             else if (next.mesh[y][x] == 5){
                                 t1.setText("B");
+                            }
+                            else if (next.mesh[y][x] == 6){
+                                t1.setText("G");
                             }
                             else {
                                 t1.setText(" ");

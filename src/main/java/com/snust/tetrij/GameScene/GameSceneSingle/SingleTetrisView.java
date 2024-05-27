@@ -164,6 +164,9 @@ public class SingleTetrisView {
                     else if (model_s.MESH[y][x] == 'B'){
                         t.setText("B");
                     }
+                    else if (model_s.MESH[y][x] == 'g'){
+                        t.setText("G");
+                    }
                     else {
                         t.setText(" ");
                     }
@@ -195,6 +198,9 @@ public class SingleTetrisView {
                             }
                             else if (next.mesh[y][x] == 5){
                                 t.setText("B");
+                            }
+                            else if (next.mesh[y][x] == 6){
+                                t.setText("G");
                             }
                             else {
                                 t.setText(" ");
