@@ -24,7 +24,6 @@ import java.util.Vector;
 
 public class MultiBoardController {
     public final static MultiBoardController boardController = new MultiBoardController();
-
     private MultiBoardController() { }
 
     public int RWS(GameControllerBase.difficulty dif){
@@ -463,15 +462,14 @@ public class MultiBoardController {
             return;
 
         // 공격
-        if (l.toArray().length > 1) {
+        if (l.toArray().length >= 1) {
             eraseMesh(tb, player);
-            System.out.println("공격 미구현");
             int enemy = (player == 1) ? 0 : 1;
             for (int i = 0; i < l.toArray().length; i++) {
-                for (int j = 0; j < 19; j++) {
-                    model.MESH[enemy][j] = model.MESH[enemy][j+1];  //블록 올리기
+                for (int j = 0; j < 9; j++) {
+                    model.buffer[enemy][j] = model.buffer[enemy][j+1];  //블록 올리기
                 }
-                model.MESH[enemy][19] = model.MESH[player][l.get(i)]; //맨 밑에 블록 추가
+                model.buffer[enemy][9] = model.MESH[player][l.get(i)]; //맨 밑에 블록 추가
             }
         }
 

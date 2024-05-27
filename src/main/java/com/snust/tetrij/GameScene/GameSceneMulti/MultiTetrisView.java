@@ -209,6 +209,7 @@ public class MultiTetrisView {
             }
         });
 
+        // 버퍼2
         int start_pos_buffer = start_pos - bufferSize*10;
         Platform.runLater(() ->  {
             for (int y = 0; y < 10; y++) {
@@ -222,7 +223,7 @@ public class MultiTetrisView {
                     sp.setLayoutY(y*bufferSize + 200);
                     sp.getChildren().add(r);
                     pane.getChildren().add(sp);
-                    buffer1[y][x] = sp;
+                    buffer2[y][x] = sp;
                 }
             }
         });
@@ -287,6 +288,22 @@ public class MultiTetrisView {
                                 t1.setText("G");
                             } else {
                                 t1.setText(" ");
+                            }
+                        }
+                    }
+                }
+        );
+
+        int enemy = (player == 1) ? 0 : 1;
+        Platform.runLater(
+                () -> {
+                    for (int y = 0; y < 10; y++) {
+                        for (int x = 0; x < 10; x++) {
+                            Rectangle r1 = (Rectangle) buffer[enemy][y][x].getChildren().get(0);
+                            if (model.buffer[enemy][y][x] == '0') {
+                                r1.setFill(Color.WHITE);
+                            } else {
+                                r1.setFill(Color.GRAY);
                             }
                         }
                     }
