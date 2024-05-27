@@ -19,13 +19,15 @@ public class PlayerThreadSingle extends Thread {
 
     @Override
     public void run() {
+        System.out.println("run");
         boardController_s.generateTetromino();
         boardController_s.generateTetromino();
 
         int speedLevel = 0;
         while (!controller_s.isGameOver) {
-            if (controller_s.isPaused)
+            if (controller_s.isPaused) {
                 continue;
+            }
 
             int finalFreq = 0;
             int freq = 300;
@@ -69,7 +71,6 @@ public class PlayerThreadSingle extends Thread {
                 Platform.runLater(() -> {
                     switchToGameOver(controller_s.score, controller_s.currentDifficulty);
                 });
-
             }
         }
     }
