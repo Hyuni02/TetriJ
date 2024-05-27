@@ -40,9 +40,14 @@ public class MultiTetrisView {
     private StackPane[][] nextRect2 = new StackPane[4][4];
     public StackPane[][][] nextRect = new StackPane[][][] {nextRect1, nextRect2};
 
+    private StackPane[][] buffer1 = new StackPane[10][10];
+    private StackPane[][] buffer2 = new StackPane[10][10];
+    public StackPane[][][] buffer = new StackPane[][][] {buffer1, buffer2};
+
     public final int WIDTH = 10;
     public final int HEIGHT = 20;
     private int size;
+    private int bufferSize;
     private int panelOffset = 500;
 
     private int lineX = 810;
@@ -58,7 +63,6 @@ public class MultiTetrisView {
             lineX = 410;
             panelOffset = 200;
             size = 17;
-
         }
         if(curWidth == 900 && curHeight == 600){
             lineX = 610;
@@ -72,6 +76,8 @@ public class MultiTetrisView {
             size = 30;
 
         }
+
+        bufferSize = (int)(size/1.5);
         pane = new Pane();
         scene = new Scene(pane,1200, 800);
         pane.setStyle("-fx-background-color: #f3f3f3;");
@@ -80,10 +86,15 @@ public class MultiTetrisView {
 
         for (StackPane[] sp: rect1)
             Arrays.fill(sp, new StackPane());
-
         for (StackPane[] sp: rect2)
             Arrays.fill(sp, new StackPane());
         for (StackPane[] sp: nextRect1)
+            Arrays.fill(sp, new StackPane());
+        for (StackPane[] sp: nextRect2)
+            Arrays.fill(sp, new StackPane());
+        for (StackPane[] sp: buffer1)
+            Arrays.fill(sp, new StackPane());
+        for (StackPane[] sp: buffer2)
             Arrays.fill(sp, new StackPane());
     }
 
@@ -176,6 +187,42 @@ public class MultiTetrisView {
                     sp.getChildren().addAll(r, t);
                     pane.getChildren().add(sp);
                     nextRect2[y][x] = sp;
+                }
+            }
+        });
+
+        // 버퍼1
+        Platform.runLater(() ->  {
+            for (int y = 0; y < 10; y++) {
+                for (int x = 0; x < 10; x++) {
+                    Rectangle r = new Rectangle(bufferSize, bufferSize);
+                    r.setFill(Color.WHITE);
+                    r.setStrokeWidth(0.5);
+                    r.setStroke(Color.BLACK);
+                    StackPane sp = new StackPane();
+                    sp.setLayoutX(size*WIDTH + 20 + bufferSize*x);
+                    sp.setLayoutY(y*bufferSize + 200);
+                    sp.getChildren().add(r);
+                    pane.getChildren().add(sp);
+                    buffer1[y][x] = sp;
+                }
+            }
+        });
+
+        int start_pos_buffer = start_pos - bufferSize*10;
+        Platform.runLater(() ->  {
+            for (int y = 0; y < 10; y++) {
+                for (int x = 0; x < 10; x++) {
+                    Rectangle r = new Rectangle(bufferSize, bufferSize);
+                    r.setFill(Color.WHITE);
+                    r.setStrokeWidth(0.5);
+                    r.setStroke(Color.BLACK);
+                    StackPane sp = new StackPane();
+                    sp.setLayoutX(start_pos_buffer + bufferSize*x - 10);
+                    sp.setLayoutY(y*bufferSize + 200);
+                    sp.getChildren().add(r);
+                    pane.getChildren().add(sp);
+                    buffer1[y][x] = sp;
                 }
             }
         });
