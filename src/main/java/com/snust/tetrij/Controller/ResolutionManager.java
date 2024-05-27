@@ -19,7 +19,7 @@ public class ResolutionManager {
     static String curResolution;
     public static int curHeight;
     public static int curWidth;
-    private static boolean isHighlight = true;
+    public static boolean isHighlight = true;
 
     public static void resolutionInitialize() {
         loadSettings();  //json파일 읽어옴
@@ -143,7 +143,7 @@ public class ResolutionManager {
         setTextLayout(root, "#diffText", 90.0, 75.0, "-fx-font-size: 18pt;");
 
         String cssLabel = "-fx-font-size: 32px;";
-        String highlight = "-fx-text-fill: #ff8989; -fx-font-weight: bold;-fx-font-size: 26px;";
+        String highlight = "-fx-text-fill: #ff8989; -fx-font-weight: bold;-fx-font-size: 32px;";
 
 
         double layoutX = 250;
