@@ -87,7 +87,7 @@ public class SingleBoardController {
                     case 5 -> t = new S(true);
                     case 6 -> t = new T(true);
                     case 7 -> t = new Boom();
-                    case 8 -> t = new BigBomb();
+                    case 8 -> t = new Goo();
                     case 9 -> t = new VerticalBomb();
                     case 10 -> t = new Weight();
                 }
@@ -132,6 +132,7 @@ public class SingleBoardController {
         if (!canMoveDown(tb, 1)) {
             updateTop(tb);
             tb.update_mesh(-1);
+            if (tb.name == 'g') gooExplosion(tb);
             eraseLine();
             if (tb.name == 'b') explosion(tb);
             if (tb.name == 'V') verticalExplosion(tb);
@@ -269,6 +270,7 @@ public class SingleBoardController {
         tb.pos[0] += dropHeight;
         tb.update_mesh(-1);
         updateTop(tb);
+        if (tb.name == 'g') gooExplosion(tb);
         eraseLine();
         if (tb.name == 'b') explosion(tb);
         if (tb.name == 'V') verticalExplosion(tb);
@@ -276,6 +278,40 @@ public class SingleBoardController {
         if (tb.name == 'w') weightHardDrop(tb);
         model_s.bag.remove(0);
         generateTetromino();
+    }
+
+    public static void gooExplosion(TetrominoBase tb){
+        int left = tb.pos[1];
+        int top = tb.pos[0];
+        for (int y = top; y < top + 4; y++) {
+            if (y > view_s.HEIGHT - 1 || y < 0) {
+                continue;
+            }
+            for (int x = left; x < left + 4; x++) {
+                if (x < 0 || x > view_s.WIDTH - 1) {
+                    continue;
+                }
+                if(model_s.MESH[y][x] == '0') {
+                    model_s.MESH[y][x] = 'g';
+                }
+
+                //리스트에 저장된 블록들을 지움
+//                int finalX = x;
+//                int finalY = y;
+//                Task<Void> eraseTask = new Task<Void>() {
+//                    @Override
+//                    protected Void call() throws Exception {
+//                        Platform.runLater(() -> {
+//                            highlightBlock(finalX, finalY); //삭제되는 블록색 바꾸기
+//                        });
+//                        return null;
+//                    }
+//                };
+//                Thread eraseThread = new Thread(eraseTask);
+//                eraseThread.setDaemon(true);
+//                eraseThread.start();
+            }
+        }
     }
 
     public static void moveRightOnKeyPress(TetrominoBase tb) {

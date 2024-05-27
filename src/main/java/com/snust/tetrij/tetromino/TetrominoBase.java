@@ -57,6 +57,8 @@ public class TetrominoBase {
                             model_s.MESH[y + pos[0]][x + pos[1]] = 'V'; // item mode - Vertical Bomb
                         else if (this.mesh[y][x] == 5)
                             model_s.MESH[y + pos[0]][x + pos[1]] = 'B'; // item mode - Big bomb
+                        else if (this.mesh[y][x] == 6)
+                            model_s.MESH[y + pos[0]][x + pos[1]] = 'g'; // item mode - Goo
                     }
                 }
                 break;
@@ -76,6 +78,8 @@ public class TetrominoBase {
                             model.MESH[player][y + pos[0]][x + pos[1]] = 'V'; // item mode - Vertical Bomb
                         else if (this.mesh[y][x] == 5)
                             model.MESH[player][y + pos[0]][x + pos[1]] = 'B'; // item mode - Big bomb
+                        else if (this.mesh[y][x] == 6)
+                            model.MESH[player][y + pos[0]][x + pos[1]] = 'g'; // item mode - Goo
                     }
                 }
                 break;
@@ -123,6 +127,9 @@ public class TetrominoBase {
                     case 'b' -> {
                         return Color.DARKGREY;
                     }
+                    case 'g' -> {
+                        return Color.HOTPINK;
+                    }
                 }
             } else {
                 //색약모드
@@ -164,6 +171,9 @@ public class TetrominoBase {
                     }
                     case 'b' -> {
                         return Color.DARKGREY;
+                    }
+                    case 'g' -> {
+                        return Color.HOTPINK;
                     }
                 }
             }
@@ -209,6 +219,9 @@ public class TetrominoBase {
                     case 'b' -> {
                         return Color.DARKGREY;
                     }
+                    case 'g' -> {
+                        return Color.HOTPINK;
+                    }
                 }
             } else {
                 //색약모드
@@ -251,6 +264,9 @@ public class TetrominoBase {
                     }
                     case 'b' -> {
                         return Color.DARKGREY;
+                    }
+                    case 'g' -> {
+                        return Color.HOTPINK;
                     }
                 }
             }
