@@ -69,6 +69,7 @@ public class PlayerThreadSingle extends Thread {
 
                 controller_s.isGameOver = true;
                 Platform.runLater(() -> {
+                    controller_s.stopGame();
                     switchToGameOver(controller_s.score, controller_s.currentDifficulty);
                 });
             }
