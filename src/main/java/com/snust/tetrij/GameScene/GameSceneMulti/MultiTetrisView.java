@@ -198,12 +198,50 @@ public class MultiTetrisView {
                     TetrominoBase next = (TetrominoBase)model.bags[player].get(1);
                     for (int y = 0; y < 4; y++) {
                         for (int x = 0; x < 4; x++) {
-                            Rectangle r = (Rectangle) nextRect1[y][x].getChildren().get(0);
+                            Rectangle r1 = (Rectangle) nextRect1[y][x].getChildren().get(0);
                             if (next.mesh[y][x] == 0) {
-                                r.setFill(Color.WHITE);
+                                r1.setFill(Color.WHITE);
                             } else {
-                                r.setFill(TetrominoBase.getColor(((TetrominoBase)model.bags[player].get(1)).name, -1));
+                                r1.setFill(TetrominoBase.getColor(((TetrominoBase)model.bags[player].get(1)).name, -1));
                             }
+                            Text t1 = (Text)nextRect1[y][x].getChildren().get(1);
+                            if (next.mesh[y][x] == 2){
+                                t1.setText("L");
+                            }
+                            else if (next.mesh[y][x] == 3){
+                                t1.setText("b");
+                            }
+                            else if (next.mesh[y][x] == 4){
+                                t1.setText("V");
+                            }
+                            else if (next.mesh[y][x] == 5){
+                                t1.setText("B");
+                            }
+                            else {
+                                t1.setText(" ");
+                            }
+//                            Rectangle r2 = (Rectangle) nextRect2[y][x].getChildren().get(0);
+//                            if (next.mesh[y][x] == 0) {
+//                                r2.setFill(Color.WHITE);
+//                            } else {
+//                                r2.setFill(TetrominoBase.getColor(((TetrominoBase)model.bags[player].get(1)).name, -1));
+//                            }
+//                            Text t2 = (Text)nextRect2[y][x].getChildren().get(1);
+//                            if (next.mesh[y][x] == 2){
+//                                t2.setText("L");
+//                            }
+//                            else if (next.mesh[y][x] == 3){
+//                                t2.setText("b");
+//                            }
+//                            else if (next.mesh[y][x] == 4){
+//                                t2.setText("V");
+//                            }
+//                            else if (next.mesh[y][x] == 5){
+//                                t2.setText("B");
+//                            }
+//                            else {
+//                                t2.setText(" ");
+//                            }
                         }
                     }
                 }

@@ -183,22 +183,21 @@ public class SingleTetrisView {
                             } else {
                                 r.setFill(TetrominoBase.getColor(model_s.bag.get(1).name, -1));
                             }
-                            Text t = (Text)rect[y][x].getChildren().get(1);
-                            if (next.mesh[y][x] == '2'){
+                            Text t = (Text)nextRect[y][x].getChildren().get(1);
+                            if (next.mesh[y][x] == 2){
                                 t.setText("L");
                             }
-                            else if (next.mesh[y][x] == '3'){
+                            else if (next.mesh[y][x] == 3){
                                 t.setText("b");
                             }
-                            else if (next.mesh[y][x] == '4'){
+                            else if (next.mesh[y][x] == 4){
                                 t.setText("V");
                             }
-                            else if (next.mesh[y][x] == '5'){
+                            else if (next.mesh[y][x] == 5){
                                 t.setText("B");
                             }
                             else {
                                 t.setText(" ");
-
                             }
                         }
                     }
