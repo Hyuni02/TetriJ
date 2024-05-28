@@ -386,7 +386,7 @@ public class MultiBoardController {
             @Override
             protected Void call() throws Exception {
                 System.out.println("make vertical explosion thread : " + player);
-                for(int y=0;y<view.HEIGHT;y++){
+                for(int y=1;y<view.HEIGHT;y++){
                     int finalY = y;
                     Platform.runLater(() -> {
                         highlightBlock(left, finalY, player); //삭제되는 블록색 바꾸기
