@@ -162,25 +162,33 @@ public class SingleBoardController {
                     continue;
                 }
                 model_s.MESH[y][x] = '0';
-
-                //리스트에 저장된 블록들을 지움
-                int finalX = x;
-                int finalY = y;
-                Task<Void> eraseTask = new Task<Void>() {
-                    @Override
-                    protected Void call() throws Exception {
-                        System.out.println("make explosion thread");
+            }
+        }
+        Task<Void> eraseTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                System.out.println("make explosion thread");
+                for (int y = top; y < top + 4; y++) {
+                    if (y > view_s.HEIGHT - 1 || y < 0) {
+                        continue;
+                    }
+                    for (int x = left; x < left + 4; x++) {
+                        if (x < 0 || x > view_s.WIDTH - 1) {
+                            continue;
+                        }
+                        int finalX = x;
+                        int finalY = y;
                         Platform.runLater(() -> {
                             highlightBlock(finalX, finalY); //삭제되는 블록색 바꾸기
                         });
-                        killEraseThread();
-                        return null;
                     }
-                };
-                eraseThread = new Thread(eraseTask);
-                eraseThread.start();
+                }
+                killEraseThread();
+                return null;
             }
-        }
+        };
+        eraseThread = new Thread(eraseTask);
+        eraseThread.start();
     }
 
     public static void bigExplosion(TetrominoBase tb) {
