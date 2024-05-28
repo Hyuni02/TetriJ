@@ -4,6 +4,7 @@ import com.snust.tetrij.GameScene.GameControllerBase;
 import com.snust.tetrij.tetromino.*;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -16,6 +17,8 @@ import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s
 
 public class SingleBoardController {
     public final static SingleBoardController boardController_s = new SingleBoardController();
+
+    public static Thread eraseThread;
 
     public SingleBoardController() {
     }
@@ -73,6 +76,7 @@ public class SingleBoardController {
                 case 4 -> t = new O(false);
                 case 5 -> t = new S(false);
                 case 6 -> t = new T(false);
+//                default -> t = new I(false);
             }
         } else {
             if (controller_s.deleted_lines <= 4) {
@@ -122,7 +126,7 @@ public class SingleBoardController {
         }
 
         t.pos[0] -= start_pos_y;
-        System.out.println("gen : " + t.name);
+//        System.out.println("gen : " + t.name);
     }
 
 
@@ -160,20 +164,21 @@ public class SingleBoardController {
                 model_s.MESH[y][x] = '0';
 
                 //리스트에 저장된 블록들을 지움
-//                int finalX = x;
-//                int finalY = y;
-//                Task<Void> eraseTask = new Task<Void>() {
-//                    @Override
-//                    protected Void call() throws Exception {
-//                        Platform.runLater(() -> {
-//                            highlightBlock(finalX, finalY); //삭제되는 블록색 바꾸기
-//                        });
-//                        return null;
-//                    }
-//                };
-//                Thread eraseThread = new Thread(eraseTask);
-//                eraseThread.setDaemon(true);
-//                eraseThread.start();
+                int finalX = x;
+                int finalY = y;
+                Task<Void> eraseTask = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        System.out.println("make explosion thread");
+                        Platform.runLater(() -> {
+                            highlightBlock(finalX, finalY); //삭제되는 블록색 바꾸기
+                        });
+                        killEraseThread();
+                        return null;
+                    }
+                };
+                eraseThread = new Thread(eraseTask);
+                eraseThread.start();
             }
         }
     }
@@ -230,20 +235,21 @@ public class SingleBoardController {
             model_s.MESH[y][right] = '0';
 
             //리스트에 저장된 블록들을 지움
-//            int finalY = y;
-//            Task<Void> eraseTask = new Task<Void>() {
-//                @Override
-//                protected Void call() throws Exception {
-//                    Platform.runLater(() -> {
-//                        highlightBlock(left, finalY); //삭제되는 블록색 바꾸기
-//                        highlightBlock(right, finalY);
-//                    });
-//                    return null;
-//                }
-//            };
-//            Thread eraseThread = new Thread(eraseTask);
-//            eraseThread.setDaemon(true);
-//            eraseThread.start();
+            int finalY = y;
+            Task<Void> eraseTask = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    System.out.println("make vertical erase thread");
+                    Platform.runLater(() -> {
+                        highlightBlock(left, finalY); //삭제되는 블록색 바꾸기
+                        highlightBlock(right, finalY);
+                    });
+                    killEraseThread();
+                    return null;
+                }
+            };
+            eraseThread = new Thread(eraseTask);
+            eraseThread.start();
         }
     }
 
@@ -451,49 +457,54 @@ public class SingleBoardController {
         if (l.isEmpty())
             return;
 
-        Platform.runLater(() -> {
-            for (int line : l) {
-                // 라인 지우기
-                for (int j = line; j > 2; j--) {
-                    model_s.MESH[j] = model_s.MESH[j - 1];  //블록 당기기
-                }
-                model_s.MESH[2] = new char[view_s.WIDTH];
-                Arrays.fill(model_s.MESH[2], '0');
-                controller_s.score += 50;
-                controller_s.linesNo++;
-            }
-        });
+//        Platform.runLater(() -> {
+//            for (int line : l) {
+//                // 라인 지우기
+//                for (int j = line; j > 2; j--) {
+//                    model_s.MESH[j] = model_s.MESH[j - 1];  //블록 당기기
+//                }
+//                model_s.MESH[2] = new char[view_s.WIDTH];
+//                Arrays.fill(model_s.MESH[2], '0');
+//                controller_s.score += 50;
+//                controller_s.linesNo++;
+//            }
+//        });
 
         //리스트에 저장된 라인들을 지움
-//        Task<Void> eraseTask = new Task<Void>() {
-//            @Override
-//            protected Void call() throws Exception {
-//                for (int line : l) {
-//                    Platform.runLater(() -> {
-//                        highlightLine(line); //삭제되는 블록색 바꾸기
-//                    });
-//                    Platform.runLater(() -> {
-//                        // 라인 지우기
-//                        for (int l = line; l > 2; l--) {
-//                            model_s.MESH[l] = model_s.MESH[l - 1];  //블록 당기기
-//                        }
-//                        model_s.MESH[2] = new char[view_s.WIDTH];
-//                        Arrays.fill(model_s.MESH[2], '0');
-//                        controller_s.score += 50;
-//                        controller_s.linesNo++;
-//                    });
-//                }
-//                return null;
-//            }
-//        };
-//        Thread eraseThread = new Thread(eraseTask);
-//        eraseThread.setDaemon(true);
-//        eraseThread.start();
-//        try{
-//            eraseThread.join();
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
+        Task<Void> eraseTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                System.out.println("make line erase thread");
+                for (int line : l) {
+                    Platform.runLater(() -> {
+                        highlightLine(line); //삭제되는 블록색 바꾸기
+                    });
+                    Platform.runLater(() -> {
+                        // 라인 지우기
+                        for (int l = line; l > 2; l--) {
+                            model_s.MESH[l] = model_s.MESH[l - 1];  //블록 당기기
+                        }
+                        model_s.MESH[2] = new char[view_s.WIDTH];
+                        Arrays.fill(model_s.MESH[2], '0');
+                        controller_s.score += 50;
+                        controller_s.linesNo++;
+                    });
+                }
+                killEraseThread();
+                return null;
+            }
+        };
+        eraseThread = new Thread(eraseTask);
+        eraseThread.start();
+    }
+
+    public static void killEraseThread(){
+        System.out.println("kill erase thread");
+        try{
+            eraseThread.join();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     /*
@@ -546,7 +557,7 @@ public class SingleBoardController {
                 r.setFill(Color.RED); // 색상을 빨간색으로 변경
             }
         }
-
+        System.out.println("highlight");
         // 0.3초동안 빨간색 유지
         PauseTransition wait = new PauseTransition(Duration.millis(300));
         wait.play();
