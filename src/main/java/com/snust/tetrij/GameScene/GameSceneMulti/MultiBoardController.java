@@ -112,7 +112,7 @@ public class MultiBoardController {
             }
 
         }
-        t = new O(false);
+
         t.pos[1] = 3;
         model.bags[player].add(t);
 
