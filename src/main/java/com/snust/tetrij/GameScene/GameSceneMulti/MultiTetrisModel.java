@@ -42,8 +42,8 @@ public class MultiTetrisModel {
         bags[0] = bag1;
         bags[1] = bag2;
 
-        attackBuffer[0] = attackBuffer1;
-        attackBuffer[1] = attackBuffer2;
+        buffer[0] = attackBuffer1;
+        buffer[1] = attackBuffer2;
         buffer[0] = attackBuffer1;
         buffer[1] = attackBuffer2;
     }
