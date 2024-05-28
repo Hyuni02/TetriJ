@@ -25,6 +25,7 @@ import java.util.Vector;
 public class MultiBoardController {
     public final static MultiBoardController boardController = new MultiBoardController();
 
+    public static Thread[] eraseThread = new Thread[2];
     private MultiBoardController() { }
 
     public int RWS(GameControllerBase.difficulty dif){
@@ -97,7 +98,7 @@ public class MultiBoardController {
                     case 8 -> t = new Goo();
                     case 9 -> t = new VerticalBomb();
                     case 10 -> t = new Weight();
-                    default -> t = new I(true);
+//                    default -> t = new I(true);
                 }
             }
             else {
@@ -131,7 +132,7 @@ public class MultiBoardController {
         }
 
         t.pos[0] -= start_pos_y;
-        System.out.println("gen : " + t.name);
+//        System.out.println("gen : " + t.name);
     }
 
     public void softDrop(TetrominoBase tb, int player) {
@@ -296,24 +297,34 @@ public class MultiBoardController {
                     continue;
                 }
                 model.MESH[player][y][x] = '0';
-
-                //리스트에 저장된 블록들을 지움
-//                int finalX = x;
-//                int finalY = y;
-//                Task<Void> eraseTask = new Task<Void>() {
-//                    @Override
-//                    protected Void call() throws Exception {
-//                        Platform.runLater(() -> {
-//                            highlightBlock(finalX, finalY, player); //삭제되는 블록색 바꾸기
-//                        });
-//                        return null;
-//                    }
-//                };
-//                Thread eraseThread = new Thread(eraseTask);
-//                eraseThread.setDaemon(true);
-//                eraseThread.start();
             }
         }
+        Task<Void> eraseTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                System.out.println("make explosion thread : " + player);
+                for (int y = top; y < top + 4; y++) {
+                    if (y > view.HEIGHT - 1 || y < 0) {
+                        continue;
+                    }
+                    for (int x = left; x < left + 4; x++) {
+                        if (x < 0 || x > view.WIDTH - 1) {
+                            continue;
+                        }
+                        //리스트에 저장된 블록들을 지움
+                        int finalX = x;
+                        int finalY = y;
+                        Platform.runLater(() -> {
+                            highlightBlock(finalX, finalY, player); //삭제되는 블록색 바꾸기
+                        });
+                    }
+                }
+                killEraseThread(player);
+                return null;
+            }
+        };
+        eraseThread[player] = new Thread(eraseTask);
+        eraseThread[player].start();
     }
 
     public static void bigExplosion(TetrominoBase tb, int player) {
@@ -367,23 +378,25 @@ public class MultiBoardController {
         for (int y = 0; y < view.HEIGHT; y++) {
             model.MESH[player][y][left] = '0';
             model.MESH[player][y][right] = '0';
-
-            //리스트에 저장된 블록들을 지움
-//            int finalY = y;
-//            Task<Void> eraseTask = new Task<Void>() {
-//                @Override
-//                protected Void call() throws Exception {
-//                    Platform.runLater(() -> {
-//                        highlightBlock(left, finalY, player); //삭제되는 블록색 바꾸기
-//                        highlightBlock(right, finalY, player);
-//                    });
-//                    return null;
-//                }
-//            };
-//            Thread eraseThread = new Thread(eraseTask);
-//            eraseThread.setDaemon(true);
-//            eraseThread.start();
         }
+
+        Task<Void> eraseTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                System.out.println("make vertical explosion thread : " + player);
+                for(int y=0;y<view.HEIGHT;y++){
+                    int finalY = y;
+                    Platform.runLater(() -> {
+                        highlightBlock(left, finalY, player); //삭제되는 블록색 바꾸기
+                        highlightBlock(right, finalY, player);
+                    });
+                }
+                killEraseThread(player);
+                return null;
+            }
+        };
+        eraseThread[player] = new Thread(eraseTask);
+        eraseThread[player].start();
     }
 
     public static void weightHardDrop(TetrominoBase tb, int player) {
@@ -476,50 +489,45 @@ public class MultiBoardController {
             }
         }
 
-        Platform.runLater(() -> {
-            // 라인 지우기
-            for (int line : l) {
-                for (int j = line; j > 0; j--) {
-                    model.MESH[player][j] = model.MESH[player][j - 1];  //블록 내리기
-                }
-                model.MESH[player][0] = new char[view.WIDTH];
-                Arrays.fill(model.MESH[player][0], '0');
-            }
-        });
-
         //리스트에 저장된 라인들을 지움
-//        Task<Void> eraseTask = new Task<Void>() {
-//            @Override
-//            protected Void call() throws Exception {
-//                for (int line : l) {
-//                    Platform.runLater(() -> {
-//                        highlightLine(line, player); //삭제되는 블록색 바꾸기
-//                    });
-//                    Platform.runLater(() -> {
-//                        // 라인 지우기
-//                        for (int l = line; l > 0; l--) {
-//                            model.MESH[player][l] = model.MESH[player][l-1];  //블록 내리기
-//                        }
-//                        model.MESH[player][0] = new char[view.WIDTH];
-//                        Arrays.fill(model.MESH[player][0], '0');
-//                    });
-//                }
-//                return null;
-//            }
-//        };
-//        Thread eraseThread = new Thread(eraseTask);
-//        eraseThread.setDaemon(true);
-//        eraseThread.start();
-//        try{
-//            eraseThread.join();
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
+        Task<Void> eraseTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                System.out.println("make line erase thread : " + player);
+                for (int line : l) {
+                    Platform.runLater(() -> {
+                        highlightLine(line, player); //삭제되는 블록색 바꾸기
+                    });
+                    Platform.runLater(() -> {
+                        // 라인 지우기
+                        for (int l = line; l > 0; l--) {
+                            model.MESH[player][l] = model.MESH[player][l-1];  //블록 내리기
+                        }
+                        model.MESH[player][0] = new char[view.WIDTH];
+                        Arrays.fill(model.MESH[player][0], '0');
+                    });
+                }
+                killEraseThread(player);
+                return null;
+            }
+        };
+        eraseThread[player] = new Thread(eraseTask);
+        eraseThread[player].start();
 
         ShowP1Borad(player);
     }
 
+    public static void killEraseThread(int player){
+        System.out.println("kill erase thread : " + player);
+        try{
+            eraseThread[player].join();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     public static void highlightLine(int line, int player){
+        System.out.println("highlight : " + player);
         for (int x = 0; x < view.WIDTH; x++) {
             Rectangle r = (Rectangle) view.rect[player][line][x].getChildren().get(0); // rectMesh 배열에서 Rectangle 객체를 가져옴
             if (r != null) {
@@ -533,6 +541,7 @@ public class MultiBoardController {
     }
 
     public static void highlightBlock(int x, int y, int player){
+        System.out.println("highlight block : " + player);
         Rectangle r = (Rectangle) view.rect[player][y][x].getChildren().get(0);
         if (r != null) {
             r.setFill(Color.RED);
