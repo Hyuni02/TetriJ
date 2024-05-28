@@ -572,6 +572,7 @@ public class SingleBoardController {
     }
 
     public static void highlightBlock(int x, int y) {
+        System.out.println("highlight block");
         Rectangle r = (Rectangle) view_s.rect[y][x].getChildren().get(0);
         if (r != null) {
             r.setFill(Color.RED);
