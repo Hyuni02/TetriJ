@@ -32,8 +32,8 @@ public class MultiTetrisView {
     private static Pane pane;
     private Stage stage;
 
-    private StackPane[][] rect1 = new StackPane[20][10];
-    private StackPane[][] rect2 = new StackPane[20][10];
+    private StackPane[][] rect1 = new StackPane[21][10];
+    private StackPane[][] rect2 = new StackPane[21][10];
     public StackPane[][][] rect = new StackPane[][][] {rect1, rect2};
 
     private StackPane[][] nextRect1 = new StackPane[4][4];
@@ -45,7 +45,7 @@ public class MultiTetrisView {
     public StackPane[][][] buffer = new StackPane[][][] {buffer1, buffer2};
 
     public final int WIDTH = 10;
-    public final int HEIGHT = 20;
+    public final int HEIGHT = 21;
     private int size;
     private int bufferSize;
     private int panelOffset = 500;
@@ -115,7 +115,7 @@ public class MultiTetrisView {
 
         //p1 mesh
         Platform.runLater(() ->  {
-            for (int y = 0; y < HEIGHT; y++) {
+            for (int y = 1; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     Rectangle r = new Rectangle(size, size);
                     r.setFill(Color.WHITE);
@@ -135,7 +135,7 @@ public class MultiTetrisView {
         //p2 mesh
         int start_pos = curWidth - size*WIDTH - size - 5;
         Platform.runLater(() ->  {
-            for (int y = 0; y < HEIGHT; y++) {
+            for (int y = 1; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
 
                     Rectangle r = new Rectangle(size, size);
@@ -236,7 +236,7 @@ public class MultiTetrisView {
 
     public void color_mesh(int player) {
         Platform.runLater(() ->  {
-            for (int y = 0; y < HEIGHT; y++) {
+            for (int y = 1; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     Rectangle r = (Rectangle)rect[player][y][x].getChildren().get(0);
                     r.setFill(TetrominoBase.getColor(model.MESH[player][y][x], player));

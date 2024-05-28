@@ -31,12 +31,12 @@ public class SingleTetrisView {
     private static Pane pane;
     public Stage stage;
 
-    public StackPane[][] rect = new StackPane[20][10];
-    public Rectangle[][] rectMesh = new Rectangle[20][10];
+    public StackPane[][] rect = new StackPane[21][10];
+    public Rectangle[][] rectMesh = new Rectangle[21][10];
     private StackPane[][] nextRect = new StackPane[4][4];
 
     public final int WIDTH = 10;
-    public final int  HEIGHT = 20;
+    public final int  HEIGHT = 21;
     private int size;
     private int lineX;
     private int panelOffset;
@@ -103,7 +103,7 @@ public class SingleTetrisView {
         pane.getChildren().addAll(line, scoretext, lines, pauseButton);
 
         Platform.runLater(() ->  {
-            for (int y = 0; y < HEIGHT; y++) {
+            for (int y = 1; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     Rectangle r = new Rectangle(x* size, y*size, size, size);
                     r.setFill(Color.WHITE);
@@ -118,9 +118,9 @@ public class SingleTetrisView {
                     rect[y][x] = sp;
                 }
             }
-
         });
-
+        
+        //다음 블럭 보기 그리기
         Platform.runLater(() -> {
             for (int y = 0; y < 4; y++) {
                 for (int x = 0; x < 4; x++) {
@@ -147,7 +147,7 @@ public class SingleTetrisView {
 
     public void color_mesh() {
         Platform.runLater(() ->  {
-            for (int y = 0; y < HEIGHT; y++) {
+            for (int y = 1; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     Rectangle r = (Rectangle)rect[y][x].getChildren().get(0);
                     r.setFill(TetrominoBase.getColor(model_s.MESH[y][x], -1));
@@ -173,8 +173,8 @@ public class SingleTetrisView {
                 }
             }
         });
-        //다음블럭 그리기
 
+        //다음블럭 그리기
         Platform.runLater(
                 () -> {
                     TetrominoBase next = model_s.bag.get(1);
