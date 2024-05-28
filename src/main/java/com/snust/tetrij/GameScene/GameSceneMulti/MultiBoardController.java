@@ -112,8 +112,8 @@ public class MultiBoardController {
             }
 
         }
+        t = new O(false);
         t.pos[1] = 3;
-        t = new I(false);
         model.bags[player].add(t);
 
         int start_pos_y = 0;
@@ -446,7 +446,7 @@ public class MultiBoardController {
     public void eraseLine(int player, TetrominoBase tb) {
         //리스트에 가득 찬 라인을 저장
         List<Integer> l = new Vector<>();
-        for (int y = view.HEIGHT-1; y > 0 ; y--) {
+        for (int y = 0; y < view.HEIGHT ; y++) {
             boolean is_full = true;
             for (int x = 0; x < view.WIDTH; x++) {
                 if (model.MESH[player][y][x] == 'L') {
@@ -468,7 +468,7 @@ public class MultiBoardController {
         if (l.toArray().length > 1) {
             eraseMesh(tb, player);
             int enemy = (player == 1) ? 0 : 1;
-            for (int i = 0; i < l.toArray().length; i++) {
+            for (int i = l.toArray().length -  1; i >= 0; i--) {
                 for (int j = 0; j < 9; j++) {
                     model.buffer[enemy][j] = model.buffer[enemy][j+1];  //블록 올리기
                 }
