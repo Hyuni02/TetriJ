@@ -87,6 +87,7 @@ public class SingleTetrisController extends GameControllerBase {
                             if (event.getCode() == KeyCode.ESCAPE) {
                                 pauseStage.close();
                                 Platform.exit();
+                                System.exit(0);
                             }
                         });
                         pauseStage.showAndWait();

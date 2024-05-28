@@ -2,6 +2,7 @@ package com.snust.tetrij.GameScene.GameSceneSingle;
 
 import com.snust.tetrij.MultiTetris;
 import com.snust.tetrij.tetromino.TetrominoBase;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -61,6 +62,7 @@ public class SingleKeyController {
                 System.out.println("esc");
                 controller_s.isPaused = !controller_s.isPaused;
                 Platform.exit();
+                System.exit(0);
             }
             else if(code == leftKeyCode){
                 boardController_s.moveLeftOnKeyPress(model_s.bag.get(0));
@@ -145,7 +147,13 @@ public class SingleKeyController {
             if(code == KeyCode.NONCONVERT);
             else if(code == KeyCode.ESCAPE){
                 System.out.println("esc");
+                controller_s.isPaused = true;
+                Platform.exit();
+                System.exit(0);
+            }
+            else if (code == KeyCode.P){
                 controller_s.isPaused = !controller_s.isPaused;
+                controller_s.togglePause();
             }
             else if(code == leftKeyCode){
                 boardController_s.moveLeftOnKeyPress((TetrominoBase)model_s.bag.get(0));
