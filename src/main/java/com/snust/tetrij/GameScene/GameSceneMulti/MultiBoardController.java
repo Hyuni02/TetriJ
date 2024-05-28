@@ -24,7 +24,6 @@ import java.util.Vector;
 
 public class MultiBoardController {
     public final static MultiBoardController boardController = new MultiBoardController();
-
     private MultiBoardController() { }
 
     public int RWS(GameControllerBase.difficulty dif){
@@ -113,6 +112,7 @@ public class MultiBoardController {
             }
 
         }
+
         t.pos[1] = 3;
         model.bags[player].add(t);
 
@@ -146,6 +146,7 @@ public class MultiBoardController {
             if (tb.name == 'V') verticalExplosion(tb, player);
             if (tb.name == 'B') bigExplosion(tb, player);
             model.bags[player].remove(0);
+            getFromBuffer(player);
             generateTetromino(player);
             return;
         }
@@ -207,6 +208,7 @@ public class MultiBoardController {
         if (tb.name == 'B') bigExplosion(tb, player);
         if (tb.name == 'w') weightHardDrop(tb, player);
         model.bags[player].remove(0);
+        getFromBuffer(player);
         generateTetromino(player);
     }
 
@@ -445,7 +447,7 @@ public class MultiBoardController {
     public void eraseLine(int player, TetrominoBase tb) {
         //리스트에 가득 찬 라인을 저장
         List<Integer> l = new Vector<>();
-        for (int y = view.HEIGHT-1; y > 0 ; y--) {
+        for (int y = 0; y < view.HEIGHT ; y++) {
             boolean is_full = true;
             for (int x = 0; x < view.WIDTH; x++) {
                 if (model.MESH[player][y][x] == 'L') {
@@ -466,26 +468,32 @@ public class MultiBoardController {
         // 공격
         if (l.toArray().length > 1) {
             eraseMesh(tb, player);
-            System.out.println("공격 미구현");
             int enemy = (player == 1) ? 0 : 1;
-            for (int i = 0; i < l.toArray().length; i++) {
-                for (int j = 0; j < 19; j++) {
-                    model.MESH[enemy][j] = model.MESH[enemy][j+1];  //블록 올리기
+            for (int i = l.toArray().length -  1; i >= 0; i--) {
+                for (int j = 0; j < 9; j++) {
+                    model.buffer[enemy][j] = model.buffer[enemy][j+1];  //블록 올리기
                 }
-                model.MESH[enemy][19] = model.MESH[player][l.get(i)]; //맨 밑에 블록 추가
+                model.buffer[enemy][9] = Arrays.copyOf(model.MESH[player][l.get(i)], 10); //맨 밑에 블록 추가
+
+                for (int x = 0; x < 10; x++) {
+                    model.buffer[enemy][9][x] = (model.buffer[enemy][9][x] == '0') ? '0' : 'a';
+                }
             }
         }
 
+
         Platform.runLater(() -> {
-            // 라인 지우기
-            for (int line : l) {
-                for (int j = line; j > 0; j--) {
-                    model.MESH[player][j] = model.MESH[player][j - 1];  //블록 내리기
+                    // 라인 지우기
+                    for (int line : l) {
+                        System.out.println(line);
+                        for (int j = line; j > 0; j--) {
+                            model.MESH[player][j] = model.MESH[player][j - 1];  //블록 내리기
+                        }
+                        model.MESH[player][0] = new char[view.WIDTH];
+                        Arrays.fill(model.MESH[player][0], '0');
+                    }
                 }
-                model.MESH[player][0] = new char[view.WIDTH];
-                Arrays.fill(model.MESH[player][0], '0');
-            }
-        });
+        );
 
         //리스트에 저장된 라인들을 지움
 //        Task<Void> eraseTask = new Task<Void>() {
@@ -517,6 +525,28 @@ public class MultiBoardController {
 //        }
 
         ShowP1Borad(player);
+    }
+
+    public static void getFromBuffer(int player) {
+        for (int y = 0; y < 10; y++) {
+            boolean is_empty = true;
+            for (int x = 0; x < 10; x++) {
+                if (model.buffer[player][y][x] != '0') {
+                    is_empty = false;
+                    break;
+                }
+            }
+
+            //비어있지 않은 버퍼줄에 대해 수행
+            if (!is_empty) {
+                for (int dy = 0; dy < 19; dy++) {
+                    model.MESH[player][dy] = model.MESH[player][dy+1];
+                }
+                model.MESH[player][19] = model.buffer[player][y];
+            }
+            model.buffer[player][y] = new char[view.WIDTH];
+            Arrays.fill(model.buffer[player][y], '0');
+        }
     }
 
     public static void highlightLine(int line, int player){
