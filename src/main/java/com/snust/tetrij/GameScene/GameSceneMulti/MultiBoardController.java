@@ -556,7 +556,7 @@ public class MultiBoardController {
 
     private void updateTop(TetrominoBase tb, int player) {
         boolean fin = false;
-        controller.tops[player] = 20;
+        controller.tops[player] = 21;
         ShowP1Borad(player);
         for (char[] line : model.MESH[player]) {
             if(fin) {
