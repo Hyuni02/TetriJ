@@ -19,13 +19,15 @@ public class PlayerThreadSingle extends Thread {
 
     @Override
     public void run() {
+        System.out.println("run");
         boardController_s.generateTetromino();
         boardController_s.generateTetromino();
 
         int speedLevel = 0;
         while (!controller_s.isGameOver) {
-            if (controller_s.isPaused)
+            if (controller_s.isPaused) {
                 continue;
+            }
 
             int finalFreq = 0;
             int freq = 300;
@@ -64,9 +66,12 @@ public class PlayerThreadSingle extends Thread {
             view_s.lines.setText("Lines: " + controller_s.linesNo);
 
             if (controller_s.top >= view_s.HEIGHT - 2) {
-                System.out.println("게임 종료");
-                controller_s.isGameOver = true;
 
+                controller_s.isGameOver = true;
+                Platform.runLater(() -> {
+                    controller_s.stopGame();
+                    switchToGameOver(controller_s.score, controller_s.currentDifficulty);
+                });
             }
         }
     }

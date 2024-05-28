@@ -22,6 +22,10 @@ public class GameControllerBase {
     public String screenSize;
 
     public GameControllerBase() {
+        initController();
+    }
+
+    public void initController(){
         onPauseButton = false;
         isPaused = false;
         isGameOver = false;

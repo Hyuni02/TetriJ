@@ -35,9 +35,10 @@ public class PauseMenuController extends SingleTetris {
         stage.close();
         controller_s.isPaused = false;
         controller_s.onPauseButton = false;
+        controller_s.stopGame();
         controller.isPaused = false;
         controller.onPauseButton = false;
-
+        controller.stopGame();
         instance.switchToScene("start_menu.fxml");
     }
 }

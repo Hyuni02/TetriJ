@@ -17,7 +17,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.UUID;
-
+import static com.snust.tetrij.Controller.ResolutionManager.isHighlight;
 public class GameOverController {
     private final static GameManager instance = GameManager.getInstance();
     @FXML
@@ -56,7 +56,7 @@ public class GameOverController {
 
         resultScore = score;
         diff = difficulty.name();
-
+        isHighlight = true;
         FXMLLoader loader = new FXMLLoader(GameOverController.class.getResource("game_over.fxml"));
         Parent root = null;
         try {

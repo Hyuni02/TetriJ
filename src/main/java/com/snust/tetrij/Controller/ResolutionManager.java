@@ -13,13 +13,15 @@ import java.io.*;
 import static com.snust.tetrij.Controller.ScoreBoardController.currentScoreId;
 import static com.snust.tetrij.Controller.ScoreBoardController.scoreData;
 import static com.snust.tetrij.Controller.ScoreBoardController.highlightIndex;
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
 
 public class ResolutionManager {
 
     static String curResolution;
     public static int curHeight;
     public static int curWidth;
-    private static boolean isHighlight = true;
+    public static boolean isHighlight = true;
 
     public static void resolutionInitialize() {
         loadSettings();  //json파일 읽어옴
@@ -143,7 +145,7 @@ public class ResolutionManager {
         setTextLayout(root, "#diffText", 90.0, 75.0, "-fx-font-size: 18pt;");
 
         String cssLabel = "-fx-font-size: 32px;";
-        String highlight = "-fx-text-fill: #ff8989; -fx-font-weight: bold;-fx-font-size: 26px;";
+        String highlight = "-fx-text-fill: #ff8989; -fx-font-weight: bold;-fx-font-size: 32px;";
 
 
         double layoutX = 250;
@@ -375,6 +377,8 @@ public class ResolutionManager {
 
             JSONObject setting = new JSONObject(stringBuilder.toString());
             curResolution = setting.getString("screenSize");
+            controller_s.color_weakness = setting.getBoolean("isColorBlind");
+            controller.color_weakness = setting.getBoolean("isColorBlind");
 
         } catch (Exception e) {
 //            e.printStackTrace();
@@ -403,6 +407,8 @@ public class ResolutionManager {
             // JSON 객체 생성
             JSONObject setting = new JSONObject(stringBuilder.toString());
             curResolution = setting.getString("screenSize");
+            controller_s.color_weakness = setting.getBoolean("isColorBlind");
+            controller.color_weakness = setting.getBoolean("isColorBlind");
 
         } catch (Exception e) {
             e.printStackTrace();

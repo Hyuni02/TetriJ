@@ -15,6 +15,7 @@ import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.co
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s;
 
 import java.util.Arrays;
 import java.util.List;
@@ -91,10 +92,12 @@ public class MultiBoardController {
                     case 3 -> t = new L(true);
                     case 4 -> t = new O(true);
                     case 5 -> t = new S(true);
+                    case 6 -> t = new T(true);
                     case 7 -> t = new Boom();
-                    case 8 -> t = new BigBomb();
+                    case 8 -> t = new Goo();
                     case 9 -> t = new VerticalBomb();
                     case 10 -> t = new Weight();
+                    default -> t = new I(true);
                 }
             }
             else {
@@ -128,6 +131,7 @@ public class MultiBoardController {
         }
 
         t.pos[0] -= start_pos_y;
+        System.out.println("gen : " + t.name);
     }
 
     public void softDrop(TetrominoBase tb, int player) {
@@ -136,6 +140,7 @@ public class MultiBoardController {
         if (!canMoveDown(tb, 1, player)) {
             updateTop(tb, player);
             tb.update_mesh(player);
+            if (tb.name == 'g') gooExplosion(tb, player);
             eraseLine(player, tb);
             if (tb.name == 'b') explosion(tb, player);
             if (tb.name == 'V') verticalExplosion(tb, player);
@@ -145,6 +150,40 @@ public class MultiBoardController {
             return;
         }
         tb.update_mesh(player);
+    }
+
+    public static void gooExplosion(TetrominoBase tb, int player){
+        int left = tb.pos[1];
+        int top = tb.pos[0];
+        for (int y = top; y < top + 4; y++) {
+            if (y > view.HEIGHT - 1 || y < 0) {
+                continue;
+            }
+            for (int x = left; x < left + 4; x++) {
+                if (x < 0 || x > view.WIDTH - 1) {
+                    continue;
+                }
+                if(model.MESH[player][y][x] == '0') {
+                    model.MESH[player][y][x] = 'g';
+                }
+
+                //리스트에 저장된 블록들을 지움
+//                int finalX = x;
+//                int finalY = y;
+//                Task<Void> eraseTask = new Task<Void>() {
+//                    @Override
+//                    protected Void call() throws Exception {
+//                        Platform.runLater(() -> {
+//                            highlightBlock(finalX, finalY); //삭제되는 블록색 바꾸기
+//                        });
+//                        return null;
+//                    }
+//                };
+//                Thread eraseThread = new Thread(eraseTask);
+//                eraseThread.setDaemon(true);
+//                eraseThread.start();
+            }
+        }
     }
 
     /**
@@ -161,6 +200,7 @@ public class MultiBoardController {
         tb.pos[0] += dropHeight;
         tb.update_mesh(player);
         updateTop(tb, player);
+        if (tb.name == 'g') gooExplosion(tb, player);
         eraseLine(player, tb);
         if (tb.name == 'b') explosion(tb, player);
         if (tb.name == 'V') verticalExplosion(tb, player);

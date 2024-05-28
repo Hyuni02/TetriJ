@@ -19,8 +19,10 @@ public class SingleTetrisModel {
     }
 
     public void initModel() {
-        for (char[] row : MESH)
+        for (char[] row : MESH) {
             Arrays.fill(row, '0');
+        }
+        bag.clear();
     }
 
 }

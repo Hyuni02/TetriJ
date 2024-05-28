@@ -1,6 +1,7 @@
 package com.snust.tetrij.GameScene.GameSceneMulti;
 
 import com.snust.tetrij.tetromino.TetrominoBase;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import org.json.JSONObject;
@@ -127,7 +128,13 @@ public class MultiKeyController {
             if(code == KeyCode.NONCONVERT);
             else if(code == KeyCode.ESCAPE){
                 System.out.println("esc");
-                controller.isPaused = !controller.isPaused;
+                controller.isPaused = true;
+                Platform.exit();
+                System.exit(0);
+            }
+            else if (code == KeyCode.P){
+                controller.isPaused = !controller_s.isPaused;
+                controller.togglePause();
             }
             else if(code == leftKeyCode){
                 boardController.moveLeftOnKeyPress((TetrominoBase)model.bags[0].get(0), 0);
