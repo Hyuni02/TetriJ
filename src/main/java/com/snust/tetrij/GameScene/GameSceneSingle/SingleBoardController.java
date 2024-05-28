@@ -241,24 +241,24 @@ public class SingleBoardController {
         for (int y = 0; y < view_s.HEIGHT; y++) {
             model_s.MESH[y][left] = '0';
             model_s.MESH[y][right] = '0';
-
-            //리스트에 저장된 블록들을 지움
-            int finalY = y;
-            Task<Void> eraseTask = new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    System.out.println("make vertical erase thread");
+        }
+        Task<Void> eraseTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                System.out.println("make vertical erase thread");
+                for (int y = 0; y < view_s.HEIGHT; y++) {
+                    int finalY = y;
                     Platform.runLater(() -> {
                         highlightBlock(left, finalY); //삭제되는 블록색 바꾸기
                         highlightBlock(right, finalY);
                     });
-                    killEraseThread();
-                    return null;
                 }
-            };
-            eraseThread = new Thread(eraseTask);
-            eraseThread.start();
-        }
+                killEraseThread();
+                return null;
+            }
+        };
+        eraseThread = new Thread(eraseTask);
+        eraseThread.start();
     }
 
     public static void weightHardDrop(TetrominoBase tb) {
