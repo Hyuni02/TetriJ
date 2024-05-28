@@ -9,7 +9,7 @@ import java.util.Vector;
 public class MultiTetrisModel {
     public static final MultiTetrisModel model = new MultiTetrisModel();
 
-    public int HEIGHT = 20;
+    public int HEIGHT = 21;
     public int WIDTH = 10;
     public char [][] MESH1 = new char[HEIGHT][WIDTH];
     public char [][] MESH2 = new char[HEIGHT][WIDTH];
