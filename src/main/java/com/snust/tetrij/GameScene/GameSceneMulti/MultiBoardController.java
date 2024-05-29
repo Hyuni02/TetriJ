@@ -429,12 +429,15 @@ public class MultiBoardController {
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
                 if (rotatedShape[y][x] == 1) {
+                    int nx = x + tb.pos[1];
+                    int ny = y + tb.pos[0];
                     // 회전 후의 위치가 보드를 벗어나는 경우
-                    if (y >= view.HEIGHT || x >= view.WIDTH) {
+                    if (ny >= view_s.HEIGHT || nx >= view_s.WIDTH
+                            || ny < 0 || nx < 0) {
                         return null;
                     }
                     // 회전 후의 위치에 이미 다른 블록이 있는 경우
-                    if (model.MESH[player][y+tb.pos[0]][x+tb.pos[1]] == 1) {
+                    if (model.MESH[player][y+tb.pos[0]][x+tb.pos[1]] != '0') {
                         return null;
                     }
                 }
