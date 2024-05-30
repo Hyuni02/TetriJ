@@ -37,12 +37,7 @@ public class PlayerThreadSingle extends Thread {
                 case HARD -> finalFreq = freq - speedLevel * (int) (boost * 1.2f);
                 default -> finalFreq = freq - speedLevel * boost; //normal or item
             }
-            view_s.color_mesh();
-            try {
-                this.sleep(finalFreq);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            view_s.color_mesh();
 
             if (speedLevel == 0)
                 controller_s.score++;
@@ -72,6 +67,13 @@ public class PlayerThreadSingle extends Thread {
                     controller_s.stopGame();
                     switchToGameOver(controller_s.score, controller_s.currentDifficulty);
                 });
+            }
+
+
+            try {
+                this.sleep(finalFreq);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
