@@ -21,15 +21,8 @@ module com.snust.tetrij {
 
 
     requires org.slf4j;
-    requires spring.context;
-    requires spring.beans;
-    requires spring.core;
-    requires spring.aop;
-    requires spring.boot;
-    requires spring.boot.autoconfigure;
 
-
-    opens com.snust.tetrij to javafx.fxml, spring.core, spring.beans, spring.context;
+    opens com.snust.tetrij to javafx.fxml;
     exports com.snust.tetrij.tetromino;
     opens com.snust.tetrij.tetromino to javafx.fxml;
     exports com.snust.tetrij.GameScene;

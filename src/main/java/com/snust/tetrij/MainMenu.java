@@ -102,8 +102,6 @@ public class MainMenu extends Application {
         }
     }
     public static void main(String[] args) {
-//        Aspects.aspectOf(TimeTest2.class);
-//        launch(args);
         try{
             Aspects.aspectOf(TimeTest2.class);
             launch(args);
