@@ -23,6 +23,7 @@ import static com.snust.tetrij.Controller.ResolutionManager.curHeight;
 import static com.snust.tetrij.Controller.ResolutionManager.curWidth;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
 
+import org.aspectj.lang.Aspects;
 public class MainMenu extends Application {
     private final static GameManager instance = GameManager.getInstance();
     private static MediaPlayer mediaPlayer;
@@ -79,8 +80,10 @@ public class MainMenu extends Application {
             mediaPlayer = new MediaPlayer(sound);
 
             mediaPlayer.setOnEndOfMedia(() -> {
-                mediaPlayer.seek(Duration.ZERO); // 노래를 처음으로 돌려놓고
-                mediaPlayer.play(); // 다시 재생
+                if (mediaPlayer != null) {
+                    mediaPlayer.seek(Duration.ZERO); // 노래를 처음으로 돌려놓고
+                    mediaPlayer.play(); // 다시 재생
+                }
             });
             mediaPlayer.play();
         } catch (Exception e) {
@@ -99,6 +102,7 @@ public class MainMenu extends Application {
         }
     }
     public static void main(String[] args) {
+        Aspects.aspectOf(TimeTest2.class);
         launch(args);
     }
 }

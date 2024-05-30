@@ -1,0 +1,5 @@
+<aspectj>
+    <aspects>
+        <aspect name="com.snust.tetrij.TimeTest2"/>
+    </aspects>
+</aspectj>
