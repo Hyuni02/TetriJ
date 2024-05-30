@@ -71,7 +71,7 @@ public class showWinnerController {
                     thisStage.show();
 
                     // 자동으로 창 닫기를 위한 PauseTransition 설정
-                    PauseTransition delay = new PauseTransition(Duration.seconds(3));
+                    PauseTransition delay = new PauseTransition(Duration.seconds(5));
                     delay.setOnFinished(event -> {
                         thisStage.close();
                         try {

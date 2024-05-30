@@ -29,22 +29,35 @@ import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s
 public class SingleKeyController {
 
     public final static SingleKeyController keyController_s = new SingleKeyController();
-    public static String rightKey = loadKeySetting("right");
-    public static String leftKey = loadKeySetting("left");
-    public static String rotateKey = loadKeySetting("rotate");
-    public static String downKey = loadKeySetting("down");
-    public static String dropKey = loadKeySetting("drop");
-    public static KeyCode rightKeyCode = getKeyCodeFromString(rightKey);
-    public static KeyCode leftKeyCode = getKeyCodeFromString(leftKey);
-    public static KeyCode rotateKeyCode = getKeyCodeFromString(rotateKey);
-    public static KeyCode downKeyCode = getKeyCodeFromString(downKey);
-    public static KeyCode dropKeyCode = getKeyCodeFromString(dropKey);
+    public static String rightKey;
+    public static String leftKey;
+    public static String rotateKey;
+    public static String downKey;
+    public static String dropKey;
+    public static KeyCode rightKeyCode;
+    public static KeyCode leftKeyCode;
+    public static KeyCode rotateKeyCode;
+    public static KeyCode downKeyCode;
+    public static KeyCode dropKeyCode;
 
     private SingleKeyController(){
     }
 
     public static void addListenerPause(Scene scene) {
 
+    }
+
+    public void reloadKeySetting(){
+        rightKey = loadKeySetting("right");
+        leftKey = loadKeySetting("left");
+        rotateKey = loadKeySetting("rotate");
+        downKey = loadKeySetting("down");
+        dropKey = loadKeySetting("drop");
+        rightKeyCode = getKeyCodeFromString(rightKey);
+        leftKeyCode = getKeyCodeFromString(leftKey);
+        rotateKeyCode = getKeyCodeFromString(rotateKey);
+        downKeyCode = getKeyCodeFromString(downKey);
+        dropKeyCode = getKeyCodeFromString(dropKey);
     }
 
     /**

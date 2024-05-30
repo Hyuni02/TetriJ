@@ -46,7 +46,7 @@ public class MultiKeyController {
     public KeyCode downKeyCode1;
     public KeyCode dropKeyCode1;
 
-    private MultiKeyController() {
+    public void reloadKeySetting() {
         rightKey = loadKeySetting("right");
         leftKey = loadKeySetting("left");
         rotateKey = loadKeySetting("rotate");

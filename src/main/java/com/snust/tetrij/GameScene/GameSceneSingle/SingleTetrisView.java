@@ -67,6 +67,7 @@ public class SingleTetrisView {
         pane = new Pane();
         scene = new Scene(pane,curWidth, curHeight);
         stage = new Stage();
+        keyController_s.reloadKeySetting();
         keyController_s.gameProc(scene);
 
         scoretext = new Text();
@@ -141,7 +142,7 @@ public class SingleTetrisView {
 
         instance.getPrimaryStage().setScene(scene);
         instance.getPrimaryStage().setTitle("TETRIS");
-        keyController_s.gameProc(scene);
+//        keyController_s.gameProc(scene);
         instance.getPrimaryStage().show();
     }
 

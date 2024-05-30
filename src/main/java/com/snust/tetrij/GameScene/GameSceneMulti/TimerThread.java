@@ -5,7 +5,7 @@ import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
 
 public class TimerThread extends Thread{
-    public int remain_time = 3;
+    public int remain_time = 120;
     public TimerThread(){
         super("Timer");
     }

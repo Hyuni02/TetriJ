@@ -82,6 +82,7 @@ public class MultiTetrisView {
         scene = new Scene(pane,1200, 800);
         pane.setStyle("-fx-background-color: #f3f3f3;");
         stage = new Stage();
+        keyController.reloadKeySetting();
         keyController.gameProc(scene);
 
         for (StackPane[] sp: rect1)
@@ -230,7 +231,7 @@ public class MultiTetrisView {
 
         instance.getPrimaryStage().setScene(scene);
         instance.getPrimaryStage().setTitle("TETRIS");
-        keyController.gameProc(scene);
+//        keyController.gameProc(scene);
         instance.getPrimaryStage().show();
     }
 
