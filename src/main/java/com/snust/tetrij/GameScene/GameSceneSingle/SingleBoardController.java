@@ -80,8 +80,8 @@ public class SingleBoardController {
 //                default -> t = new I(false);
             }
         } else {
-            if (controller_s.deleted_lines <= 4) {
-                controller_s.deleted_lines = 0;
+            if (controller_s.deleted_lines >= 10) {
+                controller_s.deleted_lines -= 10;
                 switch (idx) {
                     case 0 -> t = new Z(true);
                     case 1 -> t = new I(true);
@@ -104,6 +104,10 @@ public class SingleBoardController {
                     case 4 -> t = new O(false);
                     case 5 -> t = new S(false);
                     case 6 -> t = new T(false);
+                    default -> {
+                        generateTetromino();
+                        return;
+                    }
                 }
             }
 

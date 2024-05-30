@@ -14,6 +14,7 @@ import kotlin.internal.ProgressionUtilKt;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisView.view;
+import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s;
 
@@ -40,7 +41,7 @@ public class MultiBoardController {
                 fitnesses = new double[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
             }
             default -> {
-                // normal 혹은 item
+                // normal
                 fitnesses = new double[]{1, 1, 1, 1, 1, 1, 1};
             }
         }
@@ -80,11 +81,13 @@ public class MultiBoardController {
                 case 4 -> t = new O(false);
                 case 5 -> t = new S(false);
                 case 6 -> t = new T(false);
+//                default -> t = new I(false);
             }
         }
         else {
-            if (controller.deleted_lines <= 4) {
-                controller.deleted_lines = 0;
+            if (controller.deleted_lines >= 10) {
+                controller.deleted_lines -= 10;
+                System.out.println("spawn item : " + player);
                 switch(idx) {
                     case 0 -> t = new Z(true);
                     case 1 -> t = new I(true);
@@ -101,6 +104,7 @@ public class MultiBoardController {
                 }
             }
             else {
+                System.out.println("spawn block : " + player);
                 switch(idx) {
                     case 0 -> t = new Z(false);
                     case 1 -> t = new I(false);
@@ -109,6 +113,10 @@ public class MultiBoardController {
                     case 4 -> t = new O(false);
                     case 5 -> t = new S(false);
                     case 6 -> t = new T(false);
+                    default -> {
+                        generateTetromino(player);
+                        return;
+                    }
                 }
             }
 
@@ -477,6 +485,7 @@ public class MultiBoardController {
             if (is_full)
                 l.add(y);
         }
+        controller.deleted_lines += l.size();
 
         if (l.isEmpty())
             return;
@@ -537,10 +546,10 @@ public class MultiBoardController {
 
             //비어있지 않은 버퍼줄에 대해 수행
             if (!is_empty) {
-                for (int dy = 0; dy < 19; dy++) {
+                for (int dy = 0; dy < 20; dy++) {
                     model.MESH[player][dy] = model.MESH[player][dy + 1];
                 }
-                model.MESH[player][19] = model.buffer[player][y];
+                model.MESH[player][20] = model.buffer[player][y];
             }
             model.buffer[player][y] = new char[view.WIDTH];
             Arrays.fill(model.buffer[player][y], '0');
