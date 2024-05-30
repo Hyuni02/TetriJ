@@ -1,5 +1,6 @@
 package com.snust.tetrij.GameScene.GameSceneMulti;
 
+import com.snust.tetrij.GameManager;
 import com.snust.tetrij.tetromino.TetrominoBase;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -9,7 +10,9 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisController.controller;
@@ -93,24 +96,10 @@ public class MultiKeyController {
 
     private String loadKeySetting_build(String key) {
         try {
-            // 클래스 로더를 사용하여 리소스 파일 읽기
-            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("com/snust/tetrij/keysetting.json");
-            if (inputStream == null) {
-                System.err.println("설정 파일을 찾을 수 없습니다.");
-                return null;
-            }
-
-            // 입력 스트림을 문자열로 변환
-            StringBuilder stringBuilder = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line);
-                }
-            }
-
-            // JSON 객체 생성
-            JSONObject settings = new JSONObject(stringBuilder.toString());
+            Path filePath = GameManager.JsonKeysetting();
+            String content;
+            content = new String(Files.readAllBytes(filePath), StandardCharsets.UTF_8);
+            JSONObject settings = new JSONObject(content);
             return settings.getString(key);
 
         } catch (Exception e) {
