@@ -11,6 +11,7 @@ import javafx.util.Duration;
 
 import java.util.*;
 
+import static com.snust.tetrij.GameScene.GameSceneMulti.MultiTetrisModel.model;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisController.controller_s;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisModel.model_s;
 import static com.snust.tetrij.GameScene.GameSceneSingle.SingleTetrisView.view_s;
@@ -415,13 +416,15 @@ public class SingleBoardController {
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
                 if (rotatedShape[y][x] == 1) {
+                    int nx = x + tb.pos[1];
+                    int ny = y + tb.pos[0];
                     // 회전 후의 위치가 보드를 벗어나는 경우
-                    if (y >= view_s.HEIGHT || x >= view_s.WIDTH
-                        || y < 0 || x < 0) {
+                    if (ny >= view_s.HEIGHT || nx >= view_s.WIDTH
+                            || ny < 0 || nx < 0) {
                         return null;
                     }
                     // 회전 후의 위치에 이미 다른 블록이 있는 경우
-                    if (model_s.MESH[y + tb.pos[0]][x + tb.pos[1]] != '0') {
+                    if (model_s.MESH[nx][ny] != '0') {
                         return null;
                     }
                 }
