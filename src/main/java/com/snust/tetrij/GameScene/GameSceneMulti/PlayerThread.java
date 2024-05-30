@@ -42,12 +42,8 @@ public class PlayerThread extends Thread {
                 case HARD -> finalFreq = freq - speedLevel * (int) (boost * 1.2f);
                 default -> finalFreq = freq - speedLevel * boost; //normal or item
             }
-            view.color_mesh(player_num);
-            try {
-                this.sleep(finalFreq);
-            } catch (InterruptedException e) {
+//            view.color_mesh(player_num);
 
-            }
 
             //점수 증가
             if (speedLevel == 0)
@@ -78,6 +74,11 @@ public class PlayerThread extends Thread {
                     }
                     controller.ShowWinner();
                 });
+            }
+            try {
+                this.sleep(finalFreq);
+            } catch (InterruptedException e) {
+
             }
         }
 //        this.interrupt();
