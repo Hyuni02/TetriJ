@@ -370,28 +370,6 @@ public class ResolutionManager {
 
     private static void loadSettings() {    //셋팅 파일 읽어옴
         try {
-            File file = new File("src/main/resources/com/snust/tetrij/setting.json");
-            FileReader fileReader = new FileReader(file);
-            StringBuilder stringBuilder = new StringBuilder();
-            int i;
-            while ((i = fileReader.read()) != -1) {
-                stringBuilder.append((char) i);
-            }
-            fileReader.close();
-
-            JSONObject setting = new JSONObject(stringBuilder.toString());
-            curResolution = setting.getString("screenSize");
-            controller_s.color_weakness = setting.getBoolean("isColorBlind");
-            controller.color_weakness = setting.getBoolean("isColorBlind");
-
-        } catch (Exception e) {
-//            e.printStackTrace();
-            loadSettings_build();
-        }
-    }
-
-    private static void loadSettings_build() {
-        try {
             // 빌드 환경에서 셋팅 파일 읽어옴
             Path filePath = GameManager.Jsonsetting();
 
@@ -417,4 +395,5 @@ public class ResolutionManager {
             System.out.println("No setting.json");
         }
     }
+
 }

@@ -105,25 +105,25 @@ public void switchToStartMenu() throws IOException {
 //            onButtonSound_build();
 //        }
     }
-
-    private void onButtonSound_build() {
-        try {
-            // 클래스 로더를 사용하여 리소스 파일 읽기
-            URL soundUrl = getClass().getResource("/com/snust/tetrij/sound/onButton.mp3");
-            if (soundUrl == null) {
-                System.err.println("사운드 파일을 찾을 수 없습니다.");
-                return;
-            }
-
-            Media sound = new Media(soundUrl.toString());
-            mediaPlayer = new MediaPlayer(sound);
-            mediaPlayer.setVolume(1.0);
-            mediaPlayer.play();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//
+//    private void onButtonSound_build() {
+//        try {
+//            // 클래스 로더를 사용하여 리소스 파일 읽기
+//            URL soundUrl = getClass().getResource("/com/snust/tetrij/sound/onButton.mp3");
+//            if (soundUrl == null) {
+//                System.err.println("사운드 파일을 찾을 수 없습니다.");
+//                return;
+//            }
+//
+//            Media sound = new Media(soundUrl.toString());
+//            mediaPlayer = new MediaPlayer(sound);
+//            mediaPlayer.setVolume(1.0);
+//            mediaPlayer.play();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
     private void ClickButtonSound() {
 //        try {
 //            Media sound = new Media(new File("src/main/resources/com/snust/tetrij/sound/button_click.mp3").toURI().toString());

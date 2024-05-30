@@ -86,16 +86,6 @@ public class MultiKeyController {
 
     private String loadKeySetting(String key) {
         try {
-            String content = new String(Files.readAllBytes(Paths.get("src/main/resources/com/snust/tetrij/keysetting.json")), "UTF-8");
-            JSONObject settings = new JSONObject(content);
-            return settings.getString(key);
-        } catch (Exception e) {
-            return loadKeySetting_build(key);
-        }
-    }
-
-    private String loadKeySetting_build(String key) {
-        try {
             Path filePath = GameManager.JsonKeysetting();
             String content;
             content = new String(Files.readAllBytes(filePath), StandardCharsets.UTF_8);

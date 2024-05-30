@@ -55,55 +55,6 @@ public class SettingController {
         screenSize = sizeComboBox.getSelectionModel().getSelectedItem();
     }
     public void defaultSetting() {
-        try {
-            // 개발 환경
-            File file = new File("src/main/resources/com/snust/tetrij/setting.json");
-            try {
-                String content = new String(Files.readAllBytes(Paths.get(file.toURI())), "UTF-8");
-                JSONObject currentSettings = new JSONObject(content);
-                currentSettings.put("screenSize", "600x400");
-                currentSettings.put("isColorBlind", false);
-
-                try (FileWriter fileWriter = new FileWriter(file)) {
-                    fileWriter.write(currentSettings.toString());
-                    fileWriter.flush();
-                    loadSettings();
-                    colorBlindModeCheckBox.setSelected(isColorBlind);
-                    sizeComboBox.getSelectionModel().select(screenSize);
-                }
-
-                file = new File("src/main/resources/com/snust/tetrij/keysetting.json");
-                try {
-                    content = new String(Files.readAllBytes(Paths.get(file.toURI())), "UTF-8");
-                    currentSettings = new JSONObject(content);
-                    currentSettings.put("right", "RIGHT");
-                    currentSettings.put("left", "LEFT");
-                    currentSettings.put("rotate", "UP");
-                    currentSettings.put("down", "DOWN");
-                    currentSettings.put("drop", "SPACE");
-                    //플레이어2
-                    currentSettings.put("p2Right", "D");
-                    currentSettings.put("p2Left", "A");
-                    currentSettings.put("p2Rotate", "W");
-                    currentSettings.put("p2Down", "S");
-                    currentSettings.put("p2Drop", "SHIFT");
-
-                    try (FileWriter fileWriter = new FileWriter(file)) {
-                        fileWriter.write(currentSettings.toString());
-                        fileWriter.flush();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } catch (Exception e) {
-                // 빌드 환경
-                defaultSetting_build();
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    public void defaultSetting_build(){
         System.out.println("test1");
 
         try {
@@ -120,7 +71,7 @@ public class SettingController {
             currentSettings.put("screenSize", "600x400");
             currentSettings.put("isColorBlind", false);
 
-             //설정을 파일에 저장
+            //설정을 파일에 저장
             colorBlindModeCheckBox.setSelected(isColorBlind);
             sizeComboBox.getSelectionModel().select(screenSize);
 
@@ -173,26 +124,6 @@ public class SettingController {
     }
 
     private void saveSettingsToFile() {
-        // 개발 환경에서 셋팅파일을 json 파일로 저장
-        File file = new File("src/main/resources/com/snust/tetrij/setting.json");
-        try {
-            String content = new String(Files.readAllBytes(Paths.get(file.toURI())), "UTF-8");
-            JSONObject currentSettings = new JSONObject(content);
-            currentSettings.put("screenSize", screenSize);
-            currentSettings.put("isColorBlind", isColorBlind);
-
-            try (FileWriter fileWriter = new FileWriter(file)) {
-                fileWriter.write(currentSettings.toString());
-                fileWriter.flush();
-                loadSettings();
-            }
-        } catch (Exception e) {
-//            e.printStackTrace();
-            saveSettingsToFile_build();
-        }
-    }
-
-    private void saveSettingsToFile_build() {
         // 빌드 환경에서 셋팅파일을 저장
         try {
             // 홈 디렉터리에서 설정 파일 경로 얻기
@@ -219,8 +150,6 @@ public class SettingController {
             e.printStackTrace();
         }
     }
-
-
 
     //시작 메뉴로 가기
     public void switchToStartMenu(ActionEvent event) throws IOException {
@@ -293,27 +222,6 @@ public void deleteScores() {
 
     private void loadSettings() {
     // 개발 환경에서 셋팅 파일 읽어옴
-        try {
-            File file = new File("src/main/resources/com/snust/tetrij/setting.json");
-            FileReader fileReader = new FileReader(file);
-            StringBuilder stringBuilder = new StringBuilder();
-            int i;
-            while ((i = fileReader.read()) != -1) {
-                stringBuilder.append((char) i);
-            }
-            fileReader.close();
-
-            JSONObject setting = new JSONObject(stringBuilder.toString());
-            screenSize = setting.getString("screenSize");
-            isColorBlind = setting.getBoolean("isColorBlind");
-
-        } catch (Exception e) {
-//            e.printStackTrace();
-            loadSettings_build();
-        }
-    }
-
-    private void loadSettings_build() {
         // 빌드 환경에서 셋팅 파일 읽어옴
         Path filePath = GameManager.Jsonsetting();
 
@@ -336,4 +244,5 @@ public void deleteScores() {
 
         System.out.println("Current Resolution: " + curResolution);
     }
+
 }

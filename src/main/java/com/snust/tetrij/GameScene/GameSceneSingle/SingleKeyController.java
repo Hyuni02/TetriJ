@@ -117,23 +117,11 @@ public class SingleKeyController {
 
     private static String loadKeySetting(String key) {
         try {
-            String content = new String(Files.readAllBytes(Paths.get("src/main/resources/com/snust/tetrij/keysetting.json")), "UTF-8");
-            JSONObject settings = new JSONObject(content);
-            return settings.getString(key);
-        } catch (Exception e) {
-//            e.printStackTrace();
-            return loadKeySetting_build(key);
-        }
-    }
-
-    private static String loadKeySetting_build(String key) {
-        try {
             Path filePath = GameManager.JsonKeysetting();
             String content;
             content = new String(Files.readAllBytes(filePath), StandardCharsets.UTF_8);
             JSONObject settings = new JSONObject(content);
             return settings.getString(key);
-
         } catch (Exception e) {
             e.printStackTrace();
             return null;
