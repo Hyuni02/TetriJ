@@ -36,7 +36,7 @@ public class PlayerThread extends Thread {
             //속도 조절
             int finalFreq;
             int boost = 30;
-            int freq = 300;
+            int freq = 30000;
             switch (controller.currentDifficulty) {
                 case EASY -> finalFreq = freq - speedLevel * (int) (boost * 0.8f);
                 case HARD -> finalFreq = freq - speedLevel * (int) (boost * 1.2f);

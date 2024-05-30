@@ -89,33 +89,34 @@ public class MultiBoardController {
                 controller.deleted_lines -= 10;
                 System.out.println("spawn item : " + player);
                 switch(idx) {
-                    case 0 -> t = new Z(true);
-                    case 1 -> t = new I(true);
-                    case 2 -> t = new J(true);
-                    case 3 -> t = new L(true);
-                    case 4 -> t = new O(true);
-                    case 5 -> t = new S(true);
-                    case 6 -> t = new T(true);
-                    case 7 -> t = new Boom();
-                    case 8 -> t = new Goo();
-                    case 9 -> t = new VerticalBomb();
-                    case 10 -> t = new Weight();
-//                    default -> t = new I(true);
+//                    case 0 -> t = new Z(true);
+//                    case 1 -> t = new I(true);
+//                    case 2 -> t = new J(true);
+//                    case 3 -> t = new L(true);
+//                    case 4 -> t = new O(true);
+//                    case 5 -> t = new S(true);
+//                    case 6 -> t = new T(true);
+//                    case 7 -> t = new VerticalBomb();
+//                    case 8 -> t = new Goo();
+//                    case 9 -> t = new Boom();
+//                    case 10 -> t = new Weight();
+                    default -> t = new Goo();
                 }
             }
             else {
                 System.out.println("spawn block : " + player);
                 switch(idx) {
-                    case 0 -> t = new Z(false);
-                    case 1 -> t = new I(false);
-                    case 2 -> t = new J(false);
-                    case 3 -> t = new L(false);
-                    case 4 -> t = new O(false);
-                    case 5 -> t = new S(false);
-                    case 6 -> t = new T(false);
+//                    case 0 -> t = new Z(false);
+//                    case 1 -> t = new I(false);
+//                    case 2 -> t = new J(false);
+//                    case 3 -> t = new L(false);
+//                    case 4 -> t = new O(false);
+//                    case 5 -> t = new S(false);
+//                    case 6 -> t = new T(false);
                     default -> {
-                        generateTetromino(player);
-                        return;
+                        t = new I(false);
+//                        generateTetromino(player);
+//                        return;
                     }
                 }
             }
@@ -148,12 +149,12 @@ public class MultiBoardController {
         tb.pos[0]++;
         if (!canMoveDown(tb, 1, player)) {
             updateTop(tb, player);
-            tb.update_mesh(player);
             if (tb.name == 'g') gooExplosion(tb, player);
-            eraseLine(player, tb);
             if (tb.name == 'b') explosion(tb, player);
             if (tb.name == 'V') verticalExplosion(tb, player);
             if (tb.name == 'B') bigExplosion(tb, player);
+            tb.update_mesh(player);
+            eraseLine(player, tb);
             model.bags[player].remove(0);
             getFromBuffer(player);
             generateTetromino(player);
@@ -175,6 +176,7 @@ public class MultiBoardController {
                 }
                 if(model.MESH[player][y][x] == '0') {
                     model.MESH[player][y][x] = 'g';
+                    tb.mesh[y-top][x-left] = 1;
                 }
 
                 //리스트에 저장된 블록들을 지움
@@ -208,14 +210,14 @@ public class MultiBoardController {
         }
 
         tb.pos[0] += dropHeight;
-        tb.update_mesh(player);
         updateTop(tb, player);
         if (tb.name == 'g') gooExplosion(tb, player);
-        eraseLine(player, tb);
         if (tb.name == 'b') explosion(tb, player);
         if (tb.name == 'V') verticalExplosion(tb, player);
         if (tb.name == 'B') bigExplosion(tb, player);
         if (tb.name == 'w') weightHardDrop(tb, player);
+        tb.update_mesh(player);
+        eraseLine(player, tb);
         model.bags[player].remove(0);
         getFromBuffer(player);
         generateTetromino(player);
@@ -486,6 +488,8 @@ public class MultiBoardController {
                 l.add(y);
         }
         controller.deleted_lines += l.size();
+
+
 
         if (l.isEmpty())
             return;
