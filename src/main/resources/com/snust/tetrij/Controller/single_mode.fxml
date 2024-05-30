@@ -4,13 +4,12 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: #000000;" stylesheets="@mode.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.Controller.SelectModeController">
+<AnchorPane prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: #000000;" stylesheets="@mode.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.snust.tetrij.Controller.SelectModeController">
    <children>
       <Button layoutX="15.0" layoutY="80.0" mnemonicParsing="false" onAction="#selectEasy" prefHeight="60.0" prefWidth="60.0" text="EASY" />
-      <Button layoutX="90.0" layoutY="80.0" mnemonicParsing="false" onAction="#selectNormal" prefHeight="60.0" prefWidth="60.0" text="NOR&#10;MAL" />
-      <Button layoutX="165.0" layoutY="80.0" mnemonicParsing="false" onAction="#selectHard" prefHeight="60.0" prefWidth="60.0" text="HARD" />
-      <Button layoutX="240.0" layoutY="80.0" mnemonicParsing="false" onAction="#selectItem" prefHeight="60.0" prefWidth="60.0" text="ITEM" />
-      <Button layoutX="315.0" layoutY="80.0" mnemonicParsing="false" onAction="#selectItem" prefHeight="60.0" prefWidth="60.0" text="TIME" />
+      <Button layoutX="118" layoutY="80.0" mnemonicParsing="false" onAction="#selectNormal" prefHeight="60.0" prefWidth="60.0" text="NOR&#10;MAL" />
+      <Button layoutX="221" layoutY="80.0" mnemonicParsing="false" onAction="#selectHard" prefHeight="60.0" prefWidth="60.0" text="HARD" />
+      <Button layoutX="325.0" layoutY="80.0" mnemonicParsing="false" onAction="#selectItem" prefHeight="60.0" prefWidth="60.0" text="ITEM" />
       <Text layoutX="65.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="titleText" text="Single Mode">
          <font>
             <Font size="25.0" />

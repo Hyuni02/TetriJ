@@ -19,7 +19,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class showWinnerController {
     @FXML
     private Text winnerText;
-    private Stage thisStage; // 이제 스테이지는 필요할 때만 생성됩니다.
+    private Stage thisStage;
     private Scene thisScene;
     private final Lock lock = new ReentrantLock();
 
@@ -28,13 +28,15 @@ public class showWinnerController {
         Platform.runLater(() -> {
             try {
                 GameManager.getInstance().switchToScene("start_menu.fxml");
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
+
     }
 
-    // 승자를 표시하는 메소드, loser는 패배자의 ID를 나타냄
+
     public void showWinnerFXML(int loser) {
         lock.lock();
         try {
