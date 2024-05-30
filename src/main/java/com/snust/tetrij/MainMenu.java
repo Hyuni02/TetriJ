@@ -102,12 +102,16 @@ public class MainMenu extends Application {
         }
     }
     public static void main(String[] args) {
-        try{
-            Aspects.aspectOf(TimeTest2.class);
-            launch(args);
+        String env = System.getenv("ENV");
+
+        if ("development".equals(env)) {
+            try {
+                Aspects.aspectOf(TimeTest2.class);
+            } catch (NoClassDefFoundError e) {
+                System.err.println("AspectJ library not found.");
+            }
         }
-        catch (Exception e){
-            launch(args);
-        }
+
+        launch(args);
     }
 }
