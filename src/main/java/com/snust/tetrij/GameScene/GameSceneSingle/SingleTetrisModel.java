@@ -9,7 +9,7 @@ import java.util.Vector;
 public class SingleTetrisModel {
     public static final SingleTetrisModel model_s = new SingleTetrisModel();
 
-    public int HEIGHT = 20;
+    public int HEIGHT = 21;
     public int WIDTH = 10;
     public char [][] MESH = new char[HEIGHT][WIDTH];
 

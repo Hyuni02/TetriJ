@@ -32,17 +32,22 @@ public class MultiTetrisView {
     private static Pane pane;
     private Stage stage;
 
-    private StackPane[][] rect1 = new StackPane[20][10];
-    private StackPane[][] rect2 = new StackPane[20][10];
+    private StackPane[][] rect1 = new StackPane[21][10];
+    private StackPane[][] rect2 = new StackPane[21][10];
     public StackPane[][][] rect = new StackPane[][][] {rect1, rect2};
 
     private StackPane[][] nextRect1 = new StackPane[4][4];
     private StackPane[][] nextRect2 = new StackPane[4][4];
     public StackPane[][][] nextRect = new StackPane[][][] {nextRect1, nextRect2};
 
+    private StackPane[][] buffer1 = new StackPane[10][10];
+    private StackPane[][] buffer2 = new StackPane[10][10];
+    public StackPane[][][] buffer = new StackPane[][][] {buffer1, buffer2};
+
     public final int WIDTH = 10;
-    public final int HEIGHT = 20;
+    public final int HEIGHT = 21;
     private int size;
+    private int bufferSize;
     private int panelOffset = 500;
 
     private int lineX = 810;
@@ -58,7 +63,6 @@ public class MultiTetrisView {
             lineX = 410;
             panelOffset = 200;
             size = 17;
-
         }
         if(curWidth == 900 && curHeight == 600){
             lineX = 610;
@@ -72,6 +76,8 @@ public class MultiTetrisView {
             size = 30;
 
         }
+
+        bufferSize = (int)(size/1.5);
         pane = new Pane();
         scene = new Scene(pane,1200, 800);
         pane.setStyle("-fx-background-color: #f3f3f3;");
@@ -80,10 +86,15 @@ public class MultiTetrisView {
 
         for (StackPane[] sp: rect1)
             Arrays.fill(sp, new StackPane());
-
         for (StackPane[] sp: rect2)
             Arrays.fill(sp, new StackPane());
         for (StackPane[] sp: nextRect1)
+            Arrays.fill(sp, new StackPane());
+        for (StackPane[] sp: nextRect2)
+            Arrays.fill(sp, new StackPane());
+        for (StackPane[] sp: buffer1)
+            Arrays.fill(sp, new StackPane());
+        for (StackPane[] sp: buffer2)
             Arrays.fill(sp, new StackPane());
     }
 
@@ -104,7 +115,7 @@ public class MultiTetrisView {
 
         //p1 mesh
         Platform.runLater(() ->  {
-            for (int y = 0; y < HEIGHT; y++) {
+            for (int y = 1; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     Rectangle r = new Rectangle(size, size);
                     r.setFill(Color.WHITE);
@@ -124,7 +135,7 @@ public class MultiTetrisView {
         //p2 mesh
         int start_pos = curWidth - size*WIDTH - size - 5;
         Platform.runLater(() ->  {
-            for (int y = 0; y < HEIGHT; y++) {
+            for (int y = 1; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
 
                     Rectangle r = new Rectangle(size, size);
@@ -180,6 +191,43 @@ public class MultiTetrisView {
             }
         });
 
+        // 버퍼1
+        Platform.runLater(() ->  {
+            for (int y = 0; y < 10; y++) {
+                for (int x = 0; x < 10; x++) {
+                    Rectangle r = new Rectangle(bufferSize, bufferSize);
+                    r.setFill(Color.WHITE);
+                    r.setStrokeWidth(0.5);
+                    r.setStroke(Color.BLACK);
+                    StackPane sp = new StackPane();
+                    sp.setLayoutX(size*WIDTH + 20 + bufferSize*x);
+                    sp.setLayoutY(y*bufferSize + 200);
+                    sp.getChildren().add(r);
+                    pane.getChildren().add(sp);
+                    buffer1[y][x] = sp;
+                }
+            }
+        });
+
+        // 버퍼2
+        int start_pos_buffer = start_pos - bufferSize*10;
+        Platform.runLater(() ->  {
+            for (int y = 0; y < 10; y++) {
+                for (int x = 0; x < 10; x++) {
+                    Rectangle r = new Rectangle(bufferSize, bufferSize);
+                    r.setFill(Color.WHITE);
+                    r.setStrokeWidth(0.5);
+                    r.setStroke(Color.BLACK);
+                    StackPane sp = new StackPane();
+                    sp.setLayoutX(start_pos_buffer + bufferSize*x - 10);
+                    sp.setLayoutY(y*bufferSize + 200);
+                    sp.getChildren().add(r);
+                    pane.getChildren().add(sp);
+                    buffer2[y][x] = sp;
+                }
+            }
+        });
+
         instance.getPrimaryStage().setScene(scene);
         instance.getPrimaryStage().setTitle("TETRIS");
         keyController.gameProc(scene);
@@ -188,7 +236,7 @@ public class MultiTetrisView {
 
     public void color_mesh(int player) {
         Platform.runLater(() ->  {
-            for (int y = 0; y < HEIGHT; y++) {
+            for (int y = 1; y < HEIGHT; y++) {
                 for (int x = 0; x < WIDTH; x++) {
                     Rectangle r = (Rectangle)rect[player][y][x].getChildren().get(0);
                     r.setFill(TetrominoBase.getColor(model.MESH[player][y][x], player));
@@ -240,6 +288,22 @@ public class MultiTetrisView {
                                 t1.setText("G");
                             } else {
                                 t1.setText(" ");
+                            }
+                        }
+                    }
+                }
+        );
+
+        int enemy = (player == 1) ? 0 : 1;
+        Platform.runLater(
+                () -> {
+                    for (int y = 0; y < 10; y++) {
+                        for (int x = 0; x < 10; x++) {
+                            Rectangle r1 = (Rectangle) buffer[enemy][y][x].getChildren().get(0);
+                            if (model.buffer[enemy][y][x] == '0') {
+                                r1.setFill(Color.WHITE);
+                            } else {
+                                r1.setFill(Color.GRAY);
                             }
                         }
                     }

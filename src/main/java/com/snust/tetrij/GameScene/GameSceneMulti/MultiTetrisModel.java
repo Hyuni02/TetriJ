@@ -9,18 +9,19 @@ import java.util.Vector;
 public class MultiTetrisModel {
     public static final MultiTetrisModel model = new MultiTetrisModel();
 
-    public int HEIGHT = 20;
+    public int HEIGHT = 21;
     public int WIDTH = 10;
     public char [][] MESH1 = new char[HEIGHT][WIDTH];
     public char [][] MESH2 = new char[HEIGHT][WIDTH];
     public char [][][] MESH = new char[][][] {MESH1, MESH2};
-    private char [][] attackBuffer1 = new char[4][WIDTH];
-    private char [][] attackBuffer2 = new char[4][WIDTH];
-    public char [][][] attackBuffer = new char[][][] {attackBuffer1, attackBuffer2};
+    private char [][] attackBuffer1 = new char[10][WIDTH];
+    private char [][] attackBuffer2 = new char[10][WIDTH];
+    public char [][][] buffer = new char[][][] {attackBuffer1, attackBuffer2};
 
     public List<TetrominoBase> bag1 = new Vector<TetrominoBase>();
     public List<TetrominoBase> bag2 = new Vector<TetrominoBase>();
     public List[] bags = new List[2];
+    public int buffer_size[] = { 0,0 };
     
     private MultiTetrisModel() {
         initModel();
@@ -42,10 +43,11 @@ public class MultiTetrisModel {
         bags[0] = bag1;
         bags[1] = bag2;
 
-        attackBuffer1 = new char[4][WIDTH];
-        attackBuffer2 = new char[4][WIDTH];
-
-        attackBuffer[0] = attackBuffer1;
-        attackBuffer[1] = attackBuffer2;
+        buffer[0] = attackBuffer1;
+        buffer[1] = attackBuffer2;
+        buffer[0] = attackBuffer1;
+        buffer[1] = attackBuffer2;
+        buffer_size[0] = 0;
+        buffer_size[1] = 0;
     }
 }

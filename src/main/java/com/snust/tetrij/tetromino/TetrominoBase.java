@@ -87,6 +87,7 @@ public class TetrominoBase {
     }
 
     public static Color getColor(char name, int player) {
+        // 싱글
         if (player == -1){
             if (!controller_s.color_weakness) {
                 //기본모드
@@ -122,7 +123,7 @@ public class TetrominoBase {
                         return Color.LIGHTGREY;
                     }
                     case 'V' -> {
-                        return Color.GREY;
+                        return Color.CYAN;
                     }
                     case 'b' -> {
                         return Color.DARKGREY;
@@ -130,8 +131,9 @@ public class TetrominoBase {
                     case 'g' -> {
                         return Color.HOTPINK;
                     }
-                }
-            } else {
+                } // end switch
+            } // if !colorweakness
+            else {
                 //색약모드
                 switch (name) {
                     case 'i' -> {
@@ -167,7 +169,7 @@ public class TetrominoBase {
                         return Color.LIGHTGREY;
                     }
                     case 'V' -> {
-                        return Color.GREY;
+                        return Color.CYAN;
                     }
                     case 'b' -> {
                         return Color.DARKGREY;
@@ -175,9 +177,10 @@ public class TetrominoBase {
                     case 'g' -> {
                         return Color.HOTPINK;
                     }
-                }
-            }
+                } // end switch
+            } // endif colorweakness
         }
+        // multi
         else {
             if (!controller.color_weakness) {
                 //기본모드
@@ -214,7 +217,7 @@ public class TetrominoBase {
                         return Color.LIGHTGREY;
                     }
                     case 'V' -> {
-                        return Color.GREY;
+                        return Color.CYAN;
                     }
                     case 'b' -> {
                         return Color.DARKGREY;
@@ -222,8 +225,12 @@ public class TetrominoBase {
                     case 'g' -> {
                         return Color.HOTPINK;
                     }
+                    case 'a' -> {
+                        return Color.GREY;
+                    }
                 }
-            } else {
+            } // if colorweakness
+            else {
                 //색약모드
                 switch (name) {
                     case 'i' -> {
@@ -260,7 +267,7 @@ public class TetrominoBase {
                         return Color.LIGHTGREY;
                     }
                     case 'V' -> {
-                        return Color.GREY;
+                        return Color.CYAN;
                     }
                     case 'b' -> {
                         return Color.DARKGREY;
@@ -268,9 +275,12 @@ public class TetrominoBase {
                     case 'g' -> {
                         return Color.HOTPINK;
                     }
-                }
-            }
-        }
+                    case 'a' -> {
+                        return Color.GREY;
+                    }
+                } // end switch
+            } //endif colorweakness
+        } //endif player
         return Color.WHITE;
     }
 }
