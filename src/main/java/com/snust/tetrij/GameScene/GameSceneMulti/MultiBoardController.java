@@ -80,6 +80,7 @@ public class MultiBoardController {
                 case 4 -> t = new O(false);
                 case 5 -> t = new S(false);
                 case 6 -> t = new T(false);
+//                default -> t = new I(false);
             }
         }
         else {
@@ -537,10 +538,10 @@ public class MultiBoardController {
 
             //비어있지 않은 버퍼줄에 대해 수행
             if (!is_empty) {
-                for (int dy = 0; dy < 19; dy++) {
+                for (int dy = 0; dy < 20; dy++) {
                     model.MESH[player][dy] = model.MESH[player][dy + 1];
                 }
-                model.MESH[player][19] = model.buffer[player][y];
+                model.MESH[player][20] = model.buffer[player][y];
             }
             model.buffer[player][y] = new char[view.WIDTH];
             Arrays.fill(model.buffer[player][y], '0');
