@@ -8,8 +8,11 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import org.json.JSONObject;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -112,6 +115,77 @@ public class GameManager {
                 System.out.println("생성 파일 : " + filePath);
             } else {
                 System.out.println("파일 존재함");
+            }
+        } catch (IOException e) {
+            System.err.println("Error handling the file: " + e.getMessage());
+        }
+
+        return filePath;
+    }
+
+    public static Path Jsonsetting(){
+        String homeDir = System.getProperty("user.home");
+        Path filePath = Paths.get(homeDir, "setting.json");
+
+        try {
+            // 파일 존재 여부 확인
+            if (!Files.exists(filePath)) {
+                System.out.println("test!!!");
+                // 파일이 존재하지 않으면 새로운 파일 생성
+                Files.createFile(filePath);
+                System.out.println("생성 파일 : " + filePath);
+
+                JSONObject currentSettings = new JSONObject();
+                currentSettings.put("screenSize", "600x400");
+                currentSettings.put("isColorBlind", false);
+
+                // 설정을 파일에 저장
+                try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardCharsets.UTF_8)) {
+                    writer.write(currentSettings.toString());
+                    writer.flush();
+                }
+                System.out.println("Saved settings: " + currentSettings.toString());
+            } else {
+                System.out.println("setting 파일 존재함");
+            }
+        } catch (IOException e) {
+            System.err.println("Error handling the file: " + e.getMessage());
+        }
+
+        return filePath;
+    }
+    public static Path JsonKeysetting() {
+        String homeDir = System.getProperty("user.home");
+        Path filePath = Paths.get(homeDir, "keysetting.json");
+
+        try {
+            // 파일 존재 여부 확인
+            if (!Files.exists(filePath)) {
+                System.out.println("test!!!");
+                // 파일이 존재하지 않으면 새로운 파일 생성
+                Files.createFile(filePath);
+                System.out.println("생성 파일 : " + filePath);
+
+                JSONObject currentSettings = new JSONObject();
+                currentSettings.put("right", "RIGHT");
+                currentSettings.put("left", "LEFT");
+                currentSettings.put("rotate", "UP");
+                currentSettings.put("down", "DOWN");
+                currentSettings.put("drop", "SPACE");
+                //플레이어2
+                currentSettings.put("p2Right", "D");
+                currentSettings.put("p2Left", "A");
+                currentSettings.put("p2Rotate", "W");
+                currentSettings.put("p2Down", "S");
+                currentSettings.put("p2Drop", "SHIFT");
+
+                // 설정을 파일에 저장
+                try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardCharsets.UTF_8)) {
+                    writer.write(currentSettings.toString());
+                    writer.flush();
+                }
+            } else {
+                System.out.println("keysetting 파일 존재함");
             }
         } catch (IOException e) {
             System.err.println("Error handling the file: " + e.getMessage());

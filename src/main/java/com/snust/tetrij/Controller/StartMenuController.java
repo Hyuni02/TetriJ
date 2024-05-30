@@ -70,8 +70,11 @@ public void switchToStartMenu() throws IOException {
     }
     @FXML
     public void switchToSetting() throws IOException {
+        GameManager.Jsonsetting();
+        GameManager.JsonKeysetting();
         ClickButtonSound();
         instance.switchToScene("setting.fxml");
+
 
     }
     @FXML

@@ -56,6 +56,9 @@ public class MainMenu extends Application {
         //playSound("src/main/resources/com/snust/tetrij/sound/startMenuBGM.wav");
         //mediaPlayer.setVolume(0.3);
 
+        GameManager.Jsonsetting();
+        GameManager.JsonKeysetting();
+
     }
 
     public static void playTetrij(String difficulty) throws Exception {

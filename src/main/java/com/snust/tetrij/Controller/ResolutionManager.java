@@ -1,5 +1,6 @@
 package com.snust.tetrij.Controller;
 
+import com.snust.tetrij.GameManager;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -9,6 +10,9 @@ import javafx.scene.text.Text;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static com.snust.tetrij.Controller.ScoreBoardController.currentScoreId;
 import static com.snust.tetrij.Controller.ScoreBoardController.scoreData;
@@ -388,20 +392,18 @@ public class ResolutionManager {
 
     private static void loadSettings_build() {
         try {
-            // 클래스 로더를 사용하여 리소스 파일 읽기
-            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("com/snust/tetrij/setting.json");
-            if (inputStream == null) {
-                System.err.println("설정 파일을 찾을 수 없습니다.");
-                return;
-            }
+            // 빌드 환경에서 셋팅 파일 읽어옴
+            Path filePath = GameManager.Jsonsetting();
 
-            // 입력 스트림을 문자열로 변환
+            // 파일 읽기
             StringBuilder stringBuilder = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+            try (BufferedReader reader = Files.newBufferedReader(filePath, StandardCharsets.UTF_8)) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     stringBuilder.append(line);
                 }
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
 
             // JSON 객체 생성
