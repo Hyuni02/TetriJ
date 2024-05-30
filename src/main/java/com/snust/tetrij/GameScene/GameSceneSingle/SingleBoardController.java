@@ -355,9 +355,7 @@ public class SingleBoardController {
         }
         eraseMesh(tb);
         int[][] rotated = canRotateClockwise(tb);
-        if (rotated != null) {
-            tb.mesh = rotated;
-        }
+        tb.mesh = rotated != null ? rotated : tb.mesh;
         tb.update_mesh(-1);
     }
 
@@ -422,13 +420,14 @@ public class SingleBoardController {
                 if (rotatedShape[y][x] == 1) {
                     int nx = x + tb.pos[1];
                     int ny = y + tb.pos[0];
+                    System.out.println(nx + ", " + ny);
                     // 회전 후의 위치가 보드를 벗어나는 경우
                     if (ny >= view_s.HEIGHT || nx >= view_s.WIDTH
                             || ny < 0 || nx < 0) {
                         return null;
                     }
                     // 회전 후의 위치에 이미 다른 블록이 있는 경우
-                    if (model_s.MESH[nx][ny] != '0') {
+                    if (model_s.MESH[ny][nx] != '0') {
                         return null;
                     }
                 }
