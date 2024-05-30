@@ -1,0 +1,9 @@
+<aspectj>
+    <aspects>
+        <aspect name="com.snust.tetrij.TimeTest2"/> <!-- LogAspect -->
+<!--        <weaver options="-verbose -showWeaveInfo">-->
+<!--            <include within="aspectj.aspect.*"/>-->
+<!--            <include within="aspectj.targets.*"/>-->
+<!--        </weaver>-->
+    </aspects>
+</aspectj>
