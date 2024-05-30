@@ -491,9 +491,9 @@ public class MultiBoardController {
             return;
 
         // 공격
-        if (l.toArray().length > 1) {
+        int enemy = (player == 1) ? 0 : 1;
+        if (l.toArray().length > 1 && model.buffer_size[enemy] < 10) {
             eraseMesh(tb, player);
-            int enemy = (player == 1) ? 0 : 1;
             for (int i = l.toArray().length -  1; i >= 0; i--) {
                 for (int j = 0; j < 9; j++) {
                     model.buffer[enemy][j] = model.buffer[enemy][j+1];  //블록 올리기
@@ -503,6 +503,9 @@ public class MultiBoardController {
                 for (int x = 0; x < 10; x++) {
                     model.buffer[enemy][9][x] = (model.buffer[enemy][9][x] == '0') ? '0' : 'a';
                 }
+
+                model.buffer_size[enemy] += l.toArray().length;
+                model.buffer_size[enemy] = Math.min(model.buffer_size[enemy], 10);
             }
         }
 
@@ -554,6 +557,7 @@ public class MultiBoardController {
             model.buffer[player][y] = new char[view.WIDTH];
             Arrays.fill(model.buffer[player][y], '0');
         }
+        model.buffer_size[player] = 0;
     }
 
     public static void killEraseThread(int player){

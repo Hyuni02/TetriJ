@@ -21,6 +21,7 @@ public class MultiTetrisModel {
     public List<TetrominoBase> bag1 = new Vector<TetrominoBase>();
     public List<TetrominoBase> bag2 = new Vector<TetrominoBase>();
     public List[] bags = new List[2];
+    public int buffer_size[] = { 0,0 };
     
     private MultiTetrisModel() {
         initModel();
@@ -46,5 +47,7 @@ public class MultiTetrisModel {
         buffer[1] = attackBuffer2;
         buffer[0] = attackBuffer1;
         buffer[1] = attackBuffer2;
+        buffer_size[0] = 0;
+        buffer_size[1] = 0;
     }
 }
