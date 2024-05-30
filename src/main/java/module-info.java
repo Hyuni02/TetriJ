@@ -1,6 +1,7 @@
 module com.snust.tetrij {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.graphics;
 
     requires com.almasb.fxgl.all;
     requires java.desktop;
@@ -14,10 +15,21 @@ module com.snust.tetrij {
     requires org.junit.platform.launcher;
     requires com.google.common;
     requires org.junit.jupiter.engine;
-    exports com.snust.tetrij to reflections, org.junit.jupiter.api, org.junit.platform.commons, junit;
+    exports com.snust.tetrij to javafx.graphics, reflections, org.junit.jupiter.api, org.junit.platform.commons, junit, org.aspectj.runtime;
+    requires org.aspectj.runtime;
+    requires java.base;
 
 
-    opens com.snust.tetrij to javafx.fxml;
+    requires org.slf4j;
+    requires spring.context;
+    requires spring.beans;
+    requires spring.core;
+    requires spring.aop;
+    requires spring.boot;
+    requires spring.boot.autoconfigure;
+
+
+    opens com.snust.tetrij to javafx.fxml, spring.core, spring.beans, spring.context;
     exports com.snust.tetrij.tetromino;
     opens com.snust.tetrij.tetromino to javafx.fxml;
     exports com.snust.tetrij.GameScene;
