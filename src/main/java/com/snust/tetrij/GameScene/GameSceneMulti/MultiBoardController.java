@@ -89,34 +89,34 @@ public class MultiBoardController {
                 controller.deleted_lines -= 10;
                 System.out.println("spawn item : " + player);
                 switch(idx) {
-//                    case 0 -> t = new Z(true);
-//                    case 1 -> t = new I(true);
-//                    case 2 -> t = new J(true);
-//                    case 3 -> t = new L(true);
-//                    case 4 -> t = new O(true);
-//                    case 5 -> t = new S(true);
-//                    case 6 -> t = new T(true);
-//                    case 7 -> t = new VerticalBomb();
-//                    case 8 -> t = new Goo();
-//                    case 9 -> t = new Boom();
-//                    case 10 -> t = new Weight();
-                    default -> t = new Goo();
+                    case 0 -> t = new Z(true);
+                    case 1 -> t = new I(true);
+                    case 2 -> t = new J(true);
+                    case 3 -> t = new L(true);
+                    case 4 -> t = new O(true);
+                    case 5 -> t = new S(true);
+                    case 6 -> t = new T(true);
+                    case 7 -> t = new VerticalBomb();
+                    case 8 -> t = new Goo();
+                    case 9 -> t = new Boom();
+                    case 10 -> t = new Weight();
+//                    default -> t = new Goo();
                 }
             }
             else {
                 System.out.println("spawn block : " + player);
                 switch(idx) {
-//                    case 0 -> t = new Z(false);
-//                    case 1 -> t = new I(false);
-//                    case 2 -> t = new J(false);
-//                    case 3 -> t = new L(false);
-//                    case 4 -> t = new O(false);
-//                    case 5 -> t = new S(false);
-//                    case 6 -> t = new T(false);
+                    case 0 -> t = new Z(false);
+                    case 1 -> t = new I(false);
+                    case 2 -> t = new J(false);
+                    case 3 -> t = new L(false);
+                    case 4 -> t = new O(false);
+                    case 5 -> t = new S(false);
+                    case 6 -> t = new T(false);
                     default -> {
-                        t = new I(false);
-//                        generateTetromino(player);
-//                        return;
+//                        t = new I(false);
+                        generateTetromino(player);
+                        return;
                     }
                 }
             }
