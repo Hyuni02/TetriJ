@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import static com.snust.tetrij.Controller.GameOverController.scoreId;
@@ -92,17 +93,27 @@ public class ScoreBoardController {
         difficultyComboBox.setValue(initialDifficulty);
     }
     private void loadScores(String difficulty) {
-        String filePath = "src/main/resources/com/snust/tetrij/score.txt";
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            List<String[]> scores = new ArrayList<>();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(" ");
+//        String filePath = "src/main/resources/com/snust/tetrij/score.txt";
+//        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+//            List<String[]> scores = new ArrayList<>();
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                String[] parts = line.split(" ");
+//
+//                if (parts.length == 5) {
+//                    scores.add(parts);
+//                }
+//            }
+            try (BufferedReader reader = Files.newBufferedReader(instance.makeScoreTxt())) {
+                List<String[]> scores = new ArrayList<>();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] parts = line.split(" ");
 
-                if (parts.length == 5) {
-                    scores.add(parts);
+                    if (parts.length == 5) {
+                        scores.add(parts);
+                    }
                 }
-            }
 
 
             // 선택된 난이도에 따른 스코어 필터링 및 정렬

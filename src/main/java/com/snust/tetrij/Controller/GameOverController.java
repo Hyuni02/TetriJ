@@ -15,6 +15,11 @@ import javafx.stage.Stage;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.util.UUID;
 import static com.snust.tetrij.Controller.ResolutionManager.isHighlight;
@@ -41,7 +46,7 @@ public class GameOverController {
 
         String fileWriteText = name + " " + resultScore + " " + LocalDate.now() + " " + diff + " " + scoreId + '\n';
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/com/snust/tetrij/score.txt", true))) {
+        try (BufferedWriter writer = Files.newBufferedWriter(instance.makeScoreTxt(), StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
             writer.write(fileWriteText);
         } catch (IOException e) {
             e.printStackTrace();

@@ -10,6 +10,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static java.lang.System.exit;
 
@@ -20,8 +23,9 @@ public class GameManager {
 
     private GameManager() {
     }
-    public static GameManager getInstance(){
-        if(instance == null){
+
+    public static GameManager getInstance() {
+        if (instance == null) {
             instance = new GameManager();
         }
 
@@ -54,7 +58,7 @@ public class GameManager {
         setCurrentScene(scene); // 씬을 스테이지에 넣기
 
         // 해상도 설정
-        if(fxml == "start_menu.fxml") {
+        if (fxml == "start_menu.fxml") {
             ResolutionManager.setStartMenuResolution(stage.getScene().getRoot(),
                     (int) stage.getHeight(),
                     (int) stage.getWidth());
@@ -68,23 +72,19 @@ public class GameManager {
                     }
                 }
             });
-        }
-        else if(fxml == "score_board.fxml"){
+        } else if (fxml == "score_board.fxml") {
             ResolutionManager.setScoreBoardResolution(stage.getScene().getRoot(),
                     (int) stage.getHeight(),
                     (int) stage.getWidth());
-        }
-        else if(fxml == "setting.fxml"){
+        } else if (fxml == "setting.fxml") {
             ResolutionManager.setSettingMenuResolution(stage.getScene().getRoot(),
                     (int) stage.getHeight(),
                     (int) stage.getWidth());
-        }
-        else if(fxml == "keysetting.fxml"){
+        } else if (fxml == "keysetting.fxml") {
             ResolutionManager.setKeySettingMenuResolution(stage.getScene().getRoot(),
                     (int) stage.getHeight(),
                     (int) stage.getWidth());
-        }
-        else {
+        } else {
             System.out.println("해상도 설정 오류 발생");
         }
 
@@ -98,5 +98,25 @@ public class GameManager {
     public Parent loadFXML(String fxml) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
         return loader.load();
+    }
+
+    public Path makeScoreTxt() {
+        String homeDir = System.getProperty("user.home");
+        Path filePath = Paths.get(homeDir, "tetrij_scores.txt");
+
+        try {
+            // 파일 존재 여부 확인
+            if (!Files.exists(filePath)) {
+                // 파일이 존재하지 않으면 새로운 파일 생성
+                Files.createFile(filePath);
+                System.out.println("생성 파일 : " + filePath);
+            } else {
+                System.out.println("파일 존재함");
+            }
+        } catch (IOException e) {
+            System.err.println("Error handling the file: " + e.getMessage());
+        }
+
+        return filePath;
     }
 }

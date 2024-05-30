@@ -237,26 +237,45 @@ public class SettingController {
         System.out.println(stage.getWidth());
         ResolutionManager.setStartMenuResolution(root, (int) stage.getHeight(), (int) stage.getWidth());
     }
-    public void deleteScores() { // 스코어보드 초기화 메서드
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("스코어보드 초기화");
-        alert.setHeaderText("정말 스코어보드를 초기화하시겠습니까?");
-        alert.setContentText("초기화하려면 확인을 누르세요.");
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                BufferedWriter writer = null;
-                try {
-                    writer = Files.newBufferedWriter(Paths.get("src/main/resources/com/snust/tetrij/score.txt"));
-                    writer.write("");
-                    writer.flush();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+//    public void deleteScores() { // 스코어보드 초기화 메서드
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert.setTitle("스코어보드 초기화");
+//        alert.setHeaderText("정말 스코어보드를 초기화하시겠습니까?");
+//        alert.setContentText("초기화하려면 확인을 누르세요.");
+//        alert.showAndWait().ifPresent(response -> {
+//            if (response == ButtonType.OK) {
+//                BufferedWriter writer = null;
+//                try {
+//                    writer = Files.newBufferedWriter(Paths.get("src/main/resources/com/snust/tetrij/score.txt"));
+//                    writer.write("");
+//                    writer.flush();
+//                } catch (IOException e) {
+//                    throw new RuntimeException(e);
+//                }
+//
+//            }
+//        });
+//
+//    }
+public void deleteScores() {
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    alert.setTitle("스코어보드 초기화");
+    alert.setHeaderText("정말 스코어보드를 초기화하시겠습니까?");
+    alert.setContentText("초기화하려면 확인을 누르세요.");
+    alert.showAndWait().ifPresent(response -> {
+        if (response == ButtonType.OK) {
 
+            try (BufferedWriter writer = Files.newBufferedWriter(instance.makeScoreTxt())) {
+                writer.write(""); // 파일 내용을 비움
+                writer.flush();
+                System.out.println("스코어보드가 초기화되었습니다.");
+            } catch (IOException e) {
+                System.err.println("스코어 파일 초기화 중 오류 발생: " + e.getMessage());
+                throw new RuntimeException(e);
             }
-        });
-
-    }
+        }
+    });
+}
     public void switchToKeySetting() throws IOException {
 //            Parent root = FXMLLoader.load(getClass().getResource("keysetting.fxml"));
 //            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
